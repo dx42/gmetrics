@@ -230,7 +230,7 @@
   </component>
   <component name="ProjectFileVersion" converted="true" />
   <component name="ProjectKey">
-    <option name="state" value="svn://localhost/dev/GMetrics2/GMetrics.ipr" />
+    <option name="state" value="https://gmetrics.svn.sourceforge.net/svnroot/gmetrics/trunk/GMetrics.ipr" />
   </component>
   <component name="ProjectModuleManager">
     <modules>
