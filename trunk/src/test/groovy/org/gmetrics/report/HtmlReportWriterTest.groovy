@@ -171,6 +171,7 @@ class HtmlReportWriterTest extends AbstractTestCase {
             'htmlReport.metricResults.title':METRIC_RESULTS,
             'htmlReport.metricDescriptions.title':METRIC_DESCRIPTIONS,
             'htmlReport.metricResults.nameHeading':'Package/Class/Method',
+            'htmlReport.metricResults.notApplicable':NA,
             'htmlReport.metricDescriptions.nameHeading':'Metric Name',
             'htmlReport.metricDescriptions.descriptionHeading':'Description',    
             'Metric1.description.html':metricDescription(METRIC1),
