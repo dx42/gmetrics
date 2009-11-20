@@ -33,7 +33,7 @@ import org.gmetrics.result.NumberMetricResult
  * @version $Revision: 239 $ - $Date: 2009-11-11 20:17:36 -0500 (Wed, 11 Nov 2009) $
  */
 class MethodLineCountMetric extends AbstractMethodMetric {
-    final String name = 'MethodSize'
+    final String name = 'MethodLineCount'
 
     def calculate(MethodNode methodNode, SourceCode sourceCode) {
         def visitor = new MethodLineCountAstVisitor(sourceCode:sourceCode)

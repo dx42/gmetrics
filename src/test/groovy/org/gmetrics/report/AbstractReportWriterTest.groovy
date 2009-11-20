@@ -6,6 +6,8 @@ import org.gmetrics.result.NumberMetricResult
 import org.gmetrics.resultsnode.StubResultsNode
 import org.gmetrics.metricset.ListMetricSet
 import org.gmetrics.metric.MetricLevel
+import org.gmetrics.resultsnode.ResultsNode
+import org.gmetrics.metricset.MetricSet
 
 /*
 * Copyright 2009 the original author or authors.
@@ -70,4 +72,7 @@ class AbstractReportWriterTest extends AbstractTestCase {
  * Concrete subclass of AbstractReportWriter for testing
  */
 protected class TestAbstractReportWriter extends AbstractReportWriter {
+
+    void writeReport(ResultsNode resultsNode, MetricSet metricSet, Writer writer) {
+    }
 }

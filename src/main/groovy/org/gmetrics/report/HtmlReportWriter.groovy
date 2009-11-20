@@ -36,6 +36,7 @@ class HtmlReportWriter extends AbstractReportWriter {
     private static final LOG = Logger.getLogger(HtmlReportWriter)
 
     String title
+    String outputFile   // TODO use this
 
     void writeReport(ResultsNode resultsNode, MetricSet metricSet, Writer writer) {
         assert resultsNode
@@ -149,7 +150,9 @@ class HtmlReportWriter extends AbstractReportWriter {
                 metricResultColumns.each { columnDef ->
                     def metric = columnDef.metric
                     def metricResult = resultsNode.getMetricResult(metric)
-                    def value = metricResult ? metricResult[columnDef.property] : 'N/A'
+                    def value = metricResult ?
+                        metricResult[columnDef.property] :
+                        getResourceBundleString('htmlReport.metricResults.notApplicable')
                     td(value, class:'metricValue')
                 }
             }

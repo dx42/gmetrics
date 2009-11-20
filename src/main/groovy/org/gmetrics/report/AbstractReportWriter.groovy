@@ -24,7 +24,7 @@ import org.apache.log4j.Logger
  * @author Chris Mair
  * @version $Revision: 60 $ - $Date: 2009-02-22 14:46:41 -0500 (Sun, 22 Feb 2009) $
  */
-abstract class AbstractReportWriter {
+abstract class AbstractReportWriter implements ReportWriter {
 
     protected static final BASE_MESSSAGES_BUNDLE = "gmetrics-base-messages"
     protected static final CUSTOM_MESSSAGES_BUNDLE = "gmetrics-messages"
