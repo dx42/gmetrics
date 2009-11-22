@@ -32,24 +32,16 @@ import org.gmetrics.metricset.DefaultMetricSet
  */
 class GMetricsTaskTest extends AbstractTestCase {
     private static final HTML = 'html'
-    private static final BASE_DIR = 'src/test/resources'
-    private static final REPORT_FILE = 'GMetricsTaskHtmlReport.html'
-    private static final RESULTS = new StubResultsNode()
 
     private gMetricsTask
-    private metricSet
     private fileSet
     private project
     private called = [:]
 
     void setUp() {
         super.setUp()
-
         project = new Project(basedir:'.')
-        fileSet = new FileSet(dir:new File(BASE_DIR), project:project)
-        fileSet.setIncludes('sourcewithdirs/**/*.groovy')
-
-        metricSet = new ListMetricSet([])
+        fileSet = new FileSet(dir:new File('.'), project:project)
         gMetricsTask = new GMetricsTask(project:project)
     }
 
@@ -70,43 +62,6 @@ class GMetricsTaskTest extends AbstractTestCase {
         assert gMetricsRunner.sourceAnalyzer instanceof AntFileSetSourceAnalyzer
         assert gMetricsRunner.reportWriters*.class == [HtmlReportWriter]
     }
-
-//    void testExecute_SingleRuleSetFile() {
-//        def codeNarcRunner = createAndUseFakeCodeNarcRunner()
-//
-//        gMetricsTask.addFileset(fileSet)
-//        gMetricsTask.execute()
-//
-//        assert codeNarcRunner.sourceAnalyzer.class == AntFileSetSourceAnalyzer
-//        assert codeNarcRunner.ruleSetFiles == RULESET_FILE
-//        assertStandardHtmlReportWriter(codeNarcRunner)
-//    }
-//
-//    void testExecute_TwoRuleSetFiles() {
-//        def codeNarcRunner = createAndUseFakeCodeNarcRunner()
-//
-//        gMetricsTask.ruleSetFiles = RULESET_FILES
-//        gMetricsTask.addFileset(fileSet)
-//        gMetricsTask.execute()
-//
-//        assert codeNarcRunner.sourceAnalyzer.class == AntFileSetSourceAnalyzer
-//        assert codeNarcRunner.ruleSetFiles == RULESET_FILES
-//        assertStandardHtmlReportWriter(codeNarcRunner)
-//    }
-//
-//    void testExecute_TwoFileSets() {
-//        def codeNarcRunner = createAndUseFakeCodeNarcRunner()
-//        def fileSet2 = new FileSet(dir:new File('/abc'), project:project)
-//
-//        gMetricsTask.addFileset(fileSet)
-//        gMetricsTask.addFileset(fileSet2)
-//        gMetricsTask.execute()
-//
-//        assert codeNarcRunner.sourceAnalyzer.class == AntFileSetSourceAnalyzer
-//        assert codeNarcRunner.sourceAnalyzer.fileSets == [fileSet, fileSet2]
-//        assert codeNarcRunner.ruleSetFiles == RULESET_FILE
-//        assertStandardHtmlReportWriter(codeNarcRunner)
-//    }
 
     void testAddConfiguredReport_AddsToReportWriters() {
         gMetricsTask.addConfiguredReport(createReport(HTML))
@@ -156,16 +111,4 @@ class GMetricsTaskTest extends AbstractTestCase {
         return report
     }
 
-//    private createAndUseFakeGMetricsRunner() {
-//        def gMetricsRunner = [execute: { return RESULTS }]
-//        gMetricsTask.createGMetricsRunner = { return gMetricsRunner }
-//        return gMetricsRunner
-//    }
-//
-//    private void assertStandardHtmlReportWriter(codeNarcRunner) {
-//        assert codeNarcRunner.reportWriters.size == 1
-//        def reportWriter = codeNarcRunner.reportWriters[0]
-//        assert reportWriter.class == HtmlReportWriter
-//        assert reportWriter.outputFile == REPORT_FILE
-//    }
 }

@@ -28,10 +28,6 @@ import org.gmetrics.analyzer.SourceAnalyzer
 /**
  * Ant Task for GMetrics. It uses the set of <code>Metric</code>s defined by <code>DefaultMetricSet</code>.
  * <p/>
- * The <code>ruleSetFiles</code> property specifies the path to the Groovy or XML RuleSet
- * definition files, relative to the classpath. This can be a single file path, or multiple
- * paths separated by commas. It is required.
- * <p/>
  * At least one nested <code>fileset</code> element is required, and is used to specify the source files
  * to be analyzed. This is the standard Ant <i>FileSet</i>, and is quite powerful and flexible.
  * See the <i>Apache Ant Manual</i> for more information on <i>FileSets</i>.
@@ -42,7 +38,6 @@ import org.gmetrics.analyzer.SourceAnalyzer
  * <code>value</code> attribue.
  *
  * @see "http://ant.apache.org/manual/index.html"
- *
  *
  * @author Chris Mair
  * @version $Revision: 219 $ - $Date: 2009-09-07 21:48:47 -0400 (Mon, 07 Sep 2009) $
@@ -73,6 +68,10 @@ class GMetricsTask extends Task {
         gMetricsRunner.execute()
     }
 
+    /**
+     * Ant-defined method (by convention), called with each instance of a nested <fileset>
+     * element within this task.
+     */
     void addFileset(FileSet fileSet) {
         assert fileSet
         this.fileSets << fileSet
