@@ -18,6 +18,7 @@ package org.gmetrics
 import org.gmetrics.resultsnode.ResultsNode
 import org.gmetrics.analyzer.SourceAnalyzer
 import org.apache.log4j.Logger
+import org.gmetrics.metricset.MetricSet
 
 /**
  * Helper class to run GMetrics.
@@ -43,6 +44,7 @@ class GMetricsRunner {
     private static final LOG = Logger.getLogger(GMetricsRunner)
 
     //String ruleSetFiles
+    MetricSet metricSet
     SourceAnalyzer sourceAnalyzer
     List reportWriters = []
 

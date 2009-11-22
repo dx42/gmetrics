@@ -23,9 +23,26 @@ import org.apache.tools.ant.types.FileSet
 import org.gmetrics.metricset.DefaultMetricSet
 import org.gmetrics.GMetricsRunner
 import org.gmetrics.report.HtmlReportWriter
+import org.gmetrics.analyzer.SourceAnalyzer
 
 /**
- * Ant Task for GMetrics
+ * Ant Task for GMetrics. It uses the set of <code>Metric</code>s defined by <code>DefaultMetricSet</code>.
+ * <p/>
+ * The <code>ruleSetFiles</code> property specifies the path to the Groovy or XML RuleSet
+ * definition files, relative to the classpath. This can be a single file path, or multiple
+ * paths separated by commas. It is required.
+ * <p/>
+ * At least one nested <code>fileset</code> element is required, and is used to specify the source files
+ * to be analyzed. This is the standard Ant <i>FileSet</i>, and is quite powerful and flexible.
+ * See the <i>Apache Ant Manual</i> for more information on <i>FileSets</i>.
+ * <p/>
+ * The <ode>report</code> nested element defines the format and output file for the analysis report.
+ * Currently, HTML ("html") is the only supported format. It includes a <code>type</code> attribute and
+ * can contain nested <code>option</code> elements --  each must include a <code>name</code> and
+ * <code>value</code> attribue.
+ *
+ * @see "http://ant.apache.org/manual/index.html"
+ *
  *
  * @author Chris Mair
  * @version $Revision: 219 $ - $Date: 2009-09-07 21:48:47 -0400 (Mon, 07 Sep 2009) $
@@ -48,13 +65,12 @@ class GMetricsTask extends Task {
         assert metricSet
         assert fileSets
 
-//        def sourceAnalyzer = createSourceAnalyzer()
-//        def gMetricsRunner = createCodeNarcRunner()
-//        gMetricsRunner.ruleSetFiles = ruleSetFiles
-//        gMetricsRunner.reportWriters = reportWriters
-//        gMetricsRunner.sourceAnalyzer = sourceAnalyzer
-//
-//        def results = gMetricsRunner.execute()
+        def sourceAnalyzer = createSourceAnalyzer()
+        def gMetricsRunner = createGMetricsRunner()
+        gMetricsRunner.metricSet = createMetricSet()
+        gMetricsRunner.reportWriters = reportWriters
+        gMetricsRunner.sourceAnalyzer = sourceAnalyzer
+        gMetricsRunner.execute()
     }
 
     void addFileset(FileSet fileSet) {
@@ -76,12 +92,12 @@ class GMetricsTask extends Task {
         reportWriters << reportWriter
     }
 
-    /**
-     * Create and return the SourceAnalyzer
-     * @return a configured SourceAnalyzer instance
-     */
-//    protected SourceAnalyzer createSourceAnalyzer() {
-//        return new AntFileSetSourceAnalyzer(getProject(), fileSets)
-//    }
+    private MetricSet createMetricSet() {
+        return new DefaultMetricSet()
+    }
+
+    private SourceAnalyzer createSourceAnalyzer() {
+        return new AntFileSetSourceAnalyzer(getProject(), fileSets)
+    }
 
 }
