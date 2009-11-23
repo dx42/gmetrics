@@ -22,6 +22,7 @@ import org.gmetrics.source.SourceCode
 import org.gmetrics.metricset.MetricSet
 import org.gmetrics.resultsnode.PackageResultsNode
 import org.codehaus.groovy.ast.ClassNode
+import org.gmetrics.resultsnode.ResultsNode
 
 /**
  * SourceAnalyzer implementation that recursively processes files from the file system.
@@ -73,7 +74,7 @@ class FilesystemSourceAnalyzer implements SourceAnalyzer {
      * @param metricSet - the MetricSet to apply to each of the (applicable) files in the source directories
      * @return the results from applying the metrics to all of the files in the source directories
      */
-    PackageResultsNode analyze(MetricSet metricSet) {
+    ResultsNode analyze(MetricSet metricSet) {
         assert baseDirectory
         assert metricSet        // != null   ????
 
