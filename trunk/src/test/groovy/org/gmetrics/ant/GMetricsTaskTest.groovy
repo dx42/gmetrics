@@ -18,10 +18,8 @@ package org.gmetrics.ant
 import org.gmetrics.test.AbstractTestCase
 import org.apache.tools.ant.Project
 import org.apache.tools.ant.types.FileSet
-import org.gmetrics.metricset.ListMetricSet
 import org.gmetrics.report.HtmlReportWriter
 import org.apache.tools.ant.BuildException
-import org.gmetrics.resultsnode.StubResultsNode
 import org.gmetrics.metricset.DefaultMetricSet
 
 /**

@@ -16,11 +16,11 @@
 package org.gmetrics.analyzer
 
 import org.gmetrics.metricset.MetricSet
-import org.gmetrics.resultsnode.PackageResultsNode
+import org.gmetrics.resultsnode.ResultsNode
 
 /**
  * The interface for objects that can analyze the source files within one or more directory
- * trees using a specified RuleSet and produce report results.
+ * trees using a specified MetricSet and produce report results.
  *
  * @author Chris Mair
  * @version $Revision: 7 $ - $Date: 2009-01-21 21:52:00 -0500 (Wed, 21 Jan 2009) $
@@ -32,6 +32,6 @@ interface SourceAnalyzer {
      * @param metricSet - the MetricSet to apply to each source component; must not be null.
      * @return the results from applying the metrics to all of the source
      */
-    PackageResultsNode analyze(MetricSet metricSet)
+    ResultsNode analyze(MetricSet metricSet)
 
 }

@@ -25,11 +25,9 @@ import org.gmetrics.metricset.MetricSet
  * <p/>
  * The following properties must be configured before invoking the <code>execute()</code> method:
  * <ul>
- *   <li><code>rulesetfiles</code> - The path to the Groovy or XML RuleSet definition files, relative to the classpath. This can be a
- *          single file path, or multiple paths separated by commas.</li>
- *   <li><code>sourceAnalyzer</code> - An instance of a <code>org.GMETRICS.analyzer.SourceAnalyzer</code> implementation.</li>
+ *   <li><code>sourceAnalyzer</code> - An instance of a <code>org.gmetrics.analyzer.SourceAnalyzer</code> implementation.</li>
  *   <li><code>reportWriters</code> - The list of <code>ReportWriter</code> instances. A report is generated
- *          for each element in this list. At least one <code>ReportWriter</code> must be configured.</li>
+ *          for each element in this list. This list can be empty, but cannot be null.</li>
  * </ul>
  *
  * NOTE: This is an internal class. Its API is subject to change.
@@ -38,17 +36,27 @@ import org.gmetrics.metricset.MetricSet
  * @version $Revision: 219 $ - $Date: 2009-09-07 21:48:47 -0400 (Mon, 07 Sep 2009) $
  */
 class GMetricsRunner {
-
-    // TODO Incomplete implementation
-
     private static final LOG = Logger.getLogger(GMetricsRunner)
 
-    //String ruleSetFiles
     MetricSet metricSet
     SourceAnalyzer sourceAnalyzer
     List reportWriters = []
 
     ResultsNode execute() {
-        // TODO
+        assert metricSet
+        assert sourceAnalyzer
+        assert reportWriters != null\
+
+        def startTime = System.currentTimeMillis()
+        def resultsNode = sourceAnalyzer.analyze(metricSet)
+        def elapsedTime = System.currentTimeMillis() - startTime
+        LOG.debug("resultsNode=$resultsNode")
+
+        reportWriters.each { reportWriter ->
+            reportWriter.writeReport(resultsNode, metricSet)
+        }
+
+        LOG.info("GMetrics completed: ${elapsedTime}ms")
+        return resultsNode
     }
 }

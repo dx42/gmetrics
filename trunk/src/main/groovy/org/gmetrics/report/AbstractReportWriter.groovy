@@ -17,6 +17,8 @@ package org.gmetrics.report
 
 import org.gmetrics.util.io.ClassPathResource
 import org.apache.log4j.Logger
+import org.gmetrics.resultsnode.ResultsNode
+import org.gmetrics.metricset.MetricSet
 
 /**
  * Abstract superclass for ReportWriter implementation classes.
@@ -37,7 +39,11 @@ abstract class AbstractReportWriter implements ReportWriter {
 
     // Allow tests to override this
     protected initializeResourceBundle = { initializeDefaultResourceBundle() }
-    
+
+    void writeReport(ResultsNode resultsNode, MetricSet metricSet) {
+        // TODO
+    }
+
     protected void initializeDefaultResourceBundle() {
         def baseBundle = ResourceBundle.getBundle(BASE_MESSSAGES_BUNDLE)
         resourceBundle = baseBundle

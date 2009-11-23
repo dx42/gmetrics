@@ -16,9 +16,9 @@
 package org.gmetrics.ant
 
 import org.gmetrics.analyzer.SourceAnalyzer
-import org.gmetrics.resultsnode.PackageResultsNode
 import org.gmetrics.metricset.MetricSet
 import org.apache.tools.ant.Project
+import org.gmetrics.resultsnode.ResultsNode
 
 class AntFileSetSourceAnalyzer implements SourceAnalyzer {
 
@@ -31,7 +31,7 @@ class AntFileSetSourceAnalyzer implements SourceAnalyzer {
         // TODO
     }
 
-    PackageResultsNode analyze(MetricSet metricSet) {
+    ResultsNode analyze(MetricSet metricSet) {
         // TODO
         return null;
     }
