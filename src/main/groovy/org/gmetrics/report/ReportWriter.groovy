@@ -26,5 +26,5 @@ import org.gmetrics.resultsnode.ResultsNode
  */
 interface ReportWriter {
 
-    void writeReport(ResultsNode resultsNode, MetricSet metricSet, Writer writer)
+    void writeReport(ResultsNode resultsNode, MetricSet metricSet)
 }
