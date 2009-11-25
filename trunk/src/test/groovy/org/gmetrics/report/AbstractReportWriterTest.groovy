@@ -1,14 +1,3 @@
-package org.gmetrics.report
-
-import org.gmetrics.test.AbstractTestCase
-import org.gmetrics.metric.StubMetric
-import org.gmetrics.result.NumberMetricResult
-import org.gmetrics.resultsnode.StubResultsNode
-import org.gmetrics.metricset.ListMetricSet
-import org.gmetrics.metric.MetricLevel
-import org.gmetrics.resultsnode.ResultsNode
-import org.gmetrics.metricset.MetricSet
-
 /*
 * Copyright 2009 the original author or authors.
 *
@@ -24,6 +13,12 @@ import org.gmetrics.metricset.MetricSet
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+package org.gmetrics.report
+
+import org.gmetrics.test.AbstractTestCase
+import org.gmetrics.resultsnode.StubResultsNode
+import org.gmetrics.resultsnode.ResultsNode
+import org.gmetrics.metricset.MetricSet
 
 /**
  * Tests for AbstractReportWriter
@@ -32,8 +27,24 @@ import org.gmetrics.metricset.MetricSet
  * @version $Revision: 60 $ - $Date: 2009-02-22 14:46:41 -0500 (Sun, 22 Feb 2009) $
  */
 class AbstractReportWriterTest extends AbstractTestCase {
+    private static final RESULTS_NODE = new StubResultsNode()
+    private static final METRIC_SET = [:] as MetricSet
     private static final DEFAULT_STRING = '?'
+    private static final DEFAULT_OUTPUT_FILE = '?'
     private reportWriter
+
+    void testWriteReport_WritesToDefaultOutputFile_IfOutputFileIsNull() {
+        def defaultOutputFile = TestAbstractReportWriter.defaultOutputFile
+        reportWriter.writeReport(RESULTS_NODE, METRIC_SET)
+        assertOutputFile(defaultOutputFile) 
+    }
+
+    void testWriteReport_WritesToOutputFile_IfOutputFileIsDefined() {
+        final NAME = 'abc.txt'
+        reportWriter.outputFile = NAME
+        reportWriter.writeReport(RESULTS_NODE, METRIC_SET)
+        assertOutputFile(NAME) 
+    }
 
     void testInitializeResourceBundle_CustomMessagesFileExists() {
         reportWriter.initializeResourceBundle()
@@ -66,13 +77,23 @@ class AbstractReportWriterTest extends AbstractTestCase {
         super.setUp()
         reportWriter = new TestAbstractReportWriter()
     }
+
+    private void assertOutputFile(String outputFile) {
+        def file = new File(outputFile)
+        assert file.exists(), "The output file [$outputFile] does not exist"
+        def contents = file.text
+        file.delete()
+        assert contents == 'abc'
+    }
 }
 
 /**
  * Concrete subclass of AbstractReportWriter for testing
  */
 protected class TestAbstractReportWriter extends AbstractReportWriter {
+    static defaultOutputFile = 'TestReportWriter.txt'
 
-    void writeReport(ResultsNode resultsNode, MetricSet metricSet, Writer writer) {
+    void writeReport(Writer writer, ResultsNode resultsNode, MetricSet metricSet) {
+        writer.withWriter { w -> w.write('abc') }
     }
 }
