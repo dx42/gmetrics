@@ -22,6 +22,9 @@ import org.gmetrics.metricset.MetricSet
 
 /**
  * Abstract superclass for ReportWriter implementation classes.
+ * <p/>
+ * Subclasses must implement the <code>writeReport(ResultsNode, MetricSet, Writer)</code> method
+ * and define a <code>defaultOutputFile</code> property.
  *
  * @author Chris Mair
  * @version $Revision: 60 $ - $Date: 2009-02-22 14:46:41 -0500 (Sun, 22 Feb 2009) $
@@ -34,14 +37,21 @@ abstract class AbstractReportWriter implements ReportWriter {
     protected static final GMETRICS_URL = "http://www.gmetrics.org"
     private static final LOG = Logger.getLogger(HtmlReportWriter)
 
+    String outputFile
     protected customMessagesBundleName = CUSTOM_MESSSAGES_BUNDLE
     protected resourceBundle
 
     // Allow tests to override this
     protected initializeResourceBundle = { initializeDefaultResourceBundle() }
 
+    abstract void writeReport(Writer writer, ResultsNode resultsNode, MetricSet metricSet)
+
     void writeReport(ResultsNode resultsNode, MetricSet metricSet) {
-        // TODO
+        def outputFilename = outputFile ?: getProperty('defaultOutputFile')
+        def file = new File(outputFilename)
+        file.withWriter { writer ->
+            writeReport(writer, resultsNode, metricSet)
+        }
     }
 
     protected void initializeDefaultResourceBundle() {

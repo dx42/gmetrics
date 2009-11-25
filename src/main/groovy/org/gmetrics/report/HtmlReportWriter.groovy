@@ -35,10 +35,10 @@ class HtmlReportWriter extends AbstractReportWriter {
     private static final MAX_INDENT_LEVEL = 10
     private static final LOG = Logger.getLogger(HtmlReportWriter)
 
+    static defaultOutputFile = 'GMetricsReport.html'
     String title
-    String outputFile   // TODO use this
 
-    void writeReport(ResultsNode resultsNode, MetricSet metricSet, Writer writer) {
+    void writeReport(Writer writer, ResultsNode resultsNode, MetricSet metricSet) {
         assert resultsNode
         assert metricSet
         assert writer

@@ -22,10 +22,10 @@ import org.gmetrics.metric.linecount.MethodLineCountMetric
 import org.gmetrics.metric.abc.AbcMetric
 
 class HtmlReportWriter_IntegrationTest extends AbstractTestCase {
-    private static final BASE_DIR = 'src'
+    private static REPORT_FILE = 'GMetricsReport.html'
+    private static final BASE_DIR = 'src/main'
     private sourceAnalyzer
     private reportWriter
-    private writer
     private metricSet
 
     void test_RunAnalysis_And_GenerateReport() {
@@ -38,23 +38,17 @@ class HtmlReportWriter_IntegrationTest extends AbstractTestCase {
         super.setUp()
         sourceAnalyzer = new FilesystemSourceAnalyzer(baseDirectory:BASE_DIR)
         reportWriter = new HtmlReportWriter()
-        writer = new StringWriter()
         metricSet = new ListMetricSet([new MethodLineCountMetric(), new AbcMetric()])    
     }
 
     private void assertReportContents(resultsNode, expectedContents, boolean writeToFile=false) {
-        reportWriter.writeReport(resultsNode, metricSet, writer)
-        def reportText = writer.toString()
-        log("reportText=$reportText")
-        writeOutToFile(reportText, writeToFile)
-//        assertContainsAllInOrder(reportText, expectedContents)
+        def file = new File(REPORT_FILE)
+        file.delete()
+        reportWriter.writeReport(resultsNode, metricSet)
+        assert file.exists()
+        def reportText = file.text
+        assertContainsAll(reportText, ['org.gmetrics'])
+        assertContainsAll(reportText, metricSet.metrics*.name)
     }
 
-    private void writeOutToFile(String text, boolean writeToFile) {
-        if (writeToFile) {
-            new File("GMetricsReport.html").withWriter { writer ->
-                writer << text
-            }
-        }
-    }
 }

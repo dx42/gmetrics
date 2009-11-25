@@ -53,6 +53,10 @@ class HtmlReportWriterTest extends AbstractTestCase {
     private metricSet
     private localizedMessages
 
+    void testThatDefaultOutputFile_IsGmetricsReportHtml() {
+        assert reportWriter.defaultOutputFile == 'GMetricsReport.html'
+    }
+
     void testWriteReport_SingleResultsNodeWithSingleMetric() {
         final CONTENTS = [
                 HTML_TAG,
@@ -146,17 +150,17 @@ class HtmlReportWriterTest extends AbstractTestCase {
     }
 
     void testWriteReport_NullResultsNodeThrowsException() {
-        shouldFailWithMessageContaining('resultsNode') { reportWriter.writeReport(null, metricSet, writer) }  
+        shouldFailWithMessageContaining('resultsNode') { reportWriter.writeReport(writer, null, metricSet) }
     }
 
     void testWriteReport_NullMetricSetThrowsException() {
         def resultsNode = new StubResultsNode()
-        shouldFailWithMessageContaining('metricSet') { reportWriter.writeReport(resultsNode, null, writer) }  
+        shouldFailWithMessageContaining('metricSet') { reportWriter.writeReport(writer, resultsNode, null) }
     }
 
     void testWriteReport_NullWriterThrowsException() {
         def resultsNode = new StubResultsNode()
-        shouldFailWithMessageContaining('writer') { reportWriter.writeReport(resultsNode, metricSet, null) }  
+        shouldFailWithMessageContaining('writer') { reportWriter.writeReport(null, resultsNode, metricSet) }  
     }
 
     void setUp() {
@@ -183,7 +187,7 @@ class HtmlReportWriterTest extends AbstractTestCase {
     }
 
     private void assertReportContents(resultsNode, expectedContents, boolean writeToFile=false) {
-        reportWriter.writeReport(resultsNode, metricSet, writer)
+        reportWriter.writeReport(writer, resultsNode, metricSet)
         def reportText = writer.toString()
         log("reportText=$reportText")
         writeOutToFile(reportText, writeToFile)
