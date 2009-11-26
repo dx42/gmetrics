@@ -25,6 +25,7 @@ import org.gmetrics.test.AbstractTestCase
  */
 class GMetricsTask_AntBuilderTest extends AbstractTestCase {
     private static final HTML = 'html'
+    private static final REPORT_FILE = 'output.html'
 
     void testAntTask_Execute_UsingAntBuilder() {
         def ant = new AntBuilder()
@@ -37,10 +38,15 @@ class GMetricsTask_AntBuilderTest extends AbstractTestCase {
            }
            report(type:HTML){
                option(name:'title', value:'abc')
-               option(name:'outputFile', value:'output.html')
+               option(name:'outputFile', value:REPORT_FILE)
            }
         }
         // TODO Validate side-effects of this task
+    }
+
+    void tearDown() {
+        super.tearDown()
+        new File(REPORT_FILE).delete()
     }
 
 }
