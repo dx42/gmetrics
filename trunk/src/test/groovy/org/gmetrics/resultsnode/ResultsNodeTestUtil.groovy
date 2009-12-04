@@ -17,6 +17,7 @@ package org.gmetrics.resultsnode
 
 import org.gmetrics.result.MetricResult
 import org.gmetrics.result.MetricResult
+import org.gmetrics.metric.MetricLevel
 
 /**
  * Utility methods related to ResultsNode objects, for testing.
@@ -25,6 +26,20 @@ import org.gmetrics.result.MetricResult
  * @version $Revision: 228 $ - $Date: 2009-09-29 21:52:31 -0400 (Tue, 29 Sep 2009) $
  */
 class ResultsNodeTestUtil {
+    static void assertResultsNodeStructure(ResultsNode resultsNode, Map results, String name=null) {
+        assertMetricResultList(resultsNode.metricResults, results.metricResults, name)
+        assertEqualsOrBothFalse(resultsNode.children?.keySet(), results.children?.keySet())
+        resultsNode.children.each { childName, child ->
+            assertResultsNodeStructure(child, results.children[childName], name)
+        }
+    }
+
+    static void print(ResultsNode resultsNode, String name='', int indent=0) {
+        def path = resultsNode.level == MetricLevel.PACKAGE ? "path=[${resultsNode.path}]" : ''
+        println '  '*indent + "(${resultsNode.level}) ${name}: $path ${resultsNode.metricResults}"
+        resultsNode.children.each { childName, childNode -> print(childNode, childName, indent+1) }
+    }
+
     /**
      * Assert that the actual value is equal to the expected or else that both evaluate to (Groovy) false.
      */
@@ -33,26 +48,18 @@ class ResultsNodeTestUtil {
         assert condition, "actual=$actual  expected=$expected"
     }
 
-    static void assertResultsNodeStructure(ResultsNode resultsNode, Map results) {
-        assertMetricResultList(resultsNode.metricResults, results.metricResults)
-        assertEqualsOrBothFalse(resultsNode.children?.keySet(), results.children?.keySet())
-        resultsNode.children.each { name, child ->
-            assertResultsNodeStructure(child, results.children[name])
-        }
-    }
-
-    private static void assertMetricResultList(List actual, List expected) {
-        assert actual.size() == expected.size(), "Unexpected number of MetricResult objects; actual=${actual.size()}, expected=${expected.size()}"
+    private static void assertMetricResultList(List actual, List expected, String name) {
+        assert actual.size() == expected.size(), "[$name] Unexpected number of MetricResult objects; actual=${actual.size()}, expected=${expected.size()}"
         actual.eachWithIndex { act, index ->
-            assertMetricResult(actual[index], expected[index])
+            assertMetricResult(actual[index], expected[index], name)
         }
     }
 
-    private static void assertMetricResult(MetricResult actual, MetricResult expected) {
-        assert actual.metric == expected.metric, "actual=$actual.metric, expected=$expected.metric"
-        assert actual.count == expected.count, "actual=$actual.count, expected=$expected.count"
-        assert actual.totalValue == expected.totalValue, "actual=$actual.totalValue, expected=$expected.totalValue"
-        assert actual.averageValue == expected.averageValue, "actual=$actual.averageValue, expected=$expected.averageValue"
+    private static void assertMetricResult(MetricResult actual, MetricResult expected, String name) {
+        assert actual.metric == expected.metric, "[$name] actual=$actual.metric, expected=$expected.metric"
+        assert actual.count == expected.count, "[$name] actual=$actual.count, expected=$expected.count"
+        assert actual.totalValue == expected.totalValue, "[$name] actual=$actual.totalValue, expected=$expected.totalValue"
+        assert actual.averageValue == expected.averageValue, "[$name] actual=$actual.averageValue, expected=$expected.averageValue"
     }
 
     private ResultsNodeTestUtil() { }
