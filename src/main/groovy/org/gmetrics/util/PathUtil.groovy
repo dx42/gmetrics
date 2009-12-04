@@ -27,6 +27,14 @@ class PathUtil {
 
     private static final SEP = '/'
 
+    static String getName(String filePath) {
+        if (filePath == null) {
+            return null
+        }
+        def separator = normalize(filePath).lastIndexOf('/')
+        return (separator == -1) ? filePath : filePath[separator+1..-1]
+    }
+
     static String getParent(String filePath) {
         def normalizedPath = normalize(filePath)
         def partList = normalizedPath ? normalizedPath.tokenize(SEP) : []

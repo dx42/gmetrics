@@ -20,8 +20,29 @@ import org.gmetrics.metricset.MetricSet
 import org.apache.tools.ant.Project
 import org.gmetrics.resultsnode.ResultsNode
 import org.gmetrics.resultsnode.PackageResultsNode
+import org.apache.log4j.Logger
+import org.gmetrics.source.SourceFile
+import org.gmetrics.resultsnode.ClassResultsNode
+import org.codehaus.groovy.ast.ClassNode
+import org.gmetrics.source.SourceCode
+import org.gmetrics.util.PathUtil
+import org.gmetrics.metric.MetricLevel
 
+/**
+ * SourceAnalyzer implementation that gets source files from one or more Ant FileSets.
+ * This class is not reentrant.
+ *
+ * @author Chris Mair
+ * @version $Revision: 180 $ - $Date: 2009-07-11 18:30:19 -0400 (Sat, 11 Jul 2009) $
+ */
 class AntFileSetSourceAnalyzer implements SourceAnalyzer {
+
+    private static final LOG = Logger.getLogger(AntFileSetSourceAnalyzer)
+    private static final SEP = '/'
+
+    private Project project
+    protected List fileSets = []
+    protected ResultsNode rootResultsNode = new PackageResultsNode()
 
     /**
      * Construct a new instance on the specified List of Ant FileSets.
@@ -29,12 +50,113 @@ class AntFileSetSourceAnalyzer implements SourceAnalyzer {
      * @param fileSets - the List of Ant FileSet; my be empty; must not be null
      */
     AntFileSetSourceAnalyzer(Project project, List fileSets) {
-        // TODO
+        assert project
+        assert fileSets != null
+        this.project = project
+        this.fileSets = fileSets
     }
 
+    /**
+     * Analyze all source code using the specified MetricSet and return the results node.
+     * @param metricSet - the MetricSet to apply to each source component; must not be null.
+     * @return the root ResultsNode resulting from applying the MetricSet to all of the source
+     */
     ResultsNode analyze(MetricSet metricSet) {
-        // TODO
-        return new PackageResultsNode()
+        fileSets.each { fileSet ->
+            processFileSet(fileSet, metricSet)
+        }
+        calculatePackageLevelMetricResults(rootResultsNode, metricSet) 
+        return rootResultsNode
     }
 
+    private void calculatePackageLevelMetricResults(PackageResultsNode resultsNode, MetricSet metricSet) {
+        resultsNode.children.each { name, child -> calculatePackageLevelMetricResults(child, metricSet) }
+        metricSet.metrics.each { metric -> resultsNode.applyMetric(metric) }
+    }
+
+    private void calculatePackageLevelMetricResults(ResultsNode resultsNode, MetricSet metricSet) {
+        // do nothing
+    }
+
+    //--------------------------------------------------------------------------
+    // Internal Helper Methods
+    //--------------------------------------------------------------------------
+
+    private void processFileSet(fileSet, metricSet) {
+        def dirScanner = fileSet.getDirectoryScanner(project)
+        def baseDir = fileSet.getDir(project)
+        def includedFiles = dirScanner.includedFiles
+
+        if (!includedFiles) {
+            LOG.info("No matching files found for FileSet with basedir [$baseDir]")
+        }
+
+        includedFiles.each {filePath ->
+            processFile(baseDir, filePath, metricSet)
+        }
+    }
+
+    private void processFile(File baseDir, String filePath, MetricSet metricSet) {
+
+        def parentPath = PathUtil.getParent(filePath)
+        def parentResultsNode = findOrAddResultsNodeForPath(parentPath)
+
+        def file = new File(baseDir, filePath)
+        def sourceCode = new SourceFile(file)
+        def ast = sourceCode.ast
+        if (ast) {
+            ast.classes.each { classNode ->
+                def classResultsNode = applyMetricsToClass(classNode, metricSet, sourceCode)
+                def className = classNode.name
+                parentResultsNode.addChildIfNotEmpty(className, classResultsNode)
+            }
+        }
+    }
+
+    // TODO Harvest?
+    private ClassResultsNode applyMetricsToClass(ClassNode classNode, MetricSet metricSet, SourceCode sourceCode) {
+        def classResultsNode = new ClassResultsNode()
+        metricSet.metrics.each { metric ->
+            def classMetricResult = metric.applyToClass(classNode, sourceCode)
+            classResultsNode.addClassMetricResult(classMetricResult)
+        }
+        return classResultsNode
+    }
+
+    protected ResultsNode findResultsNodeForPath(String path) {
+        return findPackageResultsNodeForPath(rootResultsNode, path)
+    }
+
+    private ResultsNode findPackageResultsNodeForPath(PackageResultsNode resultsNode, String path) {
+        if (resultsNode.path == path) {
+            return resultsNode
+        }
+        def children = resultsNode.children.values()
+        return resultFromFirstMatchOrElseNull(children) { child -> findPackageResultsNodeForPath(child, path) }
+    }
+
+    private ResultsNode findPackageResultsNodeForPath(ResultsNode resultsNode, String path) {
+        return null
+    }
+
+    private resultFromFirstMatchOrElseNull(collection, closure) {
+        def result
+        def found = collection.find { child ->
+            result = closure(child)
+        }
+        return found ? result : null
+    }
+
+    protected ResultsNode findOrAddResultsNodeForPath(String path) {
+        def resultsNode = findResultsNodeForPath(path)
+        if (resultsNode) {
+            return resultsNode
+        }
+        def parentPath = PathUtil.getParent(path)
+        def packageName = PathUtil.getName(path)
+        def newPackageNode = new PackageResultsNode(path:path)
+        def parentNode = parentPath ? findOrAddResultsNodeForPath(parentPath) : rootResultsNode
+        parentNode.addChild(packageName, newPackageNode)
+        return newPackageNode
+    }
 }

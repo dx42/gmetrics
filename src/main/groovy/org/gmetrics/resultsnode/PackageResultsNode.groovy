@@ -30,6 +30,7 @@ class PackageResultsNode implements ResultsNode {
     final MetricLevel level = MetricLevel.PACKAGE
     final Map children = [:]
     final List metricResults = []
+    String path
 
     boolean containsClassResults() {
         return children.values().find { node -> node.containsClassResults() }
@@ -40,12 +41,18 @@ class PackageResultsNode implements ResultsNode {
         return metricResults.find { metricResult -> metricResult.metric == metric }
     }
 
-    void addChild(String name, ResultsNode child) {
+    void addChildIfNotEmpty(String name, ResultsNode child) {
         assert name
         assert child
         if (child.metricResults) {
             children[name] = child
         }
+    }
+
+    void addChild(String name, ResultsNode child) {
+        assert name
+        assert child
+        children[name] = child
     }
 
     void applyMetric(Metric metric) {
@@ -64,6 +71,6 @@ class PackageResultsNode implements ResultsNode {
     }
 
     String toString() {
-        return "PackageResultsNode[metricResults=$metricResults, children=$children]"
+        return "PackageResultsNode[path=$path, metricResults=$metricResults, children=$children]"
     }
 }

@@ -91,7 +91,7 @@ class FilesystemSourceAnalyzer implements SourceAnalyzer {
             if (file.directory) {
                 def subdirResults = processDirectory(file, filePath, metricSet)
                 if (subdirResults.containsClassResults()) {
-                    dirResults.addChild(filePath, subdirResults)
+                    dirResults.addChildIfNotEmpty(filePath, subdirResults)
                 }
             }
             else {
@@ -110,7 +110,7 @@ class FilesystemSourceAnalyzer implements SourceAnalyzer {
                 ast.classes.each { classNode ->
                     def classResultsNode = applyMetricsToClass(classNode, metricSet, sourceCode)
                     def className = classNode.name
-                    packageResults.addChild(className, classResultsNode)
+                    packageResults.addChildIfNotEmpty(className, classResultsNode)
                 }
             }
         }

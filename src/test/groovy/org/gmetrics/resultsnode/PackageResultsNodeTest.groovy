@@ -51,6 +51,33 @@ class PackageResultsNodeTest extends AbstractTestCase {
         assert packageResultsNode.getChildren() == [:]
     }
 
+    void test_addChildIfNotEmpty_NullNameThrowsException() {
+        shouldFailWithMessageContaining('name') { packageResultsNode.addChildIfNotEmpty(null, emptyResultsNode) }
+    }
+
+    void test_addChildIfNotEmpty_NullChildThrowsException() {
+        shouldFailWithMessageContaining('child') { packageResultsNode.addChildIfNotEmpty('a', null) }
+    }
+
+    void test_AddingASingleChildWithNoResultMetrics() {
+        packageResultsNode.addChildIfNotEmpty('a', emptyResultsNode)
+        log(packageResultsNode)
+
+        assert packageResultsNode.getMetricResults() == []
+        assert packageResultsNode.getChildren() == [:]
+    }
+
+    void test_addChildIfNotEmpty_AddsToChildren() {
+        packageResultsNode.addChildIfNotEmpty('a', resultsNode1)
+        packageResultsNode.addChildIfNotEmpty('b', emptyResultsNode)
+        packageResultsNode.addChildIfNotEmpty('c', resultsNode2)
+        log(packageResultsNode)
+
+        def children = packageResultsNode.getChildren()
+        assert children.keySet() == ['a', 'c'] as Set
+        assert packageResultsNode.metricResults == []
+    }
+
     void test_addChild_NullNameThrowsException() {
         shouldFailWithMessageContaining('name') { packageResultsNode.addChild(null, emptyResultsNode) }
     }
@@ -59,34 +86,21 @@ class PackageResultsNodeTest extends AbstractTestCase {
         shouldFailWithMessageContaining('child') { packageResultsNode.addChild('a', null) }
     }
 
-    void test_AddingASingleChildWithNoResultMetrics() {
-        packageResultsNode.addChild('a', emptyResultsNode)
-        log(packageResultsNode)
-
-        assert packageResultsNode.getMetricResults() == []
-        assert packageResultsNode.getChildren() == [:]
-    }
-
     void test_addChild_AddsToChildren() {
         packageResultsNode.addChild('a', resultsNode1)
         packageResultsNode.addChild('b', emptyResultsNode)
-        packageResultsNode.addChild('c', resultsNode2)
-        log(packageResultsNode)
-
-        def children = packageResultsNode.getChildren()
-        assert children.keySet() == ['a', 'c'] as Set
-        assert packageResultsNode.metricResults == []
+        assert packageResultsNode.children.keySet() == ['a', 'b'] as Set
     }
 
     void test_applyMetric_PreventsAddingAnyMoreChildren() {
-        packageResultsNode.addChild('a', resultsNode1)
+        packageResultsNode.addChildIfNotEmpty('a', resultsNode1)
         packageResultsNode.applyMetric(METRIC)
-        shouldFail { packageResultsNode.addChild('b', resultsNode2) }
+        shouldFail { packageResultsNode.addChildIfNotEmpty('b', resultsNode2) }
     }
 
     void test_applyMetric_AddsToMetricResults() {
         def metric = new StubMetric()
-        packageResultsNode.addChild('a', resultsNode1)
+        packageResultsNode.addChildIfNotEmpty('a', resultsNode1)
         def metricResult = new NumberMetricResult(metric, 23)
         metric.packageMetricResult = metricResult
         packageResultsNode.applyMetric(metric)
@@ -102,9 +116,9 @@ class PackageResultsNodeTest extends AbstractTestCase {
     }
 
     void test_applyMetric_AggregatesResultsAcrossChildrenOfSameMetricType() {
-        packageResultsNode.addChild('a', resultsNode1)
-        packageResultsNode.addChild('b', emptyResultsNode)
-        packageResultsNode.addChild('c', resultsNode2)
+        packageResultsNode.addChildIfNotEmpty('a', resultsNode1)
+        packageResultsNode.addChildIfNotEmpty('b', emptyResultsNode)
+        packageResultsNode.addChildIfNotEmpty('c', resultsNode2)
 
         packageResultsNode.applyMetric(METRIC)
         log(packageResultsNode)
@@ -143,13 +157,13 @@ class PackageResultsNodeTest extends AbstractTestCase {
     }
 
     void testContainsClassResults_ReturnsFalseIfContainsOnlyChildPackageResults() {
-        packageResultsNode.addChild('a', packageResultsNode2)
+        packageResultsNode.addChildIfNotEmpty('a', packageResultsNode2)
         assert packageResultsNode.containsClassResults() == false
     }
 
     void testContainsClassResults_ReturnsTrueIfChildContainsClassResults() {
-        packageResultsNode.addChild('a', packageResultsNode2)
-        packageResultsNode.addChild('b', classResultsNode)
+        packageResultsNode.addChildIfNotEmpty('a', packageResultsNode2)
+        packageResultsNode.addChildIfNotEmpty('b', classResultsNode)
         assert packageResultsNode.containsClassResults() == true
     }
 
