@@ -101,7 +101,17 @@ class AntFileSetSourceAnalyzerTest extends AbstractSourceAnalyzer_IntegrationTes
             ]])
     }
 
-    // TODO Test multiple filesets
+    void testAnalyze_MultipleFileSets() {
+        def fileSet1 = new FileSet(project:project, dir:new File(BASE_DIR + '/dirA'))
+        def fileSet2 = new FileSet(project:project, dir:new File(BASE_DIR + '/dirB'))
+        def analyzer = new AntFileSetSourceAnalyzer(project, [fileSet1, fileSet2])
+        def resultsNode = analyzer.analyze(metricSet)
+        log("resultsNode=$resultsNode")
+
+        final TOP_LEVEL_RESULTS = new StubMetricResult(metric:metric, count:7, totalValue:25, averageValue:scale(25/7))
+        ResultsNodeTestUtil.assertMetricResultList(resultsNode.metricResults, [TOP_LEVEL_RESULTS], "top-level")
+        assertEqualSets(resultsNode.children.keySet(), ['ClassA1', 'ClassA2', 'ClassB1'])
+    }
 
     void testFindResultsNodeForPath_ReturnsNullForPathThatDoesNotExist() {
         assert analyzer.findResultsNodeForPath('DoesNotExist') == null 
@@ -118,14 +128,14 @@ class AntFileSetSourceAnalyzerTest extends AbstractSourceAnalyzer_IntegrationTes
     }
 
     void testFindResultsNodeForPath() {
-        def p1 = nonEmptyPackageResults('p1')
-        def p2 = nonEmptyPackageResults('p2')
-        def p3 = nonEmptyPackageResults('p3')
-        def p4 = nonEmptyPackageResults('p4')
-        analyzer.rootResultsNode.addChildIfNotEmpty('a', p1)
-        analyzer.rootResultsNode.addChildIfNotEmpty('b', p2)
-        p1.addChildIfNotEmpty('c', p3)
-        p3.addChildIfNotEmpty('d', p4)
+        def p1 = new PackageResultsNode(path:'p1')
+        def p2 = new PackageResultsNode(path:'p2')
+        def p3 = new PackageResultsNode(path:'p3')
+        def p4 = new PackageResultsNode(path:'p4')
+        analyzer.rootResultsNode.addChild('a', p1)
+        analyzer.rootResultsNode.addChild('b', p2)
+        p1.addChild('c', p3)
+        p3.addChild('d', p4)
 
         assert analyzer.findResultsNodeForPath('p1') == p1
         assert analyzer.findResultsNodeForPath('p2') == p2
@@ -134,8 +144,8 @@ class AntFileSetSourceAnalyzerTest extends AbstractSourceAnalyzer_IntegrationTes
     }
 
     void testFindOrAddResultsNodeForPath() {
-        def p1 = nonEmptyPackageResults('p1')
-        def p2 = nonEmptyPackageResults('p1/p2')   // TODO: BRITTLE. Implicit dependency between path and (child) name
+        def p1 = new PackageResultsNode(path:'p1')
+        def p2 = new PackageResultsNode(path:'p1/p2')   // TODO: BRITTLE. Implicit dependency between path and (child) name
         analyzer.rootResultsNode.addChild('p1', p1)
         p1.addChild('p2', p2)
 
@@ -151,32 +161,4 @@ class AntFileSetSourceAnalyzerTest extends AbstractSourceAnalyzer_IntegrationTes
         assert p4.path == 'p1/p2/p4'
         assert p2.children.p4 == p4
     }
-
-    private PackageResultsNode nonEmptyPackageResults(String path) {
-        def packageResultsNode = new PackageResultsNode(path:path)
-        packageResultsNode.metricResults << metricResult1
-        return packageResultsNode
-    }
-
-//    void testAnalyze_MultipleFileSets() {
-//        final DIR1 = 'src/test/resources/sourcewithdirs/subdir1'
-//        final DIR2 = 'src/test/resources/sourcewithdirs/subdir2'
-//        final GROOVY_FILES = '**/*.groovy'
-//        def fileSet1 = new FileSet(dir:new File(DIR1), project:project, includes:GROOVY_FILES)
-//        def fileSet2 = new FileSet(dir:new File(DIR2), project:project, includes:GROOVY_FILES)
-//
-//        def analyzer = new AntFileSetSourceAnalyzer(project, [fileSet1, fileSet2])
-//        def results = analyzer.analyze(metricSet)
-//        def sourceFilePaths = results.getViolationsWithPriority(1).collect { it.message }
-//        log("sourceFilePaths=$sourceFilePaths")
-//        final EXPECTED_PATHS = [
-//                'src/test/resources/sourcewithdirs/subdir1/Subdir1File1.groovy',
-//                'src/test/resources/sourcewithdirs/subdir1/Subdir1File2.groovy',
-//                'src/test/resources/sourcewithdirs/subdir2/subdir2a/Subdir2aFile1.groovy',
-//                'src/test/resources/sourcewithdirs/subdir2/Subdir2File1.groovy'
-//        ]
-//        assertEqualSets(sourceFilePaths, EXPECTED_PATHS)
-//        assertResultsCounts(results, 4, 4)
-//    }
-
 }
