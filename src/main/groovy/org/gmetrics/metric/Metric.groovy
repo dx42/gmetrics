@@ -28,9 +28,10 @@ import org.gmetrics.result.MetricResult
  */
 interface Metric {
 
+
     String getName()
 
-    MetricLevel getMetricLevel()
+    MetricLevel getBaseLevel()
 
     ClassMetricResult applyToClass(ClassNode classNode, SourceCode sourceCode)
     
