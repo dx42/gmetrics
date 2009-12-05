@@ -25,7 +25,8 @@ import org.gmetrics.test.AbstractTestCase
  */
 class GMetricsTask_AntBuilderTest extends AbstractTestCase {
     private static final HTML = 'html'
-    private static final REPORT_FILE = 'output.html'
+    private static final REPORT_FILE = 'AntBuilderTestReport.html'
+    private static final TITLE = 'AntBuilderTest'
 
     void testAntTask_Execute_UsingAntBuilder() {
         def ant = new AntBuilder()
@@ -37,11 +38,17 @@ class GMetricsTask_AntBuilderTest extends AbstractTestCase {
                include(name:"**/*.groovy")
            }
            report(type:HTML){
-               option(name:'title', value:'abc')
+               option(name:'title', value:TITLE)
                option(name:'outputFile', value:REPORT_FILE)
            }
         }
-        // TODO Validate side-effects of this task
+        verifyReportFile()
+    }
+
+    private void verifyReportFile() {
+        def file = new File(REPORT_FILE)
+        assert file.exists()
+        assertContainsAllInOrder(file.text, [TITLE, 'org.gmetrics.GMetricsRunner', 'Metric Descriptions'])
     }
 
     void tearDown() {
