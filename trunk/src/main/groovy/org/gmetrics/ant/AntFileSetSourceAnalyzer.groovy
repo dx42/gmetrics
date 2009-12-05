@@ -26,7 +26,6 @@ import org.gmetrics.resultsnode.ClassResultsNode
 import org.codehaus.groovy.ast.ClassNode
 import org.gmetrics.source.SourceCode
 import org.gmetrics.util.PathUtil
-import org.gmetrics.metric.MetricLevel
 
 /**
  * SourceAnalyzer implementation that gets source files from one or more Ant FileSets.
