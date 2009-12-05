@@ -30,7 +30,7 @@ import org.gmetrics.result.MetricResult
 class StubMetric implements Metric {
 
     String name = 'Stub'
-    MetricLevel metricLevel = MetricLevel.CLASS
+    MetricLevel baseLevel = MetricLevel.CLASS
     ClassMetricResult classMetricResult
     MetricResult packageMetricResult
 

@@ -17,8 +17,6 @@ package org.gmetrics.metric.linecount
 
 import org.gmetrics.metric.AbstractMetricTest
 import org.gmetrics.metric.MetricLevel
-import org.gmetrics.metric.Metric
-import org.gmetrics.result.NumberMetricResult
 
 /**
  * Tests for MethodLinesOfCodeMetric - calculate aggregate metrics for a class
@@ -30,7 +28,7 @@ class MethodLineCountMetric_ClassTest extends AbstractMetricTest {
     static metricClass = MethodLineCountMetric
 
     void testMetricLevelIsMethod() {
-        assert metric.metricLevel == MetricLevel.METHOD
+        assert metric.baseLevel == MetricLevel.METHOD
     }
 
     void testApplyToClass_ZeroResultsForClassWithNoMethods() {

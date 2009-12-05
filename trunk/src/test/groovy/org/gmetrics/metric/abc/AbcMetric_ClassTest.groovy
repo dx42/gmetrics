@@ -27,7 +27,7 @@ class AbcMetric_ClassTest extends AbstractAbcMetricTest {
     static metricClass = AbcMetric
 
     void testMetricLevelIsMethod() {
-        assert metric.metricLevel == MetricLevel.METHOD
+        assert metric.baseLevel == MetricLevel.METHOD
     }
 
     void testCalculate_EmptyResultsForClassWithNoMethods() {
