@@ -48,22 +48,37 @@ abstract class AbstractMethodMetric implements Metric {
     ClassMetricResult applyToClass(ClassNode classNode, SourceCode sourceCode) {
         def childMetricResults = [:]
 
-        def realMethods = classNode.methods.findAll { methodNode -> !AstUtil.isFromGeneratedSourceCode(methodNode) }
-        realMethods.each { methodNode ->
-            def methodResults = calculate(methodNode, sourceCode)
-            childMetricResults[methodNode.name] = methodResults
-        }
-
-        def closureFields = classNode.fields.find { fieldNode -> !AstUtil.isFromGeneratedSourceCode(fieldNode) &&
-            fieldNode.initialExpression instanceof ClosureExpression }
-        closureFields.each { fieldNode ->
-            def fieldResults = calculate(fieldNode.initialExpression, sourceCode)
-            childMetricResults[fieldNode.name] = fieldResults
+        if (isNotAnInterface(classNode)) {
+            addMethodsToMetricResults(sourceCode, classNode, childMetricResults)
+            addClosureFieldsToMetricResults(sourceCode, classNode, childMetricResults)
         }
 
         def aggregateMetricResults = createAggregateMetricResult(childMetricResults.values())
 
         return new ClassMetricResult(aggregateMetricResults, childMetricResults)
+    }
+
+    private boolean isNotAnInterface(ClassNode classNode) {
+        return !(classNode.modifiers & ClassNode.ACC_INTERFACE)
+    }
+
+    private void addClosureFieldsToMetricResults(SourceCode sourceCode, ClassNode classNode, Map childMetricResults) {
+        def closureFields = classNode.fields.find {fieldNode ->
+            !AstUtil.isFromGeneratedSourceCode(fieldNode) &&
+                    fieldNode.initialExpression instanceof ClosureExpression
+        }
+        closureFields.each {fieldNode ->
+            def fieldResults = calculate(fieldNode.initialExpression, sourceCode)
+            childMetricResults[fieldNode.name] = fieldResults
+        }
+    }
+
+    private void addMethodsToMetricResults(SourceCode sourceCode, ClassNode classNode, Map childMetricResults) {
+        def realMethods = classNode.methods.findAll {methodNode -> !AstUtil.isFromGeneratedSourceCode(methodNode) }
+        realMethods.each {methodNode ->
+            def methodResults = calculate(methodNode, sourceCode)
+            childMetricResults[methodNode.name] = methodResults
+        }
     }
 
     protected createAggregateMetricResult(Collection childMetricResults) {

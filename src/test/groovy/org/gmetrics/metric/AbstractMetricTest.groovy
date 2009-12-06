@@ -88,6 +88,8 @@ abstract class AbstractMetricTest extends AbstractTestCase {
         assertEquals(classMetricResult.totalValue, classTotalValue)
 
         def methodMetricResults = results.methodMetricResults
+        assertBothAreFalseOrElseNeitherIs(methodValues, methodMetricResults) 
+
         def methodNames = methodValues?.keySet()
         methodNames.each { methodName ->
             def methodValue = methodMetricResults[methodName].value

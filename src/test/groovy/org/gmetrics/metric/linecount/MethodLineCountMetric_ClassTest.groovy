@@ -38,6 +38,15 @@ class MethodLineCountMetric_ClassTest extends AbstractMetricTest {
         assertApplyToClass(SOURCE, 0, 0, null)
     }
 
+    void testApplyToClass_ZeroResultsForInterface() {
+        final SOURCE = """
+            interface MyInterface {
+                int doSomething(String name)
+            }
+        """
+        assertApplyToClass(SOURCE, 0, 0, null)
+    }
+
     void testApplyToClass_ResultsForClassWithOneMethod() {
         final SOURCE = """
             def a() {
