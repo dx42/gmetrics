@@ -78,6 +78,12 @@ abstract class AbstractTestCase extends GroovyTestCase {
         assert collection1 as Set == collection2 as Set
     }
 
+    protected void assertBothAreFalseOrElseNeitherIs(def object1, def object2) {
+        assert object1 ? object2 : !object2, object1 ? 
+            "Expected both true: $object1 AND $object2" :
+            "Expected both false: $object1 AND $object2"
+    }
+
     /**
      * Write out the specified log message, prefixing with the current class name.
      * @param message - the message to log; toString() is applied first

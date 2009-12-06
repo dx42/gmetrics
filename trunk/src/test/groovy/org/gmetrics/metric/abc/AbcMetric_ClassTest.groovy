@@ -37,6 +37,15 @@ class AbcMetric_ClassTest extends AbstractAbcMetricTest {
         assertApplyToClass(SOURCE, ZERO_VECTOR, ZERO_VECTOR, null)
     }
 
+    void testCalculate_EmptyResultsForInterface() {
+        final SOURCE = """
+            interface MyInterface {
+                int doSomething(String name)
+            }
+        """
+        assertApplyToClass(SOURCE, ZERO_VECTOR, ZERO_VECTOR, null)
+    }
+
     void testCalculate_ResultsForClassWithOneMethod() {
         final SOURCE = """
             def a() {
@@ -89,6 +98,8 @@ class AbcMetric_ClassTest extends AbstractAbcMetricTest {
         AbcTestUtil.assertEquals(classMetricResult.totalAbcVector, classTotalValue)
 
         def methodMetricResults = results.methodMetricResults
+        assertBothAreFalseOrElseNeitherIs(methodValues, methodMetricResults) 
+
         def methodNames = methodValues?.keySet()
         methodNames.each { methodName ->
             def methodValue = methodMetricResults[methodName].abcVector
