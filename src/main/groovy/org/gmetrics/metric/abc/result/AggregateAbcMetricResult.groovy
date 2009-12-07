@@ -97,7 +97,13 @@ class AggregateAbcMetricResult implements MetricResult {
     }
 
     private average(int sum, int count) {
-        return sum && count ? sum / count as Integer : 0
+//        return sum && count ? sum / count as Integer : 0
+        if (sum && count) {
+            def rawAverage = sum / count
+            def rounded = rawAverage.setScale(0, BigDecimal.ROUND_HALF_UP)
+            return rounded as Integer
+        }
+        return 0
     }
 
 }

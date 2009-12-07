@@ -17,7 +17,6 @@ package org.gmetrics.metric.abc.result
 
 import org.gmetrics.metric.Metric
 import org.gmetrics.test.AbstractTestCase
-import org.gmetrics.test.AbstractTestCase
 import org.gmetrics.metric.abc.result.AggregateAbcMetricResult
 import org.gmetrics.metric.abc.AbcTestUtil
 import org.gmetrics.metric.abc.AbcVector
@@ -83,27 +82,27 @@ class AggregateAbcMetricResultTest extends AbstractTestCase {
 
     void testCorrectRoundedAverageForSeveralVectors() {
         initializeWithThreeChildMetricResults()
-        AbcTestUtil.assertEquals(aggregateAbcMetricResult.averageAbcVector, [9, 4, 22])     // A and C are rounded down
+        AbcTestUtil.assertEquals(aggregateAbcMetricResult.averageAbcVector, [9, 4, 23])     // A is rounded down; C is rounded up
     }
 
     void testCorrectTotalAbcVectorForSeveralVectors() {
         initializeWithThreeChildMetricResults()
-        AbcTestUtil.assertEquals(aggregateAbcMetricResult.totalAbcVector, [27, 12, 66])
+        AbcTestUtil.assertEquals(aggregateAbcMetricResult.totalAbcVector, [27, 12, 68])
     }
 
     void testAbcVectorIsTheSameAsTheTotalAbcVector() {
         initializeWithThreeChildMetricResults()
-        AbcTestUtil.assertEquals(aggregateAbcMetricResult.abcVector, [27, 12, 66])
+        AbcTestUtil.assertEquals(aggregateAbcMetricResult.abcVector, [27, 12, 68])
     }
 
     void testTotalValueForSeveralVectorsIsTheMagnitudeOfTheSumOfTheVectors() {
         initializeWithThreeChildMetricResults()
-        assert aggregateAbcMetricResult.totalValue == new AbcVector(27, 12, 66).magnitude
+        assert aggregateAbcMetricResult.totalValue == new AbcVector(27, 12, 68).magnitude
     }
 
     void testAverageValueForSeveralVectorsIsTheMagnitudeOfTheAverageOfTheVectors() {
         initializeWithThreeChildMetricResults()
-        assert aggregateAbcMetricResult.averageValue == new AbcVector(9, 4, 22).magnitude
+        assert aggregateAbcMetricResult.averageValue == new AbcVector(9, 4, 23).magnitude
     }
 
     void testCorrectCountForSeveralVectors() {
@@ -128,8 +127,8 @@ class AggregateAbcMetricResultTest extends AbstractTestCase {
 
     private void initializeWithThreeChildMetricResults() {
         def child1 = AbcTestUtil.abcMetricResult(METRIC, 7, 9, 21)
-        def child2 = AbcTestUtil.abcMetricResult(METRIC, 11, 1, 21)
-        def child3 = AbcTestUtil.abcMetricResult(METRIC, 9, 2, 24)
+        def child2 = AbcTestUtil.abcMetricResult(METRIC, 11, 1, 22)
+        def child3 = AbcTestUtil.abcMetricResult(METRIC, 9, 2, 25)
         aggregateAbcMetricResult = new AggregateAbcMetricResult(METRIC, [child1, child2, child3])
     }
 }
