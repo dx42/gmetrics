@@ -16,24 +16,26 @@
 package org.gmetrics.report
 
 import org.gmetrics.resultsnode.ResultsNode
-import org.apache.log4j.Logger
 import org.gmetrics.util.io.ClassPathResource
 import groovy.xml.StreamingMarkupBuilder
 import org.gmetrics.metricset.MetricSet
 import org.gmetrics.metric.MetricLevel
 
 /**
- * ReportWriter that generates an HTML report.
+ * ReportWriter that generates a basic HTML report. The HTML includes a table containing
+ * a row for each package, class and method, and the metric values for each Metric
+ * within the passed-in MetricSet.
  *
  * @author Chris Mair
  * @version $Revision: 60 $ - $Date: 2009-02-22 14:46:41 -0500 (Sun, 22 Feb 2009) $
  */
-class HtmlReportWriter extends AbstractReportWriter {
+class BasicHtmlReportWriter extends AbstractReportWriter {
+
     public static final DEFAULT_OUTPUT_FILE = 'GMetricsReport.html'
+
     private static final CSS_FILE = 'gmetrics-htmlreport.css'
     private static final ROOT_PACKAGE_NAME = 'All packages'
     private static final MAX_INDENT_LEVEL = 10
-    private static final LOG = Logger.getLogger(HtmlReportWriter)
 
     static defaultOutputFile = 'GMetricsReport.html'
     String title
@@ -106,16 +108,16 @@ class HtmlReportWriter extends AbstractReportWriter {
         return {
             def dateFormat = java.text.DateFormat.getDateTimeInstance()
             def timestamp = dateFormat.format(new Date())
-            p(getResourceBundleString('htmlReport.reportTimestamp.label') + " $timestamp", class:'reportInfo')
+            p(getResourceBundleString('basicHtmlReport.reportTimestamp.label') + " $timestamp", class:'reportInfo')
         }
     }
 
     private buildResultsTable(ResultsNode resultsNode, List metricResultColumns) {
         return {
-            h2(getResourceBundleString('htmlReport.metricResults.title'))
+            h2(getResourceBundleString('basicHtmlReport.metricResults.title'))
             table() {
                 tr(class:'tableHeader') {
-                    th(getResourceBundleString('htmlReport.metricResults.nameHeading'))
+                    th(getResourceBundleString('basicHtmlReport.metricResults.nameHeading'))
                     metricResultColumns.each { columnDef ->
                         def columnHeading = getMetricResultColumnHeading(columnDef.metric.name, columnDef.property)
                         th(columnHeading, class:'metricColumnHeader')
@@ -152,7 +154,7 @@ class HtmlReportWriter extends AbstractReportWriter {
                     def metricResult = resultsNode.getMetricResult(metric)
                     def value = metricResult ?
                         metricResult[columnDef.property] :
-                        getResourceBundleString('htmlReport.metricResults.notApplicable')
+                        getResourceBundleString('basicHtmlReport.metricResults.notApplicable')
                     td(value, class:'metricValue')
                 }
             }
@@ -163,7 +165,7 @@ class HtmlReportWriter extends AbstractReportWriter {
     }
 
     private String prefixForResultsNodeLevel(ResultsNode resultsNode) {
-        def prefixes = [                // TODO &raquo;
+        def prefixes = [
             (MetricLevel.PACKAGE):'[p] ',
             (MetricLevel.CLASS):'[c] ',
             (MetricLevel.METHOD):'[m] '
@@ -176,12 +178,12 @@ class HtmlReportWriter extends AbstractReportWriter {
         def sortedMetrics = metrics.sort { metric -> metric.name }
 
         return {
-            h2(getResourceBundleString('htmlReport.metricDescriptions.title'))
+            h2(getResourceBundleString('basicHtmlReport.metricDescriptions.title'))
             table(border:'1') {
                 tr(class:'tableHeader') {
                     th('#', class:'metricDescriptions')
-                    th(getResourceBundleString('htmlReport.metricDescriptions.nameHeading'), class:'metricDescriptions')
-                    th(getResourceBundleString('htmlReport.metricDescriptions.descriptionHeading'), class:'metricDescriptions')
+                    th(getResourceBundleString('basicHtmlReport.metricDescriptions.nameHeading'), class:'metricDescriptions')
+                    th(getResourceBundleString('basicHtmlReport.metricDescriptions.descriptionHeading'), class:'metricDescriptions')
                 }
 
                 sortedMetrics.eachWithIndex { metric, index ->
@@ -211,7 +213,7 @@ class HtmlReportWriter extends AbstractReportWriter {
     }
 
     private String buildTitle() {
-        return getResourceBundleString('htmlReport.titlePrefix') + (title ? ": $title": '')
+        return getResourceBundleString('basicHtmlReport.titlePrefix') + (title ? ": $title": '')
     }
 
 }

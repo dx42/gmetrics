@@ -22,7 +22,7 @@ import org.apache.tools.ant.BuildException
 import org.apache.tools.ant.types.FileSet
 import org.gmetrics.metricset.DefaultMetricSet
 import org.gmetrics.GMetricsRunner
-import org.gmetrics.report.HtmlReportWriter
+import org.gmetrics.report.BasicHtmlReportWriter
 import org.gmetrics.analyzer.SourceAnalyzer
 
 /**
@@ -85,7 +85,7 @@ class GMetricsTask extends Task {
         if (report.type != 'html') {
             throw new BuildException("Invalid type: [$report.type]")
         }
-        def reportWriter = new HtmlReportWriter()
+        def reportWriter = new BasicHtmlReportWriter()
         report.options.each { name, value -> reportWriter[name] = value }
         LOG.debug("Adding report: $reportWriter")
         reportWriters << reportWriter

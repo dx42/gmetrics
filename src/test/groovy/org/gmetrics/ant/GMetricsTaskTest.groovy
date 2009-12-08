@@ -18,9 +18,10 @@ package org.gmetrics.ant
 import org.gmetrics.test.AbstractTestCase
 import org.apache.tools.ant.Project
 import org.apache.tools.ant.types.FileSet
-import org.gmetrics.report.HtmlReportWriter
+import org.gmetrics.report.BasicHtmlReportWriter
 import org.apache.tools.ant.BuildException
 import org.gmetrics.metricset.DefaultMetricSet
+import org.gmetrics.report.BasicHtmlReportWriter
 
 /**
  * Tests for GMetricsTask
@@ -58,18 +59,18 @@ class GMetricsTaskTest extends AbstractTestCase {
         assert called.execute
         assert gMetricsRunner.metricSet instanceof DefaultMetricSet
         assert gMetricsRunner.sourceAnalyzer instanceof AntFileSetSourceAnalyzer
-        assert gMetricsRunner.reportWriters*.class == [HtmlReportWriter]
+        assert gMetricsRunner.reportWriters*.class == [BasicHtmlReportWriter]
     }
 
     void testAddConfiguredReport_AddsToReportWriters() {
         gMetricsTask.addConfiguredReport(createReport(HTML))
-        assert gMetricsTask.reportWriters*.class == [HtmlReportWriter]
+        assert gMetricsTask.reportWriters*.class == [BasicHtmlReportWriter]
     }
 
     void testAddConfiguredReport_Twice_AddsToReportWriters() {
         gMetricsTask.addConfiguredReport(createReport(HTML, [title:'abc']))
         gMetricsTask.addConfiguredReport(createReport(HTML, [title:'def']))
-        assert gMetricsTask.reportWriters*.class == [HtmlReportWriter, HtmlReportWriter]
+        assert gMetricsTask.reportWriters*.class == [BasicHtmlReportWriter, BasicHtmlReportWriter]
         assert gMetricsTask.reportWriters.title == ['abc', 'def']
     }
 

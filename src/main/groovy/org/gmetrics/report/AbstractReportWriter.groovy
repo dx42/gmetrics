@@ -35,9 +35,9 @@ abstract class AbstractReportWriter implements ReportWriter {
     protected static final CUSTOM_MESSSAGES_BUNDLE = "gmetrics-messages"
     protected static final VERSION_FILE = 'gmetrics-version.txt'
     protected static final GMETRICS_URL = "http://www.gmetrics.org"
-    private static final LOG = Logger.getLogger(HtmlReportWriter)
 
     String outputFile
+    protected final LOG = Logger.getLogger(getClass())
     protected customMessagesBundleName = CUSTOM_MESSSAGES_BUNDLE
     protected resourceBundle
 

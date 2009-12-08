@@ -21,7 +21,13 @@ import org.gmetrics.analyzer.FilesystemSourceAnalyzer
 import org.gmetrics.metric.linecount.MethodLineCountMetric
 import org.gmetrics.metric.abc.AbcMetric
 
-class HtmlReportWriter_IntegrationTest extends AbstractTestCase {
+/**
+ * Tests for BasicHtmlReportWriter
+ *
+ * @author Chris Mair
+ * @version $Revision: 60 $ - $Date: 2009-02-22 14:46:41 -0500 (Sun, 22 Feb 2009) $
+ */
+class BasicHtmlReportWriter_IntegrationTest extends AbstractTestCase {
     private static REPORT_FILE = 'GMetricsReport.html'
     private static final BASE_DIR = 'src/main'
     private sourceAnalyzer
@@ -37,7 +43,7 @@ class HtmlReportWriter_IntegrationTest extends AbstractTestCase {
     void setUp() {
         super.setUp()
         sourceAnalyzer = new FilesystemSourceAnalyzer(baseDirectory:BASE_DIR)
-        reportWriter = new HtmlReportWriter()
+        reportWriter = new BasicHtmlReportWriter()
         metricSet = new ListMetricSet([new MethodLineCountMetric(), new AbcMetric()])    
     }
 
