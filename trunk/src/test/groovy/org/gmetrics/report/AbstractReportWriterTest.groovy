@@ -48,14 +48,14 @@ class AbstractReportWriterTest extends AbstractTestCase {
 
     void testInitializeResourceBundle_CustomMessagesFileExists() {
         reportWriter.initializeResourceBundle()
-        assert reportWriter.getResourceBundleString('htmlReport.titlePrefix')   // in "gmetrics-base-messages.properties"
+        assert reportWriter.getResourceBundleString('basicHtmlReport.titlePrefix')   // in "gmetrics-base-messages.properties"
         assert reportWriter.getResourceBundleString('abc')                      // in "gmetrics-messages.properties"
     }
 
     void testInitializeResourceBundle_CustomMessagesFileDoesNotExist() {
         reportWriter.customMessagesBundleName = 'DoesNotExist'
         reportWriter.initializeResourceBundle()
-        assert reportWriter.getResourceBundleString('htmlReport.titlePrefix')   // in "gmetrics-base-messages.properties"
+        assert reportWriter.getResourceBundleString('basicHtmlReport.titlePrefix')   // in "gmetrics-base-messages.properties"
         assert reportWriter.getResourceBundleString('abc') == DEFAULT_STRING 
     }
 

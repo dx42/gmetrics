@@ -24,12 +24,12 @@ import org.gmetrics.metric.MetricLevel
 */
 
 /**
- * Tests for HtmlReportWriter
+ * Tests for BasicHtmlReportWriter
  *
  * @author Chris Mair
  * @version $Revision: 60 $ - $Date: 2009-02-22 14:46:41 -0500 (Sun, 22 Feb 2009) $
  */
-class HtmlReportWriterTest extends AbstractTestCase {
+class BasicHtmlReportWriterTest extends AbstractTestCase {
 
     private static final METRIC1 = new StubMetric(name:'Metric1')
     private static final METRIC2 = new StubMetric(name:'Metric2')
@@ -165,19 +165,19 @@ class HtmlReportWriterTest extends AbstractTestCase {
 
     void setUp() {
         super.setUp()
-        reportWriter = new HtmlReportWriter()
+        reportWriter = new BasicHtmlReportWriter()
         writer = new StringWriter()
         metricSet = new ListMetricSet([METRIC1])
 
         localizedMessages = [
-            'htmlReport.titlePrefix': TITLE_PREFIX,
-            'htmlReport.reportTimestamp.label':REPORT_TIMESTAMP,
-            'htmlReport.metricResults.title':METRIC_RESULTS,
-            'htmlReport.metricDescriptions.title':METRIC_DESCRIPTIONS,
-            'htmlReport.metricResults.nameHeading':'Package/Class/Method',
-            'htmlReport.metricResults.notApplicable':NA,
-            'htmlReport.metricDescriptions.nameHeading':'Metric Name',
-            'htmlReport.metricDescriptions.descriptionHeading':'Description',    
+            'basicHtmlReport.titlePrefix': TITLE_PREFIX,
+            'basicHtmlReport.reportTimestamp.label':REPORT_TIMESTAMP,
+            'basicHtmlReport.metricResults.title':METRIC_RESULTS,
+            'basicHtmlReport.metricDescriptions.title':METRIC_DESCRIPTIONS,
+            'basicHtmlReport.metricResults.nameHeading':'Package/Class/Method',
+            'basicHtmlReport.metricResults.notApplicable':NA,
+            'basicHtmlReport.metricDescriptions.nameHeading':'Metric Name',
+            'basicHtmlReport.metricDescriptions.descriptionHeading':'Description',    
             'Metric1.description.html':metricDescription(METRIC1),
             'Metric1.totalValue':'Metric1.totalValue',
             'Metric1.averageValue':'Metric1.averageValue',
