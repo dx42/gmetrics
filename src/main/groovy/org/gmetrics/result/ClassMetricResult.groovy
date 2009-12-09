@@ -27,7 +27,7 @@ class ClassMetricResult {
     MetricResult classMetricResult
     Map methodMetricResults = [:]
 
-    ClassMetricResult(MetricResult metricResult, Map methodMetricResults) {
+    ClassMetricResult(MetricResult metricResult, Map methodMetricResults=null) {
         this.classMetricResult = metricResult
         this.methodMetricResults = methodMetricResults
     }

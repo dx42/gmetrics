@@ -19,7 +19,7 @@ import org.gmetrics.metric.AbstractMetricTest
 import org.gmetrics.metric.MetricLevel
 
 /**
- * Tests for MethodLinesOfCodeMetric - calculate aggregate metrics for a class
+ * Tests for MethodLineCountMetric - calculate aggregate metrics for a class
  *
  * @author Chris Mair
  * @version $Revision: 224 $ - $Date: 2009-09-22 22:04:03 -0400 (Tue, 22 Sep 2009) $
@@ -27,7 +27,7 @@ import org.gmetrics.metric.MetricLevel
 class MethodLineCountMetric_ClassTest extends AbstractMetricTest {
     static metricClass = MethodLineCountMetric
 
-    void testMetricLevelIsMethod() {
+    void testBaseLevelIsMethod() {
         assert metric.baseLevel == MetricLevel.METHOD
     }
 

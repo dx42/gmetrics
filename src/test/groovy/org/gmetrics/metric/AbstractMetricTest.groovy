@@ -79,7 +79,7 @@ abstract class AbstractMetricTest extends AbstractTestCase {
         return calculate(fieldNode.initialExpression)
     }
 
-    protected void assertApplyToClass(String source, classTotalValue, classAverageValue, Map methodValues) {
+    protected void assertApplyToClass(String source, classTotalValue, classAverageValue, Map methodValues=null) {
         def classNode = parseClass(source)
         def results = metric.applyToClass(classNode, sourceCode)
         log("results=$results")

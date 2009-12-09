@@ -32,13 +32,10 @@ import org.gmetrics.result.AggregateNumberMetricResult
  */
 abstract class AbstractMethodMetric implements Metric {
 
+    final MetricLevel baseLevel = MetricLevel.METHOD
 
     abstract def calculate(MethodNode methodNode, SourceCode sourceCode)
     abstract def calculate(ClosureExpression closureExpression, SourceCode sourceCode)
-
-    MetricLevel getBaseLevel() {
-        return MetricLevel.METHOD
-    }
 
     MetricResult applyToPackage(Collection childMetricResults) {
         def aggregateMetricResult = createAggregateMetricResult(childMetricResults)
