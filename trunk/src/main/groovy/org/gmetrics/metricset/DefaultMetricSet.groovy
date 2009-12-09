@@ -19,6 +19,7 @@ import org.gmetrics.metric.Metric
 import org.gmetrics.metricset.MetricSet
 import org.gmetrics.metric.abc.AbcMetric
 import org.gmetrics.metric.linecount.MethodLineCountMetric
+import org.gmetrics.metric.linecount.ClassLineCountMetric
 
 /**
  * A <code>MetricSet</code> implementation that returns the default static List of Metrics.
@@ -30,7 +31,7 @@ import org.gmetrics.metric.linecount.MethodLineCountMetric
  */
 class DefaultMetricSet implements MetricSet {
 
-    private metricSet = new ListMetricSet([new AbcMetric(), new MethodLineCountMetric()])
+    private metricSet = new ListMetricSet([new AbcMetric(), new ClassLineCountMetric(), new MethodLineCountMetric()])
 
     List getMetrics() {
         return metricSet.getMetrics()
