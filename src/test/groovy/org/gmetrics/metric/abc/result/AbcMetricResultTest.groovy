@@ -28,6 +28,7 @@ import org.gmetrics.metric.abc.AbcTestUtil
  * @version $Revision: 237 $ - $Date: 2009-11-09 21:17:54 -0500 (Mon, 09 Nov 2009) $
  */
 class AbcMetricResultTest extends AbstractTestCase {
+
     private static final METRIC = new AbcMetric()
 
     void testPassingNullAbcVectorIntoConstructorThrowsException() {
@@ -35,32 +36,26 @@ class AbcMetricResultTest extends AbstractTestCase {
     }
 
     void testValueForEmptyVectorSetIsZero() {
-        assert abcMetricResultValue(0, 0, 0) == 0
+        assert abcMetricResultTotal(0, 0, 0) == 0
     }
 
     void testVectorWithIntegerResultValue() {
-        assert abcMetricResultValue(1, 2, 2) == 3
+        assert abcMetricResultTotal(1, 2, 2) == 3
     }
 
     void testVectorWithNonIntegerResultValue() {
-        assert abcMetricResultValue(7, 1, 2) == 7.3
+        assert abcMetricResultTotal(7, 1, 2) == 7.3
     }
 
     void testValueIsSameAsAbcVectorMagnitude() {
-        assert abcMetricResultValue(6, 7, 8) == new AbcVector(6, 7, 8).magnitude
+        assert abcMetricResultTotal(6, 7, 8) == new AbcVector(6, 7, 8).magnitude
     }
 
-    void testAverageAndTotalValueAreTheSameAsTheValue() {
-        def abc = AbcTestUtil.abcMetricResult(METRIC, 1, 2, 3)
-        assert abc.totalValue == abc.value
-        assert abc.averageValue == abc.value
-    }
-
-    private abcMetricResultValue(int a, int b, int c) {
+    private abcMetricResultTotal(int a, int b, int c) {
         def abcMetricResult = AbcTestUtil.abcMetricResult(METRIC, a, b, c)
-        def value = abcMetricResult.value
+        def total = abcMetricResult.total
         log(abcMetricResult)
-        return value
+        return total
     }
     
 }

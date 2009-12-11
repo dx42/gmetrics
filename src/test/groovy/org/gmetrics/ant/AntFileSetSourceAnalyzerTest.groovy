@@ -108,7 +108,7 @@ class AntFileSetSourceAnalyzerTest extends AbstractSourceAnalyzer_IntegrationTes
         def resultsNode = analyzer.analyze(metricSet)
         log("resultsNode=$resultsNode")
 
-        final TOP_LEVEL_RESULTS = new StubMetricResult(metric:metric, count:7, totalValue:25, averageValue:scale(25/7))
+        final TOP_LEVEL_RESULTS = new StubMetricResult(metric:metric, count:7, total:25, average:scale(25/7))
         ResultsNodeTestUtil.assertMetricResultList(resultsNode.metricResults, [TOP_LEVEL_RESULTS], "top-level")
         assertEqualSets(resultsNode.children.keySet(), ['ClassA1', 'ClassA2', 'ClassB1'])
     }

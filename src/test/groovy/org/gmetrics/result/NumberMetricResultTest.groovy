@@ -43,17 +43,17 @@ class NumberMetricResultTest extends AbstractTestCase {
 
     void testGetTotalValueIsSameIntegerValuePassedIntoConstructor() {
         def result = new NumberMetricResult(METRIC, 23)
-        assert result.getTotalValue() == 23
+        assert result.getTotal() == 23
     }
 
     void testGetTotalValueIsSameBigDecimalValuePassedIntoConstructor() {
         def result = new NumberMetricResult(METRIC, 0.23456)
-        assert result.getTotalValue() == 0.23456
+        assert result.getTotal() == 0.23456
     }
 
     void testGetAverageValueIsSameIntegerValuePassedIntoConstructor() {
         def result = new NumberMetricResult(METRIC, 23)
-        assert result.getAverageValue() == 23
+        assert result.getAverage() == 23
     }
 
     void testGetCountIsOneForSingleValue() {

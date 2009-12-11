@@ -22,11 +22,11 @@ class StubMetricResult implements MetricResult {
 
     Metric metric
     int count
-    Object totalValue
-    Object averageValue
+    Object total
+    Object average
     Object value
 
     String toString() {
-        "StubMetricResult[count=$count, total=$totalValue, average=$averageValue]"
+        "StubMetricResult[count=$count, total=$total, average=$average]"
     }
 }

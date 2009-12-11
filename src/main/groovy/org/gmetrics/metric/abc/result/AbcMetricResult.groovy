@@ -26,6 +26,7 @@ import org.gmetrics.metric.abc.AbcVector
  * @version $Revision: 232 $ - $Date: 2009-10-20 20:45:35 -0400 (Tue, 20 Oct 2009) $
  */
 class AbcMetricResult implements MetricResult {
+
     final AbcVector abcVector
     final Metric metric
 
@@ -39,24 +40,20 @@ class AbcMetricResult implements MetricResult {
      * @return the magnitude of the ABC vector as a BigDecimal with scale of 1
      * @see AbcVector#getMagnitude()
      */
-    Object getValue() {
+    Object getTotal() {
         return abcVector.magnitude
-    }
-
-    Object getTotalValue() {
-        return getValue()
     }
 
     int getCount() {
         return 1
     }
 
-    Object getAverageValue() {
-        return getValue()
+    Object getAverage() {
+        return getTotal()
     }
 
     String toString() {
-        "AbcMetricResult[$abcVector, value=${getValue()}]"
+        "AbcMetricResult[$abcVector, total=${getTotal()}]"
     }
 
 }

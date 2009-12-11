@@ -57,12 +57,12 @@ class AggregateAbcMetricResultTest extends AbstractTestCase {
 
     void testAverageValueForNoVectorsIsZero() {
         initializeWithZeroChildMetricResults()
-        assert aggregateAbcMetricResult.averageValue == 0
+        assert aggregateAbcMetricResult.average == 0
     }
 
     void testTotalValueForNoVectorsIsZero() {
         initializeWithZeroChildMetricResults()
-        assert aggregateAbcMetricResult.totalValue == 0
+        assert aggregateAbcMetricResult.total == 0
     }
 
     void testCountForNoVectorsIsZero() {
@@ -97,12 +97,12 @@ class AggregateAbcMetricResultTest extends AbstractTestCase {
 
     void testTotalValueForSeveralVectorsIsTheMagnitudeOfTheSumOfTheVectors() {
         initializeWithThreeChildMetricResults()
-        assert aggregateAbcMetricResult.totalValue == new AbcVector(27, 12, 68).magnitude
+        assert aggregateAbcMetricResult.total == new AbcVector(27, 12, 68).magnitude
     }
 
     void testAverageValueForSeveralVectorsIsTheMagnitudeOfTheAverageOfTheVectors() {
         initializeWithThreeChildMetricResults()
-        assert aggregateAbcMetricResult.averageValue == new AbcVector(9, 4, 23).magnitude
+        assert aggregateAbcMetricResult.average == new AbcVector(9, 4, 23).magnitude
     }
 
     void testCorrectCountForSeveralVectors() {

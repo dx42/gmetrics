@@ -18,15 +18,15 @@ package org.gmetrics.result
 import org.gmetrics.metric.Metric
 
 /**
- * Represents a single result from applying a metric
+ * Represents the result from applying a single metric (to a package, class or method)
  *
  * @author Chris Mair
  * @version $Revision: 230 $ - $Date: 2009-10-10 13:16:19 -0400 (Sat, 10 Oct 2009) $
  */
 interface MetricResult {
+
     Metric getMetric()
     int getCount()
-    Object getTotalValue()
-    Object getAverageValue()
-    Object getValue()
+    Object getTotal()
+    Object getAverage()
 }

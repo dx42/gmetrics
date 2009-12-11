@@ -24,17 +24,17 @@ import org.gmetrics.metric.Metric
  * @version $Revision: 230 $ - $Date: 2009-10-10 13:16:19 -0400 (Sat, 10 Oct 2009) $
  */
 class AggregateNumberMetricResult implements MetricResult {
+
     private sum
     private count
     int scale = 1
     final Metric metric
-    final Object value = null
 
     AggregateNumberMetricResult(Metric metric, Collection children) {
         assert metric != null
         assert children != null
         this.metric = metric
-        sum = children.inject(0) { value, child -> value + child.totalValue }
+        sum = children.inject(0) { value, child -> value + child.total }
         count = children.inject(0) { value, child -> value + child.count }
     }
 
@@ -42,11 +42,11 @@ class AggregateNumberMetricResult implements MetricResult {
         return count
     }
 
-    Object getTotalValue() {
+    Object getTotal() {
         return sum
     }
 
-    Object getAverageValue() {
+    Object getAverage() {
         if(sum && count) {
             def result = sum / count
             return result.setScale(scale, BigDecimal.ROUND_HALF_UP)
@@ -57,7 +57,7 @@ class AggregateNumberMetricResult implements MetricResult {
     }
 
     String toString() {
-        "AggregateNumberMetricResult[count=$count, total=${getTotalValue()}, average=${getAverageValue()}]"
+        "AggregateNumberMetricResult[count=$count, total=${getTotal()}, average=${getAverage()}]"
     }
 
 }

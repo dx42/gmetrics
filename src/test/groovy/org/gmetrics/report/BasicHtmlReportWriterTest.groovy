@@ -179,8 +179,8 @@ class BasicHtmlReportWriterTest extends AbstractTestCase {
             'basicHtmlReport.metricDescriptions.nameHeading':'Metric Name',
             'basicHtmlReport.metricDescriptions.descriptionHeading':'Description',    
             'Metric1.description.html':metricDescription(METRIC1),
-            'Metric1.totalValue':'Metric1.totalValue',
-            'Metric1.averageValue':'Metric1.averageValue',
+            'Metric1.total':'Metric1.total',
+            'Metric1.average':'Metric1.average',
             'Metric2.description.html':metricDescription(METRIC2)
         ]
         reportWriter.initializeResourceBundle = { reportWriter.resourceBundle = [getString:{key -> localizedMessages[key] ?: 'NOT FOUND'}] }
