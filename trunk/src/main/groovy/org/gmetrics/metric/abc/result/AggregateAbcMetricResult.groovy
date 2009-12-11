@@ -27,6 +27,7 @@ import org.gmetrics.metric.abc.AbcVector
  * @version $Revision: 235 $ - $Date: 2009-11-01 21:20:33 -0500 (Sun, 01 Nov 2009) $
  */
 class AggregateAbcMetricResult implements MetricResult {
+
     private count
     final Metric metric
     private assignmentSum = 0
@@ -81,14 +82,14 @@ class AggregateAbcMetricResult implements MetricResult {
     /**
      * @return the magnitude of the sum of the set of ABC vectors; i.e., getTotalAbcVector().getMagnitude().
      */
-    Object getTotalValue() {
+    Object getTotal() {
         return getTotalAbcVector().getMagnitude()
     }
 
     /**
      * @return the magnitude of the average of the set of ABC vectors; i.e., getAverageAbcVector().getMagnitude().
      */
-    Object getAverageValue() {
+    Object getAverage() {
         return getAverageAbcVector().getMagnitude()
     }
 

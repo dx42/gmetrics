@@ -49,7 +49,7 @@ abstract class AbstractMetricTest extends AbstractTestCase {
     }
 
     protected valueFromMetricResult(MetricResult metricResult) {
-        return metricResult.value
+        return metricResult.total
     }
 
     protected parseClass(String source) {
@@ -84,23 +84,23 @@ abstract class AbstractMetricTest extends AbstractTestCase {
         def results = metric.applyToClass(classNode, sourceCode)
         log("results=$results")
         def classMetricResult = results.classMetricResult
-        assertEquals(classMetricResult.averageValue, classAverageValue)
-        assertEquals(classMetricResult.totalValue, classTotalValue)
+        assertEquals(classMetricResult.getAverage(), classAverageValue)
+        assertEquals(classMetricResult.getTotal(), classTotalValue)
 
         def methodMetricResults = results.methodMetricResults
         assertBothAreFalseOrElseNeitherIs(methodValues, methodMetricResults) 
 
         def methodNames = methodValues?.keySet()
         methodNames.each { methodName ->
-            def methodValue = methodMetricResults[methodName].value
+            def methodValue = methodMetricResults[methodName].total
             assertEquals(methodValue, methodValues[methodName])
         }
     }
 
     protected void assertApplyToPackage(Collection childMetricResults, classTotalValue, classAverageValue) {
         def metricResult = metric.applyToPackage(childMetricResults)
-        assert metricResult.totalValue == classTotalValue
-        assert metricResult.averageValue == classAverageValue
+        assert metricResult.getTotal() == classTotalValue
+        assert metricResult.getAverage() == classAverageValue
     }
 
     protected void assertMetricForMetricResult(MetricResult metricResult) {

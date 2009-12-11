@@ -24,6 +24,7 @@ import org.gmetrics.metric.Metric
  * @version $Revision: 230 $ - $Date: 2009-10-10 13:16:19 -0400 (Sat, 10 Oct 2009) $
  */
 class NumberMetricResult implements MetricResult {
+
     final Metric metric
     final number
 
@@ -38,15 +39,11 @@ class NumberMetricResult implements MetricResult {
         return 1
     }
 
-    Object getTotalValue() {
+    Object getTotal() {
         return number
     }
 
-    Object getAverageValue() {
-        return number
-    }
-
-    Object getValue() {
+    Object getAverage() {
         return number
     }
 

@@ -51,32 +51,32 @@ abstract class AbstractSourceAnalyzer_IntegrationTest extends AbstractTestCase {
 
     void testAnalyze_EmptyDirectory() {
         initializeSourceAnalyzerForEmptyDirectory()
-        def results = new StubMetricResult(metric:metric, count:0, totalValue:0, averageValue:0)
+        def results = new StubMetricResult(metric:metric, count:0, total:0, average:0)
         assertAnalyze_ResultsNodeStructure([metricResults:[results]])
     }
 
     void testAnalyze_NoMatchingFiles() {
         initializeSourceAnalyzerForDirectoryWithNoMatchingFiles()
-        def results = new StubMetricResult(metric:metric, count:0, totalValue:0, averageValue:0)
+        def results = new StubMetricResult(metric:metric, count:0, total:0, average:0)
         assertAnalyze_ResultsNodeStructure([metricResults:[results]])
     }
 
     void testAnalyze_NestedSubdirectories() {
-        def classA1_method1 = new StubMetricResult(metric:metric, count:1, totalValue:3, averageValue:3)
-        def classA1_method2 = new StubMetricResult(metric:metric, count:1, totalValue:5, averageValue:5)
-        def classA1 = new StubMetricResult(metric:metric, count:2, totalValue:8, averageValue:4)
-        def classA2_method1 = new StubMetricResult(metric:metric, count:1, totalValue:4, averageValue:4)
-        def classA2_method2 = new StubMetricResult(metric:metric, count:1, totalValue:4, averageValue:4)
-        def classA2 = new StubMetricResult(metric:metric, count:2, totalValue:8, averageValue:4)
-        def dirA = new StubMetricResult(metric:metric, count:4, totalValue:16, averageValue:4)
+        def classA1_method1 = new StubMetricResult(metric:metric, count:1, total:3, average:3)
+        def classA1_method2 = new StubMetricResult(metric:metric, count:1, total:5, average:5)
+        def classA1 = new StubMetricResult(metric:metric, count:2, total:8, average:4)
+        def classA2_method1 = new StubMetricResult(metric:metric, count:1, total:4, average:4)
+        def classA2_method2 = new StubMetricResult(metric:metric, count:1, total:4, average:4)
+        def classA2 = new StubMetricResult(metric:metric, count:2, total:8, average:4)
+        def dirA = new StubMetricResult(metric:metric, count:4, total:16, average:4)
 
-        def classB1_method1 = new StubMetricResult(metric:metric, count:1, totalValue:1, averageValue:1)
-        def classB1_method2 = new StubMetricResult(metric:metric, count:1, totalValue:1, averageValue:1)
-        def classB1_closure3 = new StubMetricResult(metric:metric, count:1, totalValue:7, averageValue:7)
-        def classB1 = new StubMetricResult(metric:metric, count:3, totalValue:9, averageValue:3)
-        def dirB = new StubMetricResult(metric:metric, count:3, totalValue:9, averageValue:3)
+        def classB1_method1 = new StubMetricResult(metric:metric, count:1, total:1, average:1)
+        def classB1_method2 = new StubMetricResult(metric:metric, count:1, total:1, average:1)
+        def classB1_closure3 = new StubMetricResult(metric:metric, count:1, total:7, average:7)
+        def classB1 = new StubMetricResult(metric:metric, count:3, total:9, average:3)
+        def dirB = new StubMetricResult(metric:metric, count:3, total:9, average:3)
 
-        def all = new StubMetricResult(metric:metric, count:7, totalValue:25, averageValue:scale(25/7))
+        def all = new StubMetricResult(metric:metric, count:7, total:25, average:scale(25/7))
 
         assertAnalyze_ResultsNodeStructure([
             metricResults:[all],
