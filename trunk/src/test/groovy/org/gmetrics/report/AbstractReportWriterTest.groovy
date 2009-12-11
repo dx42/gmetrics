@@ -90,7 +90,7 @@ class AbstractReportWriterTest extends AbstractTestCase {
 /**
  * Concrete subclass of AbstractReportWriter for testing
  */
-protected class TestAbstractReportWriter extends AbstractReportWriter {
+class TestAbstractReportWriter extends AbstractReportWriter {
     static defaultOutputFile = 'TestReportWriter.txt'
 
     void writeReport(Writer writer, ResultsNode resultsNode, MetricSet metricSet) {
