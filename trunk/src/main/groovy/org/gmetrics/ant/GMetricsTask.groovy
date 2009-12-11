@@ -32,10 +32,13 @@ import org.gmetrics.analyzer.SourceAnalyzer
  * to be analyzed. This is the standard Ant <i>FileSet</i>, and is quite powerful and flexible.
  * See the <i>Apache Ant Manual</i> for more information on <i>FileSets</i>.
  * <p/>
- * The <ode>report</code> nested element defines the format and output file for the analysis report.
- * Currently, HTML ("html") is the only supported format. It includes a <code>type</code> attribute and
- * can contain nested <code>option</code> elements --  each must include a <code>name</code> and
- * <code>value</code> attribue.
+ * The <ode>report</code> nested element defines the type and report-specific options for the
+ * output report. The <ode>report</code> element includes a <code>type</code> attribute (which
+ * specifies the fully-qualified class name of the <code>ReportWriter</code> class) and
+ * can contain nested <code>option</code> elements. Each <code>option</code>, in turn, must
+ * include a <code>name</code> and <code>value</code> attribue. Currently, the
+ * <code>BasicHtmlReportWriter</code> class (org.gmetrics.report.BasicHtmlReportWriter) is the
+ * only report type provided.
  *
  * @see "http://ant.apache.org/manual/index.html"
  *
@@ -82,10 +85,11 @@ class GMetricsTask extends Task {
      * element within this task.
      */
     void addConfiguredReport(Report report) {
-        if (report.type != 'html') {
-            throw new BuildException("Invalid type: [$report.type]")
+        if (!report.type) {
+            throw new BuildException("Report type null or empty")
         }
-        def reportWriter = new BasicHtmlReportWriter()
+        def reportClass = Class.forName(report.type)
+        def reportWriter = reportClass.newInstance()
         report.options.each { name, value -> reportWriter[name] = value }
         LOG.debug("Adding report: $reportWriter")
         reportWriters << reportWriter
