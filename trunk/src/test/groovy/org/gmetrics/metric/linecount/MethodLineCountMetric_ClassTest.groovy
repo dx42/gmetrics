@@ -22,7 +22,7 @@ import org.gmetrics.metric.MetricLevel
  * Tests for MethodLineCountMetric - calculate aggregate metrics for a class
  *
  * @author Chris Mair
- * @version $Revision: 224 $ - $Date: 2009-09-22 22:04:03 -0400 (Tue, 22 Sep 2009) $
+ * @version $Revision$ - $Date$
  */
 class MethodLineCountMetric_ClassTest extends AbstractMetricTest {
     static metricClass = MethodLineCountMetric

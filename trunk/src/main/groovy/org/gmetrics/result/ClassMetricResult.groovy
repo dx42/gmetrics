@@ -21,7 +21,7 @@ import org.gmetrics.result.MetricResult
  * Represents the results for a single metric for a single class
  *
  * @author Chris Mair
- * @version $Revision: 230 $ - $Date: 2009-10-10 13:16:19 -0400 (Sat, 10 Oct 2009) $
+ * @version $Revision$ - $Date$
  */
 class ClassMetricResult {
     MetricResult classMetricResult

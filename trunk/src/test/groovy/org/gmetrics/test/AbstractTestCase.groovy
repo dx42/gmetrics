@@ -19,7 +19,7 @@ package org.gmetrics.test
  * Abstract superclass for tests 
  *
  * @author Chris Mair
- * @version $Revision: 182 $ - $Date: 2009-07-11 18:38:46 -0400 (Sat, 11 Jul 2009) $
+ * @version $Revision$ - $Date$
  */
 abstract class AbstractTestCase extends GroovyTestCase {
 

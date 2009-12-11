@@ -21,7 +21,7 @@ import org.gmetrics.test.AbstractTestCase
  * Tests for DefaultResourceFactory
  *
  * @author Chris Mair
- * @version $Revision: 237 $ - $Date: 2009-11-09 21:17:54 -0500 (Mon, 09 Nov 2009) $
+ * @version $Revision$ - $Date$
  */
 class DefaultResourceFactoryTest extends AbstractTestCase {
 

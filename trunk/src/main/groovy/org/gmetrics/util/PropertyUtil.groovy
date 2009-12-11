@@ -19,7 +19,7 @@ package org.gmetrics.util
  * Contains property-related static utility methods
  *
  * @author Chris Mair
- * @version $Revision: 113 $ - $Date: 2009-03-31 19:41:25 -0400 (Tue, 31 Mar 2009) $
+ * @version $Revision$ - $Date$
  */
 class PropertyUtil {
 

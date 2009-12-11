@@ -23,7 +23,7 @@ import org.gmetrics.metric.abc.AbcVector
  * A MetricResult specifically for the ABC metric
  *
  * @author Chris Mair
- * @version $Revision: 232 $ - $Date: 2009-10-20 20:45:35 -0400 (Tue, 20 Oct 2009) $
+ * @version $Revision$ - $Date$
  */
 class AbcMetricResult implements MetricResult {
 

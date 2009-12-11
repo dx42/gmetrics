@@ -23,7 +23,7 @@ import org.gmetrics.metric.Metric
  * Represents a package node in the hierarchy of metric result nodes
  *
  * @author Chris Mair
- * @version $Revision: 228 $ - $Date: 2009-09-29 21:52:31 -0400 (Tue, 29 Sep 2009) $
+ * @version $Revision$ - $Date$
  */
 class PackageResultsNode implements ResultsNode {
 

@@ -25,7 +25,7 @@ import org.gmetrics.metric.abc.AbcMetric
  * Tests for BasicHtmlReportWriter
  *
  * @author Chris Mair
- * @version $Revision: 60 $ - $Date: 2009-02-22 14:46:41 -0500 (Sun, 22 Feb 2009) $
+ * @version $Revision$ - $Date$
  */
 class BasicHtmlReportWriter_IntegrationTest extends AbstractTestCase {
     private static REPORT_FILE = 'GMetricsReport.html'

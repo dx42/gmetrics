@@ -27,7 +27,7 @@ import org.gmetrics.metric.linecount.ClassLineCountMetric
  * This class is temporary placeholder until dynamic user-defined metric sets are supported.
  *
  * @author Chris Mair
- * @version $Revision: 7 $ - $Date: 2009-01-21 21:52:00 -0500 (Wed, 21 Jan 2009) $
+ * @version $Revision$ - $Date$
  */
 class DefaultMetricSet implements MetricSet {
 

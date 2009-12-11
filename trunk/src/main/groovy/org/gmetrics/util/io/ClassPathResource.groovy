@@ -23,7 +23,7 @@ package org.gmetrics.util.io
  * This is an internal class and its API is subject to change.
  *
  * @author Chris Mair
- * @version $Revision: 231 $ - $Date: 2009-10-13 21:11:25 -0400 (Tue, 13 Oct 2009) $
+ * @version $Revision$ - $Date$
  */
 class ClassPathResource implements Resource {
     final String path

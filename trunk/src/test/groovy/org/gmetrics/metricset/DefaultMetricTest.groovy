@@ -21,7 +21,7 @@ import org.gmetrics.test.AbstractTestCase
  * Tests for DefaultMetricSet
  *
  * @author Chris Mair
- * @version $Revision: 60 $ - $Date: 2009-02-22 14:46:41 -0500 (Sun, 22 Feb 2009) $
+ * @version $Revision$ - $Date$
  */
 class DefaultMetricSetTest extends AbstractTestCase {
 

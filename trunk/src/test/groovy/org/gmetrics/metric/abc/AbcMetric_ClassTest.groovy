@@ -21,7 +21,7 @@ import org.gmetrics.metric.MetricLevel
  * Tests for AbcMetric calculation of class-level metrics
  *
  * @author Chris Mair
- * @version $Revision: 239 $ - $Date: 2009-11-11 20:17:36 -0500 (Wed, 11 Nov 2009) $
+ * @version $Revision$ - $Date$
  */
 class AbcMetric_ClassTest extends AbstractAbcMetricTest {
     static metricClass = AbcMetric

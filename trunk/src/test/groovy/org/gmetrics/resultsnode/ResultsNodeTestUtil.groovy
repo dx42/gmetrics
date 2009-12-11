@@ -23,7 +23,7 @@ import org.gmetrics.metric.MetricLevel
  * Utility methods related to ResultsNode objects, for testing.
  *
  * @author Chris Mair
- * @version $Revision: 228 $ - $Date: 2009-09-29 21:52:31 -0400 (Tue, 29 Sep 2009) $
+ * @version $Revision$ - $Date$
  */
 class ResultsNodeTestUtil {
     static void assertResultsNodeStructure(ResultsNode resultsNode, Map results, String name=null) {

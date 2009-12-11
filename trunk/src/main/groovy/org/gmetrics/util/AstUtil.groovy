@@ -32,7 +32,7 @@ import org.codehaus.groovy.ast.ASTNode
  * This is an internal class and its API is subject to change.
  *
  * @author Chris Mair
- * @version $Revision: 219 $ - $Date: 2009-09-07 21:48:47 -0400 (Mon, 07 Sep 2009) $
+ * @version $Revision$ - $Date$
  */
 class AstUtil {
 

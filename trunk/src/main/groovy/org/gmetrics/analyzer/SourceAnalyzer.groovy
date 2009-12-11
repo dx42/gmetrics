@@ -23,7 +23,7 @@ import org.gmetrics.resultsnode.ResultsNode
  * trees using a specified MetricSet and produce report results.
  *
  * @author Chris Mair
- * @version $Revision: 7 $ - $Date: 2009-01-21 21:52:00 -0500 (Wed, 21 Jan 2009) $
+ * @version $Revision$ - $Date$
  */
 interface SourceAnalyzer {
 

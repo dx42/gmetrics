@@ -26,7 +26,7 @@ import org.gmetrics.metric.linecount.MethodLineCountMetric
  * and use a real Metric implementation.
  *
  * @author Chris Mair
- * @version $Revision: 180 $ - $Date: 2009-07-11 18:30:19 -0400 (Sat, 11 Jul 2009) $
+ * @version $Revision$ - $Date$
  */
 abstract class AbstractSourceAnalyzer_IntegrationTest extends AbstractTestCase {
 

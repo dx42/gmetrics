@@ -28,7 +28,7 @@ import org.gmetrics.result.AggregateNumberMetricResult
  * Abstract superclass for method-based metrics.
  *
  * @author Chris Mair
- * @version $Revision: 225 $ - $Date: 2009-09-23 21:54:13 -0400 (Wed, 23 Sep 2009) $
+ * @version $Revision$ - $Date$
  */
 abstract class AbstractMethodMetric implements Metric {
 

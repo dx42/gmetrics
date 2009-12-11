@@ -19,7 +19,7 @@ package org.gmetrics.metric.abc
  * Tests for AbcMetric for fields initialized to a Closure
  *
  * @author Chris Mair
- * @version $Revision: 234 $ - $Date: 2009-10-24 15:11:13 -0400 (Sat, 24 Oct 2009) $
+ * @version $Revision$ - $Date$
  */
 class AbcMetric_ClosureFieldTest extends AbstractAbcMetricTest {
     static metricClass = AbcMetric

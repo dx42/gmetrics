@@ -28,7 +28,7 @@ import org.gmetrics.resultsnode.ResultsNode
  * SourceAnalyzer implementation that recursively processes files from the file system.
  *
  * @author Chris Mair
- * @version $Revision: 180 $ - $Date: 2009-07-11 18:30:19 -0400 (Sat, 11 Jul 2009) $
+ * @version $Revision$ - $Date$
  */
 class FilesystemSourceAnalyzer implements SourceAnalyzer {
     static final SEP = '/'

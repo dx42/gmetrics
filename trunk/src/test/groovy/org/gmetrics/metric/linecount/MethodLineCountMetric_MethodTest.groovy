@@ -21,7 +21,7 @@ import org.gmetrics.metric.AbstractMetricTest
  * Tests for MethodLinesOfCodeMetric - calculate lines of code for methods
  *
  * @author Chris Mair
- * @version $Revision: 231 $ - $Date: 2009-10-13 21:11:25 -0400 (Tue, 13 Oct 2009) $
+ * @version $Revision$ - $Date$
  */
 class MethodLineCountMetric_MethodTest extends AbstractMetricTest {
     static metricClass = MethodLineCountMetric
