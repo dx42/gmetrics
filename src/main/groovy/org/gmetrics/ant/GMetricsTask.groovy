@@ -46,7 +46,7 @@ import org.gmetrics.analyzer.SourceAnalyzer
  * @version $Revision$ - $Date$
  */
 class GMetricsTask extends Task {
-    private static final LOG = Logger.getLogger(GMetricsTaskTest)
+    private static final LOG = Logger.getLogger(GMetricsTask)
 
     protected MetricSet metricSet = new DefaultMetricSet()
 
