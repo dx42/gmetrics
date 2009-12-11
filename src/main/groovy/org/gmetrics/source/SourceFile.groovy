@@ -20,7 +20,7 @@ package org.gmetrics.source
  * Note that the path is normalized: file separator chars are normalized to standard '/'.
  *
  * @author Chris Mair
- * @version $Revision: 129 $ - $Date: 2009-04-16 22:17:54 -0400 (Thu, 16 Apr 2009) $
+ * @version $Revision$ - $Date$
  */
 class SourceFile extends AbstractSourceCode {
 

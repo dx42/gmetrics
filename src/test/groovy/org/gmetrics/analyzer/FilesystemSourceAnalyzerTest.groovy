@@ -29,7 +29,7 @@ import org.gmetrics.test.AbstractTestCase
  * Tests for FilesystemSourceAnalyzer.
  *
  * @author Chris Mair
- * @version $Revision: 180 $ - $Date: 2009-07-11 18:30:19 -0400 (Sat, 11 Jul 2009) $
+ * @version $Revision$ - $Date$
  */
 class FilesystemSourceAnalyzerTest extends AbstractTestCase {
 

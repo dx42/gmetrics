@@ -21,7 +21,7 @@ import org.gmetrics.test.AbstractTestCase
  * Tests for SourceCodeUtil
  *
  * @author Chris Mair
- * @version $Revision: 164 $ - $Date: 2009-05-24 19:25:32 -0400 (Sun, 24 May 2009) $
+ * @version $Revision$ - $Date$
  */
 class SourceCodeCriteriaTest extends AbstractTestCase {
     static final NAME = 'MyTest.groovy'

@@ -22,7 +22,7 @@ import org.gmetrics.test.AbstractTestCase
  * Tests for WildcardPattern
  *
  * @author Chris Mair
- * @version $Revision: 179 $ - $Date: 2009-07-11 18:28:40 -0400 (Sat, 11 Jul 2009) $
+ * @version $Revision$ - $Date$
  */
 class WildcardPatternTest extends AbstractTestCase {
 

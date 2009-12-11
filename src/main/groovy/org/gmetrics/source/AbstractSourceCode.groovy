@@ -26,7 +26,7 @@ import org.apache.log4j.Logger
  * Abstract superclass for SourceCode implementations
  *
  * @author Chris Mair
- * @version $Revision: 174 $ - $Date: 2009-06-22 21:22:51 -0400 (Mon, 22 Jun 2009) $
+ * @version $Revision$ - $Date$
  */
 abstract class AbstractSourceCode implements SourceCode {
     static final LOG = Logger.getLogger(AbstractSourceCode)

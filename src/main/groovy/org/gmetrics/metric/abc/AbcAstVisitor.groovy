@@ -28,7 +28,7 @@ import org.gmetrics.metric.AbstractAstVisitor
  * See http://www.softwarerenovation.com/ABCMetric.pdf
  *
  * @author Chris Mair
- * @version $Revision: 234 $ - $Date: 2009-10-24 15:11:13 -0400 (Sat, 24 Oct 2009) $
+ * @version $Revision$ - $Date$
  */
 class AbcAstVisitor extends AbstractAstVisitor {
 

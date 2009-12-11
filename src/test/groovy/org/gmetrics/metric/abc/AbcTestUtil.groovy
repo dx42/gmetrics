@@ -24,7 +24,7 @@ import org.gmetrics.metric.abc.result.AbcMetricResult
  * Utility methods for ABC test classes
  *
  * @author Chris Mair
- * @version $Revision: 234 $ - $Date: 2009-10-24 15:11:13 -0400 (Sat, 24 Oct 2009) $
+ * @version $Revision$ - $Date$
  */
 abstract class AbcTestUtil {
     protected static final ZERO_VECTOR = [0, 0, 0]

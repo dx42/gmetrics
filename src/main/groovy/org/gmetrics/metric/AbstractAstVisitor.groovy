@@ -24,7 +24,7 @@ import org.gmetrics.source.SourceCode
  * Abstract superclass for Groovy AST Visitors
  *
  * @author Chris Mair
- * @version $Revision: 219 $ - $Date: 2009-09-07 21:48:47 -0400 (Mon, 07 Sep 2009) $
+ * @version $Revision$ - $Date$
  */
 abstract class AbstractAstVisitor extends ClassCodeVisitorSupport implements AstVisitor {
     public static final MAX_SOURCE_LINE_LENGTH = 60

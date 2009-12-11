@@ -19,7 +19,7 @@ package org.gmetrics.metric.abc
  * Represents a single ABC Metric result: a vector of the three A, B, C values.
  *
  * @author Chris Mair
- * @version $Revision: 231 $ - $Date: 2009-10-13 21:11:25 -0400 (Tue, 13 Oct 2009) $
+ * @version $Revision$ - $Date$
  */
 class AbcVector {
     final int assignments

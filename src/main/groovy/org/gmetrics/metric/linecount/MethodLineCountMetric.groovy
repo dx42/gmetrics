@@ -30,7 +30,7 @@ import org.gmetrics.result.NumberMetricResult
  * Metric for counting the lines of code for methods and closure fields.
  *
  * @author Chris Mair
- * @version $Revision: 239 $ - $Date: 2009-11-11 20:17:36 -0500 (Wed, 11 Nov 2009) $
+ * @version $Revision$ - $Date$
  */
 class MethodLineCountMetric extends AbstractMethodMetric {
     final String name = 'MethodLineCount'

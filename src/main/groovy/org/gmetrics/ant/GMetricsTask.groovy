@@ -43,7 +43,7 @@ import org.gmetrics.analyzer.SourceAnalyzer
  * @see "http://ant.apache.org/manual/index.html"
  *
  * @author Chris Mair
- * @version $Revision: 219 $ - $Date: 2009-09-07 21:48:47 -0400 (Mon, 07 Sep 2009) $
+ * @version $Revision$ - $Date$
  */
 class GMetricsTask extends Task {
     private static final LOG = Logger.getLogger(GMetricsTaskTest)

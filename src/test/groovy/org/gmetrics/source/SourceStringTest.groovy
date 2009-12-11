@@ -21,7 +21,7 @@ import org.gmetrics.test.AbstractTestCase
  * Tests for SourceString
  *
  * @author Chris Mair
- * @version $Revision: 174 $ - $Date: 2009-06-22 21:22:51 -0400 (Mon, 22 Jun 2009) $
+ * @version $Revision$ - $Date$
  */
 class SourceStringTest extends AbstractTestCase {
 

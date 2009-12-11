@@ -24,7 +24,7 @@ import org.gmetrics.metric.abc.AbcVector
  * An aggregate MetricResult implementation specifically for the ABC Metric.
  *
  * @author Chris Mair
- * @version $Revision: 235 $ - $Date: 2009-11-01 21:20:33 -0500 (Sun, 01 Nov 2009) $
+ * @version $Revision$ - $Date$
  */
 class AggregateAbcMetricResult implements MetricResult {
 

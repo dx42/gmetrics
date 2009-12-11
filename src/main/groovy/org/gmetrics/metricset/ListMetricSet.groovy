@@ -22,7 +22,7 @@ import org.gmetrics.metricset.MetricSet
  * A <code>MetricSet</code> implementation that returns a static List of Metrics passed into its constructor.
  *
  * @author Chris Mair
- * @version $Revision: 7 $ - $Date: 2009-01-21 21:52:00 -0500 (Wed, 21 Jan 2009) $
+ * @version $Revision$ - $Date$
  */
 class ListMetricSet implements MetricSet {
 

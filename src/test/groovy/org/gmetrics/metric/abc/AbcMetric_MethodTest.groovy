@@ -19,7 +19,7 @@ package org.gmetrics.metric.abc
  * Tests for AbcMetric - calculate ABC complexity for methods
  *
  * @author Chris Mair
- * @version $Revision: 234 $ - $Date: 2009-10-24 15:11:13 -0400 (Sat, 24 Oct 2009) $
+ * @version $Revision$ - $Date$
  */
 class AbcMetric_MethodTest extends AbstractAbcMetricTest {
     static metricClass = AbcMetric

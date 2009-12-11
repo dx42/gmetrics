@@ -23,7 +23,7 @@ import org.gmetrics.metric.Metric
  * Tests for NumberMetricResult
  *
  * @author Chris Mair
- * @version $Revision: 230 $ - $Date: 2009-10-10 13:16:19 -0400 (Sat, 10 Oct 2009) $
+ * @version $Revision$ - $Date$
  */
 class NumberMetricResultTest extends AbstractTestCase {
     private static final METRIC = [:] as Metric

@@ -33,7 +33,7 @@ import org.gmetrics.metricset.MetricSet
  * NOTE: This is an internal class. Its API is subject to change.
  *
  * @author Chris Mair
- * @version $Revision: 219 $ - $Date: 2009-09-07 21:48:47 -0400 (Mon, 07 Sep 2009) $
+ * @version $Revision$ - $Date$
  */
 class GMetricsRunner {
     private static final LOG = Logger.getLogger(GMetricsRunner)
