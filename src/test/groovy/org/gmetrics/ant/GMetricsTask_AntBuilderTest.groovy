@@ -24,7 +24,8 @@ import org.gmetrics.test.AbstractTestCase
  * @version $Revision: 219 $ - $Date: 2009-09-07 21:48:47 -0400 (Mon, 07 Sep 2009) $
  */
 class GMetricsTask_AntBuilderTest extends AbstractTestCase {
-    private static final HTML = 'html'
+
+    private static final HTML_REPORT_WRITER = 'org.gmetrics.report.BasicHtmlReportWriter'
     private static final REPORT_FILE = 'AntBuilderTestReport.html'
     private static final TITLE = 'AntBuilderTest'
 
@@ -37,7 +38,7 @@ class GMetricsTask_AntBuilderTest extends AbstractTestCase {
            fileset(dir:'src/main/groovy') {
                include(name:"**/*.groovy")
            }
-           report(type:HTML){
+           report(type:HTML_REPORT_WRITER){
                option(name:'title', value:TITLE)
                option(name:'outputFile', value:REPORT_FILE)
            }
@@ -51,9 +52,9 @@ class GMetricsTask_AntBuilderTest extends AbstractTestCase {
         assertContainsAllInOrder(file.text, [TITLE, 'org.gmetrics.GMetricsRunner', 'Metric Descriptions'])
     }
 
-    void tearDown() {
-        super.tearDown()
-        new File(REPORT_FILE).delete()
-    }
+//    void tearDown() {
+//        super.tearDown()
+//        new File(REPORT_FILE).delete()
+//    }
 
 }

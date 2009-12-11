@@ -21,7 +21,6 @@ import org.apache.tools.ant.types.FileSet
 import org.gmetrics.report.BasicHtmlReportWriter
 import org.apache.tools.ant.BuildException
 import org.gmetrics.metricset.DefaultMetricSet
-import org.gmetrics.report.BasicHtmlReportWriter
 
 /**
  * Tests for GMetricsTask
@@ -30,7 +29,8 @@ import org.gmetrics.report.BasicHtmlReportWriter
  * @version $Revision: 219 $ - $Date: 2009-09-07 21:48:47 -0400 (Mon, 07 Sep 2009) $
  */
 class GMetricsTaskTest extends AbstractTestCase {
-    private static final HTML = 'html'
+
+    private static final HTML_REPORT_WRITER = 'org.gmetrics.report.BasicHtmlReportWriter'
 
     private gMetricsTask
     private fileSet
@@ -50,7 +50,7 @@ class GMetricsTaskTest extends AbstractTestCase {
 
     void testExecute_CreatesConfiguresAndExecutesGMetricsRunner() {
         gMetricsTask.addFileset(fileSet)
-        gMetricsTask.addConfiguredReport(createReport(HTML))
+        gMetricsTask.addConfiguredReport(createReport(HTML_REPORT_WRITER))
         def gMetricsRunner = [execute:{ -> called.execute = true }]
         gMetricsTask.createGMetricsRunner = { gMetricsRunner }
 
@@ -63,26 +63,26 @@ class GMetricsTaskTest extends AbstractTestCase {
     }
 
     void testAddConfiguredReport_AddsToReportWriters() {
-        gMetricsTask.addConfiguredReport(createReport(HTML))
+        gMetricsTask.addConfiguredReport(createReport(HTML_REPORT_WRITER))
         assert gMetricsTask.reportWriters*.class == [BasicHtmlReportWriter]
     }
 
     void testAddConfiguredReport_Twice_AddsToReportWriters() {
-        gMetricsTask.addConfiguredReport(createReport(HTML, [title:'abc']))
-        gMetricsTask.addConfiguredReport(createReport(HTML, [title:'def']))
+        gMetricsTask.addConfiguredReport(createReport(HTML_REPORT_WRITER, [title:'abc']))
+        gMetricsTask.addConfiguredReport(createReport(HTML_REPORT_WRITER, [title:'def']))
         assert gMetricsTask.reportWriters*.class == [BasicHtmlReportWriter, BasicHtmlReportWriter]
         assert gMetricsTask.reportWriters.title == ['abc', 'def']
     }
 
     void testAddConfiguredReport_ReportOptionsSetPropertiesOnReportWriter() {
-        def report = createReport(HTML, [title:'abc', outputFile:'def'])
+        def report = createReport(HTML_REPORT_WRITER, [title:'abc', outputFile:'def'])
         gMetricsTask.addConfiguredReport(report)
         assert gMetricsTask.reportWriters.title == ['abc']
         assert gMetricsTask.reportWriters.outputFile == ['def']
     }
 
     void testAddConfiguredReport_ThrowsExceptionForInvalidReportType() {
-        shouldFail(BuildException) { gMetricsTask.addConfiguredReport(new Report(type:'XXX')) }
+        shouldFail(ClassNotFoundException) { gMetricsTask.addConfiguredReport(new Report(type:'XXX')) }
     }
 
     void testAddConfiguredReport_ThrowsExceptionForMissingReportType() {
