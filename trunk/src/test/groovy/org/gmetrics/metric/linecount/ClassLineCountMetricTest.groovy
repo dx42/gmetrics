@@ -71,6 +71,16 @@ class ClassLineCountMetricTest extends AbstractMetricTest {
         assertApplyToClass(SOURCE, 4, 4)
     }
 
+    void testApplyToClass_ReturnsNullForSyntheticClass() {
+        final SOURCE = """
+            println 123
+        """
+        def classNode = parseClass(SOURCE)
+        def results = metric.applyToClass(classNode, sourceCode)
+        log("results=$results")
+        assert results == null
+    }
+
     void testApplyToPackage_ResultsForNoChildren() {
         assertApplyToPackage([], 0, 0)
     }

@@ -39,6 +39,9 @@ class ClassLineCountMetric implements Metric {
     ClassMetricResult applyToClass(ClassNode classNode, SourceCode sourceCode) {
         def visitor = new ClassLineCountAstVisitor(sourceCode:sourceCode)
         visitor.visitClass(classNode)
+        if (visitor.numberOfLinesInClass == 0) {
+            return null
+        }
         def metricResult = new NumberMetricResult(this, visitor.numberOfLinesInClass)
         return new ClassMetricResult(metricResult)
     }

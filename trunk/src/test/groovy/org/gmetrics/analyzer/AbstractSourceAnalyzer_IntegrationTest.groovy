@@ -31,6 +31,7 @@ import org.gmetrics.metric.linecount.MethodLineCountMetric
 abstract class AbstractSourceAnalyzer_IntegrationTest extends AbstractTestCase {
 
     protected static final BASE_DIR = 'src/test/resources/source'
+    protected static final SCRIPTS_DIR = 'src/test/resources/samplescripts'
     protected static final GROOVY_FILES = '**/*.groovy'
     
     protected analyzer

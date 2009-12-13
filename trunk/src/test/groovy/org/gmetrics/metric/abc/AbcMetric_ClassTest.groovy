@@ -30,14 +30,14 @@ class AbcMetric_ClassTest extends AbstractAbcMetricTest {
         assert metric.baseLevel == MetricLevel.METHOD
     }
 
-    void testCalculate_EmptyResultsForClassWithNoMethods() {
+    void testApplyToClass_EmptyResultsForClassWithNoMethods() {
         final SOURCE = """
             int myValue
         """
         assertApplyToClass(SOURCE, ZERO_VECTOR, ZERO_VECTOR, null)
     }
 
-    void testCalculate_EmptyResultsForInterface() {
+    void testApplyToClass_EmptyResultsForInterface() {
         final SOURCE = """
             interface MyInterface {
                 int doSomething(String name)
@@ -45,6 +45,14 @@ class AbcMetric_ClassTest extends AbstractAbcMetricTest {
         """
         assertApplyToClass(SOURCE, ZERO_VECTOR, ZERO_VECTOR, null)
     }
+
+    void testApplyToClass_IgnoresSyntheticMethods() {
+        final SOURCE = """
+            println 123     // this is a script; will generate main() and run() methods
+        """
+        assertApplyToClass(SOURCE, ZERO_VECTOR, ZERO_VECTOR, null)
+    }
+
 
     void testCalculate_ResultsForClassWithOneMethod() {
         final SOURCE = """
