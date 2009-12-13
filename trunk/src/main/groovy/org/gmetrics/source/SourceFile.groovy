@@ -15,6 +15,10 @@
  */
 package org.gmetrics.source
 
+import org.codehaus.groovy.control.SourceUnit
+import org.codehaus.groovy.control.CompilerConfiguration
+import org.codehaus.groovy.control.ErrorCollector
+
 /**
  * The SourceCode implementation for a single file.
  * Note that the path is normalized: file separator chars are normalized to standard '/'.
@@ -64,6 +68,12 @@ class SourceFile extends AbstractSourceCode {
 
     String toString() {
         return "SourceFile[$file.absolutePath]"
+    }
+
+    protected createSourceUnit() {
+        def configuration = new CompilerConfiguration();
+        def errorCollector = new ErrorCollector(configuration)
+        return new SourceUnit(file, configuration, null, errorCollector)
     }
 
 }

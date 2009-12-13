@@ -16,7 +16,6 @@
 package org.gmetrics.source
 
 import org.gmetrics.test.AbstractTestCase
-import org.gmetrics.test.AbstractTestCase
 
 /**
  * Tests for SourceFile 
@@ -26,7 +25,8 @@ import org.gmetrics.test.AbstractTestCase
  */
 class SourceFileTest extends AbstractTestCase {
 
-    static final FILE = 'src/test/resources/SampleFile.groovy'
+    private static final FILE = 'src/test/resources/SampleFile.groovy'
+    private static final SCRIPT_FILE = 'src/test/resources/samplescripts/config.groovy'
     private sourceFile
     private file
 
@@ -76,6 +76,12 @@ class SourceFileTest extends AbstractTestCase {
 
         // Make sure instance is cached
         assert sourceFile.ast.is(ast)
+    }
+
+    void testGetAst_UsesFileNameForScriptClass() {
+        sourceFile = new SourceFile(new File(SCRIPT_FILE))
+        println "classes=${sourceFile.ast.classes}"
+        assert sourceFile.ast.classes[0].name == 'config'
     }
 
     void testGetLineNumberForCharacterIndex() {

@@ -25,7 +25,7 @@ import org.gmetrics.test.AbstractTestCase
  */
 class SourceStringTest extends AbstractTestCase {
 
-    static final SOURCE = '''class SampleFile {
+    private static final SOURCE = '''class SampleFile {
             int count
         }'''
     private sourceString
@@ -99,6 +99,12 @@ class SourceStringTest extends AbstractTestCase {
 
         // Make sure instance is cached
         assert sourceString.ast.is(ast)
+    }
+
+    void testGetAst_SetsDefaultClassNameForScriptClass() {
+        final SCRIPT = 'println 123'
+        sourceString = new SourceString(SCRIPT)
+        assert sourceString.ast.classes[0].name == 'Script'
     }
 
     void testGetAst_ReferencesClassNotInClasspath() {

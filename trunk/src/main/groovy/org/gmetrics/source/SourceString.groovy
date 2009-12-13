@@ -15,6 +15,8 @@
  */
 package org.gmetrics.source
 
+import org.codehaus.groovy.control.SourceUnit
+
 /**
  * SourceCode implementation that uses source from a pre-defined String.
  * Note that the path is normalized: file separator chars are normalized to standard '/'.
@@ -54,6 +56,10 @@ class SourceString extends AbstractSourceCode {
 
     String toString() {
         return "SourceString[$source]"
+    }
+
+    protected createSourceUnit() {
+        return SourceUnit.create("Script", getText())
     }
 
 }

@@ -71,8 +71,6 @@ abstract class AbstractMethodMetric implements Metric {
     }
 
     private void addMethodsToMetricResults(SourceCode sourceCode, ClassNode classNode, Map childMetricResults) {
-//        def realMethods = classNode.methods
-//        def realMethods = classNode.methods.findAll {methodNode -> !AstUtil.isFromGeneratedSourceCode(methodNode) }
         classNode.methods.each {methodNode ->
             def methodResults = calculate(methodNode, sourceCode)
             if (methodResults) {
