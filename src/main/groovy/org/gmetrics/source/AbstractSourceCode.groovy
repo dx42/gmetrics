@@ -35,6 +35,8 @@ abstract class AbstractSourceCode implements SourceCode {
     private List lines
     private astParsed = false
 
+    abstract protected createSourceUnit()
+
     /**
      * @return the List of lines of the source code (with line terminators removed)
      */
@@ -62,7 +64,8 @@ abstract class AbstractSourceCode implements SourceCode {
      */
     ModuleNode getAst() {
         if (!astParsed) {
-            SourceUnit unit = SourceUnit.create("None", getText())
+//            SourceUnit unit = SourceUnit.create("Script", getText())
+            SourceUnit unit = createSourceUnit()
             CompilationUnit compUnit = new CompilationUnit()
             compUnit.addSource(unit)
             try {
