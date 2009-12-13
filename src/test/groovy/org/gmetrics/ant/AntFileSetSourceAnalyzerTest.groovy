@@ -25,9 +25,10 @@ import org.gmetrics.resultsnode.ResultsNodeTestUtil
 import org.gmetrics.resultsnode.PackageResultsNode
 import org.gmetrics.resultsnode.StubResultsNode
 import org.gmetrics.result.StubMetricResult
-import org.gmetrics.metric.linecount.MethodLineCountMetric
 import org.gmetrics.analyzer.AbstractSourceAnalyzer_IntegrationTest
 import org.gmetrics.analyzer.SourceAnalyzer
+import org.gmetrics.metric.linecount.ClassLineCountMetric
+import org.gmetrics.metric.linecount.MethodLineCountMetric
 
 /**
  * Tests for AntFileSetSourceAnalyzer
@@ -87,6 +88,25 @@ class AntFileSetSourceAnalyzerTest extends AbstractSourceAnalyzer_IntegrationTes
         def resultsNode = analyzer.analyze(new ListMetricSet([]))
         log("resultsNode=$resultsNode")
         assert resultsNode.metricResults.isEmpty()
+    }
+
+    void testAnalyze_ScriptClass_ReturnsMethodResults() {
+        metricSet = new ListMetricSet([new MethodLineCountMetric()])
+        fileSet.dir = new File(SCRIPTS_DIR)
+
+        def resultsNode = analyzer.analyze(metricSet)
+        log("resultsNode=$resultsNode")
+        assert resultsNode.metricResults[0].total == 3
+        assert resultsNode.children.None.children.doConfig
+    }
+
+    void testAnalyze_ScriptClass_ReturnsNoResultsForClassMetricThatIgnoresSyntheticClasses() {
+        metricSet = new ListMetricSet([new ClassLineCountMetric()])
+        fileSet.dir = new File(SCRIPTS_DIR)
+
+        def resultsNode = analyzer.analyze(metricSet)
+        log("resultsNode=$resultsNode")
+        assert resultsNode.children.isEmpty()
     }
 
     void testAnalyze_MatchingFiles_ButNoSubdirectories() {

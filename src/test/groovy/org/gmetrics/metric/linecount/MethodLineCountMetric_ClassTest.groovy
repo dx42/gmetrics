@@ -47,6 +47,13 @@ class MethodLineCountMetric_ClassTest extends AbstractMetricTest {
         assertApplyToClass(SOURCE, 0, 0, null)
     }
 
+    void testApplyToClass_IgnoresSyntheticMethods() {
+        final SOURCE = """
+            println 123     // this is a script; will generate main() and run() methods
+        """
+        assertApplyToClass(SOURCE, 0, 0, null)
+    }
+
     void testApplyToClass_ResultsForClassWithOneMethod() {
         final SOURCE = """
             def a() {

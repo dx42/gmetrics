@@ -19,6 +19,7 @@ import org.gmetrics.util.AstUtil
 import org.codehaus.groovy.ast.expr.*
 import org.codehaus.groovy.ast.stmt.*
 import org.gmetrics.metric.AbstractAstVisitor
+import org.codehaus.groovy.ast.MethodNode
 
 /**
  * AST Visitor for calculating the ABC Metric for a class/method.
@@ -40,6 +41,14 @@ class AbcAstVisitor extends AbstractAstVisitor {
     int numberOfAssignments = 0
     int numberOfBranches = 0
     int numberOfConditions = 0
+    final boolean visited = false
+
+    void visitMethod(MethodNode methodNode) {
+        if (methodNode.lineNumber >= 0) {
+            this.visited = true
+            super.visitMethod(methodNode)
+        }
+    }
 
     void visitBinaryExpression(BinaryExpression expression) {
         handleExpressionContainingOperation(expression)

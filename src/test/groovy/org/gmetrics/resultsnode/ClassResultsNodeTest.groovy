@@ -49,8 +49,10 @@ class ClassResultsNodeTest extends AbstractTestCase {
         assert classResultsNode.getChildren() == [:]
     }
 
-    void test_addClassMetricResult_NullThrowsException() {
-        shouldFailWithMessageContaining('classMetricResult') { classResultsNode.addClassMetricResult(null) }
+    void test_addClassMetricResult_NullClassMetricResultIsIgnored() {
+        classResultsNode.addClassMetricResult(null)
+        assert classResultsNode.getMetricResults() == []
+        assert classResultsNode.getChildren() == [:]
     }
 
     void test_AddingASingleClassResultWithNoMethods() {

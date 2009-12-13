@@ -56,20 +56,6 @@ abstract class AbstractAstVisitor extends ClassCodeVisitorSupport implements Ast
         return sourceCode.line(node.lineNumber-1)
     }
 
-//    /**
-//     * Add a new Violation to the list of violations found by this visitor.
-//     * Only add the violation if the node lineNumber >= 0.
-//     * @param node - the Groovy AST Node
-//     * @param message - the message for the violation; defaults to null
-//     */
-//    protected void addViolation(ASTNode node, message=null) {
-//        def lineNumber = node.lineNumber
-//        if (lineNumber >= 0) {
-//            def sourceLine = sourceLine(node)
-//            violations.add(new Violation(rule:rule, sourceLine:sourceLine, lineNumber:lineNumber, message:message))
-//        }
-//    }
-
     protected SourceUnit getSourceUnit() {
         return source
     }

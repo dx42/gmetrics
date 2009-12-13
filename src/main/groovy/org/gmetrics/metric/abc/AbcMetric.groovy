@@ -58,8 +58,11 @@ class AbcMetric extends AbstractMethodMetric {
     def calculate(MethodNode methodNode, SourceCode sourceCode) {
         def visitor = new AbcAstVisitor(sourceCode:sourceCode)
         visitor.visitMethod(methodNode)
-        def abcVector = new AbcVector(visitor.numberOfAssignments, visitor.numberOfBranches, visitor.numberOfConditions)
-        return new AbcMetricResult(this, abcVector)
+        if (visitor.visited) {
+            def abcVector = new AbcVector(visitor.numberOfAssignments, visitor.numberOfBranches, visitor.numberOfConditions)
+            return new AbcMetricResult(this, abcVector)
+        }
+        return null
     }
 
     def calculate(ClosureExpression closureExpression, SourceCode sourceCode) {

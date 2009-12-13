@@ -19,7 +19,6 @@ import org.gmetrics.metric.MetricLevel
 import org.gmetrics.result.MetricResult
 import org.gmetrics.metric.Metric
 import org.gmetrics.result.ClassMetricResult
-import org.gmetrics.result.MetricResult
 
 /**
  * Represents a node in the hierarchy of metric result nodes
@@ -43,12 +42,13 @@ class ClassResultsNode implements ResultsNode {
     }
 
     void addClassMetricResult(ClassMetricResult classMetricResult) {
-        assert classMetricResult
-        metricResults << classMetricResult.classMetricResult
+        if (classMetricResult) {
+            metricResults << classMetricResult.classMetricResult
 
-        def methodMetricResults = classMetricResult.getMethodMetricResults()
-        methodMetricResults.each { k, v ->
-            addMethodMetricResult(k, v)
+            def methodMetricResults = classMetricResult.getMethodMetricResults()
+            methodMetricResults.each { k, v ->
+                addMethodMetricResult(k, v)
+            }
         }
     }
 
