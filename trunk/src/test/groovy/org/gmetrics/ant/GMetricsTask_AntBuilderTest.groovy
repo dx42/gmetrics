@@ -27,7 +27,7 @@ class GMetricsTask_AntBuilderTest extends AbstractTestCase {
 
     private static final HTML_REPORT_WRITER = 'org.gmetrics.report.BasicHtmlReportWriter'
     private static final REPORT_FILE = 'AntBuilderTestReport.html'
-    private static final TITLE = 'AntBuilderTest'
+    private static final TITLE = 'Sample'
 
     void testAntTask_Execute_UsingAntBuilder() {
         def ant = new AntBuilder()
