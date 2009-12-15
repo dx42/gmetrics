@@ -1,0 +1,7 @@
+GMetrics Change Log
+-------------------------------------------------------------------------------
+http://www.gmetrics.org
+
+Changes in version 0.0 (?? Dec 2009)
+------------------------------------
+Initial release. Includes AbcMetric, ClassLineCountMetric, MethodLineCountMetric.
