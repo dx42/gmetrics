@@ -45,6 +45,16 @@ class MethodLineCountMetric_MethodTest extends AbstractMetricTest {
         assert calculateForMethod(SOURCE) == 6
     }
 
+    void testCalculate_ReturnsNullForAbstractMethodDeclaration() {
+        final SOURCE = """
+            abstract class MyClass {
+                abstract void doSomething()
+            }
+        """
+        def methodNode = findFirstMethod(SOURCE)
+        assert metric.calculate(methodNode, sourceCode) == null
+    }
+
     void testCalculate_ReturnsNullForSyntheticMethod() {
         final SOURCE = """
             println 123
