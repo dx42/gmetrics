@@ -24,6 +24,16 @@ package org.gmetrics.metric.abc
 class AbcMetric_MethodTest extends AbstractAbcMetricTest {
     static metricClass = AbcMetric
 
+    void testCalculate_ReturnsNullForAbstractMethodDeclaration() {
+        final SOURCE = """
+            abstract class MyClass {
+                abstract void doSomething()
+            }
+        """
+        def methodNode = findFirstMethod(SOURCE)
+        assert metric.calculate(methodNode, sourceCode) == null
+    }
+
     void testCalculate_ReturnsNullForSyntheticMethod() {
         final SOURCE = """
             println 123

@@ -30,7 +30,7 @@ class MethodLineCountAstVisitor extends AbstractAstVisitor {
     int numberOfLinesInClosure
 
     void visitMethod(MethodNode methodNode) {
-        if (methodNode.lineNumber >= 0) {
+        if (methodNode.lineNumber >= 0 && !methodNode.isAbstract()) {
             numberOfLinesInMethod = methodNode.lastLineNumber - methodNode.lineNumber + 1
         }
         super.visitMethod(methodNode)
