@@ -33,7 +33,7 @@ class BasicHtmlReportWriter extends AbstractReportWriter {
 
     public static final DEFAULT_OUTPUT_FILE = 'GMetricsReport.html'
 
-    private static final CSS_FILE = 'gmetrics-htmlreport.css'
+    private static final CSS_FILE = 'gmetrics-basic-html-report.css'
     private static final ROOT_PACKAGE_NAME = 'All packages'
     private static final MAX_INDENT_LEVEL = 10
 
