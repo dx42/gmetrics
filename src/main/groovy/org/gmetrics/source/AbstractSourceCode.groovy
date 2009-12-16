@@ -64,7 +64,6 @@ abstract class AbstractSourceCode implements SourceCode {
      */
     ModuleNode getAst() {
         if (!astParsed) {
-//            SourceUnit unit = SourceUnit.create("Script", getText())
             SourceUnit unit = createSourceUnit()
             CompilationUnit compUnit = new CompilationUnit()
             compUnit.addSource(unit)

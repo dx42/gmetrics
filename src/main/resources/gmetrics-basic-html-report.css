@@ -19,10 +19,11 @@
         }
         .package {
             color: black;
+            font-style: italic;
             font-size: 90%;
         }
         .class {
-            color: orange;
+            color: blue;
             font-size: 80%;
         }
         .method {
