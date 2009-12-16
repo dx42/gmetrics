@@ -50,6 +50,10 @@ abstract class AbstractMethodMetric implements Metric {
             addClosureFieldsToMetricResults(sourceCode, classNode, childMetricResults)
         }
 
+        if (childMetricResults.isEmpty()) {
+            return null
+        }
+
         def aggregateMetricResults = createAggregateMetricResult(childMetricResults.values())
 
         return new ClassMetricResult(aggregateMetricResults, childMetricResults)

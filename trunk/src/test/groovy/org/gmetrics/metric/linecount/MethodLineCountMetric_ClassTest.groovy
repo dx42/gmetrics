@@ -31,27 +31,27 @@ class MethodLineCountMetric_ClassTest extends AbstractMetricTest {
         assert metric.baseLevel == MetricLevel.METHOD
     }
 
-    void testApplyToClass_ZeroResultsForClassWithNoMethods() {
+    void testApplyToClass_ReturnNullForClassWithNoMethods() {
         final SOURCE = """
             int myValue
         """
-        assertApplyToClass(SOURCE, 0, 0, null)
+        assert applyToClass(SOURCE) == null
     }
 
-    void testApplyToClass_ZeroResultsForInterface() {
+    void testApplyToClass_ReturnNullForInterface() {
         final SOURCE = """
             interface MyInterface {
                 int doSomething(String name)
             }
         """
-        assertApplyToClass(SOURCE, 0, 0, null)
+        assert applyToClass(SOURCE) == null
     }
 
     void testApplyToClass_IgnoresSyntheticMethods() {
         final SOURCE = """
             println 123     // this is a script; will generate main() and run() methods
         """
-        assertApplyToClass(SOURCE, 0, 0, null)
+        assert applyToClass(SOURCE) == null
     }
 
     void testApplyToClass_ResultsForClassWithOneMethod() {
