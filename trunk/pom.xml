@@ -15,6 +15,13 @@
     <packaging>jar</packaging>
     <url>http://gmetrics.sourceforge.net/</url>
 
+    <scm>
+        <connection>scm:svn:https://gmetrics.svn.sourceforge.net/svnroot/gmetrics/trunk</connection>
+        <developerConnection>scm:svn:https://gmetrics.svn.sourceforge.net/svnroot/gmetrics/trunk
+        </developerConnection>
+        <url>https://gmetrics.svn.sourceforge.net/svnroot/gmetrics</url>
+    </scm>
+
     <dependencies>
         <dependency>
             <groupId>org.codehaus.groovy.maven.runtime</groupId>
@@ -35,6 +42,13 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <distributionManagement>
+        <repository>
+            <id>sourceforge</id>
+            <url>scp://shell.sourceforge.net/home/groups/g/gm/gmetrics/htdocs/m2repo</url>
+        </repository>
+    </distributionManagement>
 
     <build>
         <plugins>
