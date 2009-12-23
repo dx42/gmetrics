@@ -63,26 +63,32 @@ class MethodLineCountMetric_ClassTest extends AbstractMetricTest {
         assertApplyToClass(SOURCE, 3, 3, [a:3])
     }
 
-    void testApplyToClass_ResultsForClassWithSeveralMethods() {
+    void testApplyToClass_ResultsForClassWithSeveralMethodsAndClosureFields() {
         final SOURCE = """
-            def a() {                   // 3
-                def x = 1; y = x
-            }
-            def b() {                   // 5
-                new SomeClass(99)
-                new SomeClass().run()
-                x++
-            }
-            def c() {                   // 8
-                switch(x) {
-                    case 1: break
-                    case 3: break
-                    case 5: break
+            class MyClass {
+                def a() {                   // 3
+                    def x = 1; y = x
                 }
-                return x
+
+                def b = {                   // 5
+                    new SomeClass(99)
+                    new SomeClass().run()
+                    x++
+                }
+                def c() {                   // 8
+                    switch(x) {
+                        case 1: break
+                        case 3: break
+                        case 5: break
+                    }
+                    return x
+                }
+                def d = { }                 // 1
+                def e = {                   // 2
+                    println 'ok' }
             }
         """
-        assertApplyToClass(SOURCE, 16, scale(16/3), [a:3, b:5, c:8])
+        assertApplyToClass(SOURCE, 19, scale(19/5), [a:3, b:5, c:8, d:1, e:2])
     }
 
     void testApplyToClass_ResultsForClassWithOneClosureField() {

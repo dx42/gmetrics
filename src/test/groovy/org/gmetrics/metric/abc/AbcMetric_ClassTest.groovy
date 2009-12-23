@@ -96,6 +96,24 @@ class AbcMetric_ClassTest extends AbstractAbcMetricTest {
         assertApplyToClass(SOURCE, [2,1,2], [2,1,2], [myClosure:[2,1,2]])
     }
 
+    void testCalculate_ProcessesMultipleClosureFields() {
+        final SOURCE = """
+            class MyClass {
+                def a = {
+                    def x = 1; x++
+                }
+                def b = { println 'ok' }
+                def c = {
+                    println 'ok'
+                }
+            }
+        """
+        def results = applyToClass(SOURCE)
+        def methodResults = results.methodMetricResults
+        println "methodResults=$methodResults"
+        assertEqualSets(methodResults.keySet(), ['a', 'b', 'c']) 
+    }
+
     protected void assertApplyToClass(String source, classTotalValue, classAverageValue, Map methodValues) {
         def classNode = parseClass(source)
         def results = metric.applyToClass(classNode, sourceCode)
