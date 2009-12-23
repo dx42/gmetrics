@@ -98,8 +98,8 @@ abstract class AbstractMetricTest extends AbstractTestCase {
     protected void assertApplyToClass(String source, classTotalValue, classAverageValue, Map methodValues=null) {
         def results = applyToClass(source)
         def classMetricResult = results.classMetricResult
-        assertEquals(classMetricResult.getAverage(), classAverageValue)
-        assertEquals(classMetricResult.getTotal(), classTotalValue)
+        assertEquals(classAverageValue, classMetricResult.getAverage())
+        assertEquals(classTotalValue, classMetricResult.getTotal())
 
         def methodMetricResults = results.methodMetricResults
         assertBothAreFalseOrElseNeitherIs(methodValues, methodMetricResults) 
@@ -107,7 +107,7 @@ abstract class AbstractMetricTest extends AbstractTestCase {
         def methodNames = methodValues?.keySet()
         methodNames.each { methodName ->
             def methodValue = methodMetricResults[methodName].total
-            assertEquals(methodValue, methodValues[methodName])
+            assertEquals(methodValues[methodName], methodValue)
         }
     }
 
