@@ -207,7 +207,7 @@ class BasicHtmlReportWriter extends AbstractReportWriter {
         def versionText = getGMetricsVersion()
         return {
             p(class:'version') {
-                a(versionText, href:"http://www.gmetrics.org")
+                a(versionText, href:GMETRICS_URL)
             }
         }
     }

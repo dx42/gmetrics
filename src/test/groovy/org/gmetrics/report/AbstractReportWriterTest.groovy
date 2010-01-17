@@ -30,7 +30,6 @@ class AbstractReportWriterTest extends AbstractTestCase {
     private static final RESULTS_NODE = new StubResultsNode()
     private static final METRIC_SET = [:] as MetricSet
     private static final DEFAULT_STRING = '?'
-    private static final DEFAULT_OUTPUT_FILE = '?'
     private reportWriter
 
     void testWriteReport_WritesToDefaultOutputFile_IfOutputFileIsNull() {
@@ -48,8 +47,8 @@ class AbstractReportWriterTest extends AbstractTestCase {
 
     void testInitializeResourceBundle_CustomMessagesFileExists() {
         reportWriter.initializeResourceBundle()
-        assert reportWriter.getResourceBundleString('basicHtmlReport.titlePrefix')   // in "gmetrics-base-messages.properties"
-        assert reportWriter.getResourceBundleString('abc')                      // in "gmetrics-messages.properties"
+        assert reportWriter.getResourceBundleString('basicHtmlReport.titlePrefix', null)   // in "gmetrics-base-messages.properties"
+        assert reportWriter.getResourceBundleString('abc', null)                      // in "gmetrics-messages.properties"
     }
 
     void testInitializeResourceBundle_CustomMessagesFileDoesNotExist() {
