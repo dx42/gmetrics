@@ -2,6 +2,12 @@ GMetrics Change Log
 -------------------------------------------------------------------------------
 http://www.gmetrics.org
 
-Changes in version 0.0 (16 Dec 2009)
+Changes in version 0.1.1 (7 Feb 2010)
+--------------------------------------
+- Fix Bug #2919722: "Method metrics only process first closure field". https://sourceforge.net/tracker/?func=detail&aid=2919722&group_id=288180&atid=1220655.
+- Enable syncing with Maven Central Repository.
+
+
+Changes in version 0.1 (16 Dec 2009)
 ------------------------------------
 Initial release. Includes AbcMetric, ClassLineCountMetric, MethodLineCountMetric.
