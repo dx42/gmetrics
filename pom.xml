@@ -1,5 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
@@ -7,7 +5,7 @@
     <groupId>org.gmetrics</groupId>
     <artifactId>GMetrics</artifactId>
     <name>GMetrics</name>
-    <version>0.1.1-SNAPSHOT</version>
+    <version>0.1.1</version>
     <description>
         The GMetrics project provides calculation and reporting of size and
         complexity metrics for Groovy source code.
@@ -16,9 +14,9 @@
     <url>http://gmetrics.sourceforge.net/</url>
 
     <scm>
-        <connection>scm:svn:https://gmetrics.svn.sourceforge.net/svnroot/gmetrics/trunk</connection>
-        <developerConnection>scm:svn:https://gmetrics.svn.sourceforge.net/svnroot/gmetrics/trunk</developerConnection>
-        <url>https://gmetrics.svn.sourceforge.net/svnroot/gmetrics</url>
+        <connection>scm:svn:https://gmetrics.svn.sourceforge.net/svnroot/gmetrics/tags/GMetrics-0.1.1</connection>
+        <developerConnection>scm:svn:https://gmetrics.svn.sourceforge.net/svnroot/gmetrics/tags/GMetrics-0.1.1</developerConnection>
+        <url>scm:svn:https://gmetrics.svn.sourceforge.net/svnroot/gmetrics/tags/GMetrics-0.1.1</url>
     </scm>
 
     <dependencies>
