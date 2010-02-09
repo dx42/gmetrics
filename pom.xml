@@ -5,7 +5,7 @@
     <groupId>org.gmetrics</groupId>
     <artifactId>GMetrics</artifactId>
     <name>GMetrics</name>
-    <version>0.2-SNAPSHOT</version>
+    <version>0.1</version>
     <description>
         The GMetrics project provides calculation and reporting of size and
         complexity metrics for Groovy source code.
@@ -14,9 +14,9 @@
     <url>http://gmetrics.sourceforge.net/</url>
 
     <scm>
-        <connection>scm:svn:https://gmetrics.svn.sourceforge.net/svnroot/gmetrics/trunk</connection>
-        <developerConnection>scm:svn:https://gmetrics.svn.sourceforge.net/svnroot/gmetrics/trunk</developerConnection>
-        <url>https://gmetrics.svn.sourceforge.net/svnroot/gmetrics</url>
+        <connection>scm:svn:https://gmetrics.svn.sourceforge.net/svnroot/gmetrics/tags/GMetrics-0.1</connection>
+        <developerConnection>scm:svn:https://gmetrics.svn.sourceforge.net/svnroot/gmetrics/tags/GMetrics-0.1</developerConnection>
+        <url>scm:svn:https://gmetrics.svn.sourceforge.net/svnroot/gmetrics/tags/GMetrics-0.1</url>
     </scm>
 
     <dependencies>
@@ -164,6 +164,20 @@
         </plugins>
     </reporting>
 
+    <developers>
+        <developer>
+          <id>chrismair</id>
+          <name>Chris Mair</name>
+          <email>chrismair@users.sourceforge.net</email>
+          <url>https://sourceforge.net/users/chrismair</url>
+          <roles>
+            <role>architect</role>
+            <role>developer</role>
+          </roles>
+          <timezone>-4</timezone>
+        </developer>
+    </developers>
+    
     <licenses>
         <license>
             <name>Apache 2</name>
