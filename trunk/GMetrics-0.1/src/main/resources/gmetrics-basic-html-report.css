@@ -1,0 +1,83 @@
+<style type='text/css'>
+        .reportInfo {
+			font-size: 110%;
+		}
+		.allPackages {
+            font-family: Arial, sans-serif;
+            font-style: italic;
+		    font-weight: bold;
+		}
+        .tableHeader {
+			background: lightblue;
+		    font-weight: bold;
+		}
+        .metricColumnHeader {
+            width: 50px;
+        }
+        .name {
+            font-family: Arial, sans-serif;
+        }
+        .package {
+            color: black;
+            font-style: italic;
+            font-size: 90%;
+        }
+        .class {
+            color: blue;
+            font-size: 80%;
+        }
+        .method {
+            color: gray;
+            font-size: 70%;
+        }
+
+        .indent0 { }
+        .indent1 { padding-left: 5px; }
+        .indent2 { padding-left: 10px; }
+        .indent3 { padding-left: 15px; }
+        .indent4 { padding-left: 20px; }
+        .indent5 { padding-left: 25px; }
+        .indent6 { padding-left: 30px; }
+        .indent7 { padding-left: 35px; }
+        .indent8 { padding-left: 40px; }
+        .indent9 { padding-left: 45px; }
+        .indent10 { padding-left: 50px; }
+
+        .rowTypePrefix {
+            font-size: 80%;
+            width: 20px;
+            color: darkgray;
+        }
+
+		.metricValue {
+		    text-align: center;
+		}
+		.metricName {
+		    font-weight: bold;
+		}
+        .metricDescriptions {
+            font-size: 85%;
+        }
+		.version {
+			font-size: 75%;
+		    color: blue;
+            margin-top: 10px;
+		}
+
+        body {
+            background-color: seashell;
+        }
+
+		table {
+		    border: 1px solid gray;
+		}
+		td, th {
+		    border: 1px solid gray;
+		    border-bottom: 1px solid aqua;
+		    border-right: 1px solid aqua;
+		}
+		em {
+		    font-weight: bold;
+		}
+
+</style>
