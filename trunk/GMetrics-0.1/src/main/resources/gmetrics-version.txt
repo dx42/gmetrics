@@ -1,1 +1,0 @@
-GMetrics 0.1
