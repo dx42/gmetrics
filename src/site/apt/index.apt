@@ -51,3 +51,14 @@ GMetrics
   * The {{{http://logging.apache.org/log4j/index.html}Log4J}} jar, version 1.2.13 or later,
     accessible on the classpath.
 
+
+* Getting GMetrics from the Maven2 Central Repository
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  For projects built using {{{http://maven.apache.org/}Maven}}, <<GMetrics>> is now available
+  from the <<Maven Central Repository>>.
+
+    * <<groupId>> = <<<org.gmetrics>>>
+
+    * <<artifactId>> = <<<GMetrics>>>
+
