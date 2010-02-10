@@ -37,8 +37,6 @@ GMetrics
 
     * Customize metrics included in the report(s)
 
-    * Making GMetrics available from the Maven central repository.
-
 * Requirements
 ~~~~~~~~~~~~~~
 
