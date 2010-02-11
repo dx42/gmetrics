@@ -88,7 +88,7 @@ class GMetricsTask extends Task {
         if (!report.type) {
             throw new BuildException("Report type null or empty")
         }
-        def reportClass = Class.forName(report.type)
+        def reportClass = getClass().classLoader.loadClass(report.type)
         def reportWriter = reportClass.newInstance()
         report.options.each { name, value -> reportWriter[name] = value }
         LOG.debug("Adding report: $reportWriter")
