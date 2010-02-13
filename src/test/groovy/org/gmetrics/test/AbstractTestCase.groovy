@@ -92,6 +92,19 @@ abstract class AbstractTestCase extends GroovyTestCase {
         println "[${classNameNoPackage()}] ${message.toString()}"
     }
 
+    protected String captureSystemOut(Closure closure) {
+        def originalSystemOut = System.out
+        def out = new ByteArrayOutputStream()
+        try {
+            System.out = new PrintStream(out)
+            closure()
+        }
+        finally {
+            System.out = originalSystemOut
+        }
+        return out.toString()
+    }
+    
     protected BigDecimal scale(number, int scale=1) {
         return number.setScale(scale, BigDecimal.ROUND_HALF_UP)
     }

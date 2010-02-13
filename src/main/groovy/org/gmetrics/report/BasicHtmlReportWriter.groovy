@@ -49,15 +49,13 @@ class BasicHtmlReportWriter extends AbstractReportWriter {
         def metricResultColumns = buildMetricResultColumns(metricSet)
 
         def builder = new StreamingMarkupBuilder()
-        writer.withWriter { w ->
-            def html = builder.bind() {
-                html {
-                    out << buildHeaderSection()
-                    out << buildBodySection(resultsNode, metricResultColumns, metricSet)
-                }
+        def html = builder.bind() {
+            html {
+                out << buildHeaderSection()
+                out << buildBodySection(resultsNode, metricResultColumns, metricSet)
             }
-            w << html
         }
+        writer << html
         LOG.info("Report created")
     }
 
