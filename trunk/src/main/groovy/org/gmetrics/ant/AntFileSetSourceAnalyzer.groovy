@@ -68,6 +68,18 @@ class AntFileSetSourceAnalyzer implements SourceAnalyzer {
         return rootResultsNode
     }
 
+    List getSourceDirectories() {
+        def baseDir = project.baseDir.absolutePath
+        return fileSets.collect { fileSet ->
+            def path = fileSet.getDir(project).path
+            removeBaseDirectoryPrefix(baseDir, path)
+        }
+    }
+
+    //--------------------------------------------------------------------------
+    // Internal Helper Methods
+    //--------------------------------------------------------------------------
+
     private void calculatePackageLevelMetricResults(PackageResultsNode resultsNode, MetricSet metricSet) {
         resultsNode.children.each { name, child -> calculatePackageLevelMetricResults(child, metricSet) }
         metricSet.metrics.each { metric -> resultsNode.applyMetric(metric) }
@@ -76,10 +88,6 @@ class AntFileSetSourceAnalyzer implements SourceAnalyzer {
     private void calculatePackageLevelMetricResults(ResultsNode resultsNode, MetricSet metricSet) {
         // do nothing
     }
-
-    //--------------------------------------------------------------------------
-    // Internal Helper Methods
-    //--------------------------------------------------------------------------
 
     private void processFileSet(fileSet, metricSet) {
         def dirScanner = fileSet.getDirectoryScanner(project)
@@ -157,5 +165,21 @@ class AntFileSetSourceAnalyzer implements SourceAnalyzer {
         def parentNode = parentPath ? findOrAddResultsNodeForPath(parentPath) : rootResultsNode
         parentNode.addChild(packageName, newPackageNode)
         return newPackageNode
+    }
+
+    private String removeBaseDirectoryPrefix(String baseDir, String path) {
+        if (path.startsWith(baseDir)) {
+            path = path - baseDir
+            return removeLeadingSlash(path)
+        }
+        return path
+    }
+
+    private String normalizePath(String path) {
+        return path ? path.replaceAll('\\\\', SEP) : path
+    }
+
+    private String removeLeadingSlash(path) {
+        return (path.startsWith('\\') || path.startsWith('/')) ? path.substring(1) : path
     }
 }

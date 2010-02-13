@@ -173,6 +173,11 @@ class FilesystemSourceAnalyzerTest extends AbstractTestCase {
                 ]])
     }
 
+    void testGetSourceDirectories_ReturnsListWithBaseDirectory() {
+        analyzer.baseDirectory = BASE_DIR
+        assert analyzer.sourceDirectories == [BASE_DIR]
+    }
+
     void testMatches() {
         def source = new SourceString('def x', 'dir/file.txt')
         assertMatches(source, null, null, true)

@@ -83,6 +83,10 @@ class FilesystemSourceAnalyzer implements SourceAnalyzer {
         return processDirectory(dirFile, '', metricSet)
     }
 
+    List getSourceDirectories() {
+        return [baseDirectory]
+    }
+
     private PackageResultsNode processDirectory(dirFile, String dir, MetricSet metricSet) {
         def dirResults = new PackageResultsNode()   // TODO set dir name?
         dirFile.eachFile {file ->

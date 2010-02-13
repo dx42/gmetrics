@@ -34,4 +34,8 @@ interface SourceAnalyzer {
      */
     ResultsNode analyze(MetricSet metricSet)
 
+    /**
+     * Return the List of source directories to be analyzed. May be empty; may not be null.
+     */
+    List getSourceDirectories()
 }

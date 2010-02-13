@@ -133,6 +133,34 @@ class AntFileSetSourceAnalyzerTest extends AbstractSourceAnalyzer_IntegrationTes
         assertEqualSets(resultsNode.children.keySet(), ['ClassA1', 'ClassA2', 'ClassB1'])
     }
 
+    void testGetSourceDirectories_ReturnsEmptyListForNoFileSets() {
+        def analyzer = new AntFileSetSourceAnalyzer(project, [])
+        assert analyzer.sourceDirectories == []
+    }
+
+    void testGetSourceDirectories_ReturnsSingleDirectoryForSingleFileSet() {
+        def analyzer = new AntFileSetSourceAnalyzer(project, [fileSet])
+        assert analyzer.sourceDirectories == [normalizedPath(BASE_DIR)]
+    }
+
+    void testGetSourceDirectories_ReturnsDirectoryForEachFileSet() {
+        def fileSet1 = new FileSet(dir:new File('abc'), project:project)
+        def fileSet2 = new FileSet(dir:new File('def'), project:project)
+        def analyzer = new AntFileSetSourceAnalyzer(project, [fileSet1, fileSet2])
+        log("sourceDirectories=${analyzer.sourceDirectories}")
+        assert analyzer.sourceDirectories == [normalizedPath('abc'), normalizedPath('def')]
+    }
+
+    void testGetSourceDirectories_ReturnsDirectoryRelativeToBaseDirectory() {
+        def currentDir = new File('').absolutePath
+        project = new Project(basedir:currentDir)
+        fileSet.setProject(project)
+        fileSet.dir = new File(currentDir + '/src/main/groovy')
+        def analyzer = new AntFileSetSourceAnalyzer(project, [fileSet])
+        log("analyzer.sourceDirectories=${analyzer.sourceDirectories}")
+        assert analyzer.sourceDirectories == [normalizedPath('src/main/groovy')]
+    }
+
     void testFindResultsNodeForPath_ReturnsNullForPathThatDoesNotExist() {
         assert analyzer.findResultsNodeForPath('DoesNotExist') == null 
     }
@@ -180,5 +208,9 @@ class AntFileSetSourceAnalyzerTest extends AbstractSourceAnalyzer_IntegrationTes
         ResultsNodeTestUtil.print(analyzer.rootResultsNode)
         assert p4.path == 'p1/p2/p4'
         assert p2.children.p4 == p4
+    }
+
+    private String normalizedPath(String path) {
+        return new File(path).path
     }
 }
