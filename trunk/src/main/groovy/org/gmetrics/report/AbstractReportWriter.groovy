@@ -31,14 +31,15 @@ import org.gmetrics.metricset.MetricSet
  */
 abstract class AbstractReportWriter implements ReportWriter {
 
-    protected static final BASE_MESSSAGES_BUNDLE = "gmetrics-base-messages"
-    protected static final CUSTOM_MESSSAGES_BUNDLE = "gmetrics-messages"
+    protected static final BASE_MESSAGES_BUNDLE = "gmetrics-base-messages"
+    protected static final CUSTOM_MESSAGES_BUNDLE = "gmetrics-messages"
     protected static final VERSION_FILE = 'gmetrics-version.txt'
     protected static final GMETRICS_URL = "http://www.gmetrics.org"
 
     String outputFile
+    Object writeToStandardOut
     protected final LOG = Logger.getLogger(getClass())
-    protected customMessagesBundleName = CUSTOM_MESSSAGES_BUNDLE
+    protected customMessagesBundleName = CUSTOM_MESSAGES_BUNDLE
     protected resourceBundle
 
     // Allow tests to override this
@@ -47,6 +48,20 @@ abstract class AbstractReportWriter implements ReportWriter {
     abstract void writeReport(Writer writer, ResultsNode resultsNode, MetricSet metricSet)
 
     void writeReport(ResultsNode resultsNode, MetricSet metricSet) {
+        if (isWriteToStandardOut()) {
+            writeReportToStandardOut(resultsNode, metricSet)
+        }
+        else {
+            writeReportToFile(resultsNode, metricSet)
+        }
+    }
+
+    private void writeReportToStandardOut(ResultsNode resultsNode, MetricSet metricSet) {
+        def writer = new OutputStreamWriter(System.out)
+        writeReport(writer, resultsNode, metricSet)
+    }
+
+    private void writeReportToFile(ResultsNode resultsNode, MetricSet metricSet) {
         def outputFilename = outputFile ?: getProperty('defaultOutputFile')
         def file = new File(outputFilename)
         file.withWriter { writer ->
@@ -55,7 +70,7 @@ abstract class AbstractReportWriter implements ReportWriter {
     }
 
     protected void initializeDefaultResourceBundle() {
-        def baseBundle = ResourceBundle.getBundle(BASE_MESSSAGES_BUNDLE)
+        def baseBundle = ResourceBundle.getBundle(BASE_MESSAGES_BUNDLE)
         resourceBundle = baseBundle
         try {
             resourceBundle = ResourceBundle.getBundle(customMessagesBundleName)
@@ -81,4 +96,7 @@ abstract class AbstractReportWriter implements ReportWriter {
         return ClassPathResource.getInputStream(VERSION_FILE).text
     }
 
+    private boolean isWriteToStandardOut() {
+        writeToStandardOut == true || writeToStandardOut == 'true'
+    }
 }

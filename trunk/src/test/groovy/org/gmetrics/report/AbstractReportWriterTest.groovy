@@ -30,6 +30,7 @@ class AbstractReportWriterTest extends AbstractTestCase {
     private static final RESULTS_NODE = new StubResultsNode()
     private static final METRIC_SET = [:] as MetricSet
     private static final DEFAULT_STRING = '?'
+    private static final CUSTOM_FILENAME = 'abc.txt'
     private reportWriter
 
     void testWriteReport_WritesToDefaultOutputFile_IfOutputFileIsNull() {
@@ -44,6 +45,41 @@ class AbstractReportWriterTest extends AbstractTestCase {
         reportWriter.writeReport(RESULTS_NODE, METRIC_SET)
         assertOutputFile(NAME) 
     }
+
+    void testWriteReport_WritesToStandardOut_IfWriteToStandardOutIsTrue_String() {
+        reportWriter.outputFile = CUSTOM_FILENAME
+        reportWriter.writeToStandardOut = "true"
+        def output = captureSystemOut {
+            reportWriter.writeReport(RESULTS_NODE, METRIC_SET)
+        }
+        assertFileDoesNotExist(CUSTOM_FILENAME)
+        assertContents(output)
+    }
+
+    void testWriteReport_WritesToStandardOut_IfWriteToStandardOutIsTrue() {
+        reportWriter.outputFile = CUSTOM_FILENAME
+        reportWriter.writeToStandardOut = true
+        def output = captureSystemOut {
+            reportWriter.writeReport(RESULTS_NODE, METRIC_SET)
+        }
+        assertFileDoesNotExist(CUSTOM_FILENAME)
+        assertContents(output)
+    }
+
+    void testWriteReport_WritesToStandardOut_AndResetsSystemOut() {
+        def originalSystemOut = System.out
+        reportWriter.writeToStandardOut = true
+        reportWriter.writeReport(RESULTS_NODE, METRIC_SET)
+        assert System.out == originalSystemOut
+    }
+
+    void testWriteReport_WritesToOutputFile_IfWriteToStandardOutIsNotTrue() {
+        reportWriter.outputFile = CUSTOM_FILENAME
+        reportWriter.writeToStandardOut = "false"
+        reportWriter.writeReport(RESULTS_NODE, METRIC_SET)
+        assertOutputFile(CUSTOM_FILENAME)
+    }
+
 
     void testInitializeResourceBundle_CustomMessagesFileExists() {
         reportWriter.initializeResourceBundle()
@@ -82,7 +118,15 @@ class AbstractReportWriterTest extends AbstractTestCase {
         assert file.exists(), "The output file [$outputFile] does not exist"
         def contents = file.text
         file.delete()
+        assertContents(contents)
+    }
+
+    private assertContents(String contents) {
         assert contents == 'abc'
+    }
+
+    private void assertFileDoesNotExist(String filename) {
+        assert new File(filename).exists() == false, filename
     }
 }
 
@@ -93,6 +137,7 @@ class TestAbstractReportWriter extends AbstractReportWriter {
     static defaultOutputFile = 'TestReportWriter.txt'
 
     void writeReport(Writer writer, ResultsNode resultsNode, MetricSet metricSet) {
-        writer.withWriter { w -> w.write('abc') }
+        writer.write('abc')
+        writer.flush()        
     }
 }
