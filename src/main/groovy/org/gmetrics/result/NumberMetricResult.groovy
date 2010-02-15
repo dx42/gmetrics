@@ -48,7 +48,7 @@ class NumberMetricResult implements MetricResult {
     }
 
     String toString() {
-        "NumberMetricResult[metric=$metric, $number]"
+        "NumberMetricResult[metric=${metric.name}, $number]"
     }
 
 }

@@ -224,6 +224,7 @@
   <component name="ProjectDictionaryState">
     <dictionary name="Chris">
       <words>
+        <w>cyclomatic</w>
         <w>gmetrics</w>
       </words>
     </dictionary>
