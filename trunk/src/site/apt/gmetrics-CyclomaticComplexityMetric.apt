@@ -1,0 +1,52 @@
+		--------------------------------------------------
+			   GMetrics - Cyclomatic Complexity Metric
+		--------------------------------------------------
+
+Cyclomatic Complexity (McCabe) Metric
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ Calculates the <<Cyclomatic Complexity>> Metric for a class or method. <<Cyclomatic Complexity>>
+ is a metric of complexity that counts the number of independent paths through the source code,
+ and assigns a single numerical score for each method.
+
+ Implemented by the <<<org.gmetrics.metric.cyclomatic.CyclomaticComplexityMetric>>> class.
+
+ The <<Cyclomatic Complexity>> Metric calculation rules for Groovy:
+
+ * Start with a initial (default) value of one (1). Add one (1) for each occurrence of each of the following:
+
+   * <<<if>>> statement
+
+   * <<<while>>> statement
+
+   * <<<for>>> statement
+
+   * <<<case>>> statement
+
+   * <<<catch>>> statement
+
+   * <<<&&>>> and <<<||>>> boolean operations
+
+   * <<<?:>>> ternary operator and <<<?:>>> <Elvis> operator.
+
+   * <<<?.>>> null-check operator
+
+
+* Additional notes
+~~~~~~~~~~~~~~~~~~
+
+ * If a class field is initialized to a Closure (ClosureExpression), then that Closure is
+   analyzed just like a method.
+
+
+* References
+~~~~~~~~~~~~
+
+ * The {{{http://en.wikipedia.org/wiki/Cyclomatic_complexity}The <Wikipedia> page for <Cyclomatic Complexity>}}.
+
+ * The original {{{http://www.literateprogramming.com/mccabe.pdf}paper from Thomas J. McCABE}} describing
+   <Cyclomatic Complexity> in <IEEE Transactions on Software Engineering> Vol. 2, No. 4, p. 308 (1976).  
+
+ * An interesting {{{http://www.ibm.com/developerworks/java/library/j-cq03316/}<<developerWorks>> article}}
+   discussing <Cyclomatic Complexity>.
+
