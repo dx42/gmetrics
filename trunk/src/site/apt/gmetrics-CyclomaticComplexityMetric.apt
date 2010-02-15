@@ -7,11 +7,19 @@ Cyclomatic Complexity (McCabe) Metric
 
  Calculates the <<Cyclomatic Complexity>> Metric for a class or method. <<Cyclomatic Complexity>>
  is a metric of complexity that counts the number of independent paths through the source code,
- and assigns a single numerical score for each method.
+ and assigns a single numerical score for each method. The <<Cyclomatic Complexity>> score can
+ also serve as an upper bound for the number of test cases that are necessary to achieve a 
+ complete branch coverage for a particular method ([1]).
 
  Implemented by the <<<org.gmetrics.metric.cyclomatic.CyclomaticComplexityMetric>>> class.
 
- The <<Cyclomatic Complexity>> Metric calculation rules for Groovy:
+
+* Metric Calculation Rules
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ The <<Cyclomatic Complexity>> Metric calculates a value for each method. Furthermore, if a class
+ field is initialized to a <Closure> (<<<ClosureExpression>>>), then that <Closure> is analyzed
+ just like a method.
 
  * Start with a initial (default) value of one (1). Add one (1) for each occurrence of each of the following:
 
@@ -32,21 +40,43 @@ Cyclomatic Complexity (McCabe) Metric
    * <<<?.>>> null-check operator
 
 
-* Additional notes
-~~~~~~~~~~~~~~~~~~
+* Guidelines for Interpreting for Cyclomatic Complexity Values
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
- * If a class field is initialized to a Closure (ClosureExpression), then that Closure is
-   analyzed just like a method.
+  The value of <<10>> is often considered as the threshold between <acceptable> (low risk) code
+  and <too complex> (higher risk). See <<[1]>> and <<[2]>>, for instance. As McCabe ([1]) says,
+  <"The particular upper bound that has been used for cyclomatic complexity is 10 which seems like a reasonable,
+  but not magical, upper limit.">
+
+  Other sources cite <<15>> as a useful threshold, and/or draw further delineations between
+  low/medium/high/unacceptable complexity values. <<NDepend>> ([4]), for instance, recommends that
+  methods with a score of <"15 are hard to understand and maintain. Methods where CC is higher than
+  30 are extremely complex and should be split."> On the other hand, [5] categorizes cyclomatic
+  complexity scores into the following levels: 
+
+    * 1-10 = Low risk program
+
+    * 11-20 = Moderate risk
+
+    * 21-50 = High risk
+
+    * >50 = Most complex and highly unstable method
 
 
 * References
 ~~~~~~~~~~~~
 
- * The {{{http://en.wikipedia.org/wiki/Cyclomatic_complexity}The <Wikipedia> page for <Cyclomatic Complexity>}}.
+ * <<[1]>> The {{{http://en.wikipedia.org/wiki/Cyclomatic_complexity}The <Wikipedia> page for <Cyclomatic Complexity>}}.
 
- * The original {{{http://www.literateprogramming.com/mccabe.pdf}paper from Thomas J. McCABE}} describing
+ * <<[2]>> The {{{http://www.literateprogramming.com/mccabe.pdf}original paper from Thomas J. McCabe}} describing
    <Cyclomatic Complexity> in <IEEE Transactions on Software Engineering> Vol. 2, No. 4, p. 308 (1976).  
 
- * An interesting {{{http://www.ibm.com/developerworks/java/library/j-cq03316/}<<developerWorks>> article}}
+ * <<[3]>> An interesting 2006 {{{http://www.ibm.com/developerworks/java/library/j-cq03316/}<<developerWorks>> article}}
    discussing <Cyclomatic Complexity>.
+
+ * <<[4]>> {{{http://www.ndepend.com/Metrics.aspx}NDepend}} - an impressive source code metrics tool for Java.
+
+ * <<[5]>> {{{http://javaboutique.internet.com/tutorials/metrics/}Measuring the Complexity of OO Systems}} -
+   a 2005 tutorial on <Java Boutique> that includes a discussion of Cyclomatic Complexity.
+
 
