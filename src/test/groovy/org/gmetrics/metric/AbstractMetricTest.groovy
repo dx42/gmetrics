@@ -107,7 +107,7 @@ abstract class AbstractMetricTest extends AbstractTestCase {
         def methodNames = methodValues?.keySet()
         methodNames.each { methodName ->
             def methodValue = methodMetricResults[methodName].total
-            assertEquals(methodValues[methodName], methodValue)
+            assertEquals("methodName=$methodName", methodValues[methodName], methodValue)
         }
     }
 

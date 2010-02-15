@@ -11,13 +11,15 @@ GMetrics
 
   You can run <<GMetrics>> using the supplied {{{gmetrics-ant-task.html}Ant Task}}.
 
-  This release includes total and average values for three metrics:
+  Total and average values for the following metrics are provided:
 
-  * ABC Size/Complexity. See the {{{http://c2.com/cgi/wiki?AbcMetric}C2 Wiki page}}. 
+  * {{{gmetrics-CyclomaticComplexityMetric.html}Cyclomatic Complexity}}. 
 
-  * Lines per method
+  * {{{gmetrics-ABCMetric.html}ABC}} Size/Complexity. Also see the {{{http://c2.com/cgi/wiki?AbcMetric}C2 Wiki page}}.
 
-  * Lines per class
+  * {{{gmetrics-MethodLineCountMetric.html}Lines per method}}
+
+  * {{{gmetrics-ClassLineCountMetric.html}Lines per class}}
 
   []
 
@@ -30,8 +32,6 @@ GMetrics
 ~~~~~~~~~~~~~
 
   Future releases will include
-
-    * Cyclomatic Complexity metric
 
     * XML report
 
