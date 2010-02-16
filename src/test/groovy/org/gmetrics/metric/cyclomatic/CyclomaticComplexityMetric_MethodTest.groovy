@@ -220,4 +220,15 @@ class CyclomaticComplexityMetric_MethodTest extends AbstractMetricTest {
         assert calculateForMethod(SOURCE) == 13
     }
 
+    void testCalculate_MethodContainingNestedClosure() {
+        final SOURCE = """
+            def myMethod() {
+                if (ready) { }
+                def action = { result = started || paused }
+                def runnable = { println a && b } as Runnable
+            }
+        """
+        assert calculateForMethod(SOURCE) == 4
+    }
+
 }
