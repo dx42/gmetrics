@@ -45,16 +45,37 @@ ABC Metric
    analyzed just like a method.
 
 
+* Guidelines for Interpreting ABC Metric Values
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  A frequently-referenced {{{http://jakescruggs.blogspot.com/2008/08/whats-good-flog-score.html}blog post}}
+  by Jake Scruggs ([4]) offers the following guidelines for interpreting an <<ABC>> score. Note that these
+  values refer to the score (magnitude) calculated for a single method:
+
+    * 0-10 = <Awesome>
+
+    * 11-20 = <Good enough>
+
+    * 21-40 = <Might need refactoring>
+
+    * 41-60 = <Possible to justify>
+
+    * 61-100 = <Danger>
+
+    * 100-200 = <Whoop, whoop, whoop>
+
+    * 200 + = <Someone please think of the children>
+
 * References
 ~~~~~~~~~~~~
 
- * The {{{http://www.softwarerenovation.com/ABCMetric.pdf}ABC Metric specification}}.
+ * <<[1]>> The {{{http://www.softwarerenovation.com/ABCMetric.pdf}ABC Metric specification}}.
 
- * The {{{http://c2.com/cgi/wiki?AbcMetric}The C2 Wiki page}} for the ABC Metric.
+ * <<[2]>> The {{{http://c2.com/cgi/wiki?AbcMetric}The C2 Wiki page}} for the ABC Metric.
 
- * {{{http://ruby.sadi.st/Flog.html}Flog}} is the popular Ruby tool that uses ABC.
+ * <<[3]>> {{{http://ruby.sadi.st/Flog.html}Flog}} is the popular Ruby tool that uses ABC.
 
- * {{{http://jakescruggs.blogspot.com/2008/08/whats-good-flog-score.html}This blog post}}
+ * <<[4]>> {{{http://jakescruggs.blogspot.com/2008/08/whats-good-flog-score.html}This blog post}}
    describes some guidelines for interpreting the ABC score. The post refers to the
    <<Flog>> tool, but the <<ABC>> score should be calculated similarly (though adapted
    somewhat to account for language specifics) and the guidelines should be transferable.
