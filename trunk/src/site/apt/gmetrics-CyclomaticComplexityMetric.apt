@@ -40,8 +40,8 @@ Cyclomatic Complexity (McCabe) Metric
    * <<<?.>>> null-check operator
 
 
-* Guidelines for Interpreting for Cyclomatic Complexity Values
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+* Guidelines for Interpreting Cyclomatic Complexity Values
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   The value of <<10>> is often considered as the threshold between <acceptable> (low risk) code
   and <too complex> (higher risk). See <<[1]>> and <<[2]>>, for instance. As McCabe ([1]) says,
