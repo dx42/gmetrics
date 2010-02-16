@@ -16,7 +16,6 @@
 package org.gmetrics.metric.cyclomatic
 
 import org.codehaus.groovy.ast.MethodNode
-import org.codehaus.groovy.ast.expr.ClosureExpression
 import org.gmetrics.metric.AbstractAstVisitor
 import org.codehaus.groovy.ast.stmt.IfStatement
 import org.codehaus.groovy.ast.stmt.WhileStatement
@@ -37,20 +36,13 @@ import org.codehaus.groovy.ast.expr.TernaryExpression
  */
 class CyclomaticComplexityAstVisitor extends AbstractAstVisitor {
     private static final BOOLEAN_LOGIC_OPERATIONS = ['&&', '||']
-    int complexity
+    Integer complexity = 1
 
     void visitMethod(MethodNode methodNode) {
-        if (methodNode.lineNumber >= 0 && !methodNode.isAbstract()) {
-            complexity = 1   // TODO increment?
+        if (methodNode.lineNumber < 0 || methodNode.isAbstract()) {
+            complexity = null
         }
         super.visitMethod(methodNode)
-    }
-
-    void visitClosureExpression(ClosureExpression expression) {
-        if (expression.lineNumber >= 0) {
-            complexity = 1   // TODO increment?
-        }
-        super.visitClosureExpression(expression)
     }
 
     void visitIfElse(IfStatement ifElse) {

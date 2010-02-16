@@ -68,4 +68,20 @@ class CyclomaticComplexityMetric_ClosureFieldTest extends AbstractMetricTest {
         assert calculateForClosureField(SOURCE) == 12
     }
 
+    void testCalculate_ClosureFieldContainingNestedClosure() {
+        final SOURCE = """
+            class MyClass {
+                def myClosure = {
+                    def innerClosure1 = {
+                        if (ready || paused) { }
+                    }
+                    def innerClosure2 = {
+                        if (printing && !stopped) { }
+                    }
+                }
+            }
+        """
+        assert calculateForClosureField(SOURCE) == 5
+    }
+
 }
