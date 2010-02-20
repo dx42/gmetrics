@@ -1,0 +1,13 @@
+// Example Groovy MetricSet for testing
+
+metricset {
+
+    description 'A sample Groovy MetricSet'
+
+    metric(org.gmetrics.metric.StubMetric) {
+        name = 'CustomMetric'
+        otherProperty = '345'
+    }
+
+    metricset("metricsets/GroovyMetricSet1.txt")
+}

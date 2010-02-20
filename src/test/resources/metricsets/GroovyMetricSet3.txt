@@ -1,0 +1,10 @@
+// Example Groovy MetricSet for testing
+
+metricset {
+
+    metricset("metricsets/GroovyMetricSet2.txt") {
+        CustomMetric {
+            otherProperty = '678'
+        }
+    }
+}

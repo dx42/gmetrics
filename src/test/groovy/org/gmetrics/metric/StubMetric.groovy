@@ -33,6 +33,7 @@ class StubMetric implements Metric {
     MetricLevel baseLevel = MetricLevel.CLASS
     ClassMetricResult classMetricResult
     MetricResult packageMetricResult
+    String otherProperty
 
     ClassMetricResult applyToClass(ClassNode classNode, SourceCode sourceCode) {
         return classMetricResult
@@ -42,4 +43,7 @@ class StubMetric implements Metric {
         return packageMetricResult
     }
 
+    String toString() {
+        "StubMetric[name=$name, otherProperty=$otherProperty]"
+    }
 }
