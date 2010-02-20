@@ -1,0 +1,16 @@
+// Example Groovy MetricSet for testing
+
+import org.gmetrics.metric.StubMetric
+
+metricset {
+    description 'A sample Groovy MetricSet'
+
+    metric(StubMetric) {
+        otherProperty = 'abc'        
+    }
+
+    metric(org.gmetrics.metric.abc.AbcMetric) {
+        otherProperty = '123'        
+    }
+
+}

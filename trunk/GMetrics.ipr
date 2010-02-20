@@ -226,8 +226,10 @@
       <words>
         <w>blog</w>
         <w>cabe</w>
+        <w>configurer</w>
         <w>cyclomatic</w>
         <w>gmetrics</w>
+        <w>metricset</w>
       </words>
     </dictionary>
   </component>
