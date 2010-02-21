@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 the original author or authors.
+ * Copyright 2010 the original author or authors.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,23 +15,19 @@
  */
 package org.gmetrics.metricset
 
-import org.gmetrics.metric.Metric
-import org.gmetrics.metricset.MetricSet
-import org.gmetrics.metric.abc.AbcMetric
 import org.gmetrics.metric.linecount.MethodLineCountMetric
 import org.gmetrics.metric.linecount.ClassLineCountMetric
+import org.gmetrics.metric.cyclomatic.CyclomaticComplexityMetric
 
 /**
  * A <code>MetricSet</code> implementation that returns the default static List of Metrics.
- *
- * This class is temporary placeholder until dynamic user-defined metric sets are supported.
  *
  * @author Chris Mair
  * @version $Revision$ - $Date$
  */
 class DefaultMetricSet implements MetricSet {
 
-    private metricSet = new ListMetricSet([new AbcMetric(), new ClassLineCountMetric(), new MethodLineCountMetric()])
+    private metricSet = new ListMetricSet([new CyclomaticComplexityMetric(), new ClassLineCountMetric(), new MethodLineCountMetric()])
 
     List getMetrics() {
         return metricSet.getMetrics()

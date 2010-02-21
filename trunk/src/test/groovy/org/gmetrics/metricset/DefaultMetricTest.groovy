@@ -28,6 +28,6 @@ class DefaultMetricSetTest extends AbstractTestCase {
     void testThatDefaultContentsAreCorrect() {
         def metricSet = new DefaultMetricSet()
         def metrics = metricSet.getMetrics()
-        assert metrics.name == ['ABC', 'ClassLineCount', 'MethodLineCount']
+        assert metrics.name == ['CyclomaticComplexity', 'ClassLineCount', 'MethodLineCount']
     }
 }
