@@ -1,0 +1,85 @@
+		--------------------------------------------------
+				GMetrics - Creating a MetricSet
+		--------------------------------------------------
+
+GMetrics - Creating a MetricSet
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* Creating a Groovy MetricSet File
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  <<GMetrics>> provides a Groovy DSL (domain-specific language) for defining <MetricSets>.
+
+
+** A Sample Groovy MetricSet
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  Here is an example of a Groovy <MetricSet> file:
+
++----------------------------------------------------------------------------------------
+import org.gmetrics.metric.cyclomatic.CyclomaticComplexityMetric
+
+metricset {
+
+    description 'A sample MetricSet'
+
+    metricset("MyMetricSet.groovy")
+
+    metric(org.gmetrics.metric.abc.AbcMetric) {
+        sampleProperty = '123'          // Note: not a real property
+    }
+
+    metric(CyclomaticComplexityMetric)
+
+    metricset("somepath/MyOtherMetricSet.groovy") {
+        ClassLineCount {
+            enabled = false
+        }
+
+        MethodLineCount name:'CustomMethodLineCount'
+    }
+}
++----------------------------------------------------------------------------------------
+
+  Things to note:
+
+    * The Groovy <MetricSet> file itself must be accessible on the classpath.
+
+    * The "outer" <<metricset>> defines the contents of the <MetricSet> (within a <closure>).
+      It can include an optional <<description>> and any combination of <<metricset>>
+      (other <MetricSets>) and <<metric>> statements (individual <Metrics>).
+
+  About the "inner" <<metricset>> statements:
+
+    * Each <<metricset>> statement loads a <MetricSet> file. The path specifies a
+      Groovy file. By default, the paths specified are relative to the classpath.
+      But these paths may be optionally prefixed by any of the valid <<<java.net.URL>>> prefixes, such as
+      "file:" (to load from a relative or absolute path on the filesystem), or "http:".
+
+    * The <MetricSet> can be customized by following the <MetricSet> path with an (optional)
+      <closure>, containing configuration of the properties for individual metrics within
+      the <MetricSet>. Specify the <name> of the metric (as a <<<String>>>), followed by its
+      configuration. (Remember to specify the metric <name>, not the class name. In most
+      cases, the metric <name> is the class name without the "Metric" suffix). The name of
+      the <Metric> is followed by:
+
+              [[a]] A <Map> of property names and values. See 'MethodLineCount' within the example.
+
+              [[b]] A <closure> containing property assignments statements. See 'ClassLineCount' within the example.
+
+              []
+
+            Properties set this way can be of type <<<String>>>, <<<int>>>, <<<long>>> or <<<boolean>>>.
+
+  About the <<metric>> statements:
+
+    * Each <<metric>> statements loads a single <Metric>.
+
+    * The <<metric>> statement must specify the class name for a <Metric>. The <Metric> class
+      must be available on the classpath.
+
+    * A <<metric>> can optionally provide configuration of the <Metric> properties by specifying a
+      <closure> containing property assignment statements. See <<<AbcMetric>>> within the example.
+      As within <<MetricSet>> statements, properties set this way can be of type <<<String>>>, <<<int>>>,
+      <<<long>>> or <<<boolean>>>.
+

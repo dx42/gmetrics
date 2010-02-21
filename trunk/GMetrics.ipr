@@ -228,6 +228,7 @@
         <w>cabe</w>
         <w>configurer</w>
         <w>cyclomatic</w>
+        <w>filesystem</w>
         <w>gmetrics</w>
         <w>metricset</w>
       </words>
