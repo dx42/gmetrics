@@ -185,7 +185,7 @@ class BasicHtmlReportWriter extends AbstractReportWriter {
                 }
 
                 sortedMetrics.eachWithIndex { metric, index ->
-                    tr(class:'ruleDescriptions') {
+                    tr(class:'metricDescriptions') {
                         a((metric.name):metric.name)
                         td(index+1)
                         td(metric.name, class:'metricName')

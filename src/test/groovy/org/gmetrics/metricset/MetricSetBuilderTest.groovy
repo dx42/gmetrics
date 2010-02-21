@@ -98,14 +98,14 @@ class MetricSetBuilderTest extends AbstractTestCase {
         assertMetricNames('Stub', 'ABC')
     }
 
-    void testRule_Class_NoClosure() {
+    void testMetric_Class_NoClosure() {
         metricSetBuilder.metricset {
             metric AbcMetric
         }
         assertMetricNames('ABC')
     }
 
-    void testRule_Class_NoClosure_NullMetricClass() {
+    void testMetric_Class_NoClosure_NullMetricClass() {
         shouldFailWithMessageContaining('metricClass') {
             metricSetBuilder.metricset {
                 metric(null)
@@ -113,7 +113,7 @@ class MetricSetBuilderTest extends AbstractTestCase {
         }
     }
 
-    void testRule_Class_NoClosure_ClassDoesNotImplementRuleInterface() {
+    void testMetric_Class_NoClosure_ClassDoesNotImplementRuleInterface() {
         shouldFailWithMessageContaining('metricClass') {
             metricSetBuilder.metricset {
                 metric(this.class)
@@ -121,7 +121,7 @@ class MetricSetBuilderTest extends AbstractTestCase {
         }
     }
 
-    void testRule_Class_Closure() {
+    void testMetric_Class_Closure() {
         metricSetBuilder.metricset {
             metric(StubMetric) {
                 name = 'xxx'
@@ -136,7 +136,7 @@ class MetricSetBuilderTest extends AbstractTestCase {
         assert findMetric('yyyy').otherProperty == '1234'
     }
 
-    void testRule_Class_Closure_NullRuleClass() {
+    void testMetric_Class_Closure_NullRuleClass() {
         shouldFailWithMessageContaining('metricClass') {
             metricSetBuilder.metricset {
                 metric((Class)null) {
@@ -146,7 +146,7 @@ class MetricSetBuilderTest extends AbstractTestCase {
         }
     }
 
-    void testRule_Class_Closure_ClassDoesNotImplementRuleInterface() {
+    void testMetric_Class_Closure_ClassDoesNotImplementMetricInterface() {
         shouldFailWithMessageContaining('metricClass') {
             metricSetBuilder.metricset {
                 metric(this.class) {
