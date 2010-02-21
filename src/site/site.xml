@@ -36,13 +36,13 @@
             <item name="Ant Task Usage" href="/gmetrics-ant-task.html"/>
         </menu>
 
-        <!--
         <menu name="Using">
             <item name="Creating a MetricSet" href="/gmetrics-creating-metricset.html"/>
+            <!--
             <item name="Creating a Metric" href="/gmetrics-creating-metric.html"/>
             <item name="Configuring Metrics" href="/gmetrics-configuring-metrics.html"/>
+            -->
         </menu>
-        -->
 
         <menu name="Reports">
             <item name="BasicHtmlReportWriter" href="/gmetrics-BasicHtmlReportWriter.html"/>
