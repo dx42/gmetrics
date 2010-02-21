@@ -27,20 +27,9 @@ import org.gmetrics.source.SourceCode
 interface AstVisitor extends GroovyClassVisitor {
 
     /**
-     * Set the Rule associated with this visitor
-     * @param rule - the Rule
-     */
-//    public void setRule(Rule rule)
-
-    /**
      * Set the SourceCode associated with this visitor
      * @param sourceCode - the SourceCode
      */
     public void setSourceCode(SourceCode sourceCode)
 
-    /**
-     * Retrieve the List of Violations resulting from applying this visitor
-     * @return the List of Violations; may be empty
-     */
-//    public List getViolations()
 }

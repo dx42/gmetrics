@@ -17,7 +17,6 @@ package org.gmetrics.metricset
 
 import org.gmetrics.test.AbstractTestCase
 import org.gmetrics.metric.Metric
-import org.gmetrics.metricset.ListMetricSet
 
 /**
  * Tests for ListMetricSet
@@ -30,8 +29,8 @@ class ListMetricSetTest extends AbstractTestCase {
     static final METRIC = [:] as Metric
 
     void testWithMetrics() {
-        def ruleSet = new ListMetricSet([METRIC])
-        assert ruleSet.getMetrics() == [METRIC]
+        def metricSet = new ListMetricSet([METRIC])
+        assert metricSet.getMetrics() == [METRIC]
     }
 
     void testMetricsListIsImmutable() {
