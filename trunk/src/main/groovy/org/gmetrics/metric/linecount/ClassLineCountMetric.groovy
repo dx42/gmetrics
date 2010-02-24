@@ -15,7 +15,6 @@
  */
 package org.gmetrics.metric.linecount
 
-import org.gmetrics.metric.Metric
 import org.gmetrics.metric.MetricLevel
 import org.gmetrics.result.ClassMetricResult
 import org.codehaus.groovy.ast.ClassNode
@@ -24,6 +23,7 @@ import org.gmetrics.result.MetricResult
 import org.gmetrics.metric.AbstractAstVisitor
 import org.gmetrics.result.NumberMetricResult
 import org.gmetrics.result.AggregateNumberMetricResult
+import org.gmetrics.metric.AbstractMetric
 
 /**
  * Metric for counting the lines of code for classes and interfaces.
@@ -31,12 +31,12 @@ import org.gmetrics.result.AggregateNumberMetricResult
  * @author Chris Mair
  * @version $Revision$ - $Date$
  */
-class ClassLineCountMetric implements Metric {
+class ClassLineCountMetric extends AbstractMetric {
 
     final String name = 'ClassLineCount'
     final MetricLevel baseLevel = MetricLevel.CLASS
 
-    ClassMetricResult applyToClass(ClassNode classNode, SourceCode sourceCode) {
+    ClassMetricResult calculateForClass(ClassNode classNode, SourceCode sourceCode) {
         def visitor = new ClassLineCountAstVisitor(sourceCode:sourceCode)
         visitor.visitClass(classNode)
         if (visitor.numberOfLinesInClass == 0) {
@@ -46,13 +46,10 @@ class ClassLineCountMetric implements Metric {
         return new ClassMetricResult(metricResult)
     }
 
-    MetricResult applyToPackage(Collection childMetricResults) {
-        return createAggregateMetricResult(childMetricResults)
-    }
-
     private createAggregateMetricResult(Collection childMetricResults) {
         new AggregateNumberMetricResult(this, childMetricResults)
     }
+
 }
 
 class ClassLineCountAstVisitor extends AbstractAstVisitor {

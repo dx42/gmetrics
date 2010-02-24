@@ -1,5 +1,5 @@
 /*
-* Copyright 2009 the original author or authors.
+* Copyright 2010 the original author or authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -21,8 +21,6 @@ import org.codehaus.groovy.ast.expr.ClosureExpression
 import org.gmetrics.source.SourceCode
 import org.gmetrics.util.AstUtil
 import org.gmetrics.result.ClassMetricResult
-import org.gmetrics.result.MetricResult
-import org.gmetrics.result.AggregateNumberMetricResult
 
 /**
  * Abstract superclass for method-based metrics.
@@ -30,19 +28,14 @@ import org.gmetrics.result.AggregateNumberMetricResult
  * @author Chris Mair
  * @version $Revision$ - $Date$
  */
-abstract class AbstractMethodMetric implements Metric {
+abstract class AbstractMethodMetric extends AbstractMetric {
 
     final MetricLevel baseLevel = MetricLevel.METHOD
 
     abstract def calculate(MethodNode methodNode, SourceCode sourceCode)
     abstract def calculate(ClosureExpression closureExpression, SourceCode sourceCode)
 
-    MetricResult applyToPackage(Collection childMetricResults) {
-        def aggregateMetricResult = createAggregateMetricResult(childMetricResults)
-        return aggregateMetricResult
-    }
-
-    ClassMetricResult applyToClass(ClassNode classNode, SourceCode sourceCode) {
+    ClassMetricResult calculateForClass(ClassNode classNode, SourceCode sourceCode) {
         def childMetricResults = [:]
 
         if (isNotAnInterface(classNode)) {
@@ -57,10 +50,6 @@ abstract class AbstractMethodMetric implements Metric {
         def aggregateMetricResults = createAggregateMetricResult(childMetricResults.values())
 
         return new ClassMetricResult(aggregateMetricResults, childMetricResults)
-    }
-
-    private boolean isNotAnInterface(ClassNode classNode) {
-        return !(classNode.modifiers & ClassNode.ACC_INTERFACE)
     }
 
     private void addClosureFieldsToMetricResults(SourceCode sourceCode, ClassNode classNode, Map childMetricResults) {
@@ -82,9 +71,4 @@ abstract class AbstractMethodMetric implements Metric {
             }
         }
     }
-
-    protected createAggregateMetricResult(Collection childMetricResults) {
-        new AggregateNumberMetricResult(this, childMetricResults)
-    }
-
 }

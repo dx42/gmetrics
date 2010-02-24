@@ -231,6 +231,7 @@
         <w>filesystem</w>
         <w>gmetrics</w>
         <w>metricset</w>
+        <w>superclass</w>
       </words>
     </dictionary>
   </component>
