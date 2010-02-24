@@ -31,6 +31,10 @@ abstract class AbstractCommonMetricTestCase extends AbstractMetricTest {
         }
     '''
 
+    void testImplementsMetricInterface() {
+        assert metric instanceof Metric
+    }
+
     void testEnabledFalse_ReturnsNullFor_ApplyToPackage() {
         metric.enabled = false
         assert metric.applyToPackage([]) == null
