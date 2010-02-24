@@ -29,7 +29,7 @@ import org.gmetrics.result.NumberMetricResult
  * @author Chris Mair
  * @version $Revision$ - $Date$
  */
-abstract class AbstractMetricTest extends AbstractTestCase {
+abstract class AbstractMetricTestCase extends AbstractTestCase {
 
     private static final METRIC = [:] as Metric
     protected metric

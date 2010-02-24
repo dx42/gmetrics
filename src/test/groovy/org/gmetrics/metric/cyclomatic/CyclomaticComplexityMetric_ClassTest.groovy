@@ -15,7 +15,7 @@
  */
 package org.gmetrics.metric.cyclomatic
 
-import org.gmetrics.metric.AbstractMetricTest
+import org.gmetrics.metric.AbstractMetricTestCase
 import org.gmetrics.metric.MetricLevel
 
 /**
@@ -24,7 +24,7 @@ import org.gmetrics.metric.MetricLevel
  * @author Chris Mair
  * @version $Revision$ - $Date$
  */
-class CyclomaticComplexityMetric_ClassTest extends AbstractMetricTest {
+class CyclomaticComplexityMetric_ClassTest extends AbstractMetricTestCase {
     static metricClass = CyclomaticComplexityMetric
 
     void testBaseLevelIsMethod() {

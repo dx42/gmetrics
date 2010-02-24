@@ -15,7 +15,7 @@
  */
 package org.gmetrics.metric.cyclomatic
 
-import org.gmetrics.metric.AbstractMetricTest
+import org.gmetrics.metric.AbstractMetricTestCase
 
 /**
  * Tests for CyclomaticComplexityMetric - for methods
@@ -23,7 +23,7 @@ import org.gmetrics.metric.AbstractMetricTest
  * @author Chris Mair
  * @version $Revision$ - $Date$
  */
-class CyclomaticComplexityMetric_MethodTest extends AbstractMetricTest {
+class CyclomaticComplexityMetric_MethodTest extends AbstractMetricTestCase {
     static metricClass = CyclomaticComplexityMetric
 
     void testCalculate_ReturnsOne_ForEmptyMethod() {
