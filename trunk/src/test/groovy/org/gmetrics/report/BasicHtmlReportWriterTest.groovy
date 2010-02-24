@@ -8,7 +8,7 @@ import org.gmetrics.metricset.ListMetricSet
 import org.gmetrics.metric.MetricLevel
 
 /*
-* Copyright 2009 the original author or authors.
+* Copyright 2010 the original author or authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -31,9 +31,6 @@ import org.gmetrics.metric.MetricLevel
  */
 class BasicHtmlReportWriterTest extends AbstractTestCase {
 
-    private static final METRIC1 = new StubMetric(name:'Metric1')
-    private static final METRIC2 = new StubMetric(name:'Metric2')
-
     private static final HTML_TAG = 'html'
     private static final TITLE_PREFIX = 'GMetrics Report'
     private static final BOTTOM_LINK = "<a href='http://www.gmetrics.org'>GMetrics"
@@ -52,6 +49,7 @@ class BasicHtmlReportWriterTest extends AbstractTestCase {
     private writer
     private metricSet
     private localizedMessages
+    private metric1, metric2
 
     void testThatDefaultOutputFile_IsGmetricsReportHtml() {
         assert reportWriter.defaultOutputFile == 'GMetricsReport.html'
@@ -63,7 +61,7 @@ class BasicHtmlReportWriterTest extends AbstractTestCase {
                 METRIC_RESULTS,
                 ALL_PACKAGES, 10, 10,
                 METRIC_DESCRIPTIONS,
-                METRIC1.name, metricDescription(METRIC1),
+                metric1.name, metricDescription(metric1),
                 BOTTOM_LINK]
         def resultsNode = new StubResultsNode(metricResults:[metric1Result(10)])
         assertReportContents(resultsNode, CONTENTS)
@@ -75,12 +73,19 @@ class BasicHtmlReportWriterTest extends AbstractTestCase {
                 METRIC_RESULTS,
                 ALL_PACKAGES, 20, 20, 10, 10,
                 METRIC_DESCRIPTIONS,
-                METRIC1.name, metricDescription(METRIC1),
-                METRIC2.name, metricDescription(METRIC2),
+                metric1.name, metricDescription(metric1),
+                metric2.name, metricDescription(metric2),
                 BOTTOM_LINK]
-        metricSet = new ListMetricSet([METRIC2, METRIC1])
+        metricSet = new ListMetricSet([metric2, metric1])
         def resultsNode = new StubResultsNode(metricResults:[metric1Result(10), metric2Result(20)])
         assertReportContents(resultsNode, CONTENTS)
+    }
+
+    void testWriteReport_SingleResultsNode_TwoMetrics_OneMetricDisabled() {
+        metricSet = new ListMetricSet([metric2, metric1])
+        metric2.enabled = false
+        def resultsNode = new StubResultsNode(metricResults:[metric1Result(10), metric2Result(20)])
+        assertReportDoesNotContain(resultsNode, [metric2.name, metricDescription(metric2)])
     }
 
     void testWriteReport_ChildPackageResultsNodesWithTwoMetrics() {
@@ -90,10 +95,10 @@ class BasicHtmlReportWriterTest extends AbstractTestCase {
                 ALL_PACKAGES, 10, 10, 20, 20,
                 'Dir1', 11, 11, 21, 21,
                 METRIC_DESCRIPTIONS,
-                METRIC1.name, metricDescription(METRIC1),
-                METRIC2.name, metricDescription(METRIC2),
+                metric1.name, metricDescription(metric1),
+                metric2.name, metricDescription(metric2),
                 BOTTOM_LINK]
-        metricSet = new ListMetricSet([METRIC1, METRIC2])
+        metricSet = new ListMetricSet([metric1, metric2])
         def resultsNode = new StubResultsNode(metricResults:[metric1Result(10), metric2Result(20)])
         def childResultsNode = new StubResultsNode(metricResults:[metric1Result(11), metric2Result(21)])
         resultsNode.children['Dir1'] = childResultsNode
@@ -115,7 +120,7 @@ class BasicHtmlReportWriterTest extends AbstractTestCase {
                 PACKAGE_PREFIX, 'DirC', 102, 102,
                 PACKAGE_PREFIX, 'DirB', 12, 12,
                 METRIC_DESCRIPTIONS,
-                METRIC1.name, metricDescription(METRIC1),
+                metric1.name, metricDescription(metric1),
                 BOTTOM_LINK]
 
         def resultsNode = packageResultsNode(metricResults:[metric1Result(1)])
@@ -141,10 +146,10 @@ class BasicHtmlReportWriterTest extends AbstractTestCase {
         final CONTENTS = [
                 HTML_TAG,
                 ALL_PACKAGES, 10, 10, NA, NA,
-                METRIC1.name, metricDescription(METRIC1),
-                METRIC2.name, metricDescription(METRIC2),
+                metric1.name, metricDescription(metric1),
+                metric2.name, metricDescription(metric2),
                 BOTTOM_LINK]
-        metricSet = new ListMetricSet([METRIC1, METRIC2])
+        metricSet = new ListMetricSet([metric1, metric2])
         def resultsNode = new StubResultsNode(metricResults:[metric1Result(10)])
         assertReportContents(resultsNode, CONTENTS)
     }
@@ -167,7 +172,9 @@ class BasicHtmlReportWriterTest extends AbstractTestCase {
         super.setUp()
         reportWriter = new BasicHtmlReportWriter()
         writer = new StringWriter()
-        metricSet = new ListMetricSet([METRIC1])
+        metric1 = new StubMetric(name:'Metric1')
+        metric2 = new StubMetric(name:'Metric2')
+        metricSet = new ListMetricSet([metric1])
 
         localizedMessages = [
             'basicHtmlReport.titlePrefix': TITLE_PREFIX,
@@ -178,20 +185,35 @@ class BasicHtmlReportWriterTest extends AbstractTestCase {
             'basicHtmlReport.metricResults.notApplicable':NA,
             'basicHtmlReport.metricDescriptions.nameHeading':'Metric Name',
             'basicHtmlReport.metricDescriptions.descriptionHeading':'Description',    
-            'Metric1.description.html':metricDescription(METRIC1),
+            'Metric1.description.html':metricDescription(metric1),
             'Metric1.total':'Metric1.total',
             'Metric1.average':'Metric1.average',
-            'Metric2.description.html':metricDescription(METRIC2)
+            'Metric2.description.html':metricDescription(metric2),
+            'Metric2.total':'M2.total',
+            'Metric2.average':'M2.average',
         ]
         reportWriter.initializeResourceBundle = { reportWriter.resourceBundle = [getString:{key -> localizedMessages[key] ?: 'NOT FOUND'}] }
     }
 
     private void assertReportContents(resultsNode, expectedContents, boolean writeToFile=false) {
+        def reportText = writeReport(resultsNode)
+        writeOutToFile(reportText, writeToFile)
+        assertContainsAllInOrder(reportText, expectedContents)
+    }
+
+    private void assertReportDoesNotContain(resultsNode, notExpected) {
+        def reportText = writeReport(resultsNode)
+        notExpected.each { text ->
+            assert !reportText.contains(text), "[$text] was present in the report"
+        }
+    }
+
+    private String writeReport(resultsNode) {
         reportWriter.writeReport(writer, resultsNode, metricSet)
         def reportText = writer.toString()
         log("reportText=$reportText")
-        writeOutToFile(reportText, writeToFile)
-        assertContainsAllInOrder(reportText, expectedContents)
+        writeOutToFile(reportText, true)
+        return reportText
     }
 
     private String metricDescription(metric) {
@@ -199,11 +221,11 @@ class BasicHtmlReportWriterTest extends AbstractTestCase {
     }
 
     private metric1Result(int value) {
-        new NumberMetricResult(METRIC1, value)
+        new NumberMetricResult(metric1, value)
     }
 
     private metric2Result(int value) {
-        new NumberMetricResult(METRIC2, value)
+        new NumberMetricResult(metric2, value)
     }
 
     private packageResultsNode(map) {

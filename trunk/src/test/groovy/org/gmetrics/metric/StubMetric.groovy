@@ -29,6 +29,7 @@ import org.gmetrics.result.MetricResult
  */
 class StubMetric implements Metric {
 
+    boolean enabled = true
     String name = 'Stub'
     MetricLevel baseLevel = MetricLevel.CLASS
     ClassMetricResult classMetricResult
