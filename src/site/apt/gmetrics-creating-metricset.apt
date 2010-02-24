@@ -83,3 +83,13 @@ metricset {
       As within <<MetricSet>> statements, properties set this way can be of type <<<String>>>, <<<int>>>,
       <<<long>>> or <<<boolean>>>.
 
+    * Setting the <<<enabled>>> property of a <Metric> turns it off so that it will not show up in the 
+      output report(s).
+
+
+** Turning off a Metric
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+  You can turn off a <Metric> by setting its <<enabled>> boolean property to <<<false>>>. It defaults to 
+  <<<true>>>. This applies to all descendants of <<<org.gmetrics.metric.AbstractMetric>>> (i.e., all
+  <Metrics> supplied with <<GMetrics>>).

@@ -172,7 +172,7 @@ class BasicHtmlReportWriter extends AbstractReportWriter {
     }
 
     private buildMetricDescriptions(MetricSet metricSet) {
-        def metrics = new ArrayList(metricSet.metrics)
+        def metrics = new ArrayList(metricSet.metrics).findAll { metric -> metric.enabled }
         def sortedMetrics = metrics.sort { metric -> metric.name }
 
         return {

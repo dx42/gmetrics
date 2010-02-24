@@ -37,4 +37,5 @@ interface Metric {
     
     MetricResult applyToPackage(Collection childMetricResults)
 
+    boolean isEnabled()
 }
