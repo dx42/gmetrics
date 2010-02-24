@@ -15,7 +15,7 @@
  */
 package org.gmetrics.metric.cyclomatic
 
-import org.gmetrics.metric.AbstractMetricTest
+import org.gmetrics.metric.AbstractMetricTestCase
 
 /**
  * Tests for CyclomaticComplexityMetric - for closure fields
@@ -23,7 +23,7 @@ import org.gmetrics.metric.AbstractMetricTest
  * @author Chris Mair
  * @version $Revision: 31 $ - $Date: 2009-12-15 20:50:40 -0500 (Tue, 15 Dec 2009) $
  */
-class CyclomaticComplexityMetric_ClosureFieldTest extends AbstractMetricTest {
+class CyclomaticComplexityMetric_ClosureFieldTest extends AbstractMetricTestCase {
     static metricClass = CyclomaticComplexityMetric
 
     void testCalculate_ReturnsOne_ForEmptyClosureField() {

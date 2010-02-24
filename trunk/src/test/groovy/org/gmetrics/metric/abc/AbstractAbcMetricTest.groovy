@@ -15,8 +15,7 @@
  */
 package org.gmetrics.metric.abc
 
-import org.gmetrics.metric.AbstractMetricTest
-import org.gmetrics.result.MetricResult
+import org.gmetrics.metric.AbstractMetricTestCase
 import org.gmetrics.result.MetricResult
 
 /**
@@ -25,7 +24,7 @@ import org.gmetrics.result.MetricResult
  * @author Chris Mair
  * @version $Revision$ - $Date$
  */
-abstract class AbstractAbcMetricTest extends AbstractMetricTest {
+abstract class AbstractAbcMetricTest extends AbstractMetricTestCase {
     protected static final ZERO_VECTOR = [0, 0, 0]
 
     protected valueFromMetricResult(MetricResult metricResult) {

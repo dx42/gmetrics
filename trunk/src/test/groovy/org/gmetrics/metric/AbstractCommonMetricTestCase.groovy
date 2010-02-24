@@ -23,7 +23,7 @@ package org.gmetrics.metric
  * @author Chris Mair
  * @version $Revision: 71 $ - $Date: 2010-02-14 20:54:34 -0500 (Sun, 14 Feb 2010) $
  */
-abstract class AbstractCommonMetricTestCase extends AbstractMetricTest {
+abstract class AbstractCommonMetricTestCase extends AbstractMetricTestCase {
     private static final SOURCE = '''
         class MyClass {
             int myValue

@@ -15,8 +15,6 @@
  */
 package org.gmetrics.metric.abc
 
-import org.gmetrics.metric.AbstractMetricTest
-import org.gmetrics.result.MetricResult
 import org.gmetrics.metric.Metric
 import org.gmetrics.metric.abc.result.AbcMetricResult
 

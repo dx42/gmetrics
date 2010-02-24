@@ -15,7 +15,7 @@
  */
 package org.gmetrics.metric.linecount
 
-import org.gmetrics.metric.AbstractMetricTest
+import org.gmetrics.metric.AbstractMetricTestCase
 
 /**
  * Tests for MethodLinesOfCodeMetric - calculate lines of code for closure fields
@@ -23,7 +23,7 @@ import org.gmetrics.metric.AbstractMetricTest
  * @author Chris Mair
  * @version $Revision$ - $Date$
  */
-class MethodLineCountMetric_ClosureFieldTest extends AbstractMetricTest {
+class MethodLineCountMetric_ClosureFieldTest extends AbstractMetricTestCase {
     static metricClass = MethodLineCountMetric
 
     void testCalculate_CorrectSizeForSingleLineClosure() {
