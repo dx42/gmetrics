@@ -104,6 +104,13 @@ class AbstractReportWriterTest extends AbstractTestCase {
         assert reportWriter.getResourceBundleString('DoesNotExist') == DEFAULT_STRING
     }
 
+    void testGetFormattedTimestamp() {
+        def timestamp = new Date(1262361072497)
+        reportWriter.getTimestamp = { timestamp }
+        def expected = java.text.DateFormat.getDateTimeInstance().format(timestamp)
+        assert reportWriter.getFormattedTimestamp() == expected
+    }
+
     void testGetGMetricsVersion() {
         assert reportWriter.getGMetricsVersion() == new File('src/main/resources/gmetrics-version.txt').text
     }
