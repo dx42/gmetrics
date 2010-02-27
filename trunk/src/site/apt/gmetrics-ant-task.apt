@@ -10,8 +10,22 @@ GMetrics - Ant Task
 
   The <<GMetrics>> Ant Task is implemented by the <<<org.gmetrics.ant.GMetricsTask>>> class.
 
-  The <<gmetrics>> task contains no attributes, but does contain <<\<report\>>> and
-  <<\<fileset\>>> nested elements, as described below.
+* Attributes
+~~~~~~~~~~~~
+
+  *------------------------+----------------------------------------------------------------+------------------------+
+  | <<Attribute>>          | <<Description>>                                                | <<Required>>           |
+  *------------------------+----------------------------------------------------------------+------------------------+
+  | metricSetFile          | The paths to the Groovy MetricSet DSL file. By default,        | NO                     |
+  |                        | the path specified is relative to the classpath, but it may be |                        |
+  |                        | optionally prefixed by any of the valid java.net.URL prefixes, |                        |
+  |                        | such as "file:" (to load from a relative or absolute           |                        |
+  |                        | filesystem path), or "http:".                                  |                        |
+  |                        |                                                                |                        |
+  |                        | If not specified, it uses the set of <<<Metric>>>s defined by  |                        |
+  |                        | <<<DefaultMetricSet>>>.                                        |                        |
+  *------------------------+----------------------------------------------------------------+------------------------+
+
 
 * Report Nested Element
 ~~~~~~~~~~~~~~~~~~~~~~~

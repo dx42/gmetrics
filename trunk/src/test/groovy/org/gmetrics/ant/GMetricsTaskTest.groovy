@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 the original author or authors.
+ * Copyright 2010 the original author or authors.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ import org.apache.tools.ant.types.FileSet
 import org.gmetrics.report.BasicHtmlReportWriter
 import org.apache.tools.ant.BuildException
 import org.gmetrics.metricset.DefaultMetricSet
+import org.gmetrics.metricset.MetricSetTestFiles
 
 /**
  * Tests for GMetricsTask
@@ -60,6 +61,22 @@ class GMetricsTaskTest extends AbstractTestCase {
         assert gMetricsRunner.metricSet instanceof DefaultMetricSet
         assert gMetricsRunner.sourceAnalyzer instanceof AntFileSetSourceAnalyzer
         assert gMetricsRunner.reportWriters*.class == [BasicHtmlReportWriter]
+    }
+
+    void testExecute_UsesConfiguredMetricSetFile() {
+        gMetricsTask.metricSetFile = MetricSetTestFiles.METRICSET1
+        gMetricsTask.addFileset(fileSet)
+        def gMetricsRunner = [execute:{ -> called.execute = true }]
+        gMetricsTask.createGMetricsRunner = { gMetricsRunner }
+        gMetricsTask.execute()
+        log(gMetricsRunner.metricSet.metrics)
+        assert gMetricsRunner.metricSet.metrics*.name == ['Stub', 'ABC']
+    }
+
+    void testExecute_MetricSetFileNotFound_ThrowsException() {
+        gMetricsTask.metricSetFile = 'DoesNotExist.groovy'
+        gMetricsTask.addFileset(fileSet)
+        shouldFailWithMessageContaining('DoesNotExist.groovy') { gMetricsTask.execute() }
     }
 
     void testAddConfiguredReport_AddsToReportWriters() {

@@ -27,7 +27,6 @@ import org.gmetrics.metric.StubMetric
  */
 class MetricSetBuilderTest extends AbstractTestCase {
 
-    private static final METRICSET_GROOVY_FILE1 = 'metricsets/GroovyMetricSet1.txt'
     private metricSetBuilder
 
     void testMetricset_NullFilename() {
@@ -49,7 +48,7 @@ class MetricSetBuilderTest extends AbstractTestCase {
 
     void testMetricset_GroovyFile_ConfigureMetricUsingMap() {
         metricSetBuilder.metricset {
-            metricset(METRICSET_GROOVY_FILE1) {
+            metricset(MetricSetTestFiles.METRICSET1) {
                 'Stub' otherProperty:'888', name:'NewName'
             }
         }
@@ -60,7 +59,7 @@ class MetricSetBuilderTest extends AbstractTestCase {
     void testMetricset_GroovyFile_ConfigureMetricUsingMap_MetricNotFound() {
         shouldFailWithMessageContaining('NotFound') {
             metricSetBuilder.metricset {
-                metricset(METRICSET_GROOVY_FILE1) {
+                metricset(MetricSetTestFiles.METRICSET1) {
                     'NotFound' otherProperty:'abc'
                 }
             }
@@ -69,7 +68,7 @@ class MetricSetBuilderTest extends AbstractTestCase {
 
     void testMetricset_GroovyFile_ConfigureMetricUsingClosure() {
         metricSetBuilder.metricset {
-            metricset(METRICSET_GROOVY_FILE1) {
+            metricset(MetricSetTestFiles.METRICSET1) {
                 Stub {
                     otherProperty = '999'
                 }
@@ -82,7 +81,7 @@ class MetricSetBuilderTest extends AbstractTestCase {
     void testMetricset_GroovyFile_ConfigureMetricUsingClosure_MetricNotFound() {
         shouldFailWithMessageContaining('NotFound') {
             metricSetBuilder.metricset {
-                metricset(METRICSET_GROOVY_FILE1) {
+                metricset(MetricSetTestFiles.METRICSET1) {
                     'NotFound' {
                         otherProperty = 'abc'
                     }
@@ -93,7 +92,7 @@ class MetricSetBuilderTest extends AbstractTestCase {
 
     void testMetricset_GroovyFile_NoClosure() {
         metricSetBuilder.metricset {
-            metricset(METRICSET_GROOVY_FILE1)
+            metricset(MetricSetTestFiles.METRICSET1)
         }
         assertMetricNames('Stub', 'ABC')
     }

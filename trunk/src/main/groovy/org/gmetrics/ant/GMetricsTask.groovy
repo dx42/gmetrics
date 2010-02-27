@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 the original author or authors.
+ * Copyright 2010 the original author or authors.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,17 +22,23 @@ import org.apache.tools.ant.BuildException
 import org.apache.tools.ant.types.FileSet
 import org.gmetrics.metricset.DefaultMetricSet
 import org.gmetrics.GMetricsRunner
-import org.gmetrics.report.BasicHtmlReportWriter
 import org.gmetrics.analyzer.SourceAnalyzer
+import org.gmetrics.metricset.GroovyDslMetricSet
 
 /**
- * Ant Task for GMetrics. It uses the set of <code>Metric</code>s defined by <code>DefaultMetricSet</code>.
+ * Ant Task for GMetrics.
+ * <p/>
+ * The <code>metricSetFile</code> property specifies the path to a Groovy MetricSet
+ * definition file. By default, the path specified is relative to the classpath, but it may be optionally
+ * prefixed by any of the valid java.net.URL prefixes, such as "file:" (to load from a relative or absolute 
+ * path on the filesystem), or "http:". The <code>metricSetFile</code> property is optional. If not
+ * specified, it uses the set of <code>Metric</code>s defined by <code>DefaultMetricSet</code>.
  * <p/>
  * At least one nested <code>fileset</code> element is required, and is used to specify the source files
  * to be analyzed. This is the standard Ant <i>FileSet</i>, and is quite powerful and flexible.
  * See the <i>Apache Ant Manual</i> for more information on <i>FileSets</i>.
  * <p/>
- * The <ode>report</code> nested element defines the type and report-specific options for the
+ * The <code>report</code> nested element defines the type and report-specific options for the
  * output report. The <ode>report</code> element includes a <code>type</code> attribute (which
  * specifies the fully-qualified class name of the <code>ReportWriter</code> class) and
  * can contain nested <code>option</code> elements. Each <code>option</code>, in turn, must
@@ -48,7 +54,7 @@ import org.gmetrics.analyzer.SourceAnalyzer
 class GMetricsTask extends Task {
     private static final LOG = Logger.getLogger(GMetricsTask)
 
-    protected MetricSet metricSet = new DefaultMetricSet()
+    String metricSetFile
 
     protected List reportWriters = []
     protected List fileSets = []
@@ -60,9 +66,7 @@ class GMetricsTask extends Task {
      * Execute this Ant Task
      */
     void execute() throws BuildException {
-        assert metricSet
         assert fileSets
-
         def sourceAnalyzer = createSourceAnalyzer()
         def gMetricsRunner = createGMetricsRunner()
         gMetricsRunner.metricSet = createMetricSet()
@@ -96,7 +100,7 @@ class GMetricsTask extends Task {
     }
 
     private MetricSet createMetricSet() {
-        return new DefaultMetricSet()
+        return metricSetFile ? new GroovyDslMetricSet(metricSetFile): new DefaultMetricSet()
     }
 
     private SourceAnalyzer createSourceAnalyzer() {
