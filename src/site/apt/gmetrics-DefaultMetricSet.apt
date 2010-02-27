@@ -9,10 +9,10 @@ The Default MetricSet
   then it uses the set of <Metrics> defined by the <<<org.gmetrics.metricset.DefaultMetricSet>>>
   class. That includes the following <Metrics>:
 
-  * {{{gmetrics-CyclomaticComplexityMetric.html}Cyclomatic Complexity}} - implemented by <<<org.gmetrics.metric.CyclomaticComplexityMetric>>>  
+  * {{{gmetrics-CyclomaticComplexityMetric.html}Cyclomatic Complexity}} - implemented by <<<org.gmetrics.metric.cyclomatic.CyclomaticComplexityMetric>>>
 
-  * {{{gmetrics-MethodLineCountMetric.html}Method Line Count}} - implemented by <<<org.gmetrics.metric.MethodLineCountMetric>>>
+  * {{{gmetrics-MethodLineCountMetric.html}Method Line Count}} - implemented by <<<org.gmetrics.metric.linecount.MethodLineCountMetric>>>
 
-  * {{{gmetrics-ClassLineCountMetric.html}Class Line Count}} - implemented by <<<org.gmetrics.metric.ClassLineCountMetric>>>  
+  * {{{gmetrics-ClassLineCountMetric.html}Class Line Count}} - implemented by <<<org.gmetrics.metric.linecount.ClassLineCountMetric>>>  
 
 
