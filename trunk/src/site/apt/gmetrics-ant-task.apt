@@ -67,7 +67,7 @@ GMetrics - Ant Task
 <taskdef name="gmetrics" classname="org.gmetrics.ant.GMetricsTask">
 <target name="runGMetrics">
 
-    <gmetrics>
+    <gmetrics metricSetFile="config/metricset.groovy">
         <report type="org.gmetrics.report.BasicHtmlReportWriter">
             <option name="outputFile" value="SampleGMetricsReport.html" />
             <option name="title" value="Sample" />
@@ -84,4 +84,4 @@ GMetrics - Ant Task
 
     * The <fileset> specifies that all ".groovy" files are analyzed.
 
-    * Remember that you need the <<log4j>> jar (and a "log4j.properties" file) on the classpath.
+    * Remember that you need the <<log4j>> jar (and possibly a "log4j.properties" file) on the classpath.
