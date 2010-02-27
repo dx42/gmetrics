@@ -24,11 +24,9 @@ import org.gmetrics.test.AbstractTestCase
  * @version $Revision: 24 $ - $Date: 2009-12-10 21:17:05 -0500 (Thu, 10 Dec 2009) $
  */
 class GroovyDslMetricSetTest extends AbstractTestCase {
-    private static final PATH = 'metricsets/GroovyMetricSet1.txt'  // groovy files are not on classpath; have to use *.txt
-    private static final RELATIVE_PATH = 'file:src/test/resources/' + PATH
 
     void testImplementsMetricSet() {
-        assert new GroovyDslMetricSet(PATH) instanceof MetricSet  
+        assert new GroovyDslMetricSet(MetricSetTestFiles.METRICSET1) instanceof MetricSet  
     }
 
     void testNullPath() {
@@ -45,7 +43,7 @@ class GroovyDslMetricSetTest extends AbstractTestCase {
     }
 
     void testLoadGroovyMetricSet() {
-        [PATH, RELATIVE_PATH].each { path ->
+        [MetricSetTestFiles.METRICSET1, MetricSetTestFiles.METRICSET1_RELATIVE_PATH].each { path ->
             def metrics = loadMetricSetFromFile(path)
             assert metrics*.name == ['Stub', 'ABC']
             assert metrics[0].otherProperty == 'abc'
@@ -53,16 +51,14 @@ class GroovyDslMetricSetTest extends AbstractTestCase {
     }
 
     void testLoadNestedGroovyMetricSet() {
-        final PATH = 'metricsets/GroovyMetricSet2.txt'
-        def metrics = loadMetricSetFromFile(PATH)
+        def metrics = loadMetricSetFromFile(MetricSetTestFiles.METRICSET2)
         assert metrics*.name == ['CustomMetric', 'Stub', 'ABC']
         assert metrics[0].otherProperty == '345'
         assert metrics[1].otherProperty == 'abc'
     }
 
     void testLoadNestedGroovyMetricSet_CustomizeContainedMetricUsingClosure() {
-        final PATH = 'metricsets/GroovyMetricSet3.txt'
-        def metrics = loadMetricSetFromFile(PATH)
+        def metrics = loadMetricSetFromFile(MetricSetTestFiles.METRICSET3)
         assert metrics*.name == ['CustomMetric', 'Stub', 'ABC']
         assert metrics[0].otherProperty == '678'
         assert metrics[1].otherProperty == 'abc'

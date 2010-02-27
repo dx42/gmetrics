@@ -16,6 +16,8 @@
 package org.gmetrics.ant
 
 import org.gmetrics.test.AbstractTestCase
+import org.gmetrics.metricset.MetricSetTestFiles
+import org.gmetrics.metricset.DefaultMetricSet
 
 /**
  * Tests for GMetricsTask that use the Groovy AntBuilder.
@@ -28,12 +30,9 @@ class GMetricsTask_AntBuilderTest extends AbstractTestCase {
     private static final HTML_REPORT_WRITER = 'org.gmetrics.report.BasicHtmlReportWriter'
     private static final REPORT_FILE = 'AntBuilderTestReport.html'
     private static final TITLE = 'Sample'
+    private ant
 
-    void testAntTask_Execute_UsingAntBuilder() {
-        def ant = new AntBuilder()
-
-        ant.taskdef(name:'gmetrics', classname:'org.gmetrics.ant.GMetricsTask')
-
+    void testAntTask_Execute_UsingDefaultMetricSet() {
         ant.gmetrics() {
            fileset(dir:'src/main/groovy') {
                include(name:"**/*.groovy")
@@ -43,13 +42,33 @@ class GMetricsTask_AntBuilderTest extends AbstractTestCase {
                option(name:'outputFile', value:REPORT_FILE)
            }
         }
-        verifyReportFile()
+        def metricNames = new DefaultMetricSet().metrics*.name 
+        verifyReportFile(metricNames.sort())
     }
 
-    private void verifyReportFile() {
+    void testAntTask_Execute_SpecifyMetricSetFile() {
+        ant.gmetrics(metricSetFile: MetricSetTestFiles.METRICSET1) {
+           fileset(dir:'src/main/groovy') {
+               include(name:"**/GMetricsRunner.groovy")
+           }
+           report(type:HTML_REPORT_WRITER){
+               option(name:'title', value:TITLE)
+               option(name:'outputFile', value:REPORT_FILE)
+           }
+        }
+        verifyReportFile(['ABC','Stub'])
+    }
+
+    void setUp() {
+        super.setUp()
+        ant = new AntBuilder()
+        ant.taskdef(name:'gmetrics', classname:'org.gmetrics.ant.GMetricsTask')
+    }
+
+    private void verifyReportFile(List metricNames) {
         def file = new File(REPORT_FILE)
         assert file.exists()
-        assertContainsAllInOrder(file.text, [TITLE, 'org.gmetrics.GMetricsRunner', 'Metric Descriptions'])
+        assertContainsAllInOrder(file.text, [TITLE, 'org.gmetrics.GMetricsRunner', 'Metric Descriptions'] + metricNames)
     }
 
 //    void tearDown() {
