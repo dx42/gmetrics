@@ -38,6 +38,7 @@
 
         <menu name="Using">
             <item name="Creating a MetricSet" href="/gmetrics-creating-metricset.html"/>
+            <item name="The Default MetricSet" href="/gmetrics-DefaultMetricSet.html"/>
             <!--
             <item name="Creating a Metric" href="/gmetrics-creating-metric.html"/>
             <item name="Configuring Metrics" href="/gmetrics-configuring-metrics.html"/>
