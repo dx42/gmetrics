@@ -22,7 +22,7 @@ import org.gmetrics.test.AbstractTestCase
  * Tests for CompositeMetricSet
  *
  * @author Chris Mair
- * @version $Revision: 24 $ - $Date: 2009-12-10 21:17:05 -0500 (Thu, 10 Dec 2009) $
+ * @version $Revision$ - $Date$
  */
 class CompositeMetricSetTest extends AbstractTestCase {
     static final METRIC1 = [:] as Metric

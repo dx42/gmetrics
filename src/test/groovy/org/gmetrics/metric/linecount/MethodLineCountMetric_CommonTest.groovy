@@ -22,7 +22,7 @@ import org.gmetrics.metric.cyclomatic.CyclomaticComplexityMetric
  * Tests for MethodLineCountMetric - common tests
  *
  * @author Chris Mair
- * @version $Revision: 71 $ - $Date: 2010-02-14 20:54:34 -0500 (Sun, 14 Feb 2010) $
+ * @version $Revision$ - $Date$
  */
 class MethodLineCountMetric_CommonTest extends AbstractCommonMetricTestCase {
     static metricClass = MethodLineCountMetric

@@ -25,7 +25,7 @@ import org.apache.log4j.Logger
  * Note that this class attempts to read the file and parse the Groovy from within the constructor.
  *
  * @author Chris Mair
- * @version $Revision: 24 $ - $Date: 2009-12-10 21:17:05 -0500 (Thu, 10 Dec 2009) $
+ * @version $Revision$ - $Date$
  */
 class GroovyDslMetricSet implements MetricSet {
     private static final LOG = Logger.getLogger(GroovyDslMetricSet)
