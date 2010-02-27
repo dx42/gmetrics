@@ -46,7 +46,7 @@ class ClassLineCountMetric extends AbstractMetric {
         return new ClassMetricResult(metricResult)
     }
 
-    private createAggregateMetricResult(Collection childMetricResults) {
+    protected createAggregateMetricResult(Collection childMetricResults) {
         new AggregateNumberMetricResult(this, childMetricResults)
     }
 
