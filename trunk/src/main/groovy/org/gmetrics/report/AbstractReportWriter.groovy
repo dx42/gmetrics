@@ -42,8 +42,9 @@ abstract class AbstractReportWriter implements ReportWriter {
     protected customMessagesBundleName = CUSTOM_MESSAGES_BUNDLE
     protected resourceBundle
 
-    // Allow tests to override this
+    // Allow tests to override these
     protected initializeResourceBundle = { initializeDefaultResourceBundle() }
+    protected getTimestamp = { new Date() }
 
     abstract void writeReport(Writer writer, ResultsNode resultsNode, MetricSet metricSet)
 
@@ -90,6 +91,11 @@ abstract class AbstractReportWriter implements ReportWriter {
             LOG.warn("No string found for resourceKey=[$resourceKey]")
         }
         return string
+    }
+
+    protected String getFormattedTimestamp() {
+        def dateFormat = java.text.DateFormat.getDateTimeInstance()
+        return dateFormat.format(getTimestamp())
     }
 
     protected String getGMetricsVersion() {
