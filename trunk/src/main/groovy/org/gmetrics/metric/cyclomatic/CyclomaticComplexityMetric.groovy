@@ -40,7 +40,7 @@ import org.codehaus.groovy.ast.expr.ClosureExpression
  * See http://en.wikipedia.org/wiki/Cyclomatic_complexity
  *
  * @author Chris Mair
- * @version $Revision: 30 $ - $Date: 2009-12-14 22:49:35 -0500 (Mon, 14 Dec 2009) $
+ * @version $Revision$ - $Date$
  */
 class CyclomaticComplexityMetric extends AbstractMethodMetric {
     final String name = 'CyclomaticComplexity'

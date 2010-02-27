@@ -19,7 +19,7 @@ package org.gmetrics.metricset
  * Constants for MetricSet test files
  *
  * @author Chris Mair
- * @version $Revision: 24 $ - $Date: 2009-12-10 21:17:05 -0500 (Thu, 10 Dec 2009) $
+ * @version $Revision$ - $Date$
  */
 class MetricSetTestFiles {
 

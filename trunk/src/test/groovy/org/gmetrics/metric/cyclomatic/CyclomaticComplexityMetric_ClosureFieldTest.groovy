@@ -21,7 +21,7 @@ import org.gmetrics.metric.AbstractMetricTestCase
  * Tests for CyclomaticComplexityMetric - for closure fields
  *
  * @author Chris Mair
- * @version $Revision: 31 $ - $Date: 2009-12-15 20:50:40 -0500 (Tue, 15 Dec 2009) $
+ * @version $Revision$ - $Date$
  */
 class CyclomaticComplexityMetric_ClosureFieldTest extends AbstractMetricTestCase {
     static metricClass = CyclomaticComplexityMetric
