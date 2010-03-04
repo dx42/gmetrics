@@ -32,6 +32,7 @@ public class StubResultsNode implements ResultsNode {
     boolean containsClassResults = false
     List metricResults = []
     Map children = [:]
+    String path
 
     boolean containsClassResults() {
         return containsClassResults
@@ -42,6 +43,7 @@ public class StubResultsNode implements ResultsNode {
     }
 
     String toString() {
-        "StubResultsNode[level=$level, metricResults=$metricResults, children=$children]"
+        def pathString = path ? "path=$path, ": ""
+        "StubResultsNode[${pathString}level=$level, metricResults=$metricResults, children=$children]"
     }
 }

@@ -1,11 +1,8 @@
 package org.gmetrics.report
 
-import org.gmetrics.test.AbstractTestCase
 import org.gmetrics.metric.StubMetric
-import org.gmetrics.result.NumberMetricResult
 import org.gmetrics.resultsnode.StubResultsNode
 import org.gmetrics.metricset.ListMetricSet
-import org.gmetrics.metric.MetricLevel
 
 /*
 * Copyright 2010 the original author or authors.
@@ -29,7 +26,7 @@ import org.gmetrics.metric.MetricLevel
  * @author Chris Mair
  * @version $Revision$ - $Date$
  */
-class BasicHtmlReportWriterTest extends AbstractTestCase {
+class BasicHtmlReportWriterTest extends AbstractReportWriterTestCase {
 
     private static final HTML_TAG = 'html'
     private static final TITLE_PREFIX = 'GMetrics Report'
@@ -45,9 +42,7 @@ class BasicHtmlReportWriterTest extends AbstractTestCase {
     private static final CLASS_PREFIX = '[c]'
     private static final METHOD_PREFIX = '[m]'
 
-    private reportWriter
-    private writer
-    private metricSet
+    static reportFilename = "GMetricsReport.html" 
     private localizedMessages
     private metric1, metric2
 
@@ -170,7 +165,6 @@ class BasicHtmlReportWriterTest extends AbstractTestCase {
 
     void setUp() {
         super.setUp()
-        reportWriter = new BasicHtmlReportWriter()
         writer = new StringWriter()
         metric1 = new StubMetric(name:'Metric1')
         metric2 = new StubMetric(name:'Metric2')
@@ -195,62 +189,11 @@ class BasicHtmlReportWriterTest extends AbstractTestCase {
         reportWriter.initializeResourceBundle = { reportWriter.resourceBundle = [getString:{key -> localizedMessages[key] ?: 'NOT FOUND'}] }
     }
 
-    private void assertReportContents(resultsNode, expectedContents, boolean writeToFile=false) {
-        def reportText = writeReport(resultsNode)
-        writeOutToFile(reportText, writeToFile)
-        assertContainsAllInOrder(reportText, expectedContents)
-    }
-
-    private void assertReportDoesNotContain(resultsNode, notExpected) {
-        def reportText = writeReport(resultsNode)
-        notExpected.each { text ->
-            assert !reportText.contains(text), "[$text] was present in the report"
-        }
-    }
-
-    private String writeReport(resultsNode) {
-        reportWriter.writeReport(writer, resultsNode, metricSet)
-        def reportText = writer.toString()
-        log("reportText=$reportText")
-        writeOutToFile(reportText, true)
-        return reportText
+    protected ReportWriter createReportWriter() {
+        return new BasicHtmlReportWriter()
     }
 
     private String metricDescription(metric) {
         metric.toString()
-    }
-
-    private metric1Result(int value) {
-        new NumberMetricResult(metric1, value)
-    }
-
-    private metric2Result(int value) {
-        new NumberMetricResult(metric2, value)
-    }
-
-    private packageResultsNode(map) {
-        def resultsNode = new StubResultsNode(map)
-        resultsNode.level = MetricLevel.PACKAGE
-        return resultsNode
-    }
-
-    private classResultsNode(map) {
-        def resultsNode = new StubResultsNode(map)
-        resultsNode.level = MetricLevel.CLASS
-        return resultsNode
-    }
-
-    private methodResultsNode(map) {
-        def resultsNode = new StubResultsNode(map)
-        resultsNode.level = MetricLevel.METHOD
-        return resultsNode
-    }
-
-    private void writeOutToFile(String text, boolean writeToFile) {
-        if (writeToFile) {
-            new File("GMetricsReport.html").withWriter { writer ->
-                writer << text
-            }
-        }
     }
 }
