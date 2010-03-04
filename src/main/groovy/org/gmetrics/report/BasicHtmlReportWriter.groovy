@@ -37,7 +37,7 @@ class BasicHtmlReportWriter extends AbstractReportWriter {
     private static final ROOT_PACKAGE_NAME = 'All packages'
     private static final MAX_INDENT_LEVEL = 10
 
-    static defaultOutputFile = 'GMetricsReport.html'
+    static defaultOutputFile = DEFAULT_OUTPUT_FILE
     String title
 
     void writeReport(Writer writer, ResultsNode resultsNode, MetricSet metricSet) {
