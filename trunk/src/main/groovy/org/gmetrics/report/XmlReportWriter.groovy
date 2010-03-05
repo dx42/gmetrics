@@ -35,8 +35,8 @@ class XmlReportWriter extends AbstractReportWriter {
     static defaultOutputFile = DEFAULT_OUTPUT_FILE
 
     void writeReport(Writer writer, ResultsNode resultsNode, MetricSet metricSet) {
-//        assert resultsNode
-//        assert metricsSet
+        assert resultsNode
+        assert metricSet
 
         initializeResourceBundle()
         def builder = new StreamingMarkupBuilder()
@@ -46,7 +46,6 @@ class XmlReportWriter extends AbstractReportWriter {
                 out << buildReportElement()
 //                out << buildProjectElement(analysisContext)
                 out << buildPackageElements(resultsNode)
-//                out << buildRulesElement(analysisContext)
                 out << buildMetricsElement(metricSet)
             }
         }
@@ -137,7 +136,7 @@ class XmlReportWriter extends AbstractReportWriter {
     private buildMetricElement(MetricResult metricResult) {
         def metric = metricResult.getMetric()
         return {
-            Metric(name: metric.name, total:metricResult.total, average:metricResult.average)
+            MetricResult(name: metric.name, total:metricResult.total, average:metricResult.average)
         }
     }
 

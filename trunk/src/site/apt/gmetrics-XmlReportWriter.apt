@@ -1,0 +1,53 @@
+		--------------------------------------------------
+					  GMetrics XmlReportWriter
+		--------------------------------------------------
+
+XmlReportWriter
+~~~~~~~~~~~~~~~~
+
+* Description
+~~~~~~~~~~~~~
+
+  The <<<org.gmetrics.report.XmlReportWriter>>> class produces an XML report
+  of <<GMetrics>> results.
+
+  See a {{{./SampleGMetricsXmlReport.xml}Sample Report}}.
+
+* Option Nested Elements
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+  The <<option>> element is a child of the <<report>> element and defines a report-specific option
+  for a report.
+
+  <<<org.gmetrics.report.BasicHtmlReportWriter>>> supports the following options:
+
+*---------------------+----------------------------------------------------------------+------------------------+
+| <<Attribute>>       | <<Description>>                                                | <<Required>>           |
+*---------------------+----------------------------------------------------------------+------------------------+
+| outputFile          | The path and filename for the output report file.              | No                     |
+*---------------------+----------------------------------------------------------------+------------------------+
+| writeToStandardOut  | Set to "true" or <<<true>>> to write out the report to         | No                     |
+|                     | <stdout> (<<<System.out>>>) instead of writing to a file.      |                        |
+*---------------------+----------------------------------------------------------------+------------------------+
+
+* Example
+~~~~~~~~~
+
+  Here is an example Ant XML build file illustrating configuration of
+  <<<org.gmetrics.report.XmlReportWriter>>>.
+
++----------------------------------------------------------------------------------------
+<taskdef name="gmetrics" classname="org.gmetrics.ant.GMetricsTask">
+<target name="runGMetrics">
+
+    <gmetrics>
+        <report type="org.gmetrics.report.XmlReportWriter">
+            <option name="outputFile" value="SampleGMetricsXmlReport.html" />
+        </report>
+        <fileset dir="src">
+            <include name="**/*.groovy"/>
+        </fileset>
+    </gmetrics>
+
+</target>
++----------------------------------------------------------------------------------------
