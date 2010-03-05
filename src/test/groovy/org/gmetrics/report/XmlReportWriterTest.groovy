@@ -55,37 +55,17 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
 
     private static final PACKAGE_SUMMARY_1 = """
         <PackageSummary>
-            <Metric name='Metric1' total='10' average='10'/>
+            <MetricResult name='Metric1' total='10' average='10'/>
         </PackageSummary>
     """
 
     private static final PACKAGE_SUMMARY_2 = """
         <PackageSummary>
-            <Metric name='Metric1' total='10' average='10'/>
-            <Metric name='Metric2' total='20' average='20'/>
+            <MetricResult name='Metric1' total='10' average='10'/>
+            <MetricResult name='Metric2' total='20' average='20'/>
         </PackageSummary>
     """
 
-    private static final PACKAGE_NO_CLASSES = """
-        <Package path='Dir1'>
-            <Metric name='Metric1' total='11' average='11'/>
-            <Metric name='Metric2' total='21' average='21'/>
-        </Package>
-    """
-
-    private static final PACKAGE_2_CLASSES = """
-        <Package path='org'>
-            <Metric name='Metric1' total='11' average='11'/>
-            <Metric name='Metric2' total='21' average='21'/>
-            <Class name='MyDao'>
-                <Metric name='Metric1' total='101' average='101'/>
-            </Class>
-            <Class name='MyController'>
-                <Metric name='Metric1' total='102' average='102'/>
-            </Class>
-        </Package>
-    """
-    
 //        <Project title='My Cool Project'>
 //            <SourceDirectory>c:/MyProject/src/main/groovy</SourceDirectory>
 //            <SourceDirectory>c:/MyProject/src/test/groovy</SourceDirectory>
@@ -99,22 +79,21 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
         assert reportWriter.defaultOutputFile == 'GMetricsXmlReport.xml'
     }
 
-    void testWriteReport_SingleResultsNodeWithSingleMetric() {
+    void testWriteReport_SummaryOnly_SingleMetric() {
         final XML = XML_DECLARATION + GMETRICS_ROOT + REPORT_TIMESTAMP + PACKAGE_SUMMARY_1 + METRIC_DESCRIPTIONS_1 + GMETRICS_END_TAG
         metricSet = new ListMetricSet([metric1])
         def resultsNode = packageResultsNode(metricResults:[metric1Result(10)])
         assertReportXml(resultsNode, XML)
     }
 
-    void testWriteReport_SingleResultsNodeWithTwoMetrics() {
-        final XML = XML_DECLARATION + GMETRICS_ROOT + REPORT_TIMESTAMP + PACKAGE_SUMMARY_2 + METRIC_DESCRIPTIONS_2 + GMETRICS_END_TAG
-        metricSet = new ListMetricSet([metric2, metric1])
-        def resultsNode = packageResultsNode(metricResults:[metric1Result(10), metric2Result(20)])
-        assertReportXml(resultsNode, XML)
-    }
-
     void testWriteReport_Package_TwoMetrics() {
-        final XML = XML_DECLARATION + GMETRICS_ROOT + REPORT_TIMESTAMP + PACKAGE_SUMMARY_2 + PACKAGE_NO_CLASSES + METRIC_DESCRIPTIONS_2 + GMETRICS_END_TAG
+        final PACKAGES = """
+            <Package path='Dir1'>
+                <MetricResult name='Metric1' total='11' average='11'/>
+                <MetricResult name='Metric2' total='21' average='21'/>
+            </Package>
+        """
+        final XML = XML_DECLARATION + GMETRICS_ROOT + REPORT_TIMESTAMP + PACKAGE_SUMMARY_2 + PACKAGES + METRIC_DESCRIPTIONS_2 + GMETRICS_END_TAG
         metricSet = new ListMetricSet([metric1, metric2])
         def rootNode = packageResultsNode(metricResults:[metric1Result(10), metric2Result(20)])
         def childPackageNode = packageResultsNode(path:'Dir1', metricResults:[metric1Result(11), metric2Result(21)])
@@ -123,7 +102,19 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
     }
 
     void testWriteReport_Package_TwoClasses_TwoMetrics() {
-        final XML = XML_DECLARATION + GMETRICS_ROOT + REPORT_TIMESTAMP + PACKAGE_SUMMARY_2 + PACKAGE_2_CLASSES + METRIC_DESCRIPTIONS_2 + GMETRICS_END_TAG
+        final PACKAGES = """
+            <Package path='org'>
+                <MetricResult name='Metric1' total='11' average='11'/>
+                <MetricResult name='Metric2' total='21' average='21'/>
+                <Class name='MyDao'>
+                    <MetricResult name='Metric1' total='101' average='101'/>
+                </Class>
+                <Class name='MyController'>
+                    <MetricResult name='Metric1' total='102' average='102'/>
+                </Class>
+            </Package>
+        """
+        final XML = XML_DECLARATION + GMETRICS_ROOT + REPORT_TIMESTAMP + PACKAGE_SUMMARY_2 + PACKAGES + METRIC_DESCRIPTIONS_2 + GMETRICS_END_TAG
         metricSet = new ListMetricSet([metric1, metric2])
         def rootNode = packageResultsNode(metricResults:[metric1Result(10), metric2Result(20)])
         def packageNode = packageResultsNode(path:'org', metricResults:[metric1Result(11), metric2Result(21)])
@@ -134,30 +125,33 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
         assertReportXml(rootNode, XML)
     }
 
-    private static final PACKAGE_2CLASSES_3METHODS = """
-        <Package path='test'>
-            <Metric name='Metric1' total='11' average='11'/>
-            <Metric name='Metric2' total='21' average='21'/>
-            <Class name='MyDao'>
-                <Metric name='Metric1' total='101' average='101'/>
-                <Method name='process'>
-                    <Metric name='Metric1' total='1001' average='1001'/>
-                </Method>
-            </Class>
-            <Class name='MyController'>
-                <Metric name='Metric1' total='102' average='102'/>
-                <Method name='initialize'>
-                    <Metric name='Metric1' total='1002' average='1002'/>
-                </Method>
-                <Method name='cleanup'>
-                    <Metric name='Metric1' total='1003' average='1003'/>
-                </Method>
-            </Class>
-        </Package>
-    """
-
-    void testWriteReport_Package_TwoClasses_ThreeMethods_TwoMetrics() {
-        final XML = XML_DECLARATION + GMETRICS_ROOT + REPORT_TIMESTAMP + PACKAGE_SUMMARY_2 + PACKAGE_2CLASSES_3METHODS + METRIC_DESCRIPTIONS_2 + GMETRICS_END_TAG
+    void testWriteReport_Package_NestedPackageClassesAndMethods() {
+        final PACKAGES = """
+            <Package path='test'>
+                <MetricResult name='Metric1' total='11' average='11'/>
+                <MetricResult name='Metric2' total='21' average='21'/>
+                <Class name='MyDao'>
+                    <MetricResult name='Metric1' total='101' average='101'/>
+                    <Method name='process'>
+                        <MetricResult name='Metric1' total='1001' average='1001'/>
+                    </Method>
+                </Class>
+                <Class name='MyController'>
+                    <MetricResult name='Metric1' total='102' average='102'/>
+                    <Method name='initialize'>
+                        <MetricResult name='Metric1' total='1002' average='1002'/>
+                    </Method>
+                    <Method name='cleanup'>
+                        <MetricResult name='Metric1' total='1003' average='1003'/>
+                    </Method>
+                </Class>
+            </Package>
+            <Package path='test/unit'>
+                <MetricResult name='Metric1' total='31' average='31'/>
+                <MetricResult name='Metric2' total='32' average='32'/>
+            </Package>
+        """
+        final XML = XML_DECLARATION + GMETRICS_ROOT + REPORT_TIMESTAMP + PACKAGE_SUMMARY_2 + PACKAGES + METRIC_DESCRIPTIONS_2 + GMETRICS_END_TAG
         metricSet = new ListMetricSet([metric1, metric2])
         def rootNode = packageResultsNode(metricResults:[metric1Result(10), metric2Result(20)])
         def packageNode = packageResultsNode(path:'test', metricResults:[metric1Result(11), metric2Result(21)])
@@ -170,7 +164,18 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
         def method3Node = methodResultsNode(metricResults:[metric1Result(1003)])
         class1Node.children = [process:method1Node]
         class2Node.children = [initialize:method2Node, cleanup:method3Node]
+        def childPackageNode = packageResultsNode(path:'test/unit', metricResults:[metric1Result(31), metric2Result(32)])
+        packageNode.children['test/unit'] = childPackageNode
         assertReportXml(rootNode, XML, true)
+    }
+
+    void testWriteReport_NullResultsNode() {
+        shouldFailWithMessageContaining('results') { reportWriter.writeReport(null, metricSet) }
+    }
+
+    void testWriteReport_NullMetricSet() {
+        def resultsNode = packageResultsNode(path:'test')
+        shouldFailWithMessageContaining('metricSet') { reportWriter.writeReport(resultsNode, null) }
     }
 
     void setUp() {

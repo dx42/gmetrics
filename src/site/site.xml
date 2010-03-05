@@ -47,7 +47,9 @@
 
         <menu name="Reports">
             <item name="BasicHtmlReportWriter" href="/gmetrics-BasicHtmlReportWriter.html"/>
-            <item name="Sample GMetrics Report" href="/SampleGMetricsReport.html"/>
+            <item name="XmlReportWriter" href="/gmetrics-XmlReportWriter.html"/>
+            <item name="Sample HTML Report" href="/SampleGMetricsReport.html"/>
+            <item name="Sample XML Report" href="/SampleGMetricsXmlReport.xml"/>
             <!-- <item name="Open Source Projects" href="/gmetrics-opensource-projects.html"/> -->
         </menu>
 

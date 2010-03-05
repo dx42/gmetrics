@@ -28,7 +28,10 @@ import org.gmetrics.metricset.DefaultMetricSet
 class GMetricsTask_AntBuilderTest extends AbstractTestCase {
 
     private static final HTML_REPORT_WRITER = 'org.gmetrics.report.BasicHtmlReportWriter'
-    private static final REPORT_FILE = 'AntBuilderTestReport.html'
+    private static final XML_REPORT_WRITER = 'org.gmetrics.report.XmlReportWriter'
+    private static final HTML_REPORT_FILE = 'AntBuilderTestReport.html'
+    private static final HTML_TEMP_REPORT_FILE = 'AntBuilderTestReport_Temp.html'
+    private static final XML_REPORT_FILE = 'AntBuilderTestXmlReport.xml'
     private static final TITLE = 'Sample'
     private ant
 
@@ -39,11 +42,15 @@ class GMetricsTask_AntBuilderTest extends AbstractTestCase {
            }
            report(type:HTML_REPORT_WRITER){
                option(name:'title', value:TITLE)
-               option(name:'outputFile', value:REPORT_FILE)
+               option(name:'outputFile', value:HTML_REPORT_FILE)
+           }
+           report(type:XML_REPORT_WRITER){
+//               option(name:'title', value:TITLE)
+               option(name:'outputFile', value:XML_REPORT_FILE)
            }
         }
         def metricNames = new DefaultMetricSet().metrics*.name 
-        verifyReportFile(metricNames.sort())
+        verifyReportFile(HTML_REPORT_FILE, metricNames.sort())
     }
 
     void testAntTask_Execute_SpecifyMetricSetFile() {
@@ -53,10 +60,10 @@ class GMetricsTask_AntBuilderTest extends AbstractTestCase {
            }
            report(type:HTML_REPORT_WRITER){
                option(name:'title', value:TITLE)
-               option(name:'outputFile', value:REPORT_FILE)
+               option(name:'outputFile', value:HTML_TEMP_REPORT_FILE)
            }
         }
-        verifyReportFile(['ABC','Stub'])
+        verifyReportFile(HTML_TEMP_REPORT_FILE, ['ABC','Stub'])
     }
 
     void setUp() {
@@ -65,15 +72,14 @@ class GMetricsTask_AntBuilderTest extends AbstractTestCase {
         ant.taskdef(name:'gmetrics', classname:'org.gmetrics.ant.GMetricsTask')
     }
 
-    private void verifyReportFile(List metricNames) {
-        def file = new File(REPORT_FILE)
+    void tearDown() {
+        super.tearDown()
+        new File(HTML_TEMP_REPORT_FILE).delete()
+    }
+    
+    private void verifyReportFile(String reportFile, List metricNames) {
+        def file = new File(reportFile)
         assert file.exists()
         assertContainsAllInOrder(file.text, [TITLE, 'org.gmetrics.GMetricsRunner', 'Metric Descriptions'] + metricNames)
     }
-
-//    void tearDown() {
-//        super.tearDown()
-//        new File(REPORT_FILE).delete()
-//    }
-
 }

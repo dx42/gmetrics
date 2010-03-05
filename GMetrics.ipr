@@ -230,6 +230,7 @@
         <w>cyclomatic</w>
         <w>filesystem</w>
         <w>gmetrics</w>
+        <w>javadocs</w>
         <w>metricset</w>
         <w>superclass</w>
       </words>
