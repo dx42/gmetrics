@@ -19,6 +19,7 @@ import org.gmetrics.resultsnode.ResultsNode
 import org.gmetrics.analyzer.SourceAnalyzer
 import org.apache.log4j.Logger
 import org.gmetrics.metricset.MetricSet
+import org.gmetrics.analyzer.AnalysisContext
 
 /**
  * Helper class to run GMetrics.
@@ -52,8 +53,10 @@ class GMetricsRunner {
         def elapsedTime = System.currentTimeMillis() - startTime
         LOG.debug("resultsNode=$resultsNode")
 
+        def analysisContext = new AnalysisContext(metricSet:metricSet, sourceDirectories:sourceAnalyzer.sourceDirectories)
+
         reportWriters.each { reportWriter ->
-            reportWriter.writeReport(resultsNode, metricSet)
+            reportWriter.writeReport(resultsNode, analysisContext)
         }
 
         LOG.info("GMetrics completed: ${elapsedTime}ms")

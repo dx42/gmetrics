@@ -18,12 +18,12 @@ package org.gmetrics.report
 import org.gmetrics.util.io.ClassPathResource
 import org.apache.log4j.Logger
 import org.gmetrics.resultsnode.ResultsNode
-import org.gmetrics.metricset.MetricSet
+import org.gmetrics.analyzer.AnalysisContext
 
 /**
  * Abstract superclass for ReportWriter implementation classes.
  * <p/>
- * Subclasses must implement the <code>writeReport(ResultsNode, MetricSet, Writer)</code> method
+ * Subclasses must implement the <code>writeReport(Writer, ResultsNode, AnalysisContext)</code> method
  * and define a <code>defaultOutputFile</code> property.
  *
  * @author Chris Mair
@@ -46,27 +46,27 @@ abstract class AbstractReportWriter implements ReportWriter {
     protected initializeResourceBundle = { initializeDefaultResourceBundle() }
     protected getTimestamp = { new Date() }
 
-    abstract void writeReport(Writer writer, ResultsNode resultsNode, MetricSet metricSet)
+    abstract void writeReport(Writer writer, ResultsNode resultsNode, AnalysisContext analysisContext)
 
-    void writeReport(ResultsNode resultsNode, MetricSet metricSet) {
+    void writeReport(ResultsNode resultsNode, AnalysisContext analysisContext) {
         if (isWriteToStandardOut()) {
-            writeReportToStandardOut(resultsNode, metricSet)
+            writeReportToStandardOut(resultsNode, analysisContext)
         }
         else {
-            writeReportToFile(resultsNode, metricSet)
+            writeReportToFile(resultsNode, analysisContext)
         }
     }
 
-    private void writeReportToStandardOut(ResultsNode resultsNode, MetricSet metricSet) {
+    private void writeReportToStandardOut(ResultsNode resultsNode, AnalysisContext analysisContext) {
         def writer = new OutputStreamWriter(System.out)
-        writeReport(writer, resultsNode, metricSet)
+        writeReport(writer, resultsNode, analysisContext)
     }
 
-    private void writeReportToFile(ResultsNode resultsNode, MetricSet metricSet) {
+    private void writeReportToFile(ResultsNode resultsNode, AnalysisContext analysisContext) {
         def outputFilename = outputFile ?: getProperty('defaultOutputFile')
         def file = new File(outputFilename)
         file.withWriter { writer ->
-            writeReport(writer, resultsNode, metricSet)
+            writeReport(writer, resultsNode, analysisContext)
         }
     }
 

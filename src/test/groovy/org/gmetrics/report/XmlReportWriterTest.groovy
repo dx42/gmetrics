@@ -169,15 +169,6 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
         assertReportXml(rootNode, XML, true)
     }
 
-    void testWriteReport_NullResultsNode() {
-        shouldFailWithMessageContaining('results') { reportWriter.writeReport(null, metricSet) }
-    }
-
-    void testWriteReport_NullMetricSet() {
-        def resultsNode = packageResultsNode(path:'test')
-        shouldFailWithMessageContaining('metricSet') { reportWriter.writeReport(resultsNode, null) }
-    }
-
     void setUp() {
         super.setUp()
         metric1 = new StubMetric(name:'Metric1')

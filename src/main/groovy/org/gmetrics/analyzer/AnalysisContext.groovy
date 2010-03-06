@@ -13,18 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.gmetrics.report
+package org.gmetrics.analyzer
 
-import org.gmetrics.resultsnode.ResultsNode
-import org.gmetrics.analyzer.AnalysisContext
+import org.gmetrics.metricset.MetricSet
 
 /**
- * Common interface for report writer implementations
+ * Holds information related to the configuration and context for the source code analysis.
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
+ * @version $Revision: 69 $ - $Date: 2010-02-12 22:30:12 -0500 (Fri, 12 Feb 2010) $
  */
-interface ReportWriter {
+class AnalysisContext {
 
-    void writeReport(ResultsNode resultsNode, AnalysisContext analysisContext)
+    /**
+     * The List of source directories being analyzed. May be null or empty.
+     */
+    List sourceDirectories
+
+    /**
+     * The MetricSet containing the metrics being applied.
+     */
+    MetricSet metricSet
 }

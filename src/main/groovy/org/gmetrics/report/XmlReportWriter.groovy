@@ -21,6 +21,7 @@ import groovy.xml.StreamingMarkupBuilder
 import org.gmetrics.metric.Metric
 import org.gmetrics.result.MetricResult
 import org.gmetrics.metric.MetricLevel
+import org.gmetrics.analyzer.AnalysisContext
 
 /**
  * ReportWriter that generates an XML report. The XML includes
@@ -34,9 +35,11 @@ class XmlReportWriter extends AbstractReportWriter {
 
     static defaultOutputFile = DEFAULT_OUTPUT_FILE
 
-    void writeReport(Writer writer, ResultsNode resultsNode, MetricSet metricSet) {
+    void writeReport(Writer writer, ResultsNode resultsNode, AnalysisContext analysisContext) {
         assert resultsNode
-        assert metricSet
+        assert analysisContext
+        assert analysisContext.metricSet
+        assert writer
 
         initializeResourceBundle()
         def builder = new StreamingMarkupBuilder()
@@ -46,7 +49,7 @@ class XmlReportWriter extends AbstractReportWriter {
                 out << buildReportElement()
 //                out << buildProjectElement(analysisContext)
                 out << buildPackageElements(resultsNode)
-                out << buildMetricsElement(metricSet)
+                out << buildMetricsElement(analysisContext.metricSet)
             }
         }
         writer << xml

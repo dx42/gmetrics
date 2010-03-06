@@ -20,6 +20,7 @@ import org.gmetrics.util.io.ClassPathResource
 import groovy.xml.StreamingMarkupBuilder
 import org.gmetrics.metricset.MetricSet
 import org.gmetrics.metric.MetricLevel
+import org.gmetrics.analyzer.AnalysisContext
 
 /**
  * ReportWriter that generates a basic HTML report. The HTML includes a table containing
@@ -40,19 +41,20 @@ class BasicHtmlReportWriter extends AbstractReportWriter {
     static defaultOutputFile = DEFAULT_OUTPUT_FILE
     String title
 
-    void writeReport(Writer writer, ResultsNode resultsNode, MetricSet metricSet) {
+    void writeReport(Writer writer, ResultsNode resultsNode, AnalysisContext analysisContext) {
         assert resultsNode
-        assert metricSet
+        assert analysisContext
+        assert analysisContext.metricSet
         assert writer
 
         initializeResourceBundle()
-        def metricResultColumns = buildMetricResultColumns(metricSet)
+        def metricResultColumns = buildMetricResultColumns(analysisContext.metricSet)
 
         def builder = new StreamingMarkupBuilder()
         def html = builder.bind() {
             html {
                 out << buildHeaderSection()
-                out << buildBodySection(resultsNode, metricResultColumns, metricSet)
+                out << buildBodySection(resultsNode, metricResultColumns, analysisContext)
             }
         }
         writer << html
@@ -90,13 +92,13 @@ class BasicHtmlReportWriter extends AbstractReportWriter {
         }
     }
 
-    private buildBodySection(ResultsNode resultsNode, List metricResultColumns, MetricSet metricSet) {
+    private buildBodySection(ResultsNode resultsNode, List metricResultColumns, AnalysisContext analysisContext) {
         return {
             body {
                 h1(buildTitle())
                 out << buildReportTimestamp()
                 out << buildResultsTable(resultsNode, metricResultColumns)
-                out << buildMetricDescriptions(metricSet)
+                out << buildMetricDescriptions(analysisContext.metricSet)
                 out << buildVersionFooter()
             }
         }
