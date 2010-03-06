@@ -31,9 +31,10 @@ import org.gmetrics.analyzer.AnalysisContext
  * @version $Revision$ - $Date$
  */
 class XmlReportWriter extends AbstractReportWriter {
-    public static final DEFAULT_OUTPUT_FILE = 'GMetricsXmlReport.xml'
 
+    public static final DEFAULT_OUTPUT_FILE = 'GMetricsXmlReport.xml'
     static defaultOutputFile = DEFAULT_OUTPUT_FILE
+    String title
 
     void writeReport(Writer writer, ResultsNode resultsNode, AnalysisContext analysisContext) {
         assert resultsNode
@@ -47,7 +48,7 @@ class XmlReportWriter extends AbstractReportWriter {
             mkp.xmlDeclaration()
             GMetrics(url:GMETRICS_URL, version:getGMetricsVersion()) {
                 out << buildReportElement()
-//                out << buildProjectElement(analysisContext)
+                out << buildProjectElement(analysisContext)
                 out << buildPackageElements(resultsNode)
                 out << buildMetricsElement(analysisContext.metricSet)
             }
@@ -65,16 +66,16 @@ class XmlReportWriter extends AbstractReportWriter {
         }
     }
 
-//    private buildProjectElement(AnalysisContext analysisContext) {
-//        return {
-//            Project(title:title) {
-//                analysisContext.sourceDirectories.each { sourceDirectory ->
-//                    SourceDirectory(sourceDirectory)
-//                }
-//            }
-//        }
-//    }
-//
+    private buildProjectElement(AnalysisContext analysisContext) {
+        return {
+            Project(title:title) {
+                analysisContext.sourceDirectories.each { sourceDirectory ->
+                    SourceDirectory(sourceDirectory)
+                }
+            }
+        }
+    }
+
     private buildPackageElements(resultsNode) {
         return buildElement(resultsNode, null)
     }
@@ -86,14 +87,6 @@ class XmlReportWriter extends AbstractReportWriter {
             case MetricLevel.METHOD: return buildChildElement('Method', resultsNode, name)
         }
     }
-
-//    private buildPackageSummaryElement(resultsNode) {
-//        return {
-//            'PackageSummary' {
-//                out << buildMetricElements(resultsNode.metricResults)
-//            }
-//        }
-//    }
 
     private buildPackageElement(resultsNode, String name) {
         def elementName = isRoot(resultsNode) ? 'PackageSummary' : 'Package'
@@ -152,7 +145,7 @@ class XmlReportWriter extends AbstractReportWriter {
         def sortedMetrics = metrics.toList().sort { metric -> metric.name }
         return {
             Metrics() {
-                sortedMetrics.each { metric ->
+                sortedMetrics.each { Metric metric ->
                     def description = getDescriptionForMetric(metric)
                     Metric(name:metric.name) {
                         Description(cdata(description))
