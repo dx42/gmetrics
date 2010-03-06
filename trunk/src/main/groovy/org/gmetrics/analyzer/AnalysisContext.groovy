@@ -21,7 +21,7 @@ import org.gmetrics.metricset.MetricSet
  * Holds information related to the configuration and context for the source code analysis.
  *
  * @author Chris Mair
- * @version $Revision: 69 $ - $Date: 2010-02-12 22:30:12 -0500 (Fri, 12 Feb 2010) $
+ * @version $Revision$ - $Date$
  */
 class AnalysisContext {
 

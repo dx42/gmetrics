@@ -7,6 +7,8 @@ import org.gmetrics.resultsnode.StubResultsNode
 import org.gmetrics.test.AbstractTestCase
 import org.gmetrics.analyzer.AnalysisContext
 import org.gmetrics.metricset.MetricSet
+import org.gmetrics.metric.StubMetric
+import org.gmetrics.metricset.ListMetricSet
 
 /*
 * Copyright 2010 the original author or authors.
@@ -37,7 +39,8 @@ abstract class AbstractReportWriterTestCase extends AbstractTestCase {
 
     protected reportWriter
     protected writer
-    protected metricSet
+    protected metric1, metric2
+    protected metricSet1, metricSet2
     protected analysisContext
 
     // Each subclass must implement
@@ -48,7 +51,6 @@ abstract class AbstractReportWriterTestCase extends AbstractTestCase {
     }
 
     void testWriteReport_NullResultsNode_ThrowsException() {
-        def analysisContext = new AnalysisContext(metricSet:metricSet)
         shouldFailWithMessageContaining('results') { reportWriter.writeReport(null, analysisContext) }
     }
 
@@ -65,8 +67,6 @@ abstract class AbstractReportWriterTestCase extends AbstractTestCase {
 
     void testWriteReport_NullWriterThrowsException() {
         def resultsNode = new StubResultsNode()
-        metricSet = [:] as MetricSet
-        def analysisContext = new AnalysisContext(metricSet:metricSet)
         shouldFailWithMessageContaining('writer') { reportWriter.writeReport(null, resultsNode, analysisContext) }
     }
 
@@ -74,11 +74,11 @@ abstract class AbstractReportWriterTestCase extends AbstractTestCase {
         super.setUp()
         reportWriter = createReportWriter()
         writer = new StringWriter()
-//        metric1 = new StubMetric(name:'Metric1')
-//        metric2 = new StubMetric(name:'Metric2')
-//
-//        metricSet1 = new ListMetricSet([metric1])
-//        metricSet2 = new ListMetricSet([metric1, metric2])
+        metric1 = new StubMetric(name:'Metric1')
+        metric2 = new StubMetric(name:'Metric2')
+        metricSet1 = new ListMetricSet([metric1])
+        metricSet2 = new ListMetricSet([metric1, metric2])
+        analysisContext = new AnalysisContext(metricSet:metricSet2)
     }
 
     protected void assertReportContents(resultsNode, expectedContents, boolean writeToFile=false) {
@@ -95,7 +95,6 @@ abstract class AbstractReportWriterTestCase extends AbstractTestCase {
     }
 
     protected String writeReport(resultsNode, boolean writeToFile=false) {
-        analysisContext = new AnalysisContext(metricSet:metricSet)
         reportWriter.writeReport(writer, resultsNode, analysisContext)
         def reportText = writer.toString()
         log("reportText=$reportText")
@@ -103,9 +102,9 @@ abstract class AbstractReportWriterTestCase extends AbstractTestCase {
         return reportText
     }
 
-//    private String metricDescription(metric) {
-//        metric.toString()
-//    }
+    protected String metricDescription(metric) {
+        "Description for " + metric.name
+    }
 
     protected metric1Result(int value) {
         new NumberMetricResult(metric1, value)
