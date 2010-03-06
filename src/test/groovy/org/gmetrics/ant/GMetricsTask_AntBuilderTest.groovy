@@ -45,7 +45,7 @@ class GMetricsTask_AntBuilderTest extends AbstractTestCase {
                option(name:'outputFile', value:HTML_REPORT_FILE)
            }
            report(type:XML_REPORT_WRITER){
-//               option(name:'title', value:TITLE)
+               option(name:'title', value:TITLE)
                option(name:'outputFile', value:XML_REPORT_FILE)
            }
         }

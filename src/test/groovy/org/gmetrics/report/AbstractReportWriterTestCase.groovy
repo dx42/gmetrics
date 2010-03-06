@@ -6,7 +6,6 @@ import org.gmetrics.result.NumberMetricResult
 import org.gmetrics.resultsnode.StubResultsNode
 import org.gmetrics.test.AbstractTestCase
 import org.gmetrics.analyzer.AnalysisContext
-import org.gmetrics.metricset.MetricSet
 import org.gmetrics.metric.StubMetric
 import org.gmetrics.metricset.ListMetricSet
 
@@ -36,6 +35,9 @@ import org.gmetrics.metricset.ListMetricSet
  * @version $Revision$ - $Date$
  */
 abstract class AbstractReportWriterTestCase extends AbstractTestCase {
+
+    protected static final SRC_DIR1 = 'c:/MyProject/src/main/groovy'
+    protected static final SRC_DIR2 = 'c:/MyProject/src/test/groovy'
 
     protected reportWriter
     protected writer
@@ -78,7 +80,7 @@ abstract class AbstractReportWriterTestCase extends AbstractTestCase {
         metric2 = new StubMetric(name:'Metric2')
         metricSet1 = new ListMetricSet([metric1])
         metricSet2 = new ListMetricSet([metric1, metric2])
-        analysisContext = new AnalysisContext(metricSet:metricSet2)
+        analysisContext = new AnalysisContext(sourceDirectories:[SRC_DIR1, SRC_DIR2], metricSet:metricSet2)
     }
 
     protected void assertReportContents(resultsNode, expectedContents, boolean writeToFile=false) {

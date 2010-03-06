@@ -16,8 +16,6 @@
 package org.gmetrics.report
 
 import java.text.DateFormat
-import org.gmetrics.metricset.ListMetricSet
-import org.gmetrics.metric.StubMetric
 import org.gmetrics.analyzer.AnalysisContext
 
 /**
@@ -32,6 +30,7 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
     private static final VERSION = new File(VERSION_FILE).text
     private static final TIMESTAMP_DATE = new Date(1262361072497)
     private static final FORMATTED_TIMESTAMP = DateFormat.getDateTimeInstance().format(TIMESTAMP_DATE)
+    private static final TITLE = 'My Cool Project'
     private static final XML_DECLARATION = '<?xml version="1.0"?>'
     private static final GMETRICS_ROOT = """<GMetrics url='http://www.gmetrics.org' version='${VERSION}'>"""
     private static final GMETRICS_END_TAG = "</GMetrics>"
@@ -67,10 +66,12 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
         </PackageSummary>
     """
 
-//        <Project title='My Cool Project'>
-//            <SourceDirectory>c:/MyProject/src/main/groovy</SourceDirectory>
-//            <SourceDirectory>c:/MyProject/src/test/groovy</SourceDirectory>
-//        </Project>
+    private static final PROJECT = """
+        <Project title='My Cool Project'>
+            <SourceDirectory>c:/MyProject/src/main/groovy</SourceDirectory>
+            <SourceDirectory>c:/MyProject/src/test/groovy</SourceDirectory>
+        </Project>
+    """
 
     static reportFilename = "GMetricsXmlReport.xml" 
     private localizedMessages
@@ -80,8 +81,8 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
     }
 
     void testWriteReport_SummaryOnly_SingleMetric() {
-        final XML = XML_DECLARATION + GMETRICS_ROOT + REPORT_TIMESTAMP + PACKAGE_SUMMARY_1 + METRIC_DESCRIPTIONS_1 + GMETRICS_END_TAG
-        analysisContext = new AnalysisContext(metricSet:metricSet1)
+        final XML = XML_DECLARATION + GMETRICS_ROOT + REPORT_TIMESTAMP + PROJECT + PACKAGE_SUMMARY_1 + METRIC_DESCRIPTIONS_1 + GMETRICS_END_TAG
+        analysisContext.metricSet = metricSet1
         def resultsNode = packageResultsNode(metricResults:[metric1Result(10)])
         assertReportXml(resultsNode, XML)
     }
@@ -93,7 +94,7 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
                 <MetricResult name='Metric2' total='21' average='21'/>
             </Package>
         """
-        final XML = XML_DECLARATION + GMETRICS_ROOT + REPORT_TIMESTAMP + PACKAGE_SUMMARY_2 + PACKAGES + METRIC_DESCRIPTIONS_2 + GMETRICS_END_TAG
+        final XML = XML_DECLARATION + GMETRICS_ROOT + REPORT_TIMESTAMP + PROJECT + PACKAGE_SUMMARY_2 + PACKAGES + METRIC_DESCRIPTIONS_2 + GMETRICS_END_TAG
         def rootNode = packageResultsNode(metricResults:[metric1Result(10), metric2Result(20)])
         def childPackageNode = packageResultsNode(path:'Dir1', metricResults:[metric1Result(11), metric2Result(21)])
         rootNode.children['Dir1'] = childPackageNode
@@ -113,7 +114,7 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
                 </Class>
             </Package>
         """
-        final XML = XML_DECLARATION + GMETRICS_ROOT + REPORT_TIMESTAMP + PACKAGE_SUMMARY_2 + PACKAGES + METRIC_DESCRIPTIONS_2 + GMETRICS_END_TAG
+        final XML = XML_DECLARATION + GMETRICS_ROOT + REPORT_TIMESTAMP + PROJECT + PACKAGE_SUMMARY_2 + PACKAGES + METRIC_DESCRIPTIONS_2 + GMETRICS_END_TAG
         def rootNode = packageResultsNode(metricResults:[metric1Result(10), metric2Result(20)])
         def packageNode = packageResultsNode(path:'org', metricResults:[metric1Result(11), metric2Result(21)])
         rootNode.children['org'] = packageNode
@@ -149,7 +150,7 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
                 <MetricResult name='Metric2' total='32' average='32'/>
             </Package>
         """
-        final XML = XML_DECLARATION + GMETRICS_ROOT + REPORT_TIMESTAMP + PACKAGE_SUMMARY_2 + PACKAGES + METRIC_DESCRIPTIONS_2 + GMETRICS_END_TAG
+        final XML = XML_DECLARATION + GMETRICS_ROOT + REPORT_TIMESTAMP + PROJECT + PACKAGE_SUMMARY_2 + PACKAGES + METRIC_DESCRIPTIONS_2 + GMETRICS_END_TAG
         def rootNode = packageResultsNode(metricResults:[metric1Result(10), metric2Result(20)])
         def packageNode = packageResultsNode(path:'test', metricResults:[metric1Result(11), metric2Result(21)])
         rootNode.children['org'] = packageNode
@@ -181,7 +182,7 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
     }
 
     protected ReportWriter createReportWriter() {
-        def rw = new XmlReportWriter()
+        def rw = new XmlReportWriter(title:TITLE)
         rw.getTimestamp = { TIMESTAMP_DATE }
         return rw
     }
