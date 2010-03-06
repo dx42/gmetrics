@@ -1,10 +1,3 @@
-package org.gmetrics.report
-
-import org.gmetrics.metric.StubMetric
-import org.gmetrics.resultsnode.StubResultsNode
-import org.gmetrics.metricset.ListMetricSet
-import org.gmetrics.analyzer.AnalysisContext
-
 /*
 * Copyright 2010 the original author or authors.
 *
@@ -20,6 +13,11 @@ import org.gmetrics.analyzer.AnalysisContext
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+package org.gmetrics.report
+
+import org.gmetrics.resultsnode.StubResultsNode
+import org.gmetrics.metricset.ListMetricSet
+import org.gmetrics.analyzer.AnalysisContext
 
 /**
  * Tests for BasicHtmlReportWriter
@@ -45,7 +43,6 @@ class BasicHtmlReportWriterTest extends AbstractReportWriterTestCase {
 
     static reportFilename = "GMetricsReport.html" 
     private localizedMessages
-    private metric1, metric2
 
     void testThatDefaultOutputFile_IsGmetricsReportHtml() {
         assert reportWriter.defaultOutputFile == 'GMetricsReport.html'
@@ -59,6 +56,7 @@ class BasicHtmlReportWriterTest extends AbstractReportWriterTestCase {
                 METRIC_DESCRIPTIONS,
                 metric1.name, metricDescription(metric1),
                 BOTTOM_LINK]
+        analysisContext = new AnalysisContext(metricSet:metricSet1)
         def resultsNode = new StubResultsNode(metricResults:[metric1Result(10)])
         assertReportContents(resultsNode, CONTENTS)
     }
@@ -67,18 +65,16 @@ class BasicHtmlReportWriterTest extends AbstractReportWriterTestCase {
         final CONTENTS = [
                 HTML_TAG,
                 METRIC_RESULTS,
-                ALL_PACKAGES, 20, 20, 10, 10,
+                ALL_PACKAGES, 10, 10, 20, 20,
                 METRIC_DESCRIPTIONS,
                 metric1.name, metricDescription(metric1),
                 metric2.name, metricDescription(metric2),
                 BOTTOM_LINK]
-        metricSet = new ListMetricSet([metric2, metric1])
         def resultsNode = new StubResultsNode(metricResults:[metric1Result(10), metric2Result(20)])
         assertReportContents(resultsNode, CONTENTS)
     }
 
     void testWriteReport_SingleResultsNode_TwoMetrics_OneMetricDisabled() {
-        metricSet = new ListMetricSet([metric2, metric1])
         metric2.enabled = false
         def resultsNode = new StubResultsNode(metricResults:[metric1Result(10), metric2Result(20)])
         assertReportDoesNotContain(resultsNode, [metric2.name, metricDescription(metric2)])
@@ -94,7 +90,6 @@ class BasicHtmlReportWriterTest extends AbstractReportWriterTestCase {
                 metric1.name, metricDescription(metric1),
                 metric2.name, metricDescription(metric2),
                 BOTTOM_LINK]
-        metricSet = new ListMetricSet([metric1, metric2])
         def resultsNode = new StubResultsNode(metricResults:[metric1Result(10), metric2Result(20)])
         def childResultsNode = new StubResultsNode(metricResults:[metric1Result(11), metric2Result(21)])
         resultsNode.children['Dir1'] = childResultsNode
@@ -145,17 +140,12 @@ class BasicHtmlReportWriterTest extends AbstractReportWriterTestCase {
                 metric1.name, metricDescription(metric1),
                 metric2.name, metricDescription(metric2),
                 BOTTOM_LINK]
-        metricSet = new ListMetricSet([metric1, metric2])
         def resultsNode = new StubResultsNode(metricResults:[metric1Result(10)])
         assertReportContents(resultsNode, CONTENTS)
     }
 
     void setUp() {
         super.setUp()
-        writer = new StringWriter()
-        metric1 = new StubMetric(name:'Metric1')
-        metric2 = new StubMetric(name:'Metric2')
-        metricSet = new ListMetricSet([metric1])
 
         localizedMessages = [
             'basicHtmlReport.titlePrefix': TITLE_PREFIX,
@@ -178,9 +168,5 @@ class BasicHtmlReportWriterTest extends AbstractReportWriterTestCase {
 
     protected ReportWriter createReportWriter() {
         return new BasicHtmlReportWriter()
-    }
-
-    private String metricDescription(metric) {
-        metric.toString()
     }
 }

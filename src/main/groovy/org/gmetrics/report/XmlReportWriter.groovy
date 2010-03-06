@@ -28,7 +28,7 @@ import org.gmetrics.analyzer.AnalysisContext
  * and the metric descriptions for each Metric within the passed-in MetricSet.
  *
  * @author Chris Mair
- * @version $Revision: 88 $ - $Date: 2010-02-27 15:11:55 -0500 (Sat, 27 Feb 2010) $
+ * @version $Revision$ - $Date$
  */
 class XmlReportWriter extends AbstractReportWriter {
     public static final DEFAULT_OUTPUT_FILE = 'GMetricsXmlReport.xml'
