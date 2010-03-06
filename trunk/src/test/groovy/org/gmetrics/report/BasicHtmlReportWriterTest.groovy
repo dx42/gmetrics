@@ -3,6 +3,7 @@ package org.gmetrics.report
 import org.gmetrics.metric.StubMetric
 import org.gmetrics.resultsnode.StubResultsNode
 import org.gmetrics.metricset.ListMetricSet
+import org.gmetrics.analyzer.AnalysisContext
 
 /*
 * Copyright 2010 the original author or authors.
@@ -147,20 +148,6 @@ class BasicHtmlReportWriterTest extends AbstractReportWriterTestCase {
         metricSet = new ListMetricSet([metric1, metric2])
         def resultsNode = new StubResultsNode(metricResults:[metric1Result(10)])
         assertReportContents(resultsNode, CONTENTS)
-    }
-
-    void testWriteReport_NullResultsNodeThrowsException() {
-        shouldFailWithMessageContaining('resultsNode') { reportWriter.writeReport(writer, null, metricSet) }
-    }
-
-    void testWriteReport_NullMetricSetThrowsException() {
-        def resultsNode = new StubResultsNode()
-        shouldFailWithMessageContaining('metricSet') { reportWriter.writeReport(writer, resultsNode, null) }
-    }
-
-    void testWriteReport_NullWriterThrowsException() {
-        def resultsNode = new StubResultsNode()
-        shouldFailWithMessageContaining('writer') { reportWriter.writeReport(null, resultsNode, metricSet) }  
     }
 
     void setUp() {

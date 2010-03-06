@@ -51,14 +51,15 @@ class GMetricsRunnerTest extends AbstractTestCase {
 
     void testExecute() {
         def analyzedMetricSet
-        def sourceAnalyzer = [analyze: { ms -> analyzedMetricSet = ms; return RESULTS_NODE }] as SourceAnalyzer
+        def sourceAnalyzer = [analyze: { ms -> analyzedMetricSet = ms; return RESULTS_NODE }, getSourceDirectories:{[]}] as SourceAnalyzer
         gMetricsRunner.sourceAnalyzer = sourceAnalyzer
 
-        def reportWriterResultsNode = [], reportWriterMetricSet = []
+        def reportWriterResultsNode = []
+        def reportWriterMetricSet = []
         2.times {
-            def reportWriter = [writeReport: { resultsNode, metricSet ->
+            def reportWriter = [writeReport: { resultsNode, analysisContext ->
                 reportWriterResultsNode << resultsNode;
-                reportWriterMetricSet << metricSet }] as ReportWriter
+                reportWriterMetricSet << analysisContext.metricSet }] as ReportWriter
             gMetricsRunner.reportWriters << reportWriter
         }
         gMetricsRunner.metricSet = METRIC_SET

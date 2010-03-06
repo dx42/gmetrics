@@ -19,6 +19,7 @@ import org.gmetrics.test.AbstractTestCase
 import org.gmetrics.resultsnode.StubResultsNode
 import org.gmetrics.resultsnode.ResultsNode
 import org.gmetrics.metricset.MetricSet
+import org.gmetrics.analyzer.AnalysisContext
 
 /**
  * Tests for AbstractReportWriter
@@ -29,20 +30,21 @@ import org.gmetrics.metricset.MetricSet
 class AbstractReportWriterTest extends AbstractTestCase {
     private static final RESULTS_NODE = new StubResultsNode()
     private static final METRIC_SET = [:] as MetricSet
+    private static final ANALYSIS_CONTEXT = new AnalysisContext(metricSet:METRIC_SET)
     private static final DEFAULT_STRING = '?'
     private static final CUSTOM_FILENAME = 'abc.txt'
     private reportWriter
 
     void testWriteReport_WritesToDefaultOutputFile_IfOutputFileIsNull() {
         def defaultOutputFile = TestAbstractReportWriter.defaultOutputFile
-        reportWriter.writeReport(RESULTS_NODE, METRIC_SET)
+        reportWriter.writeReport(RESULTS_NODE, ANALYSIS_CONTEXT)
         assertOutputFile(defaultOutputFile) 
     }
 
     void testWriteReport_WritesToOutputFile_IfOutputFileIsDefined() {
         final NAME = 'abc.txt'
         reportWriter.outputFile = NAME
-        reportWriter.writeReport(RESULTS_NODE, METRIC_SET)
+        reportWriter.writeReport(RESULTS_NODE, ANALYSIS_CONTEXT)
         assertOutputFile(NAME) 
     }
 
@@ -50,7 +52,7 @@ class AbstractReportWriterTest extends AbstractTestCase {
         reportWriter.outputFile = CUSTOM_FILENAME
         reportWriter.writeToStandardOut = "true"
         def output = captureSystemOut {
-            reportWriter.writeReport(RESULTS_NODE, METRIC_SET)
+            reportWriter.writeReport(RESULTS_NODE, ANALYSIS_CONTEXT)
         }
         assertFileDoesNotExist(CUSTOM_FILENAME)
         assertContents(output)
@@ -60,7 +62,7 @@ class AbstractReportWriterTest extends AbstractTestCase {
         reportWriter.outputFile = CUSTOM_FILENAME
         reportWriter.writeToStandardOut = true
         def output = captureSystemOut {
-            reportWriter.writeReport(RESULTS_NODE, METRIC_SET)
+            reportWriter.writeReport(RESULTS_NODE, ANALYSIS_CONTEXT)
         }
         assertFileDoesNotExist(CUSTOM_FILENAME)
         assertContents(output)
@@ -69,14 +71,14 @@ class AbstractReportWriterTest extends AbstractTestCase {
     void testWriteReport_WritesToStandardOut_AndResetsSystemOut() {
         def originalSystemOut = System.out
         reportWriter.writeToStandardOut = true
-        reportWriter.writeReport(RESULTS_NODE, METRIC_SET)
+        reportWriter.writeReport(RESULTS_NODE, ANALYSIS_CONTEXT)
         assert System.out == originalSystemOut
     }
 
     void testWriteReport_WritesToOutputFile_IfWriteToStandardOutIsNotTrue() {
         reportWriter.outputFile = CUSTOM_FILENAME
         reportWriter.writeToStandardOut = "false"
-        reportWriter.writeReport(RESULTS_NODE, METRIC_SET)
+        reportWriter.writeReport(RESULTS_NODE, ANALYSIS_CONTEXT)
         assertOutputFile(CUSTOM_FILENAME)
     }
 
@@ -143,7 +145,7 @@ class AbstractReportWriterTest extends AbstractTestCase {
 class TestAbstractReportWriter extends AbstractReportWriter {
     static defaultOutputFile = 'TestReportWriter.txt'
 
-    void writeReport(Writer writer, ResultsNode resultsNode, MetricSet metricSet) {
+    void writeReport(Writer writer, ResultsNode resultsNode, AnalysisContext analysisContext) {
         writer.write('abc')
         writer.flush()        
     }

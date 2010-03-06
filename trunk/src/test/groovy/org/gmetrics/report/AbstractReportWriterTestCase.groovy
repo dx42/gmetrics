@@ -1,11 +1,12 @@
 package org.gmetrics.report
 
 import org.gmetrics.metric.MetricLevel
-import org.gmetrics.metric.StubMetric
-import org.gmetrics.metricset.ListMetricSet
+
 import org.gmetrics.result.NumberMetricResult
 import org.gmetrics.resultsnode.StubResultsNode
 import org.gmetrics.test.AbstractTestCase
+import org.gmetrics.analyzer.AnalysisContext
+import org.gmetrics.metricset.MetricSet
 
 /*
 * Copyright 2010 the original author or authors.
@@ -37,6 +38,7 @@ abstract class AbstractReportWriterTestCase extends AbstractTestCase {
     protected reportWriter
     protected writer
     protected metricSet
+    protected analysisContext
 
     // Each subclass must implement
     protected abstract ReportWriter createReportWriter()
@@ -44,7 +46,30 @@ abstract class AbstractReportWriterTestCase extends AbstractTestCase {
     void testImplementsReportWriter() {
         assert reportWriter instanceof ReportWriter
     }
-    
+
+    void testWriteReport_NullResultsNode_ThrowsException() {
+        def analysisContext = new AnalysisContext(metricSet:metricSet)
+        shouldFailWithMessageContaining('results') { reportWriter.writeReport(null, analysisContext) }
+    }
+
+    void testWriteReport_NullAnalysisContext_ThrowsException() {
+        def resultsNode = packageResultsNode(path:'test')
+        shouldFailWithMessageContaining('analysisContext') { reportWriter.writeReport(resultsNode, null) }
+    }
+
+    void testWriteReport_NullMetricSet_ThrowsException() {
+        def resultsNode = packageResultsNode(path:'test')
+        def analysisContext_NoMetricSet = new AnalysisContext()
+        shouldFailWithMessageContaining('metricSet') { reportWriter.writeReport(resultsNode, analysisContext_NoMetricSet) }
+    }
+
+    void testWriteReport_NullWriterThrowsException() {
+        def resultsNode = new StubResultsNode()
+        metricSet = [:] as MetricSet
+        def analysisContext = new AnalysisContext(metricSet:metricSet)
+        shouldFailWithMessageContaining('writer') { reportWriter.writeReport(null, resultsNode, analysisContext) }
+    }
+
     void setUp() {
         super.setUp()
         reportWriter = createReportWriter()
@@ -70,7 +95,8 @@ abstract class AbstractReportWriterTestCase extends AbstractTestCase {
     }
 
     protected String writeReport(resultsNode, boolean writeToFile=false) {
-        reportWriter.writeReport(writer, resultsNode, metricSet)
+        analysisContext = new AnalysisContext(metricSet:metricSet)
+        reportWriter.writeReport(writer, resultsNode, analysisContext)
         def reportText = writer.toString()
         log("reportText=$reportText")
         writeOutToFile(reportText, writeToFile)

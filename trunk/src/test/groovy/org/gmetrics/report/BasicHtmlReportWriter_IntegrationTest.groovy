@@ -20,6 +20,7 @@ import org.gmetrics.metricset.ListMetricSet
 import org.gmetrics.analyzer.FilesystemSourceAnalyzer
 import org.gmetrics.metric.linecount.MethodLineCountMetric
 import org.gmetrics.metric.abc.AbcMetric
+import org.gmetrics.analyzer.AnalysisContext
 
 /**
  * Tests for BasicHtmlReportWriter
@@ -33,6 +34,7 @@ class BasicHtmlReportWriter_IntegrationTest extends AbstractTestCase {
     private sourceAnalyzer
     private reportWriter
     private metricSet
+    private analysisContext
 
     void test_RunAnalysis_And_GenerateReport() {
         def resultsNode = sourceAnalyzer.analyze(metricSet)
@@ -44,13 +46,14 @@ class BasicHtmlReportWriter_IntegrationTest extends AbstractTestCase {
         super.setUp()
         sourceAnalyzer = new FilesystemSourceAnalyzer(baseDirectory:BASE_DIR)
         reportWriter = new BasicHtmlReportWriter()
-        metricSet = new ListMetricSet([new MethodLineCountMetric(), new AbcMetric()])    
+        metricSet = new ListMetricSet([new MethodLineCountMetric(), new AbcMetric()])
+        analysisContext = new AnalysisContext(metricSet:metricSet)
     }
 
     private void assertReportContents(resultsNode, expectedContents, boolean writeToFile=false) {
         def file = new File(REPORT_FILE)
         file.delete()
-        reportWriter.writeReport(resultsNode, metricSet)
+        reportWriter.writeReport(resultsNode, analysisContext)
         assert file.exists()
         def reportText = file.text
         assertContainsAll(reportText, ['org.gmetrics'])
