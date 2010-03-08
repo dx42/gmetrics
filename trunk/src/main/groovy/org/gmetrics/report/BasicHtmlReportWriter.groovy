@@ -122,7 +122,7 @@ class BasicHtmlReportWriter extends AbstractReportWriter {
                         th(columnHeading, class:'metricColumnHeader')
                     }
                 }
-                out << buildResultsTableRowRecursively(resultsNode, metricResultColumns, null, 0)
+                out << buildResultsTableRowRecursively(resultsNode, metricResultColumns, null)
             }
         }
     }
@@ -132,18 +132,17 @@ class BasicHtmlReportWriter extends AbstractReportWriter {
         return getResourceBundleString(resourceKey, "$metricName ($metricProperty)")
     }
 
-    private LEVEL_TO_CSS_MAP = [(MetricLevel.PACKAGE):'package', (MetricLevel.CLASS):'class', (MetricLevel.METHOD):'method']
-
-    private buildResultsTableRowRecursively(ResultsNode resultsNode, List metricResultColumns, String name, int indentLevel) {
+    private buildResultsTableRowRecursively(ResultsNode resultsNode, List metricResultColumns, String name) {
         return {
-            def rowCssClass = LEVEL_TO_CSS_MAP[resultsNode.level]
+            def level = resultsNode.level
+            def rowCssClass = level.name
             tr(class:rowCssClass) {
                 def prefix = prefixForResultsNodeLevel(resultsNode)
-                def pathName = name ?: ROOT_PACKAGE_NAME
-                def actualIndentLevel = indentLevel > MAX_INDENT_LEVEL ? MAX_INDENT_LEVEL : indentLevel
+                def nodeName = level == MetricLevel.PACKAGE ? resultsNode.path : name
+                def pathName = nodeName ?: ROOT_PACKAGE_NAME
                 def cssClass = name ? 'name' : 'allPackages'
 
-                td(class:"indent${actualIndentLevel}") {
+                td(class:"${level.name}Indent") {
                     span(prefix, class:'rowTypePrefix')
                     span(pathName, class:cssClass)
                 }
@@ -157,8 +156,18 @@ class BasicHtmlReportWriter extends AbstractReportWriter {
                     td(value, class:'metricValue')
                 }
             }
+            out << buildResultsRowForLevel(resultsNode, metricResultColumns, MetricLevel.METHOD)
+            out << buildResultsRowForLevel(resultsNode, metricResultColumns, MetricLevel.CLASS)
+            out << buildResultsRowForLevel(resultsNode, metricResultColumns, MetricLevel.PACKAGE)
+        }
+    }
+
+    private buildResultsRowForLevel(ResultsNode resultsNode, List metricResultColumns, MetricLevel metricLevel) {
+        return {
             resultsNode.children.each { childName, childNode ->
-                out << buildResultsTableRowRecursively(childNode, metricResultColumns, childName, indentLevel+1)
+                if (childNode.level == metricLevel) {
+                    out << buildResultsTableRowRecursively(childNode, metricResultColumns, childName)
+                }
             }
         }
     }
