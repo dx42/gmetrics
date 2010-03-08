@@ -16,7 +16,6 @@
 package org.gmetrics.report
 
 import org.gmetrics.resultsnode.StubResultsNode
-import org.gmetrics.metricset.ListMetricSet
 import org.gmetrics.analyzer.AnalysisContext
 
 /**
@@ -103,20 +102,20 @@ class BasicHtmlReportWriterTest extends AbstractReportWriterTestCase {
                 METRIC_RESULTS,
                 NAME_HEADING,
                 PACKAGE_PREFIX, ALL_PACKAGES, 1, 1,
-                PACKAGE_PREFIX, 'DirA', 11, 11,
+                PACKAGE_PREFIX, 'src/DirA', 11, 11,
                 CLASS_PREFIX, 'ClassA1', 100, 100,
                 METHOD_PREFIX, 'MethodA1a', 1000, 1000,
                 METHOD_PREFIX, 'MethodA1b', 1001, 1001,
                 CLASS_PREFIX, 'ClassA2', 101, 101,
-                PACKAGE_PREFIX, 'DirC', 102, 102,
-                PACKAGE_PREFIX, 'DirB', 12, 12,
+                PACKAGE_PREFIX, 'src/DirA/DirC', 102, 102,
+                PACKAGE_PREFIX, 'src/DirB', 12, 12,
                 METRIC_DESCRIPTIONS,
                 metric1.name, metricDescription(metric1),
                 BOTTOM_LINK]
 
         def resultsNode = packageResultsNode(metricResults:[metric1Result(1)])
-        def dirA = packageResultsNode(metricResults:[metric1Result(11)])
-        def dirB = packageResultsNode(metricResults:[metric1Result(12)])
+        def dirA = packageResultsNode(path:'src/DirA', metricResults:[metric1Result(11)])
+        def dirB = packageResultsNode(path:'src/DirB', metricResults:[metric1Result(12)])
         resultsNode.children['DirA'] = dirA
         resultsNode.children['DirB'] = dirB
         def classA1 = classResultsNode(metricResults:[metric1Result(100)])
@@ -125,10 +124,10 @@ class BasicHtmlReportWriterTest extends AbstractReportWriterTestCase {
         classA1.children['MethodA1a'] = methodA1a
         classA1.children['MethodA1b'] = methodA1b
         def classA2 = classResultsNode(metricResults:[metric1Result(101)])
-        def dirC = packageResultsNode(metricResults:[metric1Result(102)])
+        def dirC = packageResultsNode(path:'src/DirA/DirC', metricResults:[metric1Result(102)])
+        dirA.children['DirC'] = dirC
         dirA.children['ClassA1'] = classA1
         dirA.children['ClassA2'] = classA2
-        dirA.children['DirC'] = dirC
 
         assertReportContents(resultsNode, CONTENTS, true)
     }

@@ -1,14 +1,3 @@
-package org.gmetrics.report
-
-import org.gmetrics.metric.MetricLevel
-
-import org.gmetrics.result.NumberMetricResult
-import org.gmetrics.resultsnode.StubResultsNode
-import org.gmetrics.test.AbstractTestCase
-import org.gmetrics.analyzer.AnalysisContext
-import org.gmetrics.metric.StubMetric
-import org.gmetrics.metricset.ListMetricSet
-
 /*
 * Copyright 2010 the original author or authors.
 *
@@ -24,6 +13,16 @@ import org.gmetrics.metricset.ListMetricSet
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+package org.gmetrics.report
+
+import org.gmetrics.metric.MetricLevel
+
+import org.gmetrics.result.NumberMetricResult
+import org.gmetrics.resultsnode.StubResultsNode
+import org.gmetrics.test.AbstractTestCase
+import org.gmetrics.analyzer.AnalysisContext
+import org.gmetrics.metric.StubMetric
+import org.gmetrics.metricset.ListMetricSet
 
 /**
  * Abstract superclass for ReportWriter test classes.
