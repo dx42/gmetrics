@@ -33,7 +33,9 @@ class CyclomaticComplexityMetric_ClassTest extends AbstractMetricTestCase {
 
     void testApplyToClass_ReturnNullForClassWithNoMethods() {
         final SOURCE = """
-            int myValue
+            class MyClass {
+                int myValue
+            }
         """
         assert applyToClass(SOURCE) == null
     }
@@ -47,17 +49,19 @@ class CyclomaticComplexityMetric_ClassTest extends AbstractMetricTestCase {
         assert applyToClass(SOURCE) == null
     }
 
-    void testApplyToClass_IgnoresSyntheticMethods() {
+    void testApplyToClass_IgnoresSyntheticNonRunMethods() {
         final SOURCE = """
             println 123     // this is a script; will generate main() and run() methods
         """
-        assert applyToClass(SOURCE) == null
+        assertApplyToClass(SOURCE, 1, 1, [run:1])
     }
 
     void testApplyToClass_ResultsForClassWithOneMethod() {
         final SOURCE = """
-            def a() {
-                if (ready) { }
+            class MyClass {
+                def a() {
+                    if (ready) { }
+                }
             }
         """
         assertApplyToClass(SOURCE, 2, 2, [a:2])
@@ -104,6 +108,15 @@ class CyclomaticComplexityMetric_ClassTest extends AbstractMetricTestCase {
             }
         """
         assertApplyToClass(SOURCE, 2, 2, [myClosure:2])
+    }
+
+    void testApplyToClass_ResultsForScript_RunMethod() {
+        final SOURCE = """
+            def myClosure = {           // this is actually inside the implicit run() method
+                if (x == 23) return 99 else return 0
+            }
+        """
+        assertApplyToClass(SOURCE, 2, 2, [run:2])
     }
 
     void testApplyToPackage_ResultsForNoChildren() {

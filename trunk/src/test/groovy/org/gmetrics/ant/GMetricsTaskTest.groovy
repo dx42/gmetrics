@@ -33,7 +33,7 @@ class GMetricsTaskTest extends AbstractTestCase {
 
     private static final HTML_REPORT_WRITER = 'org.gmetrics.report.BasicHtmlReportWriter'
 
-    private gMetricsTask
+    private GMetricsTask gMetricsTask
     private fileSet
     private project
     private called = [:]

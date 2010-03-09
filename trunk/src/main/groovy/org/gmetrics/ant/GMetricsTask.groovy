@@ -67,12 +67,18 @@ class GMetricsTask extends Task {
      */
     void execute() throws BuildException {
         assert fileSets
-        def sourceAnalyzer = createSourceAnalyzer()
-        def gMetricsRunner = createGMetricsRunner()
-        gMetricsRunner.metricSet = createMetricSet()
-        gMetricsRunner.reportWriters = reportWriters
-        gMetricsRunner.sourceAnalyzer = sourceAnalyzer
-        gMetricsRunner.execute()
+        try {
+            def sourceAnalyzer = createSourceAnalyzer()
+            def gMetricsRunner = createGMetricsRunner()
+            gMetricsRunner.metricSet = createMetricSet()
+            gMetricsRunner.reportWriters = reportWriters
+            gMetricsRunner.sourceAnalyzer = sourceAnalyzer
+            gMetricsRunner.execute()
+        }
+        catch(Throwable t) {
+            LOG.error("GMetricsTask error", t)
+            throw t
+        }
     }
 
     /**

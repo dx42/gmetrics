@@ -46,7 +46,7 @@ class GMetricsRunner {
     ResultsNode execute() {
         assert metricSet
         assert sourceAnalyzer
-        assert reportWriters != null\
+        assert reportWriters != null
 
         def startTime = System.currentTimeMillis()
         def resultsNode = sourceAnalyzer.analyze(metricSet)
