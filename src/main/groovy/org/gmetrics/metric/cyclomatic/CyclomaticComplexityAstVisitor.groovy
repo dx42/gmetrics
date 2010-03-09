@@ -25,6 +25,7 @@ import org.codehaus.groovy.ast.stmt.CatchStatement
 import org.codehaus.groovy.ast.expr.BinaryExpression
 import org.codehaus.groovy.ast.expr.Expression
 import org.codehaus.groovy.ast.expr.TernaryExpression
+import org.codehaus.groovy.ast.expr.PropertyExpression
 
 /**
  * AST Visitor for calculating the Cyclomatic Complexity for a method or closure field.
@@ -39,10 +40,16 @@ class CyclomaticComplexityAstVisitor extends AbstractAstVisitor {
     Integer complexity = 1
 
     void visitMethod(MethodNode methodNode) {
-        if (methodNode.lineNumber < 0 || methodNode.isAbstract()) {
+        if (methodNode.isAbstract() || isSyntheticNonRunMethod(methodNode) ) {
             complexity = null
         }
-        super.visitMethod(methodNode)
+        else {
+            super.visitMethod(methodNode)
+        }
+    }
+
+    private boolean isSyntheticNonRunMethod(MethodNode methodNode) {
+        return methodNode.lineNumber < 0 && methodNode.name != 'run'
     }
 
     void visitIfElse(IfStatement ifElse) {
@@ -80,7 +87,7 @@ class CyclomaticComplexityAstVisitor extends AbstractAstVisitor {
         super.visitTernaryExpression(expression)
     }
 
-    void visitPropertyExpression(org.codehaus.groovy.ast.expr.PropertyExpression expression) {
+    void visitPropertyExpression(PropertyExpression expression) {
         complexity += expression.safe ? 1 : 0
         super.visitPropertyExpression(expression)
     }
