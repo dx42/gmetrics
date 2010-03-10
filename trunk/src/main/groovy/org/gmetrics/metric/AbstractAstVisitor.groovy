@@ -19,6 +19,7 @@ import org.codehaus.groovy.ast.ASTNode
 import org.codehaus.groovy.ast.ClassCodeVisitorSupport
 import org.codehaus.groovy.control.SourceUnit
 import org.gmetrics.source.SourceCode
+import org.codehaus.groovy.ast.MethodNode
 
 /**
  * Abstract superclass for Groovy AST Visitors
@@ -58,6 +59,10 @@ abstract class AbstractAstVisitor extends ClassCodeVisitorSupport implements Ast
 
     protected SourceUnit getSourceUnit() {
         return source
+    }
+
+    protected boolean isSyntheticNonRunMethod(MethodNode methodNode) {
+        return methodNode.lineNumber < 0 && methodNode.name != 'run'
     }
 
 }
