@@ -233,6 +233,7 @@
         <w>javadocs</w>
         <w>metricset</w>
         <w>superclass</w>
+        <w>wildcards</w>
       </words>
     </dictionary>
   </component>

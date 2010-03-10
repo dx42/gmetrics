@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 the original author or authors.
+ * Copyright 2010 the original author or authors.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,6 @@
  */
 package org.gmetrics.util
 
-import org.gmetrics.test.AbstractTestCase
 import org.gmetrics.test.AbstractTestCase
 
 /**
@@ -51,7 +50,9 @@ class WildcardPatternTest extends AbstractTestCase {
         assert new WildcardPattern('').matches('abc')
         assert new WildcardPattern('a').matches('a')
         assert new WildcardPattern('a@b.c').matches('a@b.c')
-        assert new WildcardPattern('!@#$%^&.()-_+=~`{}[]:;<>').matches('!@#$%^&.()-_+=~`{}[]:;<>')
+        assert new WildcardPattern('+!@#$%^&.()-_+=~`{}[]:;<>+$').matches('+!@#$%^&.()-_+=~`{}[]:;<>+$')
+        assert new WildcardPattern('ab+c').matches('ab+c')      // no wildcards
+        assert new WildcardPattern('a*b+c').matches('aaaaab+c') // contains a wildcard
         assert new WildcardPattern('a*def').matches('abcdef')
         assert new WildcardPattern('a?cde?').matches('abcdef')
         assert new WildcardPattern('*?cd*').matches('abcdef')
