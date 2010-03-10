@@ -44,7 +44,7 @@ class AbcAstVisitor extends AbstractAstVisitor {
     final boolean visited = false
 
     void visitMethod(MethodNode methodNode) {
-        if (methodNode.lineNumber >= 0  && !methodNode.isAbstract()) {
+        if (!isSyntheticNonRunMethod(methodNode)  && !methodNode.isAbstract()) {
             this.visited = true
             super.visitMethod(methodNode)
         }

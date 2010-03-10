@@ -32,7 +32,9 @@ class AbcMetric_ClassTest extends AbstractAbcMetricTest {
 
     void testApplyToClass_ReturnNullForClassWithNoMethods() {
         final SOURCE = """
-            int myValue
+            class MyClass {
+                int myValue
+            }
         """
         assert applyToClass(SOURCE) == null
     }
@@ -50,10 +52,10 @@ class AbcMetric_ClassTest extends AbstractAbcMetricTest {
         final SOURCE = """
             println 123     // this is a script; will generate main() and run() methods
         """
-        assert applyToClass(SOURCE) == null
+        assertApplyToClass(SOURCE, [0, 1, 0], [0,1,0], [run:[0, 1, 0]])
     }
 
-    void testCalculate_ResultsForClassWithOneMethod() {
+    void testApplyToClass_ResultsForClassWithOneMethod() {
         final SOURCE = """
             def a() {
                 def x = 1               // A=1
@@ -62,7 +64,7 @@ class AbcMetric_ClassTest extends AbstractAbcMetricTest {
         assertApplyToClass(SOURCE, [1, 0, 0], [1,0,0], [a:[1, 0, 0]])
     }
 
-    void testCalculate_ResultsForClassWithSeveralMethods() {
+    void testApplyToClass_ResultsForClassWithSeveralMethods() {
         final SOURCE = """
             def a() {
                 def x = 1; y = x            // A=2
@@ -83,7 +85,16 @@ class AbcMetric_ClassTest extends AbstractAbcMetricTest {
         assertApplyToClass(SOURCE, [3,3,6], [1,1,2], [a:[2,0,0], b:[1,3,0], c:[0,0,6]])
     }
 
-    void testCalculate_ResultsForClassWithOneClosureField() {
+    void testApplyToClass_ResultsForScript_RunMethod() {
+        final SOURCE = """
+            def myClosure = {           // this is actually inside the implicit run() method
+                def x = 1
+            }
+        """
+        assertApplyToClass(SOURCE, [2, 0, 0], [2,0,0], [run:[2, 0, 0]])
+    }
+
+    void testApplyToClass_ResultsForClassWithOneClosureField() {
         final SOURCE = """
             class MyClass {
                 def myClosure = {
@@ -96,7 +107,7 @@ class AbcMetric_ClassTest extends AbstractAbcMetricTest {
         assertApplyToClass(SOURCE, [2,1,2], [2,1,2], [myClosure:[2,1,2]])
     }
 
-    void testCalculate_ProcessesMultipleClosureFields() {
+    void testApplyToClass_ProcessesMultipleClosureFields() {
         final SOURCE = """
             class MyClass {
                 def a = {

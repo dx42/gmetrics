@@ -48,10 +48,6 @@ class CyclomaticComplexityAstVisitor extends AbstractAstVisitor {
         }
     }
 
-    private boolean isSyntheticNonRunMethod(MethodNode methodNode) {
-        return methodNode.lineNumber < 0 && methodNode.name != 'run'
-    }
-
     void visitIfElse(IfStatement ifElse) {
         complexity++
         super.visitIfElse(ifElse)
