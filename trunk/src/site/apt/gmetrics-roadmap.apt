@@ -8,22 +8,14 @@ GMetrics - Road Map
   Suggestions or preferences? Create a
   {{{http://sourceforge.net/tracker/?atid=1220658&group_id=288180&func=browse}Feature Request}}.
 
-* Short-Term Goals (Imminent)
+* On the Horizon
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  * Cyclomatic Complexity metric
-
-  * XML report
-
-  * Customize metrics included in the report(s)
-
-  * Making GMetrics available from the Maven central repository.
-
-
-* Long-Term Goals
-~~~~~~~~~~~~~~~~~
-
   * More metrics
+
+  * More functions (min, max) for metric values
+
+  * Customize functions (total, average, min, max) for metrics included in the report(s)
 
   * Integrate with {{{http://codenarc.sourceforge.net/index.html}CodeNarc}}.
 

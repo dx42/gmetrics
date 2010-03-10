@@ -28,15 +28,6 @@ GMetrics
 
   Take a look at a {{{SampleGMetricsReport.html}Sample GMetrics Report}}.
 
-* Coming Soon
-~~~~~~~~~~~~~
-
-  Future releases will include
-
-    * XML report
-
-    * Customize metrics included in the report(s)
-
 * Requirements
 ~~~~~~~~~~~~~~
 

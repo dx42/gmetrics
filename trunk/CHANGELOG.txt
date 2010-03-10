@@ -2,6 +2,40 @@ GMetrics Change Log
 -------------------------------------------------------------------------------
 http://www.gmetrics.org
 
+Changes in version 0.2 (10 Mar 2010)
+--------------------------------------
+NEW FEATURES
+- NEW: CyclomaticComplexityMetric
+- NEW: MetricSet DSL: Implement GroovyDslMetricSet and MetricSetBuilder.
+- NEW: XmlReportWriter
+BREAKING CHANGES
+- Modify ReportWriter interface (and implementations) to pass AnalysisContext: void writeReport(ResultsNode resultsNode, AnalysisContext analysisContext).
+- Change DefaultMetricSet to include CyclomaticComplexityMetric instead of AbcMetric.
+FIXES AND ENHANCEMENTS
+- Add metricSetFile property to GMetricsTask Ant Task.
+- AbcMetric (AbcVector): Fix "NumberFormatException: Infinite or NaN" error with large numbers.
+- AbcMetric: Calculate metric for run() synthetic method (special case).
+- GMetricsTask: Fix: Replace call to Class.forName() with getClass().classLoader.loadClass().
+- WildcardPattern: Escape plus sign ('+') within patterns. Add plus sign ('+') to convertStringWithWildcardsToRegex().
+REPORTS
+- BasicHtmlReportWriter: Don’t nest packages? Put all packages at the same level (no indent).
+- BasicHtmlReportWriter: Display full (relative) package names – e.g., “org/gmetrics/source”.
+- Enable configuring all reports (AbstractReportWriter) to write to the stdout (console).
+- Add support for 'enabled' property to BasicHtmlReportWriter.
+METRICS
+- New CyclomaticComplexity metric
+- Introduce AbstractMetric.
+- Added boolean isEnabled() to the Metric interface and enabled property to AbstractMetric.
+- Add Guidelines for Interpreting for ABC Metric Values to web site.
+- Add web site page for the DefaultMetricSet.
+INFRASTRUCTURE AND TESTS
+- Introduce CompositeMetricSet.
+- Introduce AnalysisContext class with sourceDirectories and metricSet.
+- Add List getSourceDirectories() to SourceAnalyzer interface and implementation classes. For AntFileSetSourceAnalyzer: Calculate sourceDirectories relative to project base directory.
+- Rename AbstractMetricTest to AbstractMetricTestCase.
+- Add AbstractCommonMetricTestCase. Common tests: enabled returns null for package,class; metric implements Metric.
+
+
 Changes in version 0.1.1 (7 Feb 2010)
 --------------------------------------
 - Fix Bug #2919722: "Method metrics only process first closure field". https://sourceforge.net/tracker/?func=detail&aid=2919722&group_id=288180&atid=1220655.
