@@ -71,7 +71,7 @@ abstract class AbstractMetricTestCase extends AbstractTestCase {
 
     protected findSyntheticMethod(String source) {
         def classNode = parseClass(source)
-        return classNode.methods.find { it.lineNumber < 0 }
+        return classNode.methods.find { it.lineNumber < 0 && it.name != 'run'}
     }
 
     protected calculateForConstructor(String source) {

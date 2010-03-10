@@ -62,6 +62,11 @@ class AbcVectorTest extends AbstractTestCase {
         assert abcVectorMagnitude(0, 0, 7) == 7
     }
 
+    void testVectorWithHugeNumbers() {
+        assertEquals(46589.5, abcVectorMagnitude(8408, 45703, 3335), 0.01)
+    }
+
+
     private abcVectorMagnitude(int a, int b, int c) {
         def abcVector = new AbcVector(a, b, c)
         log(abcVector)

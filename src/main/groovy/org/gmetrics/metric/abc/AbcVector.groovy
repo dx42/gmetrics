@@ -50,7 +50,7 @@ class AbcVector {
         "<$assignments, $branches, $conditions>"
     }
 
-    private int squared(int val) {
+    private BigInteger squared(int val) {
         return val * val
     }
 
