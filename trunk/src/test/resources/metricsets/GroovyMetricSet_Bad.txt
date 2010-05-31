@@ -1,0 +1,12 @@
+// Example Groovy MetricSet for testing
+
+import org.gmetrics.metric.StubMetric
+
+metricset {
+    description 'A sample Groovy MetricSet - Tries to set non-existent property'
+
+    metric(StubMetric) {
+        noSuchProperty = 'abc'          // This property does not exist        
+    }
+
+}

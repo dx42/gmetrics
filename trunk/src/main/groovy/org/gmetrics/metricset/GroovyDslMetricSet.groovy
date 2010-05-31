@@ -43,7 +43,10 @@ class GroovyDslMetricSet implements MetricSet {
 
         def metricSetBuilder = new MetricSetBuilder()
 
-        def callMetricSet = { closure -> metricSetBuilder.metricset(closure) }
+        def callMetricSet = { closure ->
+            closure.resolveStrategy = Closure.DELEGATE_ONLY    // fail if access non-existent properties
+            metricSetBuilder.metricset(closure) 
+        }
         Binding binding = new Binding(metricset:callMetricSet)
 
         GroovyShell shell = new GroovyShell(binding);

@@ -45,23 +45,27 @@ class GroovyDslMetricSetTest extends AbstractTestCase {
     void testLoadGroovyMetricSet() {
         [MetricSetTestFiles.METRICSET1, MetricSetTestFiles.METRICSET1_RELATIVE_PATH].each { path ->
             def metrics = loadMetricSetFromFile(path)
-            assert metrics*.name == ['Stub', 'ABC']
+            assert metrics*.name == ['Stub', 'XXX']
             assert metrics[0].otherProperty == 'abc'
         }
     }
 
     void testLoadNestedGroovyMetricSet() {
         def metrics = loadMetricSetFromFile(MetricSetTestFiles.METRICSET2)
-        assert metrics*.name == ['CustomMetric', 'Stub', 'ABC']
+        assert metrics*.name == ['CustomMetric', 'Stub', 'XXX']
         assert metrics[0].otherProperty == '345'
         assert metrics[1].otherProperty == 'abc'
     }
 
     void testLoadNestedGroovyMetricSet_CustomizeContainedMetricUsingClosure() {
         def metrics = loadMetricSetFromFile(MetricSetTestFiles.METRICSET3)
-        assert metrics*.name == ['CustomMetric', 'Stub', 'ABC']
+        assert metrics*.name == ['CustomMetric', 'Stub', 'XXX']
         assert metrics[0].otherProperty == '678'
         assert metrics[1].otherProperty == 'abc'
+    }
+
+    void testLoadGroovyMetricSet_SetNonExistentMetricProperty() {
+        shouldFailWithMessageContaining('noSuchProperty') { loadMetricSetFromFile('metricsets/GroovyMetricSet_Bad.txt') }
     }
 
     private loadMetricSetFromFile(String path) {

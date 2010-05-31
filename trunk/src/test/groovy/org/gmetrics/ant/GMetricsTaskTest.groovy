@@ -70,7 +70,7 @@ class GMetricsTaskTest extends AbstractTestCase {
         gMetricsTask.createGMetricsRunner = { gMetricsRunner }
         gMetricsTask.execute()
         log(gMetricsRunner.metricSet.metrics)
-        assert gMetricsRunner.metricSet.metrics*.name == ['Stub', 'ABC']
+        assert gMetricsRunner.metricSet.metrics*.name == ['Stub', 'XXX']
     }
 
     void testExecute_MetricSetFileNotFound_ThrowsException() {
