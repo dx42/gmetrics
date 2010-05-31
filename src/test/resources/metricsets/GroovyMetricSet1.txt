@@ -9,8 +9,8 @@ metricset {
         otherProperty = 'abc'        
     }
 
-    metric(org.gmetrics.metric.abc.AbcMetric) {
-        otherProperty = '123'        
+    metric(StubMetric) {
+        name = 'XXX'        
     }
 
 }

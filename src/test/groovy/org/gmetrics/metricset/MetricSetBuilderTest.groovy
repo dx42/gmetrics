@@ -52,7 +52,7 @@ class MetricSetBuilderTest extends AbstractTestCase {
                 'Stub' otherProperty:'888', name:'NewName'
             }
         }
-        assertMetricNames('NewName', 'ABC')
+        assertMetricNames('NewName', 'XXX')
         assertMetricProperties('NewName', [otherProperty:'888'])
     }
 
@@ -74,7 +74,7 @@ class MetricSetBuilderTest extends AbstractTestCase {
                 }
             }
         }
-        assertMetricNames('Stub', 'ABC')
+        assertMetricNames('Stub', 'XXX')
         assertMetricProperties('Stub', [otherProperty:'999'])
     }
 
@@ -94,7 +94,7 @@ class MetricSetBuilderTest extends AbstractTestCase {
         metricSetBuilder.metricset {
             metricset(MetricSetTestFiles.METRICSET1)
         }
-        assertMetricNames('Stub', 'ABC')
+        assertMetricNames('Stub', 'XXX')
     }
 
     void testMetric_Class_NoClosure() {

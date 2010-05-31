@@ -63,7 +63,7 @@ class GMetricsTask_AntBuilderTest extends AbstractTestCase {
                option(name:'outputFile', value:HTML_TEMP_REPORT_FILE)
            }
         }
-        verifyReportFile(HTML_TEMP_REPORT_FILE, ['ABC','Stub'])
+        verifyReportFile(HTML_TEMP_REPORT_FILE, ['Stub','XXX'])
     }
 
     void setUp() {
@@ -80,6 +80,6 @@ class GMetricsTask_AntBuilderTest extends AbstractTestCase {
     private void verifyReportFile(String reportFile, List metricNames) {
         def file = new File(reportFile)
         assert file.exists()
-        assertContainsAllInOrder(file.text, [TITLE, 'org.gmetrics.GMetricsRunner', 'Metric Descriptions'] + metricNames)
+        assertContainsAllInOrder(file.text, [TITLE, 'org/gmetrics', 'Metric Descriptions'] + metricNames)
     }
 }
