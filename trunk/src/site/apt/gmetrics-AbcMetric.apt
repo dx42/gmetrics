@@ -34,6 +34,8 @@ ABC Metric
    <<<else case default try catch ?>>>
 
  * Add one to the condition count for each unary conditional expression.
+   These are cases where a single variable/field/value is treated as a boolean value.
+   Examples include <<<if (x)>>> and <<<return !ready>>>.
 
 
 * Additional notes
