@@ -27,17 +27,19 @@ import org.gmetrics.metric.abc.result.AbcMetricResult
  *
  * The ABC Counting Rules for Groovy:
  * <pre>
- *   1. Add one to the assignment count for each occurrence of an assignment operator, excluding constant declarations:
- *      = *= /= %= += <<= >>= &= |= ^= >>>=
- *   2. Add one to the assignment count for each occurrence of an increment or decrement operator (prefix or postfix):
- *      ++ --
+ *   1. Add one to the assignment count for each occurrence of an assignment operator, excluding
+ *      constant declarations:    = *= /= %= += <<= >>= &= |= ^= >>>=
+ *   2. Add one to the assignment count for each occurrence of an increment or decrement operator
+ *      (prefix or postfix):    ++ --
  *   3. Add one to the branch count for each function call or class method call.
  *   4. Add one to the branch count for each occurrence of the new operator.
  *   5. Add one to the condition count for each use of a conditional operator:
  *      == != <= >= < > <=> =~ ==~
  *   6. Add one to the condition count for each use of the following keywords:
  *      else case default try catch ?
- *   7. Add one to the condition count for each unary conditional expression.
+ *   7. Add one to the condition count for each unary conditional expression. These are cases where
+ *      a single variable/field/value is treated as a boolean value. Examples include <code>if (x)</code>
+ *      and <code>return !ready</code>.
  * </pre>
  *
  * Additional notes:
