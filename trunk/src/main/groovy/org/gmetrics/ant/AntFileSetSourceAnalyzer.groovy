@@ -175,10 +175,6 @@ class AntFileSetSourceAnalyzer implements SourceAnalyzer {
         return path
     }
 
-    private String normalizePath(String path) {
-        return path ? path.replaceAll('\\\\', SEP) : path
-    }
-
     private String removeLeadingSlash(path) {
         return (path.startsWith('\\') || path.startsWith('/')) ? path.substring(1) : path
     }
