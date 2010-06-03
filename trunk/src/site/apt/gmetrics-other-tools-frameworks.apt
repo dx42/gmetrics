@@ -1,0 +1,15 @@
+		--------------------------------------------------
+				GMetrics - Other Tools / Frameworks
+		--------------------------------------------------
+
+GMetrics - Integration with Other Tools / Frameworks
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* Application Frameworks
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  * {{{http://grails.org/}Grails}} - See the {{{http://www.grails.org/plugin/gmetrics}Grails GMetrics Plugin}}.
+
+  * {{{http://griffon.codehaus.org/}Griffon}} - See the {{{http://docs.codehaus.org/display/GRIFFON/Gmetrics+Plugin}Griffon GMetrics Plugin}}
+
+
