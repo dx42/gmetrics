@@ -67,7 +67,7 @@ class ClassResultsNodeTest extends AbstractTestCase {
         classResultsNode.addClassMetricResult(classResult3)
         assert classResultsNode.getMetricResults().total == [1, 2, 3]
         def children = classResultsNode.getChildren()
-        println children
+        log(children)
         assert children.every { k, v -> v instanceof MethodResultsNode }
         assert children.keySet() == ['a', 'b', 'c'] as Set
         assert children['a'].metricResults.total == [20, 30]

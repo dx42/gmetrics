@@ -16,7 +16,6 @@
 package org.gmetrics.resultsnode
 
 import org.gmetrics.result.MetricResult
-import org.gmetrics.result.MetricResult
 import org.gmetrics.metric.MetricLevel
 
 /**

@@ -15,8 +15,6 @@
  */
 package org.gmetrics.result
 
-import org.gmetrics.result.MetricResult
-
 /**
  * Represents the results for a single metric for a single class
  *

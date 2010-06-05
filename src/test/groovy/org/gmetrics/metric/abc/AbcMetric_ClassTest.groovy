@@ -121,7 +121,7 @@ class AbcMetric_ClassTest extends AbstractAbcMetricTest {
         """
         def results = applyToClass(SOURCE)
         def methodResults = results.methodMetricResults
-        println "methodResults=$methodResults"
+        log("methodResults=$methodResults")
         assertEqualSets(methodResults.keySet(), ['a', 'b', 'c']) 
     }
 

@@ -16,7 +16,6 @@
 package org.gmetrics.util.io
 
 import org.gmetrics.test.AbstractTestCase
-import org.gmetrics.test.AbstractTestCase
 
 /**
  * Tests for ClassPathResource

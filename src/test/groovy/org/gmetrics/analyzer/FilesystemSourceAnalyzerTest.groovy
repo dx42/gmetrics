@@ -23,7 +23,6 @@ import org.gmetrics.result.NumberMetricResult
 import org.gmetrics.source.SourceString
 import org.gmetrics.result.ClassMetricResult
 import org.gmetrics.resultsnode.ResultsNodeTestUtil
-import org.gmetrics.test.AbstractTestCase
 
 /**
  * Tests for FilesystemSourceAnalyzer.

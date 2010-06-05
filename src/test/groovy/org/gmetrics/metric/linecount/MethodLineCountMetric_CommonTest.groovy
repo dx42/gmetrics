@@ -16,7 +16,6 @@
 package org.gmetrics.metric.linecount
 
 import org.gmetrics.metric.AbstractCommonMetricTestCase
-import org.gmetrics.metric.cyclomatic.CyclomaticComplexityMetric
 
 /**
  * Tests for MethodLineCountMetric - common tests

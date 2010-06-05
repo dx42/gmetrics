@@ -27,12 +27,12 @@ import org.gmetrics.metric.abc.result.AbcMetricResult
 abstract class AbcTestUtil {
     protected static final ZERO_VECTOR = [0, 0, 0]
 
-    protected static void assertEquals(AbcVector abcVector, List expectedValues) {
+    static void assertEquals(AbcVector abcVector, List expectedValues) {
         def actualValues = [abcVector.assignments, abcVector.branches, abcVector.conditions]
         assert actualValues == expectedValues
     }
 
-    protected static AbcMetricResult abcMetricResult(Metric metric, int a, int b, int c) {
+    static AbcMetricResult abcMetricResult(Metric metric, int a, int b, int c) {
         def abcVector = new AbcVector(a, b, c)
         return new AbcMetricResult(metric, abcVector)
     }

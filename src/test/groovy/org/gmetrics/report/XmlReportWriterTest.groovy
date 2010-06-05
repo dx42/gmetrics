@@ -16,7 +16,6 @@
 package org.gmetrics.report
 
 import java.text.DateFormat
-import org.gmetrics.analyzer.AnalysisContext
 
 /**
  * Tests for XmlReportWriter

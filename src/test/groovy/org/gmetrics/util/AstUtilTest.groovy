@@ -207,7 +207,7 @@ class AstUtilTest extends AbstractTestCase {
         // Not valid under Groovy 1.5.x
         if (isNotGroovy15()) {
             applyVisitor(NEW_SOURCE)
-            visitor.declarationExpressions.eachWithIndex { dec, index -> println "$index $dec" }
+            //visitor.declarationExpressions.eachWithIndex { dec, index -> println "$index $dec" }
             def variableExpressions = AstUtil.getVariableExpressions(visitor.declarationExpressions[3])
             assert variableExpressions.name == ['name1', 'name2']
         }

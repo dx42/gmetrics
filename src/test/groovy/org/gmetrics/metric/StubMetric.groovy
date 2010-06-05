@@ -18,7 +18,6 @@ package org.gmetrics.metric
 import org.gmetrics.result.ClassMetricResult
 import org.codehaus.groovy.ast.ClassNode
 import org.gmetrics.source.SourceCode
-import org.gmetrics.result.ClassMetricResult
 import org.gmetrics.result.MetricResult
 
 /**

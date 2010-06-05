@@ -168,10 +168,6 @@ class AbcAstVisitor extends AbstractAstVisitor {
             AstUtil.isFinalVariable(expression, sourceCode)
     }
 
-    private boolean respondsTo(Object object, String methodName) {
-        return object.metaClass.respondsTo(object, methodName)
-    }
-
     private boolean isNotEmptyStatement(Statement statement) {
         statement.class != EmptyStatement
     }

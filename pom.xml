@@ -38,6 +38,14 @@
             <version>3.8.1</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.codenarc</groupId>
+            <artifactId>CodeNarc</artifactId>
+            <version>0.9</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <distributionManagement>

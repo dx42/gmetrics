@@ -37,6 +37,9 @@
     <option name="DEPRECATION" value="false" />
   </component>
   <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false" />
+  <component name="EntryPointsManager">
+    <entry_points version="2.0" />
+  </component>
   <component name="FacetAutodetectingManager">
     <autodetection-disabled>
       <facet-type id="Groovy">
@@ -419,6 +422,17 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$MAVEN_REPOSITORY$/log4j/log4j/1.2.13/log4j-1.2.13-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.codenarc:CodeNarc:0.9">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/codenarc/CodeNarc/0.9/CodeNarc-0.9.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/codenarc/CodeNarc/0.9/CodeNarc-0.9-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/codenarc/CodeNarc/0.9/CodeNarc-0.9-sources.jar!/" />
       </SOURCES>
     </library>
   </component>
