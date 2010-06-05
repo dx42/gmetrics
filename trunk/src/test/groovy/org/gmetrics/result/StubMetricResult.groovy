@@ -15,7 +15,6 @@
  */
 package org.gmetrics.result
 
-import org.gmetrics.result.MetricResult
 import org.gmetrics.metric.Metric
 
 class StubMetricResult implements MetricResult {

@@ -29,7 +29,6 @@ class BasicHtmlReportWriterTest extends AbstractReportWriterTestCase {
     private static final HTML_TAG = 'html'
     private static final TITLE_PREFIX = 'GMetrics Report'
     private static final BOTTOM_LINK = "<a href='http://www.gmetrics.org'>GMetrics"
-    private static final TITLE = 'My Cool Project'
     private static final REPORT_TIMESTAMP = 'Report timestamp:'
     private static final METRIC_RESULTS = 'Metric Results'
     private static final METRIC_DESCRIPTIONS = 'Metric Descriptions'

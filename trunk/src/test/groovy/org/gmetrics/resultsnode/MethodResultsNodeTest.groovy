@@ -19,8 +19,6 @@ import org.gmetrics.test.AbstractTestCase
 import org.gmetrics.metric.MetricLevel
 import org.gmetrics.result.NumberMetricResult
 import org.gmetrics.metric.StubMetric
-import org.gmetrics.test.AbstractTestCase
-import org.gmetrics.result.NumberMetricResult
 
 /**
  * Tests for MethodResultsNode

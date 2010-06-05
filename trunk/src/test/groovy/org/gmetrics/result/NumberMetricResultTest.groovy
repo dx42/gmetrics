@@ -16,7 +16,6 @@
 package org.gmetrics.result
 
 import org.gmetrics.test.AbstractTestCase
-import org.gmetrics.result.NumberMetricResult
 import org.gmetrics.metric.Metric
 
 /**

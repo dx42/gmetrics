@@ -18,7 +18,6 @@ package org.gmetrics.resultsnode
 import org.gmetrics.metric.MetricLevel
 import org.gmetrics.result.MetricResult
 import org.gmetrics.metric.Metric
-import org.gmetrics.result.MetricResult
 
 /**
  * Stub ResultsNode implementation for testing

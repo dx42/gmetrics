@@ -16,7 +16,6 @@
 package org.gmetrics.metricset
 
 import org.gmetrics.metric.Metric
-import org.gmetrics.metricset.MetricSet
 
 /**
  * A <code>MetricSet</code> implementation that returns a static List of Metrics passed into its constructor.

@@ -17,7 +17,6 @@ package org.gmetrics.metric.abc.result
 
 import org.gmetrics.metric.Metric
 import org.gmetrics.test.AbstractTestCase
-import org.gmetrics.metric.abc.result.AggregateAbcMetricResult
 import org.gmetrics.metric.abc.AbcTestUtil
 import org.gmetrics.metric.abc.AbcVector
 

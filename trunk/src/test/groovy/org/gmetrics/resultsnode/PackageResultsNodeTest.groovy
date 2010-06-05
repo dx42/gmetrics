@@ -20,7 +20,6 @@ import org.gmetrics.metric.MetricLevel
 import org.gmetrics.result.NumberMetricResult
 import org.gmetrics.metric.StubMetric
 import org.gmetrics.metric.linecount.MethodLineCountMetric
-import org.gmetrics.result.NumberMetricResult
 
 /**
  * Tests for PackageResultsNode
@@ -111,7 +110,7 @@ class PackageResultsNodeTest extends AbstractTestCase {
         def metric = new StubMetric()
         metric.packageMetricResult = null
         packageResultsNode.applyMetric(metric)
-        println "packageResultsNode.metricResults=${packageResultsNode.metricResults}"
+        log("packageResultsNode.metricResults=${packageResultsNode.metricResults}")
         assert packageResultsNode.metricResults == []
     }
 

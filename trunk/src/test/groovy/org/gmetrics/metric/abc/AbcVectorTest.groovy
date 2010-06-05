@@ -16,7 +16,6 @@
 package org.gmetrics.metric.abc
 
 import org.gmetrics.test.AbstractTestCase
-import org.gmetrics.test.AbstractTestCase
 
 /**
  * Tests for AbcVector

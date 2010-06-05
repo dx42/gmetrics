@@ -37,7 +37,6 @@ import org.gmetrics.util.PathUtil
 class AntFileSetSourceAnalyzer implements SourceAnalyzer {
 
     private static final LOG = Logger.getLogger(AntFileSetSourceAnalyzer)
-    private static final SEP = '/'
 
     private Project project
     protected List fileSets = []

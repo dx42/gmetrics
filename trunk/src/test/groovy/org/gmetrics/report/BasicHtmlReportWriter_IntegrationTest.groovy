@@ -29,7 +29,7 @@ import org.gmetrics.analyzer.AnalysisContext
  * @version $Revision$ - $Date$
  */
 class BasicHtmlReportWriter_IntegrationTest extends AbstractTestCase {
-    private static REPORT_FILE = 'GMetricsReport.html'
+    private static final REPORT_FILE = 'GMetricsReport.html'
     private static final BASE_DIR = 'src/main'
     private sourceAnalyzer
     private reportWriter

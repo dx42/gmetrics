@@ -99,9 +99,7 @@ class MetricSetDelegate {
 
     def methodMissing(String name, args) {
         def metric = findMetric(name)
-        if (!metric) {
-            throw new RuntimeException("No such metric named [$name]")
-        }
+        assert metric, "No such metric named [$name]"
 
         def arg = args[0]
         if (arg instanceof Closure) {

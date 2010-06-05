@@ -80,7 +80,7 @@ class SourceFileTest extends AbstractTestCase {
 
     void testGetAst_UsesFileNameForScriptClass() {
         sourceFile = new SourceFile(new File(SCRIPT_FILE))
-        println "classes=${sourceFile.ast.classes}"
+        log("classes=${sourceFile.ast.classes}")
         assert sourceFile.ast.classes[0].name == 'config'
     }
 
