@@ -96,7 +96,7 @@ class AntFileSetSourceAnalyzerTest extends AbstractSourceAnalyzer_IntegrationTes
 
         def resultsNode = analyzer.analyze(metricSet)
         log("resultsNode=$resultsNode")
-        assert resultsNode.metricResults[0].total == 3
+        assert resultsNode.metricResults[0]['total'] == 3
         assert resultsNode.children.config.children.doConfig
     }
 

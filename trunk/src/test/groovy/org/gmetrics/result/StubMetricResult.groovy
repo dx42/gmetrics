@@ -24,6 +24,11 @@ class StubMetricResult implements MetricResult {
     Object total
     Object average
     Object value
+    List functionNames = ['total', 'average']
+
+    Object getAt(String propertyName) {
+        super.getAt(propertyName)        
+    }
 
     String toString() {
         "StubMetricResult[count=$count, total=$total, average=$average]"

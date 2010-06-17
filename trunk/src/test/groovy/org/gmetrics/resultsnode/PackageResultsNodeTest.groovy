@@ -125,8 +125,8 @@ class PackageResultsNodeTest extends AbstractTestCase {
         assert packageResultsNode.metricResults.size() == 1
         def metricResult = packageResultsNode.metricResults[0]
         assert metricResult.count == 2
-        assert metricResult.total == TOTAL
-        assert metricResult.average == AVG
+        assert metricResult['total'] == TOTAL
+        assert metricResult['average'] == AVG
     }
 
     void test_getMetricResult_NullMetricThrowsException() {

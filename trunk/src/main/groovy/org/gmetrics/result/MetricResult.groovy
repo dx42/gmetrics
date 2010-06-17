@@ -27,6 +27,8 @@ interface MetricResult {
 
     Metric getMetric()
     int getCount()
-    Object getTotal()
-    Object getAverage()
+
+    List getFunctionNames()
+
+    Object getAt(String propertyName)
 }

@@ -25,28 +25,30 @@ import org.gmetrics.metric.Metric
  */
 class AggregateNumberMetricResult implements MetricResult {
 
-    private sum
     private count
     int scale = 1
+    private functionValues = [:]
     final Metric metric
 
     AggregateNumberMetricResult(Metric metric, Collection children) {
         assert metric != null
         assert children != null
         this.metric = metric
-        sum = children.inject(0) { value, child -> value + child.total }
+        private sum = children.inject(0) { value, child -> value + child['total'] }
         count = children.inject(0) { value, child -> value + child.count }
+        functionValues['total'] = sum
+        functionValues['average'] = calculateAverage(sum, count)
     }
 
     int getCount() {
         return count
     }
 
-    Object getTotal() {
-        return sum
+    Object getAt(String name) {
+        return functionValues[name]
     }
 
-    Object getAverage() {
+    Object calculateAverage(sum, count) {
         if(sum && count) {
             def result = sum / count
             return result.setScale(scale, BigDecimal.ROUND_HALF_UP)
@@ -56,8 +58,12 @@ class AggregateNumberMetricResult implements MetricResult {
         }
     }
 
+    List getFunctionNames() {
+        ['total', 'average']
+    }
+    
     String toString() {
-        "AggregateNumberMetricResult[count=$count, total=${getTotal()}, average=${getAverage()}]"
+        "AggregateNumberMetricResult[count=$count, $functionValues}]"
     }
 
 }

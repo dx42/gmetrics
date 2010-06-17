@@ -60,7 +60,7 @@ class MethodResultsNodeTest extends AbstractTestCase {
         methodResultsNode.addMetricResult(METRIC_RESULT2)
         methodResultsNode.addMetricResult(METRIC_RESULT3)
         def metricValues = methodResultsNode.getMetricResults()
-        assert metricValues.total == [1, 2, 3]
+        assert metricValues.collect { it['total'] } == [1, 2, 3]
         assert metricValues.metric == [METRIC, METRIC, METRIC]
     }
 

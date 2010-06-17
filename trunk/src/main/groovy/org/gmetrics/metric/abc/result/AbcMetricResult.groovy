@@ -29,31 +29,29 @@ class AbcMetricResult implements MetricResult {
 
     final AbcVector abcVector
     final Metric metric
+    private magnitude
 
     AbcMetricResult(Metric metric, AbcVector abcVector) {
         assert abcVector
         this.abcVector = abcVector
         this.metric = metric
-    }
-
-    /**
-     * @return the magnitude of the ABC vector as a BigDecimal with scale of 1
-     * @see AbcVector#getMagnitude()
-     */
-    Object getTotal() {
-        return abcVector.magnitude
+        this.magnitude = abcVector.magnitude
     }
 
     int getCount() {
         return 1
     }
 
-    Object getAverage() {
-        return getTotal()
+    Object getAt(String name) {
+        return name in getFunctionNames() ? magnitude : null
     }
 
+    List getFunctionNames() {
+        ['total', 'average']
+    }
+    
     String toString() {
-        "AbcMetricResult[$abcVector, total=${getTotal()}]"
+        "AbcMetricResult[$abcVector, vector=$abcVector, magnitude=$magnitude]"
     }
 
 }
