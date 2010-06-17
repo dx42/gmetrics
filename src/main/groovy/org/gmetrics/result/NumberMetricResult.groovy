@@ -39,12 +39,12 @@ class NumberMetricResult implements MetricResult {
         return 1
     }
 
-    Object getTotal() {
-        return number
+    Object getAt(String name) {
+        return name in getFunctionNames() ? number : null
     }
 
-    Object getAverage() {
-        return number
+    List getFunctionNames() {
+        ['total', 'average']
     }
 
     String toString() {

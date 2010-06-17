@@ -34,25 +34,32 @@ class AbcMetricResultTest extends AbstractTestCase {
         shouldFailWithMessageContaining('abcVector') { new AbcMetricResult(METRIC, null) }
     }
 
-    void testValueForEmptyVectorSetIsZero() {
-        assert abcMetricResultTotal(0, 0, 0) == 0
+    void testValuesForEmptyVectorSetIsZero() {
+        assert abcMetricResultTotalAndAverage(0, 0, 0) == 0
     }
 
     void testVectorWithIntegerResultValue() {
-        assert abcMetricResultTotal(1, 2, 2) == 3
+        assert abcMetricResultTotalAndAverage(1, 2, 2) == 3
     }
 
     void testVectorWithNonIntegerResultValue() {
-        assert abcMetricResultTotal(7, 1, 2) == 7.3
+        assert abcMetricResultTotalAndAverage(7, 1, 2) == 7.3
     }
 
-    void testValueIsSameAsAbcVectorMagnitude() {
-        assert abcMetricResultTotal(6, 7, 8) == new AbcVector(6, 7, 8).magnitude
+    void testValuesAreSameAsAbcVectorMagnitude() {
+        assert abcMetricResultTotalAndAverage(6, 7, 8) == new AbcVector(6, 7, 8).magnitude
     }
 
-    private abcMetricResultTotal(int a, int b, int c) {
+    void testGetValueForUnknownFunctionIsNull() {
+        def result = AbcTestUtil.abcMetricResult(METRIC, 1, 1, 1)
+        assert result['xxx'] == null
+    }
+
+    private abcMetricResultTotalAndAverage(int a, int b, int c) {
         def abcMetricResult = AbcTestUtil.abcMetricResult(METRIC, a, b, c)
-        def total = abcMetricResult.total
+        def total = abcMetricResult['total']
+        def average = abcMetricResult['average']
+        assert average == total
         log(abcMetricResult)
         return total
     }

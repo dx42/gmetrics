@@ -57,8 +57,8 @@ class ResultsNodeTestUtil {
     private static void assertMetricResult(MetricResult actual, MetricResult expected, String name) {
         assert actual.metric == expected.metric, "[$name] actual=$actual.metric, expected=$expected.metric"
         assert actual.count == expected.count, "[$name] actual=$actual.count, expected=$expected.count"
-        assert actual.total == expected.total, "[$name] actual=$actual.total, expected=$expected.total"
-        assert actual.average == expected.average, "[$name] actual=$actual.average, expected=$expected.average"
+        assert actual['total'] == expected['total'], "[$name] actual=$actual['total'], expected=$expected['total']"
+        assert actual['average'] == expected['average'], "[$name] actual=$actual['average'], expected=$expected['average']"
     }
 
     private ResultsNodeTestUtil() { }

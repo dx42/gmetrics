@@ -45,12 +45,12 @@ class AggregateNumberMetricResultTest extends AbstractTestCase {
 
     void testAverageValueForNoChildrenIsZero() {
         initializeNoChildMetricResults()
-        assert aggregateNumberMetricResult.average == 0
+        assert aggregateNumberMetricResult['average'] == 0
     }
 
     void testTotalValueForNoChildrenIsZero() {
         initializeNoChildMetricResults()
-        assert aggregateNumberMetricResult.total == 0
+        assert aggregateNumberMetricResult['total'] == 0
     }
 
     void testCountForNoChildrenIsZero() {
@@ -60,34 +60,34 @@ class AggregateNumberMetricResultTest extends AbstractTestCase {
 
     void testAverageValueForASingleMetricIsThatMetricValue() {
         initializeOneChildMetricResult(99.5)
-        assert aggregateNumberMetricResult.getAverage() == 99.5
+        assert aggregateNumberMetricResult['average'] == 99.5
     }
 
     void testTotalValueForASingleMetricIsThatMetricValue() {
         initializeOneChildMetricResult(99.5)
-        assert aggregateNumberMetricResult.getTotal() == 99.5
+        assert aggregateNumberMetricResult['total'] == 99.5
     }
 
     void testAverageValueForSeveralIntegerMetricsIsTheAverageOfTheMetricValues() {
         initializeThreeIntegerChildMetricResults()
-        assert aggregateNumberMetricResult.getAverage() == scale(25 / 3)
+        assert aggregateNumberMetricResult['average'] == scale(25 / 3)
     }
 
     void testTotalValueForSeveralIntegerMetricsIsTheSumOfTheMetricValues() {
         initializeThreeIntegerChildMetricResults()
-        assert aggregateNumberMetricResult.getTotal() == 25
+        assert aggregateNumberMetricResult['total'] == 25
     }
 
 
     void testTotalValueForSeveralBigDecimalMetricsIsTheSumOfTheMetricValues() {
         initializeThreeBigDecimalChildMetricResults()
-        assert aggregateNumberMetricResult.getTotal() == BD[0] + BD[1] + BD[2]
+        assert aggregateNumberMetricResult['total'] == BD[0] + BD[1] + BD[2]
     }
 
     void testAverageValueForSeveralBigDecimalMetricsIsTheAverageOfTheMetricValues() {
         initializeThreeBigDecimalChildMetricResults()
         def sum = (BD[0] + BD[1] + BD[2])
-        assert aggregateNumberMetricResult.getAverage() == scale(sum / 3)
+        assert aggregateNumberMetricResult['average'] == scale(sum / 3)
     }
 
     void testCorrectCountForSeveralChildResults() {
@@ -104,16 +104,30 @@ class AggregateNumberMetricResultTest extends AbstractTestCase {
     void testDefaultScaleIsAppliedToAverageValue() {
         def children = [new StubMetricResult(count:3, total:10)]
         aggregateNumberMetricResult = new AggregateNumberMetricResult(METRIC, children)
-        assert aggregateNumberMetricResult.average == scale(10/3)
+        assert aggregateNumberMetricResult['average'] == scale(10/3)
     }
 
-    void testConfiguredScaleIsAppliedToAverageValue() {
-        def children = [new StubMetricResult(count:3, total:10)]
-        aggregateNumberMetricResult = new AggregateNumberMetricResult(METRIC, children)
-        aggregateNumberMetricResult.scale = 3
-        assert aggregateNumberMetricResult.average == scale(10/3, 3)
+    void testGetValueForUnknownFunctionIsNull() {
+        initializeOneChildMetricResult(99.5)
+        assert aggregateNumberMetricResult['xxx'] == null
     }
 
+//    void testConfiguredScaleIsAppliedToAverageValue() {
+//        def children = [new StubMetricResult(count:3, total:10)]
+//        aggregateNumberMetricResult = new AggregateNumberMetricResult(METRIC, children)
+//        aggregateNumberMetricResult.scale = 3
+//        assert aggregateNumberMetricResult['average'] == scale(10/3, 3)
+//    }
+
+    void testGetFunctionNames() {
+        initializeThreeIntegerChildMetricResults()
+        assert aggregateNumberMetricResult.getFunctionNames() == ['total', 'average']
+    }
+    
+    //--------------------------------------------------------------------------
+    // Helper Methods
+    //--------------------------------------------------------------------------
+    
     private void initializeNoChildMetricResults() {
         aggregateNumberMetricResult = new AggregateNumberMetricResult(METRIC, [])
     }

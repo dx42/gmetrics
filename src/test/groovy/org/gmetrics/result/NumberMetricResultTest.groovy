@@ -35,29 +35,39 @@ class NumberMetricResultTest extends AbstractTestCase {
         shouldFailWithMessageContaining('number') { new NumberMetricResult(METRIC, null) }
     }
 
-    void testGetMetricIsSameIntegerValuePassedIntoConstructor() {
+    void testGetMetricIsSameMetricValuePassedIntoConstructor() {
         def result = new NumberMetricResult(METRIC, 23)
         assert result.getMetric() == METRIC
     }
 
     void testGetTotalValueIsSameIntegerValuePassedIntoConstructor() {
         def result = new NumberMetricResult(METRIC, 23)
-        assert result.getTotal() == 23
+        assert result['total'] == 23
     }
 
     void testGetTotalValueIsSameBigDecimalValuePassedIntoConstructor() {
         def result = new NumberMetricResult(METRIC, 0.23456)
-        assert result.getTotal() == 0.23456
+        assert result['total'] == 0.23456
     }
 
     void testGetAverageValueIsSameIntegerValuePassedIntoConstructor() {
         def result = new NumberMetricResult(METRIC, 23)
-        assert result.getAverage() == 23
+        assert result['average'] == 23
     }
 
     void testGetCountIsOneForSingleValue() {
         def result = new NumberMetricResult(METRIC, 0.23456)
         assert result.getCount() == 1
+    }
+
+    void testGetValueForUnknownFunctionIsNull() {
+        def result = new NumberMetricResult(METRIC, 0.23456)
+        assert result['xxx'] == null
+    }
+
+    void testGetFunctionNames() {
+        def result = new NumberMetricResult(METRIC, 23)
+        assert result.getFunctionNames() == ['total', 'average']
     }
 
 }

@@ -33,6 +33,7 @@ class AggregateAbcMetricResult implements MetricResult {
     private branchSum = 0
     private conditionSum = 0
     final Object value = null
+    private functionValues = [:]
 
     AggregateAbcMetricResult(Metric metric, Collection children) {
         assert metric != null
@@ -45,6 +46,8 @@ class AggregateAbcMetricResult implements MetricResult {
             conditionSum += abcVector.conditions
         }
         count = children.inject(0) { value, child -> value + child.count }
+        functionValues['total'] = getTotalAbcVector().getMagnitude()
+        functionValues['average'] = getAverageAbcVector().getMagnitude()
     }
 
     int getCount() {
@@ -78,26 +81,19 @@ class AggregateAbcMetricResult implements MetricResult {
         return new AbcVector(a, b, c)
     }
 
-    /**
-     * @return the magnitude of the sum of the set of ABC vectors; i.e., getTotalAbcVector().getMagnitude().
-     */
-    Object getTotal() {
-        return getTotalAbcVector().getMagnitude()
+    Object getAt(String name) {
+        return functionValues[name]
     }
 
-    /**
-     * @return the magnitude of the average of the set of ABC vectors; i.e., getAverageAbcVector().getMagnitude().
-     */
-    Object getAverage() {
-        return getAverageAbcVector().getMagnitude()
+    List getFunctionNames() {
+        ['total', 'average']
     }
-
+    
     String toString() {
         "AggregateAbcMetricResult[count=$count, A=$assignmentSum, B=$branchSum, C=$conditionSum]"
     }
 
     private average(int sum, int count) {
-//        return sum && count ? sum / count as Integer : 0
         if (sum && count) {
             def rawAverage = sum / count
             def rounded = rawAverage.setScale(0, BigDecimal.ROUND_HALF_UP)

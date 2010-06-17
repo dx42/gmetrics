@@ -132,7 +132,7 @@ class XmlReportWriter extends AbstractReportWriter {
     private buildMetricElement(MetricResult metricResult) {
         def metric = metricResult.getMetric()
         return {
-            MetricResult(name: metric.name, total:metricResult.total, average:metricResult.average)
+            MetricResult(name: metric.name, total:metricResult['total'], average:metricResult['average'])
         }
     }
 

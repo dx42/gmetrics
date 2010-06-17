@@ -57,7 +57,7 @@ class ClassResultsNodeTest extends AbstractTestCase {
 
     void test_AddingASingleClassResultWithNoMethods() {
         classResultsNode.addClassMetricResult(classResult1)
-        assert classResultsNode.getMetricResults().total == [1]
+        assert classResultsNode.metricResults.collect { it['total'] } == [1]
         assert classResultsNode.getChildren() == [:]
     }
 
@@ -65,14 +65,14 @@ class ClassResultsNodeTest extends AbstractTestCase {
         classResultsNode.addClassMetricResult(classResult1)
         classResultsNode.addClassMetricResult(classResult2)
         classResultsNode.addClassMetricResult(classResult3)
-        assert classResultsNode.getMetricResults().total == [1, 2, 3]
+        assert classResultsNode.metricResults.collect { it['total'] } == [1, 2, 3]
         def children = classResultsNode.getChildren()
         log(children)
         assert children.every { k, v -> v instanceof MethodResultsNode }
         assert children.keySet() == ['a', 'b', 'c'] as Set
-        assert children['a'].metricResults.total == [20, 30]
-        assert children['b'].metricResults.total == [20, 30]
-        assert children['c'].metricResults.total == [30]
+        assert children['a'].metricResults.collect { it['total'] } == [20, 30]
+        assert children['b'].metricResults.collect { it['total'] } == [20, 30]
+        assert children['c'].metricResults.collect { it['total'] } == [30]
     }
 
     void test_getMetricResult_NullMetricThrowsException() {

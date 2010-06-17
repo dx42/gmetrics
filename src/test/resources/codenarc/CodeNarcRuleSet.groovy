@@ -39,7 +39,11 @@ ruleset {
             regex = /[a-z][a-zA-Z0-9_]*/
         }
     }
-    ruleset('rulesets/size.xml')
+    ruleset('rulesets/size.xml') {
+        // Re-enable once CodeNarc is updated to use new metricResult['total'] and metricResult['average'] syntax
+        AbcComplexity(enabled:false)
+        CyclomaticComplexity(enabled:false)
+    }
     ruleset('rulesets/unused.xml')
 
 }
