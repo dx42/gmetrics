@@ -26,7 +26,7 @@ import org.gmetrics.metric.Metric
  */
 class AggregateNumberMetricResultTest extends AbstractTestCase {
 
-    private static final METRIC = [:] as Metric
+    private static final METRIC = [getName:{'TestMetric'}] as Metric
     private static final BD = [0.23, 5.01, 3.67]
     private aggregateNumberMetricResult
 
@@ -43,14 +43,14 @@ class AggregateNumberMetricResultTest extends AbstractTestCase {
         assert mr.metric == METRIC
     }
 
-    void testAverageValueForNoChildrenIsZero() {
+    // Tests for no children
+
+    void testFunctionValuesForNoChildrenAreAllZero() {
         initializeNoChildMetricResults()
         assert aggregateNumberMetricResult['average'] == 0
-    }
-
-    void testTotalValueForNoChildrenIsZero() {
-        initializeNoChildMetricResults()
         assert aggregateNumberMetricResult['total'] == 0
+        assert aggregateNumberMetricResult['minimum'] == 0
+        assert aggregateNumberMetricResult['maximum'] == 0
     }
 
     void testCountForNoChildrenIsZero() {
@@ -58,15 +58,17 @@ class AggregateNumberMetricResultTest extends AbstractTestCase {
         assert aggregateNumberMetricResult.count == 0
     }
 
-    void testAverageValueForASingleMetricIsThatMetricValue() {
+    // Tests for a single child
+
+    void testFunctionValuesForASingleMetricAreAllThatMetricValue() {
         initializeOneChildMetricResult(99.5)
         assert aggregateNumberMetricResult['average'] == 99.5
+        assert aggregateNumberMetricResult['total'] == 99.5
+        assert aggregateNumberMetricResult['minimum'] == 99.5
+        assert aggregateNumberMetricResult['maximum'] == 99.5
     }
 
-    void testTotalValueForASingleMetricIsThatMetricValue() {
-        initializeOneChildMetricResult(99.5)
-        assert aggregateNumberMetricResult['total'] == 99.5
-    }
+    // Tests for several children
 
     void testAverageValueForSeveralIntegerMetricsIsTheAverageOfTheMetricValues() {
         initializeThreeIntegerChildMetricResults()
@@ -78,6 +80,15 @@ class AggregateNumberMetricResultTest extends AbstractTestCase {
         assert aggregateNumberMetricResult['total'] == 25
     }
 
+    void testMinimumValueForSeveralIntegerMetrics() {
+        initializeThreeIntegerChildMetricResults()
+        assert aggregateNumberMetricResult['minimum'] == 1
+    }
+
+    void testMaximumValueForSeveralIntegerMetrics() {
+        initializeThreeIntegerChildMetricResults()
+        assert aggregateNumberMetricResult['maximum'] == 21
+    }
 
     void testTotalValueForSeveralBigDecimalMetricsIsTheSumOfTheMetricValues() {
         initializeThreeBigDecimalChildMetricResults()
@@ -88,6 +99,16 @@ class AggregateNumberMetricResultTest extends AbstractTestCase {
         initializeThreeBigDecimalChildMetricResults()
         def sum = (BD[0] + BD[1] + BD[2])
         assert aggregateNumberMetricResult['average'] == scale(sum / 3)
+    }
+
+    void testMinimumValueForSeveralBigDecimalMetrics() {
+        initializeThreeBigDecimalChildMetricResults()
+        assert aggregateNumberMetricResult['minimum'] == BD.min()
+    }
+
+    void testMaximumValueForSeveralBigDecimalMetrics() {
+        initializeThreeBigDecimalChildMetricResults()
+        assert aggregateNumberMetricResult['maximum'] == BD.max()
     }
 
     void testCorrectCountForSeveralChildResults() {
@@ -101,13 +122,15 @@ class AggregateNumberMetricResultTest extends AbstractTestCase {
         assert aggregateNumberMetricResult.count == 10
     }
 
+    // Other tests
+
     void testDefaultScaleIsAppliedToAverageValue() {
         def children = [new StubMetricResult(count:3, total:10)]
         aggregateNumberMetricResult = new AggregateNumberMetricResult(METRIC, children)
         assert aggregateNumberMetricResult['average'] == scale(10/3)
     }
 
-    void testGetValueForUnknownFunctionIsNull() {
+    void testGetAt_NoSuchFunctionName_ReturnsNull() {
         initializeOneChildMetricResult(99.5)
         assert aggregateNumberMetricResult['xxx'] == null
     }

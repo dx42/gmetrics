@@ -34,10 +34,12 @@ class AggregateNumberMetricResult implements MetricResult {
         assert metric != null
         assert children != null
         this.metric = metric
-        private sum = children.inject(0) { value, child -> value + child['total'] }
+        def sum = children.inject(0) { value, child -> value + child['total'] }
         count = children.inject(0) { value, child -> value + child.count }
         functionValues['total'] = sum
         functionValues['average'] = calculateAverage(sum, count)
+        functionValues['minimum'] = calculateMinimum(children)
+        functionValues['maximum'] = calculateMaximum(children)
     }
 
     int getCount() {
@@ -48,7 +50,17 @@ class AggregateNumberMetricResult implements MetricResult {
         return functionValues[name]
     }
 
-    Object calculateAverage(sum, count) {
+    private Object calculateMinimum(children) {
+        def minChild = children.min { child -> child['minimum'] }
+        return minChild != null ? minChild['minimum'] : 0
+    }
+
+    private Object calculateMaximum(children) {
+        def maxChild = children.max { child -> child['maximum'] }
+        return maxChild != null ? maxChild['maximum'] : 0
+    }
+
+    private Object calculateAverage(sum, count) {
         if(sum && count) {
             def result = sum / count
             return result.setScale(scale, BigDecimal.ROUND_HALF_UP)
