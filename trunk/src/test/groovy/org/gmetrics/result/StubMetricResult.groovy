@@ -21,8 +21,7 @@ class StubMetricResult implements MetricResult {
 
     Metric metric
     int count
-    Object total
-    Object average
+    Object total, average, minimum, maximum
     Object value
     List functionNames = ['total', 'average']
 
