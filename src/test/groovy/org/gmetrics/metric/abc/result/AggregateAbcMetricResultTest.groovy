@@ -44,6 +44,8 @@ class AggregateAbcMetricResultTest extends AbstractTestCase {
         assert mr.metric == METRIC
     }
 
+    // Tests for no children
+
     void testAverageAbcVectorForNoVectorsIsZeroVector() {
         initializeWithZeroChildMetricResults()
         AbcTestUtil.assertEquals(aggregateAbcMetricResult.averageAbcVector, [0, 0, 0])
@@ -53,6 +55,16 @@ class AggregateAbcMetricResultTest extends AbstractTestCase {
         initializeWithZeroChildMetricResults()
         AbcTestUtil.assertEquals(aggregateAbcMetricResult.totalAbcVector, [0, 0, 0])
     }
+
+//    void testMinimumAbcVectorForNoVectorsIsZeroVector() {
+//        initializeWithZeroChildMetricResults()
+//        AbcTestUtil.assertEquals(aggregateAbcMetricResult.minimumAbcVector, [0, 0, 0])
+//    }
+//
+//    void testMaximumAbcVectorForNoVectorsIsZeroVector() {
+//        initializeWithZeroChildMetricResults()
+//        AbcTestUtil.assertEquals(aggregateAbcMetricResult.maximumAbcVector, [0, 0, 0])
+//    }
 
     void testAverageValueForNoVectorsIsZero() {
         initializeWithZeroChildMetricResults()
@@ -64,10 +76,22 @@ class AggregateAbcMetricResultTest extends AbstractTestCase {
         assert aggregateAbcMetricResult['total'] == 0
     }
 
+    void testMinimumValueForNoVectorsIsZero() {
+        initializeWithZeroChildMetricResults()
+        assert aggregateAbcMetricResult['minimum'] == 0
+    }
+
+    void testMaximumValueForNoVectorsIsZero() {
+        initializeWithZeroChildMetricResults()
+        assert aggregateAbcMetricResult['maximum'] == 0
+    }
+
     void testCountForNoVectorsIsZero() {
         initializeWithZeroChildMetricResults()
         assert aggregateAbcMetricResult.count == 0
     }
+
+    // Tests for single child
 
     void testAverageAbcVectorForSingleVectorIsThatVector() {
         initializeWithOneChildMetricResult()
@@ -78,6 +102,18 @@ class AggregateAbcMetricResultTest extends AbstractTestCase {
         initializeWithOneChildMetricResult()
         AbcTestUtil.assertEquals(aggregateAbcMetricResult.totalAbcVector, [7, 9, 21])
     }
+
+    void testMinimumValueForSingleVectorsIsThatVectorMagnitude() {
+        initializeWithOneChildMetricResult()
+        assert aggregateAbcMetricResult['minimum'] == new AbcVector(7, 9, 21).magnitude
+    }
+
+    void testMaximumValueForSingleVectorsIsThatVectorMagnitude() {
+        initializeWithOneChildMetricResult()
+        assert aggregateAbcMetricResult['maximum'] == new AbcVector(7, 9, 21).magnitude
+    }
+
+    // Tests for several children
 
     void testCorrectRoundedAverageForSeveralVectors() {
         initializeWithThreeChildMetricResults()
@@ -104,6 +140,16 @@ class AggregateAbcMetricResultTest extends AbstractTestCase {
         assert aggregateAbcMetricResult['average'] == new AbcVector(9, 4, 23).magnitude
     }
 
+    void testMinimumValueForSeveralVectorsIsTheMinimumMagnitudeOfTheVectors() {
+        initializeWithThreeChildMetricResults()
+        assert aggregateAbcMetricResult['minimum'] == new AbcVector(7, 9, 21).magnitude
+    }
+
+    void testMaximumValueForSeveralVectorsIsTheMaximumMagnitudeOfTheVectors() {
+        initializeWithThreeChildMetricResults()
+        assert aggregateAbcMetricResult['maximum'] == new AbcVector(9, 2, 25).magnitude
+    }
+
     void testCorrectCountForSeveralVectors() {
         initializeWithThreeChildMetricResults()
         assert aggregateAbcMetricResult.count == 3
@@ -115,11 +161,22 @@ class AggregateAbcMetricResultTest extends AbstractTestCase {
         assert aggregate.count == 6
     }
 
+    // Other tests
+
     void testGetValueForUnknownFunctionIsNull() {
         initializeWithOneChildMetricResult()
         assert aggregateAbcMetricResult['xxx'] == null
     }
 
+    void testGetFunctionNames() {
+        initializeWithOneChildMetricResult()
+        assert aggregateAbcMetricResult.getFunctionNames() == ['total', 'average', 'minimum', 'maximum']
+    }
+
+    //--------------------------------------------------------------------------
+    // Helper Methods
+    //--------------------------------------------------------------------------
+    
     private void initializeWithZeroChildMetricResults() {
         aggregateAbcMetricResult = new AggregateAbcMetricResult(METRIC, [])
     }

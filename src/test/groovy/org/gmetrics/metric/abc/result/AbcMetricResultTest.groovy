@@ -35,19 +35,19 @@ class AbcMetricResultTest extends AbstractTestCase {
     }
 
     void testValuesForEmptyVectorSetIsZero() {
-        assert abcMetricResultTotalAndAverage(0, 0, 0) == 0
+        assert abcMetricResultAllFunctionValues(0, 0, 0) == 0
     }
 
     void testVectorWithIntegerResultValue() {
-        assert abcMetricResultTotalAndAverage(1, 2, 2) == 3
+        assert abcMetricResultAllFunctionValues(1, 2, 2) == 3
     }
 
     void testVectorWithNonIntegerResultValue() {
-        assert abcMetricResultTotalAndAverage(7, 1, 2) == 7.3
+        assert abcMetricResultAllFunctionValues(7, 1, 2) == 7.3
     }
 
     void testValuesAreSameAsAbcVectorMagnitude() {
-        assert abcMetricResultTotalAndAverage(6, 7, 8) == new AbcVector(6, 7, 8).magnitude
+        assert abcMetricResultAllFunctionValues(6, 7, 8) == new AbcVector(6, 7, 8).magnitude
     }
 
     void testGetValueForUnknownFunctionIsNull() {
@@ -55,11 +55,20 @@ class AbcMetricResultTest extends AbstractTestCase {
         assert result['xxx'] == null
     }
 
-    private abcMetricResultTotalAndAverage(int a, int b, int c) {
+    void testGetFunctionNames() {
+        def result = AbcTestUtil.abcMetricResult(METRIC, 1, 1, 1)
+        assert result.getFunctionNames() == ['total', 'average', 'minimum', 'maximum']
+    }
+
+    private abcMetricResultAllFunctionValues(int a, int b, int c) {
         def abcMetricResult = AbcTestUtil.abcMetricResult(METRIC, a, b, c)
         def total = abcMetricResult['total']
         def average = abcMetricResult['average']
+        def minimum = abcMetricResult['minimum']
+        def maximum = abcMetricResult['maximum']
         assert average == total
+        assert minimum == total
+        assert maximum == total
         log(abcMetricResult)
         return total
     }
