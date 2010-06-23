@@ -39,15 +39,22 @@ class AggregateAbcMetricResult implements MetricResult {
         assert metric != null
         assert children != null
         this.metric = metric
+        def min = children ? Integer.MAX_VALUE : 0
+        def max = children ? Integer.MIN_VALUE : 0
         children.each { child ->
             def abcVector = child.abcVector
             assignmentSum += abcVector.assignments
             branchSum += abcVector.branches
             conditionSum += abcVector.conditions
+            def magnitude = child.abcVector.magnitude
+            min = Math.min(min, magnitude)
+            max = Math.max(max, magnitude) 
         }
         count = children.inject(0) { value, child -> value + child.count }
         functionValues['total'] = getTotalAbcVector().getMagnitude()
         functionValues['average'] = getAverageAbcVector().getMagnitude()
+        functionValues['minimum'] = min
+        functionValues['maximum'] = max
     }
 
     int getCount() {
@@ -86,7 +93,7 @@ class AggregateAbcMetricResult implements MetricResult {
     }
 
     List getFunctionNames() {
-        ['total', 'average']
+        ['total', 'average', 'minimum', 'maximum']
     }
     
     String toString() {

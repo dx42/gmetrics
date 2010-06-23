@@ -47,7 +47,7 @@ class AbcMetricResult implements MetricResult {
     }
 
     List getFunctionNames() {
-        ['total', 'average']
+        ['total', 'average', 'minimum', 'maximum']
     }
     
     String toString() {
