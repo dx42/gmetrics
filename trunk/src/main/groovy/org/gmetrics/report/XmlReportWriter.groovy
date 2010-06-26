@@ -30,6 +30,7 @@ import org.gmetrics.analyzer.AnalysisContext
  * @author Chris Mair
  * @version $Revision$ - $Date$
  */
+@Mixin(MetricsCriteriaFilter)
 class XmlReportWriter extends AbstractReportWriter {
 
     public static final DEFAULT_OUTPUT_FILE = 'GMetricsXmlReport.xml'
@@ -132,7 +133,9 @@ class XmlReportWriter extends AbstractReportWriter {
     private buildMetricElement(MetricResult metricResult) {
         def metric = metricResult.getMetric()
         return {
-            MetricResult(name: metric.name, total:metricResult['total'], average:metricResult['average'])
+            if (includesMetric(metric)) {
+                MetricResult(name: metric.name, total:metricResult['total'], average:metricResult['average'])
+            }
         }
     }
 
@@ -141,7 +144,7 @@ class XmlReportWriter extends AbstractReportWriter {
     }
 
     private buildMetricsElement(MetricSet metricSet) {
-        def metrics = metricSet.metrics
+        def metrics = metricSet.metrics.findAll { metric -> includesMetric(metric) }
         def sortedMetrics = metrics.toList().sort { metric -> metric.name }
         return {
             Metrics() {

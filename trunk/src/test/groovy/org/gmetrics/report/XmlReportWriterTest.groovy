@@ -86,6 +86,13 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
         assertReportXml(resultsNode, XML)
     }
 
+    void testWriteReport_SummaryOnly_TwoMetrics_ButFilterOutOneOfThem() {
+        final XML = XML_DECLARATION + GMETRICS_ROOT + REPORT_TIMESTAMP + PROJECT + PACKAGE_SUMMARY_1 + METRIC_DESCRIPTIONS_1 + GMETRICS_END_TAG
+        def resultsNode = packageResultsNode(metricResults:[metric1Result(10), metric2Result(20)])
+        reportWriter.setMetrics('Metric1')
+        assertReportXml(resultsNode, XML)
+    }
+
     void testWriteReport_Package_TwoMetrics() {
         final PACKAGES = """
             <Package path='Dir1'>
@@ -151,7 +158,7 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
         """
         final XML = XML_DECLARATION + GMETRICS_ROOT + REPORT_TIMESTAMP + PROJECT + PACKAGE_SUMMARY_2 + PACKAGES + METRIC_DESCRIPTIONS_2 + GMETRICS_END_TAG
         def rootNode = packageResultsNode(metricResults:[metric1Result(10), metric2Result(20)])
-        def packageNode = packageResultsNode(path:'test', metricResults:[metric1Result(11), metric2Result(21)])
+        def packageNode = packageResultsNode(path:'test', metricResults:[metric1Result(11), metric2Result(21), metric3Result(99)])
         rootNode.children['org'] = packageNode
         def class1Node = classResultsNode(metricResults:[metric1Result(101)])
         def class2Node = classResultsNode(metricResults:[metric1Result(102)])
@@ -163,6 +170,7 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
         class2Node.children = [initialize:method2Node, cleanup:method3Node]
         def childPackageNode = packageResultsNode(path:'test/unit', metricResults:[metric1Result(31), metric2Result(32)])
         packageNode.children['test/unit'] = childPackageNode
+        reportWriter.setMetrics('Metric1, Metric2')
         assertReportXml(rootNode, XML, true)
     }
 

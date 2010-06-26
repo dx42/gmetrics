@@ -40,7 +40,7 @@ abstract class AbstractReportWriterTestCase extends AbstractTestCase {
 
     protected reportWriter
     protected writer
-    protected metric1, metric2
+    protected metric1, metric2, metric3
     protected metricSet1, metricSet2
     protected analysisContext
 
@@ -77,6 +77,7 @@ abstract class AbstractReportWriterTestCase extends AbstractTestCase {
         writer = new StringWriter()
         metric1 = new StubMetric(name:'Metric1')
         metric2 = new StubMetric(name:'Metric2')
+        metric3 = new StubMetric(name:'Metric3')
         metricSet1 = new ListMetricSet([metric1])
         metricSet2 = new ListMetricSet([metric1, metric2])
         analysisContext = new AnalysisContext(sourceDirectories:[SRC_DIR1, SRC_DIR2], metricSet:metricSet2)
@@ -113,6 +114,10 @@ abstract class AbstractReportWriterTestCase extends AbstractTestCase {
 
     protected metric2Result(int value) {
         new NumberMetricResult(metric2, value)
+    }
+
+    protected metric3Result(int value) {
+        new NumberMetricResult(metric3, value)
     }
 
     protected packageResultsNode(map) {
