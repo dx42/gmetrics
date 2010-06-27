@@ -15,6 +15,8 @@
  */
 package org.gmetrics.report
 
+import org.gmetrics.metric.Metric
+
 /**
  * Provides data and behavior for enabling reports to filter the set of functions included in a report.
  * This class is intended to be used as a Groovy @Mixin for ReportWriter classes.
@@ -25,14 +27,39 @@ package org.gmetrics.report
 
 class FunctionsCriteriaFilter {
 
-    private Collection functionNames
+    private Map criteriaMap
 
-    void setFunctions(String functionNames) {
-        this.functionNames = functionNames.tokenize(',').collect { it.trim().toLowerCase() }
+    void setFunctions(String criteria) {
+        parseCriteria(criteria)
     }
 
-    boolean includesFunction(String functionName) {
-        return functionNames == null ? true : functionName in functionNames
+    boolean includesFunction(Metric metric, String functionName) {
+        if (criteriaMap == null) {
+            return true
+        }
+        def matchingNames = criteriaMap[metric.name]
+        return matchingNames && functionName in matchingNames
     }
 
+    /**
+     * Parse the criteria string
+     * @param criteria - the String of the form <metric1-name>=<value1a>,<value1b>; <metric2-name>=<value2a>,<value2b>
+     */
+    void parseCriteria(String criteria) {
+        assert criteria
+        criteriaMap = [:]
+        def metricCriteriaStrings = criteria.tokenize(';')
+        metricCriteriaStrings.each { metricCriteria -> parseCriteriaForSingleMetric(metricCriteria) }
+    }
+
+    void parseCriteriaForSingleMetric(String metricCriteria) {
+        def tokens = metricCriteria.tokenize('=')
+        assert tokens.size() == 2, "Each metric criteria must be of the form: <metric1-name>=<value1a>,<value1b>"
+        def name = tokens[0].trim()
+        criteriaMap[name] = parseCommaSeparatedList(tokens[1])
+    }
+
+    List parseCommaSeparatedList(String values) {
+        values.tokenize(',').collect { it.trim().toLowerCase() }
+    }
 }
