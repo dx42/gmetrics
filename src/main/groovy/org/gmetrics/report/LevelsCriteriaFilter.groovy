@@ -28,16 +28,40 @@ import org.gmetrics.metric.MetricLevel
 
 class LevelsCriteriaFilter {
 
-    private Collection levelNames
+    private Map criteriaMap
 
-    // Levels
-
-    void setLevels(String levelNames) {
-        this.levelNames = levelNames.tokenize(',').collect { it.trim().toLowerCase() }
+    void setLevels(String criteria) {
+        parseCriteria(criteria)
     }
 
-    boolean includesLevel(MetricLevel level) {
-        return levelNames == null ? true : level.name in levelNames
+    boolean includesLevel(Metric metric, MetricLevel level) {
+        if (criteriaMap == null) {
+            return true
+        }
+        def matchingNames = criteriaMap[metric.name]
+        return matchingNames && level.name in matchingNames
+    }
+
+    /**
+     * Parse the criteria string
+     * @param criteria - the String of the form <metric1-name>=<value1a>,<value1b>; <metric2-name>=<value2a>,<value2b>
+     */
+    void parseCriteria(String criteria) {
+        assert criteria
+        criteriaMap = [:]
+        def metricCriteriaStrings = criteria.tokenize(';')
+        metricCriteriaStrings.each { metricCriteria -> parseCriteriaForSingleMetric(metricCriteria) }
+    }
+
+    void parseCriteriaForSingleMetric(String metricCriteria) {
+        def tokens = metricCriteria.tokenize('=')
+        assert tokens.size() == 2, "Each metric criteria must be of the form: <metric1-name>=<value1a>,<value1b>"
+        def name = tokens[0].trim()
+        criteriaMap[name] = parseCommaSeparatedList(tokens[1])
+    }
+
+    List parseCommaSeparatedList(String values) {
+        values.tokenize(',').collect { it.trim().toLowerCase() }
     }
 
 }
