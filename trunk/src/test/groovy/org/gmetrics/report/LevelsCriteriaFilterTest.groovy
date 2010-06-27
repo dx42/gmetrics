@@ -17,6 +17,7 @@ package org.gmetrics.report
 
 import org.gmetrics.metric.MetricLevel
 import org.gmetrics.test.AbstractTestCase
+import org.gmetrics.metric.StubMetric
 
 /**
  * Tests for LevelsCriteriaFilter
@@ -27,30 +28,67 @@ import org.gmetrics.test.AbstractTestCase
 
 class LevelsCriteriaFilterTest extends AbstractTestCase {
 
+    private static final METRIC_ABC = new StubMetric(name:'ABC')
+    private static final METRIC_XXX = new StubMetric(name:'XXX')
+    private static final METRIC_123 = new StubMetric(name:'123')
+
     private levelsCriteriaFilter = new LevelsCriteriaFilter()
 
     void testNoLevelsDefined_IncludesLevel_ReturnsTrue() {
-        assert levelsCriteriaFilter.includesLevel(MetricLevel.CLASS)
-        assert levelsCriteriaFilter.includesLevel(MetricLevel.PACKAGE)
+        assert levelsCriteriaFilter.includesLevel(METRIC_ABC, MetricLevel.CLASS)
+        assert levelsCriteriaFilter.includesLevel(METRIC_XXX, MetricLevel.PACKAGE)
     }
 
-    void testOneLevelDefined_IncludesLevel_ReturnsTrueForThat_AndFalseForOthers() {
-        levelsCriteriaFilter.setLevels('package')
-        assert !levelsCriteriaFilter.includesLevel(MetricLevel.CLASS)
-        assert levelsCriteriaFilter.includesLevel(MetricLevel.PACKAGE)
+    void testOneMetric_OneLevelDefined_IncludesLevel_ReturnsTrueForThat_AndFalseForOthers() {
+        levelsCriteriaFilter.setLevels('ABC=package')
+        assert levelsCriteriaFilter.includesLevel(METRIC_ABC, MetricLevel.PACKAGE)
+        assert !levelsCriteriaFilter.includesLevel(METRIC_ABC, MetricLevel.CLASS)
+        assert !levelsCriteriaFilter.includesLevel(METRIC_ABC, MetricLevel.METHOD)
+
+        assert !levelsCriteriaFilter.includesLevel(METRIC_XXX, MetricLevel.CLASS)
     }
 
-    void testMultipleLevelsDefined_IncludesLevel_ReturnsTrueForMatching_AndFalseForOthers() {
-        levelsCriteriaFilter.setLevels(' method ,777,class')
-        assert levelsCriteriaFilter.includesLevel(MetricLevel.METHOD)
-        assert levelsCriteriaFilter.includesLevel(MetricLevel.CLASS)
-        assert !levelsCriteriaFilter.includesLevel(MetricLevel.PACKAGE)
+    void testOneMetric_SingleLevelDefined_IncludesLevel_ReturnsTrueForMatching_AndFalseForOthers() {
+        levelsCriteriaFilter.setLevels('ABC=package,method')
+        assert levelsCriteriaFilter.includesLevel(METRIC_ABC, MetricLevel.PACKAGE)
+        assert !levelsCriteriaFilter.includesLevel(METRIC_ABC, MetricLevel.CLASS)
+        assert levelsCriteriaFilter.includesLevel(METRIC_ABC, MetricLevel.METHOD)
+
+        assert !levelsCriteriaFilter.includesLevel(METRIC_XXX, MetricLevel.CLASS)
+    }
+
+    void testMultipleMetrics_MultipleLevelsDefined_IncludesLevel_ReturnsTrueForMatching_AndFalseForOthers() {
+        levelsCriteriaFilter.setLevels('ABC=class,method; XXX=class,package; ZZZ=method')
+        assert !levelsCriteriaFilter.includesLevel(METRIC_ABC, MetricLevel.PACKAGE)
+        assert levelsCriteriaFilter.includesLevel(METRIC_ABC, MetricLevel.CLASS)
+        assert levelsCriteriaFilter.includesLevel(METRIC_ABC, MetricLevel.METHOD)
+
+        assert levelsCriteriaFilter.includesLevel(METRIC_XXX, MetricLevel.PACKAGE)
+        assert levelsCriteriaFilter.includesLevel(METRIC_XXX, MetricLevel.CLASS)
+        assert !levelsCriteriaFilter.includesLevel(METRIC_XXX, MetricLevel.METHOD)
+
+        assert !levelsCriteriaFilter.includesLevel(METRIC_123, MetricLevel.METHOD)
     }
 
     void testMultipleLevelsDefined_IncludesLevel_IsCaseInsensitive() {
-        levelsCriteriaFilter.setLevels(' meTHod,PACKAGE    ,  class,777')
-        assert levelsCriteriaFilter.includesLevel(MetricLevel.METHOD)
-        assert levelsCriteriaFilter.includesLevel(MetricLevel.CLASS)
-        assert levelsCriteriaFilter.includesLevel(MetricLevel.PACKAGE)
+        levelsCriteriaFilter.setLevels('ABC=pACKaGe,METHOD;   XXX = Class ')
+        assert levelsCriteriaFilter.includesLevel(METRIC_ABC, MetricLevel.PACKAGE)
+        assert !levelsCriteriaFilter.includesLevel(METRIC_ABC, MetricLevel.CLASS)
+        assert levelsCriteriaFilter.includesLevel(METRIC_ABC, MetricLevel.METHOD)
+
+        assert levelsCriteriaFilter.includesLevel(METRIC_XXX, MetricLevel.CLASS)
+        assert !levelsCriteriaFilter.includesLevel(METRIC_XXX, MetricLevel.METHOD)
     }
+
+    void testInvalidCriteriaString_ThrowsException() {
+        shouldFailWithMessageContaining('criteria') { levelsCriteriaFilter.setLevels('%#') }
+        shouldFailWithMessageContaining('criteria') { levelsCriteriaFilter.setLevels('ABC') }
+        shouldFailWithMessageContaining('criteria') { levelsCriteriaFilter.setLevels('ABC:123') }
+    }
+
+    void testSetLevels_NullOrEmptyCriteriaString_ThrowsException() {
+        shouldFailWithMessageContaining('criteria') { levelsCriteriaFilter.setLevels(null) }
+        shouldFailWithMessageContaining('criteria') { levelsCriteriaFilter.setLevels('') }
+    }
+
 }
