@@ -41,7 +41,7 @@ abstract class AbstractReportWriterTestCase extends AbstractTestCase {
     protected reportWriter
     protected writer
     protected metric1, metric2, metric3
-    protected metricSet1, metricSet2
+    protected metricSet1, metricSet2, metricSet3
     protected analysisContext
 
     // Each subclass must implement
@@ -80,6 +80,7 @@ abstract class AbstractReportWriterTestCase extends AbstractTestCase {
         metric3 = new StubMetric(name:'Metric3')
         metricSet1 = new ListMetricSet([metric1])
         metricSet2 = new ListMetricSet([metric1, metric2])
+        metricSet3 = new ListMetricSet([metric1, metric2, metric3])
         analysisContext = new AnalysisContext(sourceDirectories:[SRC_DIR1, SRC_DIR2], metricSet:metricSet2)
     }
 
@@ -89,7 +90,16 @@ abstract class AbstractReportWriterTestCase extends AbstractTestCase {
         assertContainsAllInOrder(reportText, expectedContents)
     }
 
-    protected void assertReportDoesNotContain(resultsNode, notExpected) {
+    protected void assertReportContents(resultsNode, expectedContents, List notExpectedContents, boolean writeToFile=false) {
+        def reportText = writeReport(resultsNode)
+        writeOutToFile(reportText, writeToFile)
+        assertContainsAllInOrder(reportText, expectedContents)
+        notExpectedContents.each { text ->
+            assert !reportText.contains(text), "[$text] was present in the report"
+        }
+    }
+
+    protected void assertReportDoesNotContain(resultsNode, List notExpected) {
         def reportText = writeReport(resultsNode)
         notExpected.each { text ->
             assert !reportText.contains(text), "[$text] was present in the report"
