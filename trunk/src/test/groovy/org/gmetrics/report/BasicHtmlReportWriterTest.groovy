@@ -39,7 +39,7 @@ class BasicHtmlReportWriterTest extends AbstractReportWriterTestCase {
     private static final CLASS_PREFIX = '[c]'
     private static final METHOD_PREFIX = '[m]'
 
-    static reportFilename = "GMetricsReport.html" 
+    static reportFilename = "GMetricsReport.html"
     private localizedMessages
 
     void testThatDefaultOutputFile_IsGmetricsReportHtml() {
@@ -70,6 +70,21 @@ class BasicHtmlReportWriterTest extends AbstractReportWriterTestCase {
                 BOTTOM_LINK]
         def resultsNode = new StubResultsNode(metricResults:[metric1Result(10), metric2Result(20)])
         assertReportContents(resultsNode, CONTENTS)
+    }
+
+    void testWriteReport_SingleResultsNodeWithThreeMetrics_ButFilterOutOneOfThem() {
+        final CONTENTS = [
+                HTML_TAG,
+                METRIC_RESULTS,
+                ALL_PACKAGES, 10, 10, 20, 20,
+                METRIC_DESCRIPTIONS,
+                metric1.name, metricDescription(metric1),
+                metric2.name, metricDescription(metric2),
+                BOTTOM_LINK]
+        def resultsNode = new StubResultsNode(metricResults:[metric1Result(10), metric2Result(20), metric3Result(30)])
+        analysisContext.metricSet = metricSet3
+        reportWriter.setMetrics('Metric1, Metric2')
+        assertReportContents(resultsNode, CONTENTS, ['Metric3', 'M3.total', 'M3.average', metricDescription(metric3)])
     }
 
     void testWriteReport_SingleResultsNode_TwoMetrics_OneMetricDisabled() {
@@ -160,6 +175,9 @@ class BasicHtmlReportWriterTest extends AbstractReportWriterTestCase {
             'Metric2.description.html':metricDescription(metric2),
             'Metric2.total':'M2.total',
             'Metric2.average':'M2.average',
+            'Metric3.description.html':metricDescription(metric3),
+            'Metric3.total':'M3.total',
+            'Metric3.average':'M3.average',
         ]
         reportWriter.initializeResourceBundle = { reportWriter.resourceBundle = [getString:{key -> localizedMessages[key] ?: 'NOT FOUND'}] }
     }

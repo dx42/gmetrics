@@ -30,6 +30,7 @@ import org.gmetrics.analyzer.AnalysisContext
  * @author Chris Mair
  * @version $Revision$ - $Date$
  */
+@Mixin(MetricsCriteriaFilter)
 class BasicHtmlReportWriter extends AbstractReportWriter {
 
     public static final DEFAULT_OUTPUT_FILE = 'GMetricsReport.html'
@@ -117,8 +118,10 @@ class BasicHtmlReportWriter extends AbstractReportWriter {
                 tr(class:'tableHeader') {
                     th(getResourceBundleString('basicHtmlReport.metricResults.nameHeading'))
                     metricResultColumns.each { columnDef ->
-                        def columnHeading = getMetricResultColumnHeading(columnDef.metric.name, columnDef.property)
-                        th(columnHeading, class:'metricColumnHeader')
+                        if (includesMetric(columnDef.metric)) {
+                            def columnHeading = getMetricResultColumnHeading(columnDef.metric.name, columnDef.property)
+                            th(columnHeading, class:'metricColumnHeader')
+                        }
                     }
                 }
                 out << buildResultsTableRowRecursively(resultsNode, metricResultColumns, null)
@@ -148,11 +151,13 @@ class BasicHtmlReportWriter extends AbstractReportWriter {
 
                 metricResultColumns.each { columnDef ->
                     def metric = columnDef.metric
-                    def metricResult = resultsNode.getMetricResult(metric)
-                    def value = metricResult ?
-                        metricResult[columnDef.property] :
-                        getResourceBundleString('basicHtmlReport.metricResults.notApplicable')
-                    td(value, class:'metricValue')
+                    if (includesMetric(metric)) {
+                        def metricResult = resultsNode.getMetricResult(metric)
+                        def value = metricResult ?
+                            metricResult[columnDef.property] :
+                            getResourceBundleString('basicHtmlReport.metricResults.notApplicable')
+                        td(value, class:'metricValue')
+                    }
                 }
             }
             out << buildResultsRowForLevel(resultsNode, metricResultColumns, MetricLevel.METHOD)
@@ -181,7 +186,7 @@ class BasicHtmlReportWriter extends AbstractReportWriter {
     }
 
     private buildMetricDescriptions(MetricSet metricSet) {
-        def metrics = new ArrayList(metricSet.metrics).findAll { metric -> metric.enabled }
+        def metrics = new ArrayList(metricSet.metrics).findAll { metric -> metric.enabled && includesMetric(metric)}
         def sortedMetrics = metrics.sort { metric -> metric.name }
 
         return {

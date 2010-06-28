@@ -25,41 +25,14 @@ import org.gmetrics.metric.Metric
  * @version $Revision: 91 $ - $Date: 2010-03-05 20:21:49 -0500 (Fri, 05 Mar 2010) $
  */
 
-class FunctionsCriteriaFilter {
-
-    private Map criteriaMap
+class FunctionsCriteriaFilter extends AbstractMetricCriteriaFilter {
 
     void setFunctions(String criteria) {
         parseCriteria(criteria)
     }
 
     boolean includesFunction(Metric metric, String functionName) {
-        if (criteriaMap == null) {
-            return true
-        }
-        def matchingNames = criteriaMap[metric.name]
-        return matchingNames && functionName in matchingNames
+        return includesName(metric, functionName)
     }
 
-    /**
-     * Parse the criteria string
-     * @param criteria - the String of the form <metric1-name>=<value1a>,<value1b>; <metric2-name>=<value2a>,<value2b>
-     */
-    void parseCriteria(String criteria) {
-        assert criteria
-        criteriaMap = [:]
-        def metricCriteriaStrings = criteria.tokenize(';')
-        metricCriteriaStrings.each { metricCriteria -> parseCriteriaForSingleMetric(metricCriteria) }
-    }
-
-    void parseCriteriaForSingleMetric(String metricCriteria) {
-        def tokens = metricCriteria.tokenize('=')
-        assert tokens.size() == 2, "Each metric criteria must be of the form: <metric1-name>=<value1a>,<value1b>"
-        def name = tokens[0].trim()
-        criteriaMap[name] = parseCommaSeparatedList(tokens[1])
-    }
-
-    List parseCommaSeparatedList(String values) {
-        values.tokenize(',').collect { it.trim().toLowerCase() }
-    }
 }

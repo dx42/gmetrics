@@ -60,7 +60,8 @@ class GMetricsTaskTest extends AbstractTestCase {
         assert called.execute
         assert gMetricsRunner.metricSet instanceof DefaultMetricSet
         assert gMetricsRunner.sourceAnalyzer instanceof AntFileSetSourceAnalyzer
-        assert gMetricsRunner.reportWriters*.class == [BasicHtmlReportWriter]
+        assert gMetricsRunner.reportWriters.size() == 1
+        assert gMetricsRunner.reportWriters[0] instanceof BasicHtmlReportWriter
     }
 
     void testExecute_UsesConfiguredMetricSetFile() {
@@ -81,13 +82,15 @@ class GMetricsTaskTest extends AbstractTestCase {
 
     void testAddConfiguredReport_AddsToReportWriters() {
         gMetricsTask.addConfiguredReport(createReport(HTML_REPORT_WRITER))
-        assert gMetricsTask.reportWriters*.class == [BasicHtmlReportWriter]
+        assert gMetricsTask.reportWriters.size() == 1
+        assert gMetricsTask.reportWriters[0] instanceof BasicHtmlReportWriter
     }
 
     void testAddConfiguredReport_Twice_AddsToReportWriters() {
         gMetricsTask.addConfiguredReport(createReport(HTML_REPORT_WRITER, [title:'abc']))
         gMetricsTask.addConfiguredReport(createReport(HTML_REPORT_WRITER, [title:'def']))
-        assert gMetricsTask.reportWriters*.class == [BasicHtmlReportWriter, BasicHtmlReportWriter]
+        assert gMetricsTask.reportWriters[0] instanceof BasicHtmlReportWriter
+        assert gMetricsTask.reportWriters[1] instanceof BasicHtmlReportWriter
         assert gMetricsTask.reportWriters.title == ['abc', 'def']
     }
 

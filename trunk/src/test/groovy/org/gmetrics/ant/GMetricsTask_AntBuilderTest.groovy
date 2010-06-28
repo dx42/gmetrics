@@ -43,14 +43,20 @@ class GMetricsTask_AntBuilderTest extends AbstractTestCase {
            report(type:HTML_REPORT_WRITER){
                option(name:'title', value:TITLE)
                option(name:'outputFile', value:HTML_REPORT_FILE)
+               option(name:'metrics', value:'CyclomaticComplexity, MethodLineCount')
            }
            report(type:XML_REPORT_WRITER){
                option(name:'title', value:TITLE)
                option(name:'outputFile', value:XML_REPORT_FILE)
+               option(name:'metrics', value:'ClassLineCount, MethodLineCount')
            }
         }
-        def metricNames = new DefaultMetricSet().metrics*.name 
-        verifyReportFile(HTML_REPORT_FILE, metricNames.sort())
+        def metricNames = new DefaultMetricSet().metrics*.name
+        def htmlMetricNames = metricNames - 'ClassLineCount'
+        verifyReportFile(HTML_REPORT_FILE, htmlMetricNames.sort())
+
+        def xmlMetricNames = metricNames - 'CyclomaticComplexity'
+        verifyReportFile(XML_REPORT_FILE, xmlMetricNames.sort())
     }
 
     void testAntTask_Execute_SpecifyMetricSetFile() {
@@ -80,6 +86,6 @@ class GMetricsTask_AntBuilderTest extends AbstractTestCase {
     private void verifyReportFile(String reportFile, List metricNames) {
         def file = new File(reportFile)
         assert file.exists()
-        assertContainsAllInOrder(file.text, [TITLE, 'org/gmetrics', 'Metric Descriptions'] + metricNames)
+        assertContainsAllInOrder(file.text, [TITLE, 'org/gmetrics', 'Description'] + metricNames)
     }
 }
