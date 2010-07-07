@@ -18,7 +18,8 @@ package org.gmetrics.result
 import org.gmetrics.metric.Metric
 
 /**
- * A NumberMetricResult that aggregates multiple values
+ * A NumberMetricResult that aggregates multiple values. This MetricResult supports the
+ * 'total', 'average', 'minimum' and 'maximum' functions.
  *
  * @author Chris Mair
  * @version $Revision$ - $Date$
@@ -34,12 +35,7 @@ class AggregateNumberMetricResult implements MetricResult {
         assert metric != null
         assert children != null
         this.metric = metric
-        def sum = children.inject(0) { value, child -> value + child['total'] }
-        count = children.inject(0) { value, child -> value + child.count }
-        functionValues['total'] = sum
-        functionValues['average'] = calculateAverage(sum, count)
-        functionValues['minimum'] = calculateMinimum(children)
-        functionValues['maximum'] = calculateMaximum(children)
+        calculateFunctions(metric, children)
     }
 
     int getCount() {
@@ -48,6 +44,31 @@ class AggregateNumberMetricResult implements MetricResult {
 
     Object getAt(String name) {
         return functionValues[name]
+    }
+
+    List getFunctionNames() {
+        return metric.getFunctionNames()
+    }
+
+    String toString() {
+        "AggregateNumberMetricResult[count=$count, $functionValues}]"
+    }
+
+    protected void calculateFunctions(Metric metric, Collection children) {
+        def sum = children.inject(0) { value, child -> value + child['total'] }
+        count = children.inject(0) { value, child -> value + child.count }
+        if (includesFunction('total')) {
+            functionValues['total'] = sum
+        }
+        if (includesFunction('average')) {
+            functionValues['average'] = calculateAverage(sum, count)
+        }
+        if (includesFunction('minimum')) {
+            functionValues['minimum'] = calculateMinimum(children)
+        }
+        if (includesFunction('maximum')) {
+            functionValues['maximum'] = calculateMaximum(children)
+        }
     }
 
     private Object calculateMinimum(children) {
@@ -70,12 +91,8 @@ class AggregateNumberMetricResult implements MetricResult {
         }
     }
 
-    List getFunctionNames() {
-        ['total', 'average']
-    }
-    
-    String toString() {
-        "AggregateNumberMetricResult[count=$count, $functionValues}]"
+    private boolean includesFunction(String functionName) {
+        return functionName in getFunctionNames()
     }
 
 }

@@ -31,6 +31,8 @@ import org.gmetrics.analyzer.AnalysisContext
  * @version $Revision$ - $Date$
  */
 @Mixin(MetricsCriteriaFilter)
+@Mixin(LevelsCriteriaFilter)
+@Mixin(FunctionsCriteriaFilter)
 class XmlReportWriter extends AbstractReportWriter {
 
     public static final DEFAULT_OUTPUT_FILE = 'GMetricsXmlReport.xml'
@@ -94,7 +96,7 @@ class XmlReportWriter extends AbstractReportWriter {
         def attributeMap = isRoot(resultsNode) ? [:] : [path:resultsNode.path]
         return {
             "$elementName"(attributeMap) {
-                out << buildMetricElements(resultsNode.metricResults)
+                out << buildMetricElements(resultsNode.metricResults, resultsNode.level)
                 resultsNode.children.each { childName, childResultsNode ->
                     if (!isPackage(childResultsNode)) {
                         out << buildElement(childResultsNode, childName)
@@ -114,7 +116,7 @@ class XmlReportWriter extends AbstractReportWriter {
     private buildChildElement(String typeName, resultsNode, String name) {
         return {
             "$typeName"([name:name]) {
-                out << buildMetricElements(resultsNode.metricResults)
+                out << buildMetricElements(resultsNode.metricResults, resultsNode.level)
                 resultsNode.children.each { childName, childResultsNode ->
                     out << buildElement(childResultsNode, childName)
                 }
@@ -122,19 +124,26 @@ class XmlReportWriter extends AbstractReportWriter {
         }
     }
 
-    private buildMetricElements(metricResults) {
+    private buildMetricElements(metricResults, MetricLevel level) {
         return {
             metricResults.each { metricResult ->
-                out << buildMetricElement(metricResult)
+                out << buildMetricElement(metricResult, level)
             }
         }
     }
 
-    private buildMetricElement(MetricResult metricResult) {
+    private buildMetricElement(MetricResult metricResult, MetricLevel level) {
         def metric = metricResult.getMetric()
         return {
-            if (includesMetric(metric)) {
-                MetricResult(name: metric.name, total:metricResult['total'], average:metricResult['average'])
+            if (includesMetric(metric) && includesLevel(metric, level)) {
+                def attributes = [name: metric.name]
+                def functionNames = ['total', 'average']
+                functionNames.each { functionName ->
+                    if (includesFunction(metric, functionName)) {
+                        attributes[functionName] = metricResult[functionName]
+                    }
+                }
+                MetricResult(attributes)
             }
         }
     }

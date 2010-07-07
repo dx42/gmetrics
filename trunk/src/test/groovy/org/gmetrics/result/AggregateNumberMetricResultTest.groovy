@@ -26,7 +26,8 @@ import org.gmetrics.metric.Metric
  */
 class AggregateNumberMetricResultTest extends AbstractTestCase {
 
-    private static final METRIC = [getName:{'TestMetric'}] as Metric
+    private static final DEFAULT_FUNCTION_NAMES = ['total', 'average', 'minimum', 'maximum']
+    private static final METRIC = [getName:{'TestMetric'}, getFunctionNames:{ DEFAULT_FUNCTION_NAMES }] as Metric
     private static final BD = [0.23, 5.01, 3.67]
     private aggregateNumberMetricResult
 
@@ -144,9 +145,20 @@ class AggregateNumberMetricResultTest extends AbstractTestCase {
 
     void testGetFunctionNames() {
         initializeThreeIntegerChildMetricResults()
-        assert aggregateNumberMetricResult.getFunctionNames() == ['total', 'average']
+        assert aggregateNumberMetricResult.getFunctionNames() == DEFAULT_FUNCTION_NAMES
     }
     
+    void testUsesFunctionNamesFromMetric() {
+        final FUNCTION_NAMES = ['average', 'maximum']
+        def metric = [getName:{'TestMetric'}, getFunctionNames:{ FUNCTION_NAMES }] as Metric
+        aggregateNumberMetricResult = new AggregateNumberMetricResult(metric, [])
+        assert aggregateNumberMetricResult.getFunctionNames() == FUNCTION_NAMES
+        assert aggregateNumberMetricResult['average'] != null
+        assert aggregateNumberMetricResult['maximum'] != null 
+        assert aggregateNumberMetricResult['total'] == null
+        assert aggregateNumberMetricResult['minimum'] == null
+    }
+
     //--------------------------------------------------------------------------
     // Helper Methods
     //--------------------------------------------------------------------------

@@ -95,14 +95,14 @@ abstract class AbstractReportWriterTestCase extends AbstractTestCase {
         writeOutToFile(reportText, writeToFile)
         assertContainsAllInOrder(reportText, expectedContents)
         notExpectedContents.each { text ->
-            assert !reportText.contains(text), "[$text] was present in the report"
+            assert !reportText.contains(text.toString()), "[$text] was present in the report"
         }
     }
 
     protected void assertReportDoesNotContain(resultsNode, List notExpected) {
         def reportText = writeReport(resultsNode)
         notExpected.each { text ->
-            assert !reportText.contains(text), "[$text] was present in the report"
+            assert !reportText.contains(text.toString()), "[$text] was present in the report"
         }
     }
 
@@ -130,15 +130,17 @@ abstract class AbstractReportWriterTestCase extends AbstractTestCase {
         new NumberMetricResult(metric3, value)
     }
 
-    protected packageResultsNode(map) {
+    protected packageResultsNode(Map map, Map children=[:]) {
         def resultsNode = new StubResultsNode(map)
         resultsNode.level = MetricLevel.PACKAGE
+        resultsNode.children = children
         return resultsNode
     }
 
-    protected classResultsNode(map) {
+    protected classResultsNode(Map map, Map children=[:]) {
         def resultsNode = new StubResultsNode(map)
         resultsNode.level = MetricLevel.CLASS
+        resultsNode.children = children
         return resultsNode
     }
 

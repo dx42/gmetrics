@@ -25,7 +25,8 @@ import org.gmetrics.metric.Metric
  * @version $Revision$ - $Date$
  */
 class NumberMetricResultTest extends AbstractTestCase {
-    private static final METRIC = [getName:{'TestMetric'}] as Metric
+    private static final DEFAULT_FUNCTION_NAMES = ['total', 'average', 'minimum', 'maximum']
+    private static final METRIC = [getName:{'TestMetric'}, getFunctionNames:{ DEFAULT_FUNCTION_NAMES }] as Metric
 
     void testPassingNullMetricIntoConstructorThrowsException() {
         shouldFailWithMessageContaining('metric') { new NumberMetricResult(null, 1) }
@@ -77,7 +78,18 @@ class NumberMetricResultTest extends AbstractTestCase {
 
     void testGetFunctionNames() {
         def result = new NumberMetricResult(METRIC, 23)
-        assert result.getFunctionNames() == ['total', 'average', 'minimum', 'maximum']
+        assert result.getFunctionNames() == DEFAULT_FUNCTION_NAMES
+    }
+
+    void testUsesFunctionNamesFromMetric() {
+        final FUNCTION_NAMES = ['average', 'maximum']
+        def metric = [getName:{'TestMetric'}, getFunctionNames:{ FUNCTION_NAMES }] as Metric
+        def result = new NumberMetricResult(metric, 1)
+        assert result.getFunctionNames() == FUNCTION_NAMES
+        assert result['average'] != null
+        assert result['maximum'] != null
+        assert result['total'] == null
+        assert result['minimum'] == null
     }
 
 }

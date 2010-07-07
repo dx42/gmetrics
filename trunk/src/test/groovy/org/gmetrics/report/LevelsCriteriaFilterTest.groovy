@@ -45,7 +45,7 @@ class LevelsCriteriaFilterTest extends AbstractTestCase {
         assert !levelsCriteriaFilter.includesLevel(METRIC_ABC, MetricLevel.CLASS)
         assert !levelsCriteriaFilter.includesLevel(METRIC_ABC, MetricLevel.METHOD)
 
-        assert !levelsCriteriaFilter.includesLevel(METRIC_XXX, MetricLevel.CLASS)
+        assert levelsCriteriaFilter.includesLevel(METRIC_XXX, MetricLevel.CLASS)
     }
 
     void testOneMetric_SingleLevelDefined_IncludesLevel_ReturnsTrueForMatching_AndFalseForOthers() {
@@ -54,7 +54,7 @@ class LevelsCriteriaFilterTest extends AbstractTestCase {
         assert !levelsCriteriaFilter.includesLevel(METRIC_ABC, MetricLevel.CLASS)
         assert levelsCriteriaFilter.includesLevel(METRIC_ABC, MetricLevel.METHOD)
 
-        assert !levelsCriteriaFilter.includesLevel(METRIC_XXX, MetricLevel.CLASS)
+        assert levelsCriteriaFilter.includesLevel(METRIC_XXX, MetricLevel.CLASS)
     }
 
     void testMultipleMetrics_MultipleLevelsDefined_IncludesLevel_ReturnsTrueForMatching_AndFalseForOthers() {
@@ -67,7 +67,7 @@ class LevelsCriteriaFilterTest extends AbstractTestCase {
         assert levelsCriteriaFilter.includesLevel(METRIC_XXX, MetricLevel.CLASS)
         assert !levelsCriteriaFilter.includesLevel(METRIC_XXX, MetricLevel.METHOD)
 
-        assert !levelsCriteriaFilter.includesLevel(METRIC_123, MetricLevel.METHOD)
+        assert levelsCriteriaFilter.includesLevel(METRIC_123, MetricLevel.METHOD)
     }
 
     void testMultipleLevelsDefined_IncludesLevel_IsCaseInsensitive() {

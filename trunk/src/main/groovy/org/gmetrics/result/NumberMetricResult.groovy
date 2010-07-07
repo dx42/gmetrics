@@ -44,7 +44,7 @@ class NumberMetricResult implements MetricResult {
     }
 
     List getFunctionNames() {
-        ['total', 'average', 'minimum', 'maximum']
+        return metric.getFunctionNames()
     }
 
     String toString() {

@@ -18,44 +18,42 @@ package org.gmetrics.report
 import org.gmetrics.metric.Metric
 
 /**
- * Abstract superclass for filter classes that provides data and behavior for enabling reports
- * to filter the set of functions included in a report.
+ * Provides common static helper methods for classes that provides data and behavior for enabling reports
+ * to filter the results included within a report based a filter map keyed on the metric name.
  *
  * @author Chris Mair
  * @version $Revision: 91 $ - $Date: 2010-03-05 20:21:49 -0500 (Fri, 05 Mar 2010) $
  */
+class MetricCriteriaFilterHelper {
 
-abstract class AbstractMetricCriteriaFilter {
-
-    private Map criteriaMap
-
-    protected boolean includesName(Metric metric, String name) {
+    protected static boolean includesName(Map criteriaMap, Metric metric, String name) {
         if (criteriaMap == null) {
             return true
         }
         def matchingNames = criteriaMap[metric.name]
-        return matchingNames && name in matchingNames
+        return matchingNames == null || name in matchingNames
     }
 
     /**
      * Parse the criteria string
      * @param criteria - the String of the form <metric1-name>=<value1a>,<value1b>; <metric2-name>=<value2a>,<value2b>
      */
-    protected void parseCriteria(String criteria) {
+    protected static Map parseCriteria(String criteria) {
         assert criteria
-        criteriaMap = [:]
+        def criteriaMap = [:]
         def metricCriteriaStrings = criteria.tokenize(';')
-        metricCriteriaStrings.each { metricCriteria -> parseCriteriaForSingleMetric(metricCriteria) }
+        metricCriteriaStrings.each { metricCriteria -> parseCriteriaForSingleMetric(criteriaMap, metricCriteria) }
+        return criteriaMap
     }
 
-    protected void parseCriteriaForSingleMetric(String metricCriteria) {
+    protected static void parseCriteriaForSingleMetric(Map criteriaMap, String metricCriteria) {
         def tokens = metricCriteria.tokenize('=')
-        assert tokens.size() == 2, "Each metric criteria must be of the form: <metric1-name>=<value1a>,<value1b>"
+        assert tokens.size() == 2, "Each metric criteria must be of the form: <metric1-name>=<value1a>,<value1b> but was [$metricCriteria]"
         def name = tokens[0].trim()
         criteriaMap[name] = parseCommaSeparatedList(tokens[1])
     }
 
-    private List parseCommaSeparatedList(String values) {
+    private static List parseCommaSeparatedList(String values) {
         values.tokenize(',').collect { it.trim().toLowerCase() }
     }
 }
