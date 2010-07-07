@@ -25,14 +25,16 @@ import org.gmetrics.metric.Metric
  * @version $Revision: 91 $ - $Date: 2010-03-05 20:21:49 -0500 (Fri, 05 Mar 2010) $
  */
 
-class FunctionsCriteriaFilter extends AbstractMetricCriteriaFilter {
+class FunctionsCriteriaFilter {
+
+    private Map functionsCriteriaMap
 
     void setFunctions(String criteria) {
-        parseCriteria(criteria)
+        functionsCriteriaMap = MetricCriteriaFilterHelper.parseCriteria(criteria)
     }
 
     boolean includesFunction(Metric metric, String functionName) {
-        return includesName(metric, functionName)
+        return MetricCriteriaFilterHelper.includesName(functionsCriteriaMap, metric, functionName)
     }
 
 }

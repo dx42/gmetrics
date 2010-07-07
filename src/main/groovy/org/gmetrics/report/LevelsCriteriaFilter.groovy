@@ -25,14 +25,16 @@ import org.gmetrics.metric.MetricLevel
  * @author Chris Mair
  * @version $Revision: 91 $ - $Date: 2010-03-05 20:21:49 -0500 (Fri, 05 Mar 2010) $
  */
-class LevelsCriteriaFilter extends AbstractMetricCriteriaFilter {
+class LevelsCriteriaFilter {
+
+    private Map levelsCriteriaMap
 
     void setLevels(String criteria) {
-        parseCriteria(criteria)
+        levelsCriteriaMap = MetricCriteriaFilterHelper.parseCriteria(criteria)
     }
 
     boolean includesLevel(Metric metric, MetricLevel level) {
-        return includesName(metric, level.name)
+        return MetricCriteriaFilterHelper.includesName(levelsCriteriaMap, metric, level.name)
     }
 
 }

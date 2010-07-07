@@ -33,32 +33,6 @@ class FunctionsCriteriaFilterTest extends AbstractTestCase {
 
     private functionsCriteriaFilter = new FunctionsCriteriaFilter()
 
-//    void testNoFunctionsDefined_IncludesFunction_ReturnsTrue() {
-//        assert functionsCriteriaFilter.includesFunction('xyz')
-//        assert functionsCriteriaFilter.includesFunction('average')
-//    }
-//
-//    void testOneFunctionDefined_IncludesFunction_ReturnsTrueForThat_AndFalseForOthers() {
-//        functionsCriteriaFilter.setFunctions('average')
-//        assert !functionsCriteriaFilter.includesFunction('total')
-//        assert functionsCriteriaFilter.includesFunction('average')
-//    }
-//
-//    void testMultipleFunctionsDefined_IncludesFunction_ReturnsTrueForMatching_AndFalseForOthers() {
-//        functionsCriteriaFilter.setFunctions(' minimum ,777,average')
-//        assert !functionsCriteriaFilter.includesFunction('total')
-//        assert functionsCriteriaFilter.includesFunction('average')
-//        assert functionsCriteriaFilter.includesFunction('minimum')
-//    }
-//
-//    void testMultipleFunctionsDefined_IncludesFunction_IsCaseInsensitive() {
-//        functionsCriteriaFilter.setFunctions(' mINIMum ,777,average,TOTAL  ')
-//        assert functionsCriteriaFilter.includesFunction('total')
-//        assert functionsCriteriaFilter.includesFunction('average')
-//        assert functionsCriteriaFilter.includesFunction('minimum')
-//        assert !functionsCriteriaFilter.includesFunction('maximum')
-//    }
-
     void testNoFunctionsDefined_IncludesFunction_ReturnsTrue() {
         assert functionsCriteriaFilter.includesFunction(METRIC_ABC, 'average')
         assert functionsCriteriaFilter.includesFunction(METRIC_XXX, 'total')
@@ -70,7 +44,7 @@ class FunctionsCriteriaFilterTest extends AbstractTestCase {
         assert !functionsCriteriaFilter.includesFunction(METRIC_ABC, 'total')
         assert !functionsCriteriaFilter.includesFunction(METRIC_ABC, 'minimum')
 
-        assert !functionsCriteriaFilter.includesFunction(METRIC_XXX, 'average')
+        assert functionsCriteriaFilter.includesFunction(METRIC_XXX, 'average')
     }
 
     void testOneMetric_SingleLevelDefined_IncludesFunction_ReturnsTrueForMatching_AndFalseForOthers() {
@@ -79,7 +53,7 @@ class FunctionsCriteriaFilterTest extends AbstractTestCase {
         assert functionsCriteriaFilter.includesFunction(METRIC_ABC, 'minimum')
         assert !functionsCriteriaFilter.includesFunction(METRIC_ABC, 'average')
 
-        assert !functionsCriteriaFilter.includesFunction(METRIC_XXX, 'average')
+        assert functionsCriteriaFilter.includesFunction(METRIC_XXX, 'average')
     }
 
     void testMultipleMetrics_MultipleLevelsDefined_IncludesFunction_ReturnsTrueForMatching_AndFalseForOthers() {
@@ -92,7 +66,7 @@ class FunctionsCriteriaFilterTest extends AbstractTestCase {
         assert functionsCriteriaFilter.includesFunction(METRIC_XXX, 'maximum')
         assert !functionsCriteriaFilter.includesFunction(METRIC_XXX, 'total')
 
-        assert !functionsCriteriaFilter.includesFunction(METRIC_123, 'average')
+        assert functionsCriteriaFilter.includesFunction(METRIC_123, 'average')
     }
 
     void testMultipleLevelsDefined_IncludesFunction_IsCaseInsensitive() {

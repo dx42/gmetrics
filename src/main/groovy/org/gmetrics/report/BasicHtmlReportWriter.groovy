@@ -31,6 +31,8 @@ import org.gmetrics.analyzer.AnalysisContext
  * @version $Revision$ - $Date$
  */
 @Mixin(MetricsCriteriaFilter)
+@Mixin(LevelsCriteriaFilter)
+@Mixin(FunctionsCriteriaFilter)
 class BasicHtmlReportWriter extends AbstractReportWriter {
 
     public static final DEFAULT_OUTPUT_FILE = 'GMetricsReport.html'
@@ -68,8 +70,12 @@ class BasicHtmlReportWriter extends AbstractReportWriter {
     private def buildMetricResultColumns(MetricSet metricSet) {
         def metricResultColumns = []
         metricSet.getMetrics().each {metric ->
-            metricResultColumns << [metric: metric, property: 'total']
-            metricResultColumns << [metric: metric, property: 'average']
+            def functionNames = ['total', 'average']
+            functionNames.each { functionName ->
+                if (includesFunction(metric, functionName)) {
+                    metricResultColumns << [metric: metric, property: functionName]
+                }
+            }
         }
         return metricResultColumns
     }
@@ -152,7 +158,7 @@ class BasicHtmlReportWriter extends AbstractReportWriter {
                 metricResultColumns.each { columnDef ->
                     def metric = columnDef.metric
                     if (includesMetric(metric)) {
-                        def metricResult = resultsNode.getMetricResult(metric)
+                        def metricResult = includesLevel(metric, level) ? resultsNode.getMetricResult(metric) : null
                         def value = metricResult ?
                             metricResult[columnDef.property] :
                             getResourceBundleString('basicHtmlReport.metricResults.notApplicable')

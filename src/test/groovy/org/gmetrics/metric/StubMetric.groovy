@@ -34,6 +34,7 @@ class StubMetric implements Metric {
     ClassMetricResult classMetricResult
     MetricResult packageMetricResult
     String otherProperty
+    List<String> functionNames = ['total', 'average']
 
     ClassMetricResult applyToClass(ClassNode classNode, SourceCode sourceCode) {
         return classMetricResult

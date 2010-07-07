@@ -31,7 +31,7 @@ import org.gmetrics.result.NumberMetricResult
  */
 abstract class AbstractMetricTestCase extends AbstractTestCase {
 
-    private static final METRIC = [:] as Metric
+    private static final METRIC = [getFunctionNames:{ ['total', 'average'] }] as Metric
     protected metric
     protected sourceCode
 

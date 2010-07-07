@@ -103,9 +103,10 @@ class BasicHtmlReportWriterTest extends AbstractReportWriterTestCase {
                 metric1.name, metricDescription(metric1),
                 metric2.name, metricDescription(metric2),
                 BOTTOM_LINK]
-        def resultsNode = new StubResultsNode(metricResults:[metric1Result(10), metric2Result(20)])
-        def childResultsNode = new StubResultsNode(metricResults:[metric1Result(11), metric2Result(21)])
-        resultsNode.children['Dir1'] = childResultsNode
+        def resultsNode = packageResultsNode([metricResults:[metric1Result(10), metric2Result(20)]],
+        [
+            Dir1: classResultsNode(metricResults:[metric1Result(11), metric2Result(21)])
+        ])
         assertReportContents(resultsNode, CONTENTS, true)
     }
 
@@ -127,23 +128,60 @@ class BasicHtmlReportWriterTest extends AbstractReportWriterTestCase {
                 metric1.name, metricDescription(metric1),
                 BOTTOM_LINK]
 
-        def resultsNode = packageResultsNode(metricResults:[metric1Result(1)])
-        def dirA = packageResultsNode(path:'src/DirA', metricResults:[metric1Result(11)])
-        def dirB = packageResultsNode(path:'src/DirB', metricResults:[metric1Result(12)])
-        resultsNode.children['DirA'] = dirA
-        resultsNode.children['DirB'] = dirB
-        def classA1 = classResultsNode(metricResults:[metric1Result(100)])
-        def methodA1a = methodResultsNode(metricResults:[metric1Result(1000)])
-        def methodA1b = methodResultsNode(metricResults:[metric1Result(1001)])
-        classA1.children['MethodA1a'] = methodA1a
-        classA1.children['MethodA1b'] = methodA1b
-        def classA2 = classResultsNode(metricResults:[metric1Result(101)])
-        def dirC = packageResultsNode(path:'src/DirA/DirC', metricResults:[metric1Result(102)])
-        dirA.children['DirC'] = dirC
-        dirA.children['ClassA1'] = classA1
-        dirA.children['ClassA2'] = classA2
-
+        def resultsNode = packageResultsNode([metricResults:[metric1Result(1)]],
+        [
+            DirA: packageResultsNode([path:'src/DirA', metricResults:[metric1Result(11)]],
+            [
+                DirC: packageResultsNode(path:'src/DirA/DirC', metricResults:[metric1Result(102)]),
+                ClassA1: classResultsNode([metricResults:[metric1Result(100)]],
+                [
+                    MethodA1a: methodResultsNode(metricResults:[metric1Result(1000)]),
+                    MethodA1b: methodResultsNode(metricResults:[metric1Result(1001)])
+                ]),
+                ClassA2: classResultsNode(metricResults:[metric1Result(101)])
+            ]),
+            DirB: packageResultsNode(path:'src/DirB', metricResults:[metric1Result(12)])
+        ])
         assertReportContents(resultsNode, CONTENTS, true)
+    }
+
+    void testWriteReport_FilterByLevelAndFunction() {
+        final CONTENTS = [
+                HTML_TAG,
+                TITLE_PREFIX, REPORT_TIMESTAMP,
+                METRIC_RESULTS,
+                NAME_HEADING,
+                'M1.total', 'M2.average',
+                PACKAGE_PREFIX, ALL_PACKAGES, 1, NA,
+                PACKAGE_PREFIX, 'src/DirA', 11, NA,
+                CLASS_PREFIX, 'ClassA1', NA, 200,
+                METHOD_PREFIX, 'MethodA1a', 1000, NA,
+                METHOD_PREFIX, 'MethodA1b', 1001, NA,
+                CLASS_PREFIX, 'ClassA2', NA, 201,
+                PACKAGE_PREFIX, 'src/DirA/DirC', 102, NA,
+                PACKAGE_PREFIX, 'src/DirB', 12, NA,
+                METRIC_DESCRIPTIONS,
+                metric1.name, metricDescription(metric1), metricDescription(metric2), 
+                BOTTOM_LINK]
+        final NOT_EXPECTED_CONTENTS = [21, 2000, 'M1.average', 'M2.total']
+
+        def resultsNode = packageResultsNode([metricResults:[metric1Result(1), metric2Result(2)]],
+        [
+            DirA: packageResultsNode([path:'src/DirA', metricResults:[metric1Result(11), metric2Result(21)]],
+            [
+                DirC: packageResultsNode(path:'src/DirA/DirC', metricResults:[metric1Result(102), metric2Result(202)]),
+                ClassA1: classResultsNode([metricResults:[metric1Result(100), metric2Result(200)]],
+                [
+                    MethodA1a: methodResultsNode(metricResults:[metric1Result(1000), metric2Result(2000)]),
+                    MethodA1b: methodResultsNode(metricResults:[metric1Result(1001), metric2Result(2001)])
+                ]),
+                ClassA2: classResultsNode(metricResults:[metric1Result(101), metric2Result(201)])
+            ]),
+            DirB: packageResultsNode(path:'src/DirB', metricResults:[metric1Result(12), metric2Result(22)])
+        ])
+        reportWriter.setLevels('Metric1=package,method; Metric2=class')
+        reportWriter.setFunctions('Metric1=total; Metric2=average')
+        assertReportContents(resultsNode, CONTENTS, NOT_EXPECTED_CONTENTS, true)
     }
 
     void testWriteReport_MissingMetricResultsForMetric() {
@@ -170,8 +208,8 @@ class BasicHtmlReportWriterTest extends AbstractReportWriterTestCase {
             'basicHtmlReport.metricDescriptions.nameHeading':'Metric Name',
             'basicHtmlReport.metricDescriptions.descriptionHeading':'Description',    
             'Metric1.description.html':metricDescription(metric1),
-            'Metric1.total':'Metric1.total',
-            'Metric1.average':'Metric1.average',
+            'Metric1.total':'M1.total',
+            'Metric1.average':'M1.average',
             'Metric2.description.html':metricDescription(metric2),
             'Metric2.total':'M2.total',
             'Metric2.average':'M2.average',

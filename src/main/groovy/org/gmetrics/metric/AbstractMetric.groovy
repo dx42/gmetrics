@@ -31,6 +31,7 @@ import org.gmetrics.result.*
 abstract class AbstractMetric implements Metric {
 
     boolean enabled = true
+    List<String> functionNames = ['total', 'average']
 
     abstract ClassMetricResult calculateForClass(ClassNode classNode, SourceCode sourceCode)
 
