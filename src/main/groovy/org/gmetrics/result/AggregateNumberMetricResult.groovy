@@ -46,10 +46,6 @@ class AggregateNumberMetricResult implements MetricResult {
         return functionValues[name]
     }
 
-    List getFunctionNames() {
-        return metric.getFunctionNames()
-    }
-
     String toString() {
         "AggregateNumberMetricResult[count=$count, $functionValues}]"
     }
@@ -92,7 +88,7 @@ class AggregateNumberMetricResult implements MetricResult {
     }
 
     private boolean includesFunction(String functionName) {
-        return functionName in getFunctionNames()
+        return functionName in metric.functions
     }
 
 }

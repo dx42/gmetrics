@@ -25,10 +25,25 @@ import org.gmetrics.metric.Metric
  */
 interface MetricResult {
 
+    /**
+     * @return the Metric for which this object represents results.
+     */
+
     Metric getMetric()
+
+    /**
+     * Return the count of the nodes/results that are descendants. For instance, if this result
+     * represents a class, then the count includes all of the method-level result children
+     * (if applicable for the metric).
+     *
+     * @return the count of metric result children
+     */
     int getCount()
 
-    List getFunctionNames()
-
+    /**
+     * Return the metric result value for the named function (e.g. "average", "total")
+     * @param propertyName - the function name
+     * @return the named function value or null if that function is not supported
+     */
     Object getAt(String propertyName)
 }

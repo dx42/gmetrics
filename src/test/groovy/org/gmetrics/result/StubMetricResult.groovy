@@ -19,14 +19,14 @@ import org.gmetrics.metric.Metric
 
 class StubMetricResult implements MetricResult {
 
+    private static final FUNCTION_NAMES = ['total', 'average', 'minimum', 'maximum']
     Metric metric
     int count
     Object total, average, minimum, maximum
     Object value
-    List functionNames = ['total', 'average']
 
     Object getAt(String propertyName) {
-        super.getAt(propertyName)        
+        return (propertyName in FUNCTION_NAMES) ? super.getAt(propertyName) : null        
     }
 
     String toString() {

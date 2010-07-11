@@ -40,11 +40,7 @@ class NumberMetricResult implements MetricResult {
     }
 
     Object getAt(String name) {
-        return name in getFunctionNames() ? number : null
-    }
-
-    List getFunctionNames() {
-        return metric.getFunctionNames()
+        return name in metric.functions ? number : null
     }
 
     String toString() {

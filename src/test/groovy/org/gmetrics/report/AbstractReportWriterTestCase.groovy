@@ -15,8 +15,6 @@
 */
 package org.gmetrics.report
 
-import org.gmetrics.metric.MetricLevel
-
 import org.gmetrics.result.NumberMetricResult
 import org.gmetrics.resultsnode.StubResultsNode
 import org.gmetrics.test.AbstractTestCase
@@ -128,26 +126,6 @@ abstract class AbstractReportWriterTestCase extends AbstractTestCase {
 
     protected metric3Result(int value) {
         new NumberMetricResult(metric3, value)
-    }
-
-    protected packageResultsNode(Map map, Map children=[:]) {
-        def resultsNode = new StubResultsNode(map)
-        resultsNode.level = MetricLevel.PACKAGE
-        resultsNode.children = children
-        return resultsNode
-    }
-
-    protected classResultsNode(Map map, Map children=[:]) {
-        def resultsNode = new StubResultsNode(map)
-        resultsNode.level = MetricLevel.CLASS
-        resultsNode.children = children
-        return resultsNode
-    }
-
-    protected methodResultsNode(map) {
-        def resultsNode = new StubResultsNode(map)
-        resultsNode.level = MetricLevel.METHOD
-        return resultsNode
     }
 
     protected void writeOutToFile(String text, boolean writeToFile) {

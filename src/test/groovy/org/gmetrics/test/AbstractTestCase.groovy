@@ -15,6 +15,10 @@
  */
 package org.gmetrics.test
 
+import org.gmetrics.resultsnode.ResultsNode
+import org.gmetrics.resultsnode.StubResultsNode
+import org.gmetrics.metric.MetricLevel
+
 /**
  * Abstract superclass for tests 
  *
@@ -107,6 +111,26 @@ abstract class AbstractTestCase extends GroovyTestCase {
     
     protected BigDecimal scale(number, int scale=1) {
         return number.setScale(scale, BigDecimal.ROUND_HALF_UP)
+    }
+
+    protected static ResultsNode packageResultsNode(Map map, Map children=[:]) {
+        def resultsNode = new StubResultsNode(map)
+        resultsNode.level = MetricLevel.PACKAGE
+        resultsNode.children = children
+        return resultsNode
+    }
+
+    protected static ResultsNode classResultsNode(Map map, Map children=[:]) {
+        def resultsNode = new StubResultsNode(map)
+        resultsNode.level = MetricLevel.CLASS
+        resultsNode.children = children
+        return resultsNode
+    }
+
+    protected static ResultsNode methodResultsNode(map) {
+        def resultsNode = new StubResultsNode(map)
+        resultsNode.level = MetricLevel.METHOD
+        return resultsNode
     }
 
     /**

@@ -43,13 +43,9 @@ class AbcMetricResult implements MetricResult {
     }
 
     Object getAt(String name) {
-        return name in getFunctionNames() ? magnitude : null
+        return name in metric.functions ? magnitude : null
     }
 
-    List getFunctionNames() {
-        ['total', 'average', 'minimum', 'maximum']
-    }
-    
     String toString() {
         "AbcMetricResult[$abcVector, vector=$abcVector, magnitude=$magnitude]"
     }

@@ -39,22 +39,25 @@ class AggregateAbcMetricResult implements MetricResult {
         assert metric != null
         assert children != null
         this.metric = metric
-        def min = children ? Integer.MAX_VALUE : 0
-        def max = children ? Integer.MIN_VALUE : 0
-        children.each { child ->
-            def abcVector = child.abcVector
-            assignmentSum += abcVector.assignments
-            branchSum += abcVector.branches
-            conditionSum += abcVector.conditions
-            def magnitude = child.abcVector.magnitude
-            min = Math.min(min, magnitude)
-            max = Math.max(max, magnitude) 
-        }
+        calculateFunctions(children)
+    }
+
+    protected void calculateFunctions(Collection children) {
+        addChildrenToAbcVector(children)
         count = children.inject(0) { value, child -> value + child.count }
-        functionValues['total'] = getTotalAbcVector().getMagnitude()
-        functionValues['average'] = getAverageAbcVector().getMagnitude()
-        functionValues['minimum'] = min
-        functionValues['maximum'] = max
+
+        if (includesFunction('total')) {
+            functionValues['total'] = getTotalAbcVector().getMagnitude()
+        }
+        if (includesFunction('average')) {
+            functionValues['average'] = getAverageAbcVector().getMagnitude()
+        }
+        if (includesFunction('minimum')) {
+            functionValues['minimum'] = calculateMinimum(children)
+        }
+        if (includesFunction('maximum')) {
+            functionValues['maximum'] = calculateMaximum(children)
+        }
     }
 
     int getCount() {
@@ -92,12 +95,31 @@ class AggregateAbcMetricResult implements MetricResult {
         return functionValues[name]
     }
 
-    List getFunctionNames() {
-        ['total', 'average', 'minimum', 'maximum']
-    }
-    
     String toString() {
         "AggregateAbcMetricResult[count=$count, A=$assignmentSum, B=$branchSum, C=$conditionSum]"
+    }
+
+    private void addChildrenToAbcVector(children) {
+        children.each { child ->
+            def abcVector = child.abcVector
+            assignmentSum += abcVector.assignments
+            branchSum += abcVector.branches
+            conditionSum += abcVector.conditions
+        }
+    }
+
+    private Object calculateMinimum(children) {
+        def minChild = children.min { child -> child['minimum'] }
+        return minChild != null ? minChild['minimum'] : 0
+    }
+
+    private Object calculateMaximum(children) {
+        def maxChild = children.max { child -> child['maximum'] }
+        return maxChild != null ? maxChild['maximum'] : 0
+    }
+
+    private boolean includesFunction(String functionName) {
+        return functionName in metric.functions
     }
 
     private average(int sum, int count) {
