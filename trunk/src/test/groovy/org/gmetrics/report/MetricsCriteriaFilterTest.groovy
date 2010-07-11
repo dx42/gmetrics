@@ -22,7 +22,7 @@ import org.gmetrics.test.AbstractTestCase
  * Tests for MetricsCriteriaFilter
  *
  * @author Chris Mair
- * @version $Revision: 107 $ - $Date: 2010-06-05 07:23:27 -0400 (Sat, 05 Jun 2010) $
+ * @version $Revision$ - $Date$
  */
 
 class MetricsCriteriaFilterTest extends AbstractTestCase {
