@@ -23,7 +23,7 @@ import org.gmetrics.metric.MetricLevel
  * This class is intended to be used as a Groovy @Mixin for ReportWriter classes.
  *
  * @author Chris Mair
- * @version $Revision: 91 $ - $Date: 2010-03-05 20:21:49 -0500 (Fri, 05 Mar 2010) $
+ * @version $Revision$ - $Date$
  */
 class LevelsCriteriaFilter {
 

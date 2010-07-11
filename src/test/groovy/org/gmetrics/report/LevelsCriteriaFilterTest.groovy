@@ -23,7 +23,7 @@ import org.gmetrics.metric.StubMetric
  * Tests for LevelsCriteriaFilter
  *
  * @author Chris Mair
- * @version $Revision: 107 $ - $Date: 2010-06-05 07:23:27 -0400 (Sat, 05 Jun 2010) $
+ * @version $Revision$ - $Date$
  */
 
 class LevelsCriteriaFilterTest extends AbstractTestCase {
