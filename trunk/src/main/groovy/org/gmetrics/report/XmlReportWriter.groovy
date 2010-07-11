@@ -137,8 +137,7 @@ class XmlReportWriter extends AbstractReportWriter {
         return {
             if (includesMetric(metric) && includesLevel(metric, level)) {
                 def attributes = [name: metric.name]
-                def functionNames = ['total', 'average']
-                functionNames.each { functionName ->
+                metric.functions.each { functionName ->
                     if (includesFunction(metric, functionName)) {
                         attributes[functionName] = metricResult[functionName]
                     }

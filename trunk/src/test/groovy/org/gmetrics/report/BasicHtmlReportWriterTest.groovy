@@ -16,6 +16,8 @@
 package org.gmetrics.report
 
 import org.gmetrics.resultsnode.StubResultsNode
+//import static org.gmetrics.resultsnode.ResultsNodeTestUtil.*
+
 import org.gmetrics.analyzer.AnalysisContext
 
 /**
@@ -105,9 +107,30 @@ class BasicHtmlReportWriterTest extends AbstractReportWriterTestCase {
                 BOTTOM_LINK]
         def resultsNode = packageResultsNode([metricResults:[metric1Result(10), metric2Result(20)]],
         [
-            Dir1: classResultsNode(metricResults:[metric1Result(11), metric2Result(21)])
+            Dir1: packageResultsNode(path:'Dir1', metricResults:[metric1Result(11), metric2Result(21)])
         ])
-        assertReportContents(resultsNode, CONTENTS, true)
+        assertReportContents(resultsNode, CONTENTS, false)
+    }
+
+    void testWriteReport_IncludeOnlyFunctionsConfiguredForMetric() {
+        final CONTENTS = [
+                HTML_TAG,
+                METRIC_RESULTS,
+                'M1.minimum', 'M1.maximum', 'M2.average',
+                ALL_PACKAGES, 10, 10, 20,
+                'Dir1', 11, 11, 21,
+                METRIC_DESCRIPTIONS,
+                metric1.name, metricDescription(metric1),
+                metric2.name, metricDescription(metric2),
+                BOTTOM_LINK]
+        final NOT_EXPECTED_CONTENTS = ['M1.total', 'M1.average', 'M2.total']
+        def resultsNode = packageResultsNode([metricResults:[metric1Result(10), metric2Result(20)]],
+        [
+            Dir1: packageResultsNode(path:'Dir1', metricResults:[metric1Result(11), metric2Result(21)])
+        ])
+        metric1.functions = ['minimum', 'maximum']
+        metric2.functions = ['average']
+        assertReportContents(resultsNode, CONTENTS, NOT_EXPECTED_CONTENTS, true)
     }
 
     void testWriteReport_NestedChildPackageResultsNodes() {
@@ -132,7 +155,7 @@ class BasicHtmlReportWriterTest extends AbstractReportWriterTestCase {
         [
             DirA: packageResultsNode([path:'src/DirA', metricResults:[metric1Result(11)]],
             [
-                DirC: packageResultsNode(path:'src/DirA/DirC', metricResults:[metric1Result(102)]),
+                DirC: packageResultsNode([path:'src/DirA/DirC', metricResults:[metric1Result(102)]]),
                 ClassA1: classResultsNode([metricResults:[metric1Result(100)]],
                 [
                     MethodA1a: methodResultsNode(metricResults:[metric1Result(1000)]),
@@ -210,6 +233,8 @@ class BasicHtmlReportWriterTest extends AbstractReportWriterTestCase {
             'Metric1.description.html':metricDescription(metric1),
             'Metric1.total':'M1.total',
             'Metric1.average':'M1.average',
+            'Metric1.minimum':'M1.minimum',
+            'Metric1.maximum':'M1.maximum',
             'Metric2.description.html':metricDescription(metric2),
             'Metric2.total':'M2.total',
             'Metric2.average':'M2.average',

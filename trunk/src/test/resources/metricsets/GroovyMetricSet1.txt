@@ -10,7 +10,8 @@ metricset {
     }
 
     metric(StubMetric) {
-        name = 'XXX'        
+        name = 'XXX'
+        functions = ['minimum', 'average']
     }
 
 }

@@ -28,7 +28,8 @@ import org.gmetrics.metric.abc.AbcVector
  */
 class AggregateAbcMetricResultTest extends AbstractTestCase {
 
-    private static final METRIC = [:] as Metric
+    private static final DEFAULT_FUNCTIONS = ['total', 'average', 'minimum', 'maximum']
+    private static final METRIC = [getFunctions:{ DEFAULT_FUNCTIONS }] as Metric
     private aggregateAbcMetricResult
 
     void testConstructorThrowsExceptionForNullMetricParameter() {
@@ -168,9 +169,14 @@ class AggregateAbcMetricResultTest extends AbstractTestCase {
         assert aggregateAbcMetricResult['xxx'] == null
     }
 
-    void testGetFunctionNames() {
-        initializeWithOneChildMetricResult()
-        assert aggregateAbcMetricResult.getFunctionNames() == ['total', 'average', 'minimum', 'maximum']
+    void testUsesFunctionNamesFromMetric() {
+        final FUNCTION_NAMES = ['average', 'maximum']
+        def metric = [getName:{'TestMetric'}, getFunctions:{ FUNCTION_NAMES }] as Metric
+        aggregateAbcMetricResult = new AggregateAbcMetricResult(metric, [])
+        assert aggregateAbcMetricResult['average'] != null
+        assert aggregateAbcMetricResult['maximum'] != null
+        assert aggregateAbcMetricResult['total'] == null
+        assert aggregateAbcMetricResult['minimum'] == null
     }
 
     //--------------------------------------------------------------------------

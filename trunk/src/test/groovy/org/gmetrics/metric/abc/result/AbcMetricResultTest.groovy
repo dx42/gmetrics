@@ -19,6 +19,7 @@ import org.gmetrics.test.AbstractTestCase
 import org.gmetrics.metric.abc.AbcMetric
 import org.gmetrics.metric.abc.AbcVector
 import org.gmetrics.metric.abc.AbcTestUtil
+import org.gmetrics.metric.Metric
 
 /**
  * Tests for AbcMetricResult
@@ -28,7 +29,8 @@ import org.gmetrics.metric.abc.AbcTestUtil
  */
 class AbcMetricResultTest extends AbstractTestCase {
 
-    private static final METRIC = new AbcMetric()
+    private static final DEFAULT_FUNCTION_NAMES = ['total', 'average', 'minimum', 'maximum']
+    private static final METRIC = new AbcMetric(functions:DEFAULT_FUNCTION_NAMES)
 
     void testPassingNullAbcVectorIntoConstructorThrowsException() {
         shouldFailWithMessageContaining('abcVector') { new AbcMetricResult(METRIC, null) }
@@ -55,10 +57,16 @@ class AbcMetricResultTest extends AbstractTestCase {
         assert result['xxx'] == null
     }
 
-    void testGetFunctionNames() {
-        def result = AbcTestUtil.abcMetricResult(METRIC, 1, 1, 1)
-        assert result.getFunctionNames() == ['total', 'average', 'minimum', 'maximum']
+    void testUsesFunctionsFromMetric() {
+        final FUNCTION_NAMES = ['average', 'maximum']
+        def metric = [getName:{'TestMetric'}, getFunctions:{ FUNCTION_NAMES }] as Metric
+        def result = AbcTestUtil.abcMetricResult(metric, 1, 1, 1)
+        assert result['average'] != null
+        assert result['maximum'] != null
+        assert result['total'] == null
+        assert result['minimum'] == null
     }
+
 
     private abcMetricResultAllFunctionValues(int a, int b, int c) {
         def abcMetricResult = AbcTestUtil.abcMetricResult(METRIC, a, b, c)

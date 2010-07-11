@@ -68,6 +68,31 @@ ABC Metric
 
     * 200 + = <Someone please think of the children>
 
+
+* Metric Properties
+~~~~~~~~~~~~~~~~~~~
+
+  The following properties can be configured for this metric within a <MetricSet>. See
+  {{{gmetrics-creating-metricset.html}Creating a MetricSet}} for information on the syntax of
+  setting a metric property.
+
+*-----------------+--------------------------------------------------------------------+------------------------+
+| <<Property>>    | <<Description>>                                                    | <<Default Value>>      |
+*-----------------+--------------------------------------------------------------------+------------------------+
+| enabled         | This <<<boolean>>> property controls whether the metric is         | <<<true>>>             |
+|                 | <enabled>. If set to <<<false>>>, then the metric is not included  |                        |
+|                 | as part of the results or the output reports.                      |                        |
+*-----------------+--------------------------------------------------------------------+------------------------+
+| functions       | This <<<List\<String\>>>> property contains the names of the functions| <<<["total","average"]>>>|
+|                 | to be calculated at the <method>, <class> and <package> levels     |                        |
+|                 | and (potentially) included within the report(s). Valid values are: |                        |
+|                 |    - "total"                                                       |                        |
+|                 |    - "average"                                                     |                        |
+|                 |    - "minimum"                                                     |                        |
+|                 |    - "maximum"                                                     |                        |
+*-----------------+--------------------------------------------------------------------+------------------------+
+
+
 * References
 ~~~~~~~~~~~~
 
@@ -79,6 +104,6 @@ ABC Metric
 
  * <<[4]>> {{{http://jakescruggs.blogspot.com/2008/08/whats-good-flog-score.html}This blog post}}
    describes some guidelines for interpreting the ABC score. The post refers to the
-   <<Flog>> tool, but the <<ABC>> score should be calculated similarly (though adapted
+   <<Flog>> tool, but the <<ABC>> score is calculated similarly (though adapted
    somewhat to account for language specifics) and the guidelines should be transferable.
 

@@ -12,6 +12,30 @@ ClassLineCount Metric
  Implemented by the <<<org.gmetrics.metric.linecount.ClassLineCountMetric>>> class.
 
 
+* Metric Properties
+~~~~~~~~~~~~~~~~~~~
+
+  The following properties can be configured for this metric within a <MetricSet>. See
+  {{{gmetrics-creating-metricset.html}Creating a MetricSet}} for information on the syntax of
+  setting a metric property.
+
+*-----------------+--------------------------------------------------------------------+------------------------+
+| <<Property>>    | <<Description>>                                                    | <<Default Value>>      |
+*-----------------+--------------------------------------------------------------------+------------------------+
+| enabled         | This <<<boolean>>> property controls whether the metric is         | <<<true>>>             |
+|                 | <enabled>. If set to <<<false>>>, then the metric is not included  |                        |
+|                 | as part of the results or the output reports.                      |                        |
+*-----------------+--------------------------------------------------------------------+------------------------+
+| functions       | This <<<List\<String\>>>> property contains the names of the functions| <<<["total","average"]>>>|
+|                 | to be calculated at the <class> and <package> levels and           |                        |
+|                 | (potentially) included within the report(s). Valid values are:     |                        |
+|                 |    - "total"                                                       |                        |
+|                 |    - "average"                                                     |                        |
+|                 |    - "minimum"                                                     |                        |
+|                 |    - "maximum"                                                     |                        |
+*-----------------+--------------------------------------------------------------------+------------------------+
+
+
 * References
 ~~~~~~~~~~~~
 

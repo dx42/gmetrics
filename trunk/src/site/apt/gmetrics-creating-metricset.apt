@@ -26,7 +26,7 @@ metricset {
     metricset("MyMetricSet.groovy")
 
     metric(org.gmetrics.metric.abc.AbcMetric) {
-        sampleProperty = '123'          // Note: not a real property
+        functions = ['average', 'maximum']
     }
 
     metric(CyclomaticComplexityMetric)
@@ -68,8 +68,6 @@ metricset {
               [[b]] A <closure> containing property assignments statements. See 'ClassLineCount' within the example.
 
               []
-
-            Properties set this way can be of type <<<String>>>, <<<int>>>, <<<long>>> or <<<boolean>>>.
 
   About the <<metric>> statements:
 

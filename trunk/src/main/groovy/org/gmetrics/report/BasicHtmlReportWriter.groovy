@@ -70,8 +70,7 @@ class BasicHtmlReportWriter extends AbstractReportWriter {
     private def buildMetricResultColumns(MetricSet metricSet) {
         def metricResultColumns = []
         metricSet.getMetrics().each {metric ->
-            def functionNames = ['total', 'average']
-            functionNames.each { functionName ->
+            metric.functions.each { functionName ->
                 if (includesFunction(metric, functionName)) {
                     metricResultColumns << [metric: metric, property: functionName]
                 }

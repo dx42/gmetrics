@@ -35,8 +35,8 @@ abstract class AbstractCommonMetricTestCase extends AbstractMetricTestCase {
         assert metric instanceof Metric
     }
 
-    void testFunctionNames_DefaultsTo_TotalAndAverage() {
-        assert metric.getFunctionNames() == ['total', 'average']
+    void testFunctions_DefaultsTo_TotalAndAverage() {
+        assert metric.getFunctions() == ['total', 'average']
     }
 
     void testEnabledFalse_ReturnsNullFor_ApplyToPackage() {

@@ -133,6 +133,39 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
         assertReportXml(rootNode, XML)
     }
 
+    void testWriteReport_IncludeOnlyFunctionsConfiguredForMetric() {
+        final PACKAGE_SUMMARY = """
+            <PackageSummary>
+                <MetricResult name='Metric1' minimum='10' maximum='10'/>
+                <MetricResult name='Metric2' average='20'/>
+            </PackageSummary>
+        """
+        final PACKAGES = """
+            <Package path='org'>
+                <MetricResult name='Metric1' minimum='11' maximum='11'/>
+                <MetricResult name='Metric2' average='21'/>
+                <Class name='MyDao'>
+                    <MetricResult name='Metric1' minimum='101' maximum='101'/>
+                </Class>
+                <Class name='MyController'>
+                    <MetricResult name='Metric1' minimum='102' maximum='102'/>
+                </Class>
+            </Package>
+        """
+        final XML = XML_DECLARATION + GMETRICS_ROOT + REPORT_TIMESTAMP + PROJECT + PACKAGE_SUMMARY + PACKAGES + METRIC_DESCRIPTIONS_2 + GMETRICS_END_TAG
+        def rootNode = packageResultsNode([metricResults:[metric1Result(10), metric2Result(20)]],
+        [
+            org: packageResultsNode([path:'org', metricResults:[metric1Result(11), metric2Result(21)]],
+            [
+                MyDao: classResultsNode(metricResults:[metric1Result(101)]),
+                MyController: classResultsNode(metricResults:[metric1Result(102)])
+            ])
+        ])
+        metric1.functions = ['minimum', 'maximum']
+        metric2.functions = ['average']
+        assertReportXml(rootNode, XML)
+    }
+
     void testWriteReport_Package_NestedPackageClassesAndMethods() {
         final PACKAGES = """
             <Package path='test'>

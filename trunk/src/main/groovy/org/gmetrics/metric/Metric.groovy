@@ -37,7 +37,7 @@ interface Metric {
     
     MetricResult applyToPackage(Collection childMetricResults)
 
-    List<String> getFunctionNames()
+    List<String> getFunctions()
 
     boolean isEnabled()
 }
