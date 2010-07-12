@@ -1,0 +1,57 @@
+<style type='text/css'>
+        .timestamp {
+			font-size: 110%;
+		}
+        .tableHeader {
+			background: lightblue;
+		    font-weight: bold;
+		}
+        .metricColumnHeader {
+            width: 50px;
+        }
+        .name {
+            font-family: Arial, sans-serif;
+        }
+        .package {
+            color: black;
+            font-style: italic;
+            font-size: 90%;
+        }
+        .class {
+            color: blue;
+            font-size: 80%;
+        }
+        .method {
+            color: gray;
+            font-size: 70%;
+        }
+
+		.seriesDataValue {
+		    text-align: center;
+		}
+		.seriesDataName {
+		}
+
+		.version {
+			font-size: 75%;
+		    color: blue;
+            margin-top: 10px;
+		}
+
+        body {
+            background-color: seashell;
+        }
+
+		table {
+		    border: 1px solid gray;
+		}
+		td, th {
+		    border: 1px solid gray;
+		    border-bottom: 1px solid aqua;
+		    border-right: 1px solid aqua;
+		}
+		em {
+		    font-weight: bold;
+		}
+
+</style>

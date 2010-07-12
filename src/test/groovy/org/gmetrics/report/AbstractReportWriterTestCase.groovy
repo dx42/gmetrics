@@ -33,6 +33,9 @@ import org.gmetrics.metricset.ListMetricSet
  */
 abstract class AbstractReportWriterTestCase extends AbstractTestCase {
 
+    protected static final VERSION_FILE = 'src/main/resources/gmetrics-version.txt'
+    protected static final VERSION = new File(VERSION_FILE).text
+
     protected static final SRC_DIR1 = 'c:/MyProject/src/main/groovy'
     protected static final SRC_DIR2 = 'c:/MyProject/src/test/groovy'
 
@@ -80,6 +83,14 @@ abstract class AbstractReportWriterTestCase extends AbstractTestCase {
         metricSet2 = new ListMetricSet([metric1, metric2])
         metricSet3 = new ListMetricSet([metric1, metric2, metric3])
         analysisContext = new AnalysisContext(sourceDirectories:[SRC_DIR1, SRC_DIR2], metricSet:metricSet2)
+    }
+
+    //------------------------------------------------------------------------------------
+    // Helper Methods
+    //------------------------------------------------------------------------------------
+    
+    protected static String getVersion() {
+        return new File(VERSION_FILE).text
     }
 
     protected void assertReportContents(resultsNode, expectedContents, boolean writeToFile=false) {
