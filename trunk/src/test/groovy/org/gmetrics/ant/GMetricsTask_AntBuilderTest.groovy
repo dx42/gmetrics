@@ -28,9 +28,13 @@ import org.gmetrics.metricset.DefaultMetricSet
 class GMetricsTask_AntBuilderTest extends AbstractTestCase {
 
     private static final HTML_REPORT_WRITER = 'org.gmetrics.report.BasicHtmlReportWriter'
-    private static final XML_REPORT_WRITER = 'org.gmetrics.report.XmlReportWriter'
     private static final HTML_REPORT_FILE = 'AntBuilderTestReport.html'
     private static final HTML_TEMP_REPORT_FILE = 'AntBuilderTestReport_Temp.html'
+
+    private static final SERIES_HTML_REPORT_WRITER = 'org.gmetrics.report.SingleSeriesHtmlReportWriter'
+    private static final SERIES_HTML_REPORT_FILE = 'AntBuilderTestSeriesHtmlReport.html'
+
+    private static final XML_REPORT_WRITER = 'org.gmetrics.report.XmlReportWriter'
     private static final XML_REPORT_FILE = 'AntBuilderTestXmlReport.xml'
     private static final TITLE = 'Sample'
     private ant
@@ -52,13 +56,22 @@ class GMetricsTask_AntBuilderTest extends AbstractTestCase {
                option(name:'levels', value:'MethodLineCount= method,class')
                option(name:'functions', value:'MethodLineCount = total')
            }
+            report(type:SERIES_HTML_REPORT_WRITER){
+                option(name:'title', value:TITLE)
+                option(name:'outputFile', value:SERIES_HTML_REPORT_FILE)
+                option(name:'metric', value:'MethodLineCount')
+                option(name:'level', value:'method')
+                option(name:'function', value:'total')
+            }
         }
-        def metricNames = new DefaultMetricSet().metrics*.name
-        def htmlMetricNames = metricNames - 'ClassLineCount'
-        verifyReportFile(HTML_REPORT_FILE, htmlMetricNames.sort())
+        def defaultMetricNames = new DefaultMetricSet().metrics*.name
+        def htmlMetricNames = (defaultMetricNames - 'ClassLineCount').sort()
+        verifyReportFile(HTML_REPORT_FILE, [TITLE, 'org/gmetrics', 'Description'] + htmlMetricNames)
 
-        def xmlMetricNames = metricNames - 'CyclomaticComplexity'
-        verifyReportFile(XML_REPORT_FILE, xmlMetricNames.sort())
+        def xmlMetricNames = (defaultMetricNames - 'CyclomaticComplexity').sort()
+        verifyReportFile(XML_REPORT_FILE, [TITLE, 'org/gmetrics', 'Description'] + xmlMetricNames)
+
+        verifyReportFile(SERIES_HTML_REPORT_FILE, [TITLE, 'Method'])
     }
 
     void testAntTask_Execute_SpecifyMetricSetFile() {
@@ -85,9 +98,9 @@ class GMetricsTask_AntBuilderTest extends AbstractTestCase {
         new File(HTML_TEMP_REPORT_FILE).delete()
     }
     
-    private void verifyReportFile(String reportFile, List metricNames) {
+    private void verifyReportFile(String reportFile, List strings) {
         def file = new File(reportFile)
         assert file.exists()
-        assertContainsAllInOrder(file.text, [TITLE, 'org/gmetrics', 'Description'] + metricNames)
+        assertContainsAllInOrder(file.text, strings)
     }
 }
