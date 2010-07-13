@@ -186,21 +186,21 @@ class BasicHtmlReportWriterTest extends AbstractReportWriterTestCase {
                 METRIC_DESCRIPTIONS,
                 metric1.name, metricDescription(metric1), metricDescription(metric2), 
                 BOTTOM_LINK]
-        final NOT_EXPECTED_CONTENTS = [21, 2000, 'M1.average', 'M2.total']
+        final NOT_EXPECTED_CONTENTS = [21.987, 2000.987, 'M1.average', 'M2.total']
 
         def resultsNode = packageResultsNode([metricResults:[metric1Result(1), metric2Result(2)]],
         [
-            DirA: packageResultsNode([path:'src/DirA', metricResults:[metric1Result(11), metric2Result(21)]],
+            DirA: packageResultsNode([path:'src/DirA', metricResults:[metric1Result(11), metric2Result(21.987)]],
             [
-                DirC: packageResultsNode(path:'src/DirA/DirC', metricResults:[metric1Result(102), metric2Result(202)]),
-                ClassA1: classResultsNode([metricResults:[metric1Result(100), metric2Result(200)]],
+                DirC: packageResultsNode(path:'src/DirA/DirC', metricResults:[metric1Result(102), metric2Result(202.987)]),
+                ClassA1: classResultsNode([metricResults:[metric1Result(100), metric2Result(200.987)]],
                 [
-                    MethodA1a: methodResultsNode(metricResults:[metric1Result(1000), metric2Result(2000)]),
-                    MethodA1b: methodResultsNode(metricResults:[metric1Result(1001), metric2Result(2001)])
+                    MethodA1a: methodResultsNode(metricResults:[metric1Result(1000), metric2Result(2000.987)]),
+                    MethodA1b: methodResultsNode(metricResults:[metric1Result(1001), metric2Result(2001.987)])
                 ]),
-                ClassA2: classResultsNode(metricResults:[metric1Result(101), metric2Result(201)])
+                ClassA2: classResultsNode(metricResults:[metric1Result(101), metric2Result(201.987)])
             ]),
-            DirB: packageResultsNode(path:'src/DirB', metricResults:[metric1Result(12), metric2Result(22)])
+            DirB: packageResultsNode(path:'src/DirB', metricResults:[metric1Result(12), metric2Result(22.987)])
         ])
         reportWriter.setLevels('Metric1=package,method; Metric2=class')
         reportWriter.setFunctions('Metric1=total; Metric2=average')

@@ -73,13 +73,13 @@ class SingleSeriesHtmlReportWriterTest extends AbstractReportWriterTestCase {
                 CSS_FILE_CONTENTS,
                 DEFAULT_TITLE,
                 TIMESTAMP_LABEL, FORMATTED_TIMESTAMP,
-                METHOD_HEADING, 'M1.minimum',
+                METHOD_HEADING, 'M1.total',
                 'method1', 123,
                 'method2', 789,
                 BOTTOM_LINK]
 
-        def metricResult1 = new StubMetricResult(metric:metric1, minimum:123)
-        def metricResult2 = new StubMetricResult(metric:metric1, minimum:789)
+        def metricResult1 = new StubMetricResult(metric:metric1, total:123)
+        def metricResult2 = new StubMetricResult(metric:metric1, total:789)
         def resultsNode = packageResultsNode([:],
         [
             Class1: classResultsNode([:],
@@ -91,7 +91,7 @@ class SingleSeriesHtmlReportWriterTest extends AbstractReportWriterTestCase {
 
         reportWriter.metric = 'Metric1'
         reportWriter.level = 'method'
-        reportWriter.function = 'minimum'
+        reportWriter.function = 'total'
         assertReportContents(resultsNode, CONTENTS, true)
     }
 

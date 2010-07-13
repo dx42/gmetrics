@@ -26,6 +26,8 @@ class MetricLevel {
     public static final CLASS = new MetricLevel('class')
     public static final PACKAGE = new MetricLevel('package')
 
+    public static final NAMES = ['package', 'class', 'method']
+
     final String name
 
     String toString() {
