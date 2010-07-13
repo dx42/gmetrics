@@ -17,11 +17,16 @@ package org.gmetrics.report
 
 import org.gmetrics.metricset.MetricSet
 import org.gmetrics.resultsnode.ResultsNode
+import org.gmetrics.metric.MetricLevel
+import org.gmetrics.metric.Metric
 
 /**
  * Provides data and behavior for enabling reports to filter the results based on a single
  * metric, single level and single function to provide a single series of data.
  * This class is intended to be used as a Groovy @Mixin for ReportWriter classes.
+ * <p/>
+ * The <code>metric</code>, <code>level</code> and <code>function</code> properties are required (must
+ * be non-null and non-empty). These three properties uniquely identify a single series of metric values.
  *
  * @author Chris Mair
  * @version $Revision$ - $Date$
@@ -37,30 +42,55 @@ class SingleSeriesCriteriaFilter {
         assert level
         assert function
 
+        assertMetricExists(metricSet)
+        assertLevelExists()
+        assertFunctionExists(metricSet)
+
         def matchingValues = []
-        findMatchingValuesForChildren(resultsNode, matchingValues)
+        findMatchingValuesForChildren(resultsNode, null, matchingValues)
         return matchingValues
     }
 
-    private void findMatchingValuesForChildren(ResultsNode resultsNode, List matchingValues) {
+    private void findMatchingValuesForChildren(ResultsNode resultsNode, String parentName, List matchingValues) {
         resultsNode.children.each { childName, childResultsNode ->
-            findMatchingValues(childResultsNode, childName, matchingValues)
+            String fullChildName = (childResultsNode.level == MetricLevel.METHOD) ? "${parentName}.${childName}" : childName
+            findMatchingValues(childResultsNode, fullChildName, matchingValues)
         }
     }
 
     private void findMatchingValues(ResultsNode resultsNode, String name, List matchingValues) {
         def metricResults = resultsNode.getMetricResults()
-        boolean matchesLevel = resultsNode.getLevel().getName().equalsIgnoreCase(level)
+        boolean matchesLevel = resultsNode.getLevel().getName().equals(level)
         if (matchesLevel) {
             def metricResult = metricResults.find { metricResult ->
-                boolean matchesMetric = metricResult.getMetric().getName().equalsIgnoreCase(metric)
-                boolean hasMatchingFunction = metricResult[function] 
+                boolean matchesMetric = metricResult.getMetric().getName().equals(metric)
+                boolean hasMatchingFunction = metricResult[function]
                 return matchesMetric && hasMatchingFunction
             }
             if (metricResult) {
                 matchingValues << new SeriesValue(name, metricResult[function])
             }
         }
-        findMatchingValuesForChildren(resultsNode, matchingValues)
+        findMatchingValuesForChildren(resultsNode, name, matchingValues)
+    }
+
+    // TODO Got a weird StackOverflowError if the following methods were not public. Groovy 1.6.0
+
+    void assertMetricExists(MetricSet metricSet) {
+        Metric m = findMetric(metricSet)
+        assert m != null, "The metric named [$metric] does not exist"
+    }
+
+    void assertLevelExists() {
+        assert level in MetricLevel.NAMES, "The level named [$level] does not exist"
+    }
+
+    void assertFunctionExists(MetricSet metricSet) {
+        Metric m = findMetric(metricSet)
+        assert function in m.getFunctions(), "The function named [$function] does not exist for metric [$metric]"
+    }
+
+    Metric findMetric(MetricSet metricSet) {
+        metricSet.metrics.find { m -> m.name == metric }
     }
 }

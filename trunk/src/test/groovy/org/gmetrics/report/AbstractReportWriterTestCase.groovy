@@ -127,15 +127,15 @@ abstract class AbstractReportWriterTestCase extends AbstractTestCase {
         "Description for " + metric.name
     }
 
-    protected metric1Result(int value) {
+    protected metric1Result(value) {
         new NumberMetricResult(metric1, value)
     }
 
-    protected metric2Result(int value) {
+    protected metric2Result(value) {
         new NumberMetricResult(metric2, value)
     }
 
-    protected metric3Result(int value) {
+    protected metric3Result(value) {
         new NumberMetricResult(metric3, value)
     }
 

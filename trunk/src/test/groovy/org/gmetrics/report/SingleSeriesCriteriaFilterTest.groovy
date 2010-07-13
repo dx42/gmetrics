@@ -39,7 +39,7 @@ class SingleSeriesCriteriaFilterTest extends AbstractTestCase {
         filter.level = 'method'
         filter.function = 'average'
         def seriesData = filter.buildSeriesData(resultsNode, metricSet)
-        assertSeriesData(seriesData, [MethodA1a:1311, MethodA1c:1313])
+        assertSeriesData(seriesData, ['ClassA1.MethodA1a':1311, 'ClassA1.MethodA1c':1313])
     }
 
     void testBuildSeriesData_Class() {
@@ -58,36 +58,25 @@ class SingleSeriesCriteriaFilterTest extends AbstractTestCase {
         assertSeriesData(seriesData, [DirA:1112, DirB:1113, DirC:1114])
     }
 
-    void testBuildSeriesData_CaseInsensitiveComparisonForLevel() {
-        filter.metric = 'Metric1'
-        filter.level = 'meTHOD'
-        filter.function = 'total'
-        def seriesData = filter.buildSeriesData(resultsNode, metricSet)
-        assertSeriesData(seriesData, [MethodA1a:1301, MethodA1b:1302])
-    }
-
-    void testBuildSeriesData_NoMatchingMetric() {
-        filter.metric = 'Unknown_Metric'
-        filter.level = 'class'
+    void testBuildSeriesData_NoSuchMetric_ThrowsException() {
+        filter.level = 'package'
         filter.function = 'average'
-        def seriesData = filter.buildSeriesData(resultsNode, metricSet)
-        assertSeriesData(seriesData, [:])
+        filter.metric = 'NoSuchMetric'
+        shouldFailWithMessageContaining('NoSuchMetric') { filter.buildSeriesData(resultsNode, metricSet) }
     }
 
-    void testBuildSeriesData_NoMatchingLevel() {
+    void testBuildSeriesData_NoSuchLevel() {
         filter.metric = 'Metric1'
-        filter.level = 'unknown_level'
+        filter.level = 'NoSuchLevel'
         filter.function = 'average'
-        def seriesData = filter.buildSeriesData(resultsNode, metricSet)
-        assertSeriesData(seriesData, [:])
+        shouldFailWithMessageContaining('NoSuchLevel') { filter.buildSeriesData(resultsNode, metricSet) }
     }
 
-    void testBuildSeriesData_NoMatchingFunction() {
+    void testBuildSeriesData_NoSuchFunction() {
         filter.metric = 'Metric1'
         filter.level = 'package'
-        filter.function = 'unknown_function'
-        def seriesData = filter.buildSeriesData(resultsNode, metricSet)
-        assertSeriesData(seriesData, [:])
+        filter.function = 'NoSuchFunction'
+        shouldFailWithMessageContaining('NoSuchFunction') { filter.buildSeriesData(resultsNode, metricSet) }
     }
 
     void testBuildSeriesData_NullOrEmptyLevel_ThrowsException() {
