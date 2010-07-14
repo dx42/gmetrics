@@ -259,81 +259,125 @@
   </component>
   <component name="WebServicesPlugin" addRequiredLibraries="true" />
   <component name="libraryTable">
-    <library name="Maven: org.codehaus.groovy.maven.runtime:gmaven-runtime-1.6:1.0">
+    <library name="Maven: junit:junit:3.8.1">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/groovy/maven/runtime/gmaven-runtime-1.6/1.0/gmaven-runtime-1.6-1.0.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/junit/junit/3.8.1/junit-3.8.1.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/groovy/maven/runtime/gmaven-runtime-1.6/1.0/gmaven-runtime-1.6-1.0-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/junit/junit/3.8.1/junit-3.8.1-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/groovy/maven/runtime/gmaven-runtime-1.6/1.0/gmaven-runtime-1.6-1.0-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/junit/junit/3.8.1/junit-3.8.1-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.slf4j:slf4j-api:1.5.6">
+    <library name="Maven: log4j:log4j:1.2.13">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.5.6/slf4j-api-1.5.6.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/log4j/log4j/1.2.13/log4j-1.2.13.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.5.6/slf4j-api-1.5.6-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/log4j/log4j/1.2.13/log4j-1.2.13-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.5.6/slf4j-api-1.5.6-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/log4j/log4j/1.2.13/log4j-1.2.13-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.codehaus.groovy.maven.feature:gmaven-feature-support:1.0">
+    <library name="Maven: org.codenarc:CodeNarc:0.9">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/groovy/maven/feature/gmaven-feature-support/1.0/gmaven-feature-support-1.0.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/codenarc/CodeNarc/0.9/CodeNarc-0.9.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/groovy/maven/feature/gmaven-feature-support/1.0/gmaven-feature-support-1.0-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/codenarc/CodeNarc/0.9/CodeNarc-0.9-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/groovy/maven/feature/gmaven-feature-support/1.0/gmaven-feature-support-1.0-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/codenarc/CodeNarc/0.9/CodeNarc-0.9-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.codehaus.groovy.maven.feature:gmaven-feature-api:1.0">
+    <library name="Maven: org.codehaus.gmaven.runtime:gmaven-runtime-1.6:1.2">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/groovy/maven/feature/gmaven-feature-api/1.0/gmaven-feature-api-1.0.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/gmaven/runtime/gmaven-runtime-1.6/1.2/gmaven-runtime-1.6-1.2.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/groovy/maven/feature/gmaven-feature-api/1.0/gmaven-feature-api-1.0-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/gmaven/runtime/gmaven-runtime-1.6/1.2/gmaven-runtime-1.6-1.2-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/groovy/maven/feature/gmaven-feature-api/1.0/gmaven-feature-api-1.0-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/gmaven/runtime/gmaven-runtime-1.6/1.2/gmaven-runtime-1.6-1.2-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.codehaus.groovy.maven.runtime:gmaven-runtime-support:1.0">
+    <library name="Maven: org.slf4j:slf4j-api:1.5.10">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/groovy/maven/runtime/gmaven-runtime-support/1.0/gmaven-runtime-support-1.0.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.5.10/slf4j-api-1.5.10.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/groovy/maven/runtime/gmaven-runtime-support/1.0/gmaven-runtime-support-1.0-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.5.10/slf4j-api-1.5.10-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/groovy/maven/runtime/gmaven-runtime-support/1.0/gmaven-runtime-support-1.0-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.5.10/slf4j-api-1.5.10-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.codehaus.groovy.maven.runtime:gmaven-runtime-api:1.0">
+    <library name="Maven: org.codehaus.gmaven.feature:gmaven-feature-support:1.2">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/groovy/maven/runtime/gmaven-runtime-api/1.0/gmaven-runtime-api-1.0.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/gmaven/feature/gmaven-feature-support/1.2/gmaven-feature-support-1.2.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/groovy/maven/runtime/gmaven-runtime-api/1.0/gmaven-runtime-api-1.0-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/gmaven/feature/gmaven-feature-support/1.2/gmaven-feature-support-1.2-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/groovy/maven/runtime/gmaven-runtime-api/1.0/gmaven-runtime-api-1.0-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/gmaven/feature/gmaven-feature-support/1.2/gmaven-feature-support-1.2-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.codehaus.groovy.maven:gmaven-common:1.0">
+    <library name="Maven: org.codehaus.gmaven.feature:gmaven-feature-api:1.2">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/groovy/maven/gmaven-common/1.0/gmaven-common-1.0.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/gmaven/feature/gmaven-feature-api/1.2/gmaven-feature-api-1.2.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/groovy/maven/gmaven-common/1.0/gmaven-common-1.0-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/gmaven/feature/gmaven-feature-api/1.2/gmaven-feature-api-1.2-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/groovy/maven/gmaven-common/1.0/gmaven-common-1.0-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/gmaven/feature/gmaven-feature-api/1.2/gmaven-feature-api-1.2-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.codehaus.gmaven.runtime:gmaven-runtime-support:1.2">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/gmaven/runtime/gmaven-runtime-support/1.2/gmaven-runtime-support-1.2.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/gmaven/runtime/gmaven-runtime-support/1.2/gmaven-runtime-support-1.2-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/gmaven/runtime/gmaven-runtime-support/1.2/gmaven-runtime-support-1.2-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.codehaus.gmaven.runtime:gmaven-runtime-api:1.2">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/gmaven/runtime/gmaven-runtime-api/1.2/gmaven-runtime-api-1.2.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/gmaven/runtime/gmaven-runtime-api/1.2/gmaven-runtime-api-1.2-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/gmaven/runtime/gmaven-runtime-api/1.2/gmaven-runtime-api-1.2-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.sonatype.gshell:gshell-io:2.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/sonatype/gshell/gshell-io/2.0/gshell-io-2.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/sonatype/gshell/gshell-io/2.0/gshell-io-2.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/sonatype/gshell/gshell-io/2.0/gshell-io-2.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.sonatype.gossip:gossip:1.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/sonatype/gossip/gossip/1.0/gossip-1.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/sonatype/gossip/gossip/1.0/gossip-1.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/sonatype/gossip/gossip/1.0/gossip-1.0-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: org.codehaus.plexus:plexus-utils:1.5.5">
@@ -358,15 +402,15 @@
         <root url="jar://$MAVEN_REPOSITORY$/com/thoughtworks/qdox/qdox/1.8/qdox-1.8-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.codehaus.groovy:groovy-all:1.6.0">
+    <library name="Maven: org.codehaus.groovy:groovy-all:1.6.5">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/groovy/groovy-all/1.6.0/groovy-all-1.6.0.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/groovy/groovy-all/1.6.5/groovy-all-1.6.5.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/groovy/groovy-all/1.6.0/groovy-all-1.6.0-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/groovy/groovy-all/1.6.5/groovy-all-1.6.5-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/groovy/groovy-all/1.6.0/groovy-all-1.6.0-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/groovy/groovy-all/1.6.5/groovy-all-1.6.5-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: org.apache.ant:ant:1.7.1">
@@ -400,39 +444,6 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$MAVEN_REPOSITORY$/jline/jline/0.9.94/jline-0.9.94-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Maven: junit:junit:3.8.1">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/junit/junit/3.8.1/junit-3.8.1.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/junit/junit/3.8.1/junit-3.8.1-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/junit/junit/3.8.1/junit-3.8.1-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Maven: log4j:log4j:1.2.13">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/log4j/log4j/1.2.13/log4j-1.2.13.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/log4j/log4j/1.2.13/log4j-1.2.13-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/log4j/log4j/1.2.13/log4j-1.2.13-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Maven: org.codenarc:CodeNarc:0.9">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/codenarc/CodeNarc/0.9/CodeNarc-0.9.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/codenarc/CodeNarc/0.9/CodeNarc-0.9-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/codenarc/CodeNarc/0.9/CodeNarc-0.9-sources.jar!/" />
       </SOURCES>
     </library>
   </component>

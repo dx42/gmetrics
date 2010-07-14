@@ -74,23 +74,21 @@ class SingleSeriesCriteriaFilter {
         findMatchingValuesForChildren(resultsNode, name, matchingValues)
     }
 
-    // TODO Got a weird StackOverflowError if the following methods were not public. Groovy 1.6.0
-
-    void assertMetricExists(MetricSet metricSet) {
+    private void assertMetricExists(MetricSet metricSet) {
         Metric m = findMetric(metricSet)
         assert m != null, "The metric named [$metric] does not exist"
     }
 
-    void assertLevelExists() {
+    private void assertLevelExists() {
         assert level in MetricLevel.NAMES, "The level named [$level] does not exist"
     }
 
-    void assertFunctionExists(MetricSet metricSet) {
+    private void assertFunctionExists(MetricSet metricSet) {
         Metric m = findMetric(metricSet)
         assert function in m.getFunctions(), "The function named [$function] does not exist for metric [$metric]"
     }
 
-    Metric findMetric(MetricSet metricSet) {
+    private Metric findMetric(MetricSet metricSet) {
         metricSet.metrics.find { m -> m.name == metric }
     }
 }
