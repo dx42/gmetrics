@@ -62,6 +62,8 @@ class GMetricsTask_AntBuilderTest extends AbstractTestCase {
                 option(name:'metric', value:'MethodLineCount')
                 option(name:'level', value:'method')
                 option(name:'function', value:'total')
+                option(name:'sort', value:'descending')
+                option(name:'maxResults', value:'20')
             }
         }
         def defaultMetricNames = new DefaultMetricSet().metrics*.name
