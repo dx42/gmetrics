@@ -27,15 +27,26 @@ import org.gmetrics.metric.Metric
  * <p/>
  * The <code>metric</code>, <code>level</code> and <code>function</code> properties are required (must
  * be non-null and non-empty). These three properties uniquely identify a single series of metric values.
+ * <p/>
+ * The <code>sort</code> property is optional, and if not <code>null</code>, must either have the value
+ * of "ascending" or "descending", and causes the results to be sorted numerically in either ascending
+ * or descending order.
+ * <p/>
+ * The <code>maxResults</code> property is optional, and if not <code>null</code>, must have the a
+ * positive value, and limits the number of results returned.
  *
  * @author Chris Mair
  * @version $Revision$ - $Date$
  */
 class SingleSeriesCriteriaFilter {
 
+    private static final VALID_SORT_VALUES = ['ascending', 'descending']
+
     String metric
     String level
     String function
+    String sort
+    String maxResults
 
     List<SeriesValue> buildSeriesData(ResultsNode resultsNode, MetricSet metricSet) {
         assert metric
@@ -45,10 +56,13 @@ class SingleSeriesCriteriaFilter {
         assertMetricExists(metricSet)
         assertLevelExists()
         assertFunctionExists(metricSet)
+        assertValidSortValue()
+        assertValidMaxResultsValue()
 
-        def matchingValues = []
+        List matchingValues = []
         findMatchingValuesForChildren(resultsNode, null, matchingValues)
-        return matchingValues
+        def seriesValues = sortValuesIfApplicable(matchingValues)
+        return limitToMaxResultsIfApplicable(seriesValues)
     }
 
     private void findMatchingValuesForChildren(ResultsNode resultsNode, String parentName, List matchingValues) {
@@ -74,6 +88,26 @@ class SingleSeriesCriteriaFilter {
         findMatchingValuesForChildren(resultsNode, name, matchingValues)
     }
 
+    private List sortValuesIfApplicable(List seriesValues) {
+        if (sort == 'ascending') {
+            return seriesValues.sort { v1, v2 -> v1.value <=> v2.value }
+        }
+        if (sort == 'descending') {
+            return seriesValues.sort { v1, v2 -> v2.value <=> v1.value }
+        }
+        return seriesValues
+    }
+
+    private List limitToMaxResultsIfApplicable(List seriesValues) {
+        if (maxResults != null) {
+            def maxResultsInt = maxResults as int  
+            if (maxResultsInt < seriesValues.size()) {
+                return seriesValues[0..maxResultsInt-1]
+            }
+        }
+        return seriesValues
+    }
+
     private void assertMetricExists(MetricSet metricSet) {
         Metric m = findMetric(metricSet)
         assert m != null, "The metric named [$metric] does not exist"
@@ -86,6 +120,22 @@ class SingleSeriesCriteriaFilter {
     private void assertFunctionExists(MetricSet metricSet) {
         Metric m = findMetric(metricSet)
         assert function in m.getFunctions(), "The function named [$function] does not exist for metric [$metric]"
+    }
+
+    private void assertValidSortValue() {
+        assert sort == null || sort in VALID_SORT_VALUES, "The sort value named [$sort] is not one of $VALID_SORT_VALUES"
+    }
+
+    private void assertValidMaxResultsValue() {
+        if (maxResults != null) {
+            try {
+                def value = Integer.parseInt(maxResults)
+                assert value >= 0, "The maxResults value [$maxResults] must be null or greater than or equal to zero"
+            }
+            catch(NumberFormatException e) {
+                throw new AssertionError("The maxResults value [$maxResults] must be null or greater than or equal to zero")
+            }
+        }
     }
 
     private Metric findMetric(MetricSet metricSet) {

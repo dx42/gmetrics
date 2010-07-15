@@ -35,53 +35,83 @@ class SingleSeriesCriteriaFilterTest extends AbstractTestCase {
     private metricSet
 
     void testBuildSeriesData_Method() {
-        filter.metric = 'Metric1'
-        filter.level = 'method'
-        filter.function = 'average'
+        configureFilter(metric:'Metric1', level:'method', function:'average')
         def seriesData = filter.buildSeriesData(resultsNode, metricSet)
-        assertSeriesData(seriesData, ['ClassA1.MethodA1a':1311, 'ClassA1.MethodA1c':1313])
+        assertSeriesData(seriesData, ['ClassA1.MethodA1a':1311, 'ClassA1.MethodA1c':1314, 'ClassA3.MethodA3a':1313])
     }
 
     void testBuildSeriesData_Class() {
-        filter.metric = 'Metric1'
-        filter.level = 'class'
-        filter.function = 'average'
+        configureFilter(metric:'Metric1', level:'class', function:'average')
         def seriesData = filter.buildSeriesData(resultsNode, metricSet)
         assertSeriesData(seriesData, [ClassA2:1212, ClassA3:1213])
     }
 
     void testBuildSeriesData_Package() {
-        filter.metric = 'Metric1'
-        filter.level = 'package'
-        filter.function = 'average'
+        configureFilter(metric:'Metric1', level:'package', function:'average')
         def seriesData = filter.buildSeriesData(resultsNode, metricSet)
         assertSeriesData(seriesData, [DirA:1112, DirB:1113, DirC:1114])
     }
 
+    void testBuildSeriesData_Sort_Descending() {
+        configureFilter(metric:'Metric1', level:'method', function:'average', sort:'descending')
+        def seriesData = filter.buildSeriesData(resultsNode, metricSet)
+        assertSeriesData(seriesData, ['ClassA1.MethodA1c':1314, 'ClassA3.MethodA3a':1313, 'ClassA1.MethodA1a':1311])
+    }
+
+    void testBuildSeriesData_Sort_Ascending_Integer() {
+        configureFilter(metric:'Metric1', level:'method', function:'average', sort:'ascending')
+        def seriesData = filter.buildSeriesData(resultsNode, metricSet)
+        assertSeriesData(seriesData, ['ClassA1.MethodA1a':1311, 'ClassA3.MethodA3a':1313, 'ClassA1.MethodA1c':1314])
+    }
+
+    void testBuildSeriesData_Sort_Descending_BigDecimal() {
+        configureFilter(metric:'Metric1', level:'class', function:'total', sort:'descending')
+        def seriesData = filter.buildSeriesData(resultsNode, metricSet)
+        assertSeriesData(seriesData, ['ClassA3':1203.77, 'ClassA1':1201.99])
+    }
+
+    void testBuildSeriesData_InvalidSortValue_ThrowsException() {
+        configureFilter(metric:'Metric1', level:'package', function:'average', sort:'xxx')
+        shouldFailWithMessageContaining(['sort','xxx']) { filter.buildSeriesData(resultsNode, metricSet) }
+    }
+
+    void testBuildSeriesData_MaxResults_Sort() {
+        configureFilter(metric:'Metric1', level:'method', function:'average', sort:'descending', maxResults:'2')
+        def seriesData = filter.buildSeriesData(resultsNode, metricSet)
+        assertSeriesData(seriesData, ['ClassA1.MethodA1c':1314, 'ClassA3.MethodA3a':1313])
+    }
+
+    void testBuildSeriesData_MaxResults_MaxResultsLargerThanResultsSize() {
+        configureFilter(metric:'Metric1', level:'method', function:'average', sort:'descending', maxResults:'99')
+        def seriesData = filter.buildSeriesData(resultsNode, metricSet)
+        assertSeriesData(seriesData, ['ClassA1.MethodA1c':1314, 'ClassA3.MethodA3a':1313, 'ClassA1.MethodA1a':1311])
+    }
+
+    void testBuildSeriesData_InvalidMaxResults_ThrowsException() {
+        configureFilter(metric:'Metric1', level:'package', function:'average')
+        ['-1', 'xx'].each { maxResults ->
+            filter.maxResults = maxResults
+            shouldFailWithMessageContaining(['maxResults',maxResults]) { filter.buildSeriesData(resultsNode, metricSet) }            
+        }
+    }
+
     void testBuildSeriesData_NoSuchMetric_ThrowsException() {
-        filter.level = 'package'
-        filter.function = 'average'
-        filter.metric = 'NoSuchMetric'
+        configureFilter(metric:'NoSuchMetric', level:'package', function:'average')
         shouldFailWithMessageContaining('NoSuchMetric') { filter.buildSeriesData(resultsNode, metricSet) }
     }
 
     void testBuildSeriesData_NoSuchLevel() {
-        filter.metric = 'Metric1'
-        filter.level = 'NoSuchLevel'
-        filter.function = 'average'
+        configureFilter(metric:'Metric1', level:'NoSuchLevel', function:'average')
         shouldFailWithMessageContaining('NoSuchLevel') { filter.buildSeriesData(resultsNode, metricSet) }
     }
 
     void testBuildSeriesData_NoSuchFunction() {
-        filter.metric = 'Metric1'
-        filter.level = 'package'
-        filter.function = 'NoSuchFunction'
+        configureFilter(metric:'Metric1', level:'package', function:'NoSuchFunction')
         shouldFailWithMessageContaining('NoSuchFunction') { filter.buildSeriesData(resultsNode, metricSet) }
     }
 
     void testBuildSeriesData_NullOrEmptyLevel_ThrowsException() {
-        filter.metric = 'Metric1'
-        filter.function = 'average'
+        configureFilter(metric:'Metric1', function:'average')
 
         [null, ''].each { value ->
             filter.level = value
@@ -90,8 +120,7 @@ class SingleSeriesCriteriaFilterTest extends AbstractTestCase {
     }
 
     void testBuildSeriesData_NullOrEmptyMetric_ThrowsException() {
-        filter.level = 'package'
-        filter.function = 'average'
+        configureFilter(level:'package', function:'average')
 
         [null, ''].each { value ->
             filter.metric = value
@@ -100,8 +129,7 @@ class SingleSeriesCriteriaFilterTest extends AbstractTestCase {
     }
 
     void testBuildSeriesData_NullOrEmptyFunction_ThrowsException() {
-        filter.metric = 'Metric1'
-        filter.level = 'package'
+        configureFilter(metric:'Metric1', level:'package')
 
         [null, ''].each { value ->
             filter.function = value
@@ -121,18 +149,25 @@ class SingleSeriesCriteriaFilterTest extends AbstractTestCase {
             DirA: packageResultsNode([path:'DirA', metricResults:[metric1Result(average:1112, total:1102)]],
             [
                 DirB: packageResultsNode([path:'DirB', metricResults:[metric1Result(average:1113)]]),
-                ClassA1: classResultsNode([metricResults:[metric1Result(total:1201), metric2Result(average:2211)]],
+                ClassA1: classResultsNode([metricResults:[metric1Result(total:1201.99), metric2Result(average:2211)]],
                 [
                     MethodA1a: methodResultsNode(metricResults:[metric1Result(total:1301, average:1311)]),
                     MethodA1b: methodResultsNode(metricResults:[metric1Result(total:1302)]),
-                    MethodA1c: methodResultsNode(metricResults:[metric1Result(average:1313), metric2Result(average:2313)])
+                    MethodA1c: methodResultsNode(metricResults:[metric1Result(average:1314), metric2Result(average:2314)])
                 ]),
                 ClassA2: classResultsNode(metricResults:[metric1Result(average:1212)]),
-                ClassA3: classResultsNode(metricResults:[metric1Result(total:1203, average:1213)])
+                ClassA3: classResultsNode(metricResults:[metric1Result(total:1203.77, average:1213)],
+                [
+                    MethodA3a: methodResultsNode(metricResults:[metric1Result(average:1313)]),
+                ])
             ]),
             DirC: packageResultsNode(path:'DirC', metricResults:[metric1Result(average:1114), metric2Result(average:2114)]),
             DirD: packageResultsNode(path:'DirD', metricResults:[metric1Result(total:1105), metric2Result(total:2105)])
         ])
+    }
+
+    private void configureFilter(Map properties) {
+        properties.each { name, value -> filter[name] = value }
     }
 
     private void assertSeriesData(seriesData, Map expectedData) {
