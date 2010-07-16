@@ -87,11 +87,49 @@ class SingleSeriesCriteriaFilterTest extends AbstractTestCase {
         assertSeriesData(seriesData, ['ClassA1.MethodA1c':1314, 'ClassA3.MethodA3a':1313, 'ClassA1.MethodA1a':1311])
     }
 
+    void testBuildSeriesData_MaxResults_ZeroMaxResults_NoLimit() {
+        configureFilter(metric:'Metric1', level:'method', function:'average', sort:'descending', maxResults:'0')
+        def seriesData = filter.buildSeriesData(resultsNode, metricSet)
+        assertSeriesData(seriesData, ['ClassA1.MethodA1c':1314, 'ClassA3.MethodA3a':1313, 'ClassA1.MethodA1a':1311])
+    }
+
     void testBuildSeriesData_InvalidMaxResults_ThrowsException() {
         configureFilter(metric:'Metric1', level:'package', function:'average')
         ['-1', 'xx'].each { maxResults ->
             filter.maxResults = maxResults
             shouldFailWithMessageContaining(['maxResults',maxResults]) { filter.buildSeriesData(resultsNode, metricSet) }            
+        }
+    }
+
+    void testBuildSeriesData_GreaterThan_Integer() {
+        configureFilter(metric:'Metric1', level:'method', function:'average', greaterThan:'1311')
+        def seriesData = filter.buildSeriesData(resultsNode, metricSet)
+        assertSeriesData(seriesData, ['ClassA1.MethodA1c':1314, 'ClassA3.MethodA3a':1313])
+    }
+
+    void testBuildSeriesData_GreaterThan_BigDecimal() {
+        configureFilter(metric:'Metric1', level:'class', function:'total', greaterThan:'1202.7543')
+        def seriesData = filter.buildSeriesData(resultsNode, metricSet)
+        assertSeriesData(seriesData, ['ClassA3':1203.77])
+    }
+
+    void testBuildSeriesData_GreaterThan_LargerThanAllValues() {
+        configureFilter(metric:'Metric1', level:'method', function:'average', sort:'descending', greaterThan:'1315')
+        def seriesData = filter.buildSeriesData(resultsNode, metricSet)
+        assertSeriesData(seriesData, [:])
+    }
+
+    void testBuildSeriesData_GreaterThan_LessThanThanAllValues() {
+        configureFilter(metric:'Metric1', level:'method', function:'average', sort:'descending', greaterThan:'1300')
+        def seriesData = filter.buildSeriesData(resultsNode, metricSet)
+        assertSeriesData(seriesData, ['ClassA1.MethodA1c':1314, 'ClassA3.MethodA3a':1313, 'ClassA1.MethodA1a':1311])
+    }
+
+    void testBuildSeriesData_InvalidGreaterThan_ThrowsException() {
+        configureFilter(metric:'Metric1', level:'package', function:'average')
+        ['234.67zzz', 'xx'].each { greaterThan ->
+            filter.greaterThan = greaterThan
+            shouldFailWithMessageContaining(['greaterThan',greaterThan]) { filter.buildSeriesData(resultsNode, metricSet) }            
         }
     }
 
