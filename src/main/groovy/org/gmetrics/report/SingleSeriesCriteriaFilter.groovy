@@ -32,8 +32,11 @@ import org.gmetrics.metric.Metric
  * of "ascending" or "descending", and causes the results to be sorted numerically in either ascending
  * or descending order.
  * <p/>
- * The <code>maxResults</code> property is optional, and if not <code>null</code>, must have the a
- * positive value, and limits the number of results returned.
+ * The <code>maxResults</code> property is optional. A value of <code>null</code> or <code>0</code> means
+ * no limit. Otherwise, the value must be positive, and limits the number of results returned.
+ * <p/>
+ * The <code>greaterThan</code> property is optional. The value specifies a threshold -- only results
+ * with a greater value are returned. A value of <code>null</code> means no threshold. 
  *
  * @author Chris Mair
  * @version $Revision$ - $Date$
@@ -47,6 +50,7 @@ class SingleSeriesCriteriaFilter {
     String function
     String sort
     String maxResults
+    String greaterThan
 
     List<SeriesValue> buildSeriesData(ResultsNode resultsNode, MetricSet metricSet) {
         assert metric
@@ -58,10 +62,12 @@ class SingleSeriesCriteriaFilter {
         assertFunctionExists(metricSet)
         assertValidSortValue()
         assertValidMaxResultsValue()
+        assertValidGreaterThanValue()
 
         List matchingValues = []
         findMatchingValuesForChildren(resultsNode, null, matchingValues)
         def seriesValues = sortValuesIfApplicable(matchingValues)
+        seriesValues = limitToGreaterThanIfApplicable(seriesValues)
         return limitToMaxResultsIfApplicable(seriesValues)
     }
 
@@ -98,8 +104,16 @@ class SingleSeriesCriteriaFilter {
         return seriesValues
     }
 
+    private List limitToGreaterThanIfApplicable(List seriesValues) {
+        if (greaterThan) {
+            def greaterThanValue = greaterThan as BigDecimal
+            return seriesValues.findAll { seriesValue -> seriesValue.value > greaterThanValue }
+        }
+        return seriesValues
+    }
+
     private List limitToMaxResultsIfApplicable(List seriesValues) {
-        if (maxResults != null) {
+        if (maxResults) {
             def maxResultsInt = maxResults as int  
             if (maxResultsInt < seriesValues.size()) {
                 return seriesValues[0..maxResultsInt-1]
@@ -134,6 +148,17 @@ class SingleSeriesCriteriaFilter {
             }
             catch(NumberFormatException e) {
                 throw new AssertionError("The maxResults value [$maxResults] must be null or greater than or equal to zero")
+            }
+        }
+    }
+
+    private void assertValidGreaterThanValue() {
+        if (greaterThan != null) {
+            try {
+                new BigDecimal(greaterThan)
+            }
+            catch(NumberFormatException e) {
+                throw new AssertionError("The greaterThan value [$greaterThan] must be a valid number")
             }
         }
     }
