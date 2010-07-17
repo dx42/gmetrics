@@ -32,7 +32,8 @@ class GMetricsTask_AntBuilderTest extends AbstractTestCase {
     private static final HTML_TEMP_REPORT_FILE = 'AntBuilderTestReport_Temp.html'
 
     private static final SERIES_HTML_REPORT_WRITER = 'org.gmetrics.report.SingleSeriesHtmlReportWriter'
-    private static final SERIES_HTML_REPORT_FILE = 'AntBuilderTestSeriesHtmlReport.html'
+    private static final SERIES_HTML_REPORT_FILE = 'AntBuilderTestSingleSeriesHtmlReport.html'
+    private static final SERIES_TITLE = 'Methods With Highest Line Count'
 
     private static final XML_REPORT_WRITER = 'org.gmetrics.report.XmlReportWriter'
     private static final XML_REPORT_FILE = 'AntBuilderTestXmlReport.xml'
@@ -57,7 +58,7 @@ class GMetricsTask_AntBuilderTest extends AbstractTestCase {
                option(name:'functions', value:'MethodLineCount = total')
            }
             report(type:SERIES_HTML_REPORT_WRITER){
-                option(name:'title', value:TITLE)
+                option(name:'title', value:SERIES_TITLE)
                 option(name:'outputFile', value:SERIES_HTML_REPORT_FILE)
                 option(name:'metric', value:'MethodLineCount')
                 option(name:'level', value:'method')
@@ -73,7 +74,7 @@ class GMetricsTask_AntBuilderTest extends AbstractTestCase {
         def xmlMetricNames = (defaultMetricNames - 'CyclomaticComplexity').sort()
         verifyReportFile(XML_REPORT_FILE, [TITLE, 'org/gmetrics', 'Description'] + xmlMetricNames)
 
-        verifyReportFile(SERIES_HTML_REPORT_FILE, [TITLE, 'Method'])
+        verifyReportFile(SERIES_HTML_REPORT_FILE, [SERIES_TITLE, 'Method'])
     }
 
     void testAntTask_Execute_SpecifyMetricSetFile() {

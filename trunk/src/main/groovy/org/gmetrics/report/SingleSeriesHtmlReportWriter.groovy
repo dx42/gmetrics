@@ -24,6 +24,30 @@ import org.gmetrics.util.io.ClassPathResource
  * ReportWriter that generates a HTML report for a single series of metric values. This single
  * series is specified by a single Metric, a level (package, class or method) and a single
  * function (total, average, minimum, maximum).
+ * <p/>
+ * The <code>metric</code>, <code>level</code> and <code>function</code> properties are required (must
+ * be non-null and non-empty). These three properties uniquely identify a single series of metric values.
+ * <p/>
+ * The <code>metric</code> property must specify the name (case-sensitive) of a single Metric (for example
+ * "CyclomaticComplexity") included in the analysis results.
+ * <p/>
+ * The <code>level</code> property must be set to one of: "package", "class" or "method".
+ * <p/>
+ * The <code>function</code> property must be set to the name of a function supported by the
+ * metric, typically one of: "total", "average", "minimum" or "maximum".
+ * <p/>
+ * The <code>sort</code> property is optional, and if not <code>null</code>, must either have the value
+ * of "ascending" or "descending", and causes the results to be sorted numerically in either ascending
+ * or descending order.
+ * <p/>
+ * The <code>maxResults</code> property is optional. A value of <code>null</code> or <code>0</code> means
+ * no limit. Otherwise, the value must be positive, and limits the number of results returned.
+ * <p/>
+ * The <code>greaterThan</code> property is optional. The value specifies a lower-bound threshold -- only
+ * results with a larger value are returned. A value of <code>null</code> means no lower-bound threshold is applied.
+ * <p/>
+ * The <code>lessThan</code> property is optional. The value specifies an upper-bound threshold -- only
+ * results with a smaller value are returned. A value of <code>null</code> means no upper-bound threshold is applied.
  *
  * @author Chris Mair
  * @version $Revision$ - $Date$

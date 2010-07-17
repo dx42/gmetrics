@@ -28,6 +28,14 @@ import org.gmetrics.metric.Metric
  * The <code>metric</code>, <code>level</code> and <code>function</code> properties are required (must
  * be non-null and non-empty). These three properties uniquely identify a single series of metric values.
  * <p/>
+ * The <code>metric</code> property must specify the name (case-sensitive) of a single Metric (for example
+ * "CyclomaticComplexity") included in the analysis results.
+ * <p/>
+ * The <code>level</code> property must be set to one of: "package", "class" or "method".
+ * <p/>
+ * The <code>function</code> property must be set to the name of a function supported by the
+ * metric, typically one of: "total", "average", "minimum" or "maximum". 
+ * <p/>
  * The <code>sort</code> property is optional, and if not <code>null</code>, must either have the value
  * of "ascending" or "descending", and causes the results to be sorted numerically in either ascending
  * or descending order.
@@ -36,7 +44,10 @@ import org.gmetrics.metric.Metric
  * no limit. Otherwise, the value must be positive, and limits the number of results returned.
  * <p/>
  * The <code>greaterThan</code> property is optional. The value specifies a threshold -- only results
- * with a greater value are returned. A value of <code>null</code> means no threshold. 
+ * with a larger value are returned. A value of <code>null</code> means no threshold. 
+ * <p/>
+ * The <code>lessThan</code> property is optional. The value specifies a threshold -- only results
+ * with a smaller value are returned. A value of <code>null</code> means no threshold.
  *
  * @author Chris Mair
  * @version $Revision$ - $Date$
@@ -51,6 +62,7 @@ class SingleSeriesCriteriaFilter {
     String sort
     String maxResults
     String greaterThan
+    String lessThan
 
     List<SeriesValue> buildSeriesData(ResultsNode resultsNode, MetricSet metricSet) {
         assert metric
@@ -63,11 +75,13 @@ class SingleSeriesCriteriaFilter {
         assertValidSortValue()
         assertValidMaxResultsValue()
         assertValidGreaterThanValue()
+        assertValidLessThanValue()
 
         List matchingValues = []
         findMatchingValuesForChildren(resultsNode, null, matchingValues)
         def seriesValues = sortValuesIfApplicable(matchingValues)
         seriesValues = limitToGreaterThanIfApplicable(seriesValues)
+        seriesValues = limitToLessThanIfApplicable(seriesValues)
         return limitToMaxResultsIfApplicable(seriesValues)
     }
 
@@ -108,6 +122,14 @@ class SingleSeriesCriteriaFilter {
         if (greaterThan) {
             def greaterThanValue = greaterThan as BigDecimal
             return seriesValues.findAll { seriesValue -> seriesValue.value > greaterThanValue }
+        }
+        return seriesValues
+    }
+
+    private List limitToLessThanIfApplicable(List seriesValues) {
+        if (lessThan) {
+            def lessThanValue = lessThan as BigDecimal
+            return seriesValues.findAll { seriesValue -> seriesValue.value < lessThanValue }
         }
         return seriesValues
     }
@@ -153,12 +175,20 @@ class SingleSeriesCriteriaFilter {
     }
 
     private void assertValidGreaterThanValue() {
-        if (greaterThan != null) {
+        assertValidNumberValue(greaterThan, 'greaterThan')
+    }
+
+    private void assertValidLessThanValue() {
+        assertValidNumberValue(lessThan, 'lessThan')
+    }
+
+    private void assertValidNumberValue(value, String name) {
+        if (value != null) {
             try {
-                new BigDecimal(greaterThan)
+                new BigDecimal(value)
             }
             catch(NumberFormatException e) {
-                throw new AssertionError("The greaterThan value [$greaterThan] must be a valid number")
+                throw new AssertionError("The $name value [$value] must be a valid number")
             }
         }
     }

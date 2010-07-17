@@ -21,6 +21,8 @@ import org.gmetrics.test.AbstractTestCase
 import org.gmetrics.analyzer.AnalysisContext
 import org.gmetrics.metric.StubMetric
 import org.gmetrics.metricset.ListMetricSet
+import org.gmetrics.result.StubMetricResult
+import org.gmetrics.result.MetricResult
 
 /**
  * Abstract superclass for ReportWriter test classes.
@@ -125,6 +127,11 @@ abstract class AbstractReportWriterTestCase extends AbstractTestCase {
 
     protected String metricDescription(metric) {
         "Description for " + metric.name
+    }
+
+    protected MetricResult metric1Result(Map map) {
+        def constructorMap = [metric:metric1] + map
+        return new StubMetricResult(constructorMap)
     }
 
     protected metric1Result(value) {

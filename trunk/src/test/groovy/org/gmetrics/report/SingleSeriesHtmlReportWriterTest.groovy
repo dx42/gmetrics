@@ -16,7 +16,6 @@
 package org.gmetrics.report
 
 import org.gmetrics.analyzer.AnalysisContext
-import org.gmetrics.result.StubMetricResult
 import org.gmetrics.util.io.ClassPathResource
 import java.text.DateFormat
 
@@ -38,90 +37,101 @@ class SingleSeriesHtmlReportWriterTest extends AbstractReportWriterTestCase {
     private static final BOTTOM_LINK = "<a href='http://www.gmetrics.org'>GMetrics"
     private static final DEFAULT_TITLE = SingleSeriesHtmlReportWriter.DEFAULT_TITLE
     private static final CSS_FILE_CONTENTS = getCssFileContents()
+    private static final STANDARD_CONTENTS = [ HTML_TAG, DEFAULT_TITLE, CSS_FILE_CONTENTS, DEFAULT_TITLE, TIMESTAMP_LABEL, FORMATTED_TIMESTAMP]
 
     static reportFilename = "GMetricsSingleSeriesReport.html"
 
     private emptyResultsNode = packageResultsNode(path:'test')
 
     void testWriteReport_SingleClass() {
-        final CONTENTS = [
-                HTML_TAG,
-                DEFAULT_TITLE,
-                CSS_FILE_CONTENTS,
-                DEFAULT_TITLE,
-                TIMESTAMP_LABEL, FORMATTED_TIMESTAMP,
+        final CONTENTS = STANDARD_CONTENTS + [
                 CLASS_HEADING, 'M1.average',
                 'Class1', 776,
                 BOTTOM_LINK]
 
-        def metricResult = new StubMetricResult(metric:metric1, average:776)
         def resultsNode = packageResultsNode([:],
         [
-            Class1: classResultsNode(metricResults:[metricResult])
+            Class1: classResultsNode(metricResults:[metric1Result(average:776)])
         ])
 
-        reportWriter.metric = 'Metric1'
-        reportWriter.level = 'class'
-        reportWriter.function = 'average'
-        assertReportContents(resultsNode, CONTENTS, true)
+        configureReportWriter(metric: 'Metric1', level: 'class', function: 'average')
+        assertReportContents(resultsNode, CONTENTS)
     }
 
     void testWriteReport_Methods() {
-        final CONTENTS = [
-                HTML_TAG,
-                DEFAULT_TITLE,
-                CSS_FILE_CONTENTS,
-                DEFAULT_TITLE,
-                TIMESTAMP_LABEL, FORMATTED_TIMESTAMP,
+        final CONTENTS = STANDARD_CONTENTS + [
                 METHOD_HEADING, 'M1.total',
                 'method1', 123,
                 'method2', 789,
                 BOTTOM_LINK]
 
-        def metricResult1 = new StubMetricResult(metric:metric1, total:123)
-        def metricResult2 = new StubMetricResult(metric:metric1, total:789)
         def resultsNode = packageResultsNode([:],
         [
             Class1: classResultsNode([:],
             [
-                    method1: methodResultsNode(metricResults:[metricResult1]),
-                    method2: methodResultsNode(metricResults:[metricResult2]),
+                    method1: methodResultsNode(metricResults:[metric1Result(total:123)]),
+                    method2: methodResultsNode(metricResults:[metric1Result(total:789)]),
             ])
         ])
 
-        reportWriter.metric = 'Metric1'
-        reportWriter.level = 'method'
-        reportWriter.function = 'total'
-        assertReportContents(resultsNode, CONTENTS, true)
+        configureReportWriter(metric: 'Metric1', level: 'method', function: 'total')
+        assertReportContents(resultsNode, CONTENTS)
     }
 
     void testWriteReport_Packages() {
-        final CONTENTS = [
-                HTML_TAG,
-                DEFAULT_TITLE,
-                CSS_FILE_CONTENTS,
-                DEFAULT_TITLE,
-                TIMESTAMP_LABEL, FORMATTED_TIMESTAMP,
+        final CONTENTS = STANDARD_CONTENTS + [
                 PACKAGE_HEADING, 'M1.total',
                 'src/test/groovy', 123,
                 'src/main/groovy', 789,
                 'src/main/resources', 992,
                 BOTTOM_LINK]
 
-        def metricResult1 = new StubMetricResult(metric:metric1, total:123)
-        def metricResult2 = new StubMetricResult(metric:metric1, total:789)
-        def metricResult3 = new StubMetricResult(metric:metric1, total:992)
         def resultsNode = packageResultsNode([:],
         [
-            'src/test/groovy': packageResultsNode(metricResults:[metricResult1]),
-            'src/main/groovy': packageResultsNode(metricResults:[metricResult2]),
-            'src/main/resources': packageResultsNode(metricResults:[metricResult3]),
+            'src/test/groovy': packageResultsNode(metricResults:[metric1Result(total:123)]),
+            'src/main/groovy': packageResultsNode(metricResults:[metric1Result(total:789)]),
+            'src/main/resources': packageResultsNode(metricResults:[metric1Result(total:992)]),
         ])
 
-        reportWriter.metric = 'Metric1'
-        reportWriter.level = 'package'
-        reportWriter.function = 'total'
-        assertReportContents(resultsNode, CONTENTS, true)
+        configureReportWriter(metric: 'Metric1', level: 'package', function: 'total')
+        assertReportContents(resultsNode, CONTENTS)
+    }
+
+    void testWriteReport_MaxResults() {
+        final CONTENTS = STANDARD_CONTENTS + [
+                PACKAGE_HEADING, 'M1.total',
+                'src/test/groovy', 123,
+                'src/main/groovy', 789,
+                BOTTOM_LINK]
+        final NOT_EXPECTED_CONTENTS = ['src/main/resources', 992]
+
+        def resultsNode = packageResultsNode([:],
+        [
+            'src/test/groovy': packageResultsNode(metricResults:[metric1Result(total:123)]),
+            'src/main/groovy': packageResultsNode(metricResults:[metric1Result(total:789)]),
+            'src/main/resources': packageResultsNode(metricResults:[metric1Result(total:992)]),
+        ])
+
+        configureReportWriter(metric: 'Metric1', level: 'package', function: 'total', maxResults:'2')
+        assertReportContents(resultsNode, CONTENTS, NOT_EXPECTED_CONTENTS, true)
+    }
+
+    void testWriteReport_GreaterThanAndLessThan() {
+        final CONTENTS = STANDARD_CONTENTS + [
+                PACKAGE_HEADING, 'M1.total',
+                'src/main/groovy', 789,
+                BOTTOM_LINK]
+        final NOT_EXPECTED_CONTENTS = ['src/test/groovy', 123, 'src/main/resources', 992]
+
+        def resultsNode = packageResultsNode([:],
+        [
+            'src/test/groovy': packageResultsNode(metricResults:[metric1Result(total:123)]),
+            'src/main/groovy': packageResultsNode(metricResults:[metric1Result(total:789)]),
+            'src/main/resources': packageResultsNode(metricResults:[metric1Result(total:992)]),
+        ])
+
+        configureReportWriter(metric: 'Metric1', level: 'package', function: 'total', greaterThan:'500', lessThan:'800.50')
+        assertReportContents(resultsNode, CONTENTS, NOT_EXPECTED_CONTENTS, true)
     }
 
     void testWriteReport_CustomizeTitleAndSubtitle() {
@@ -136,11 +146,7 @@ class SingleSeriesHtmlReportWriterTest extends AbstractReportWriterTestCase {
         final NOT_EXPECTED_CONTENTS = [DEFAULT_TITLE]
 
         def resultsNode = packageResultsNode([:])
-        reportWriter.title = TITLE
-        reportWriter.subtitle = SUBTITLE
-        reportWriter.metric = 'Metric1'
-        reportWriter.level = 'class'
-        reportWriter.function = 'average'
+        configureReportWriter(title: TITLE, subtitle: SUBTITLE, metric: 'Metric1', level: 'class', function: 'average')
         assertReportContents(resultsNode, CONTENTS, NOT_EXPECTED_CONTENTS)
     }
 
@@ -183,7 +189,6 @@ class SingleSeriesHtmlReportWriterTest extends AbstractReportWriterTestCase {
             'singleSeriesHtmlReport.methodHeading': METHOD_HEADING,
             'Metric1.total':'M1.total',
             'Metric1.average':'M1.average',
-            'Metric1.minimum':'M1.minimum',
         ]
         reportWriter.initializeResourceBundle = { reportWriter.resourceBundle = [getString:{key -> localizedMessages[key] ?: 'NOT FOUND'}] }
     }
@@ -192,6 +197,10 @@ class SingleSeriesHtmlReportWriterTest extends AbstractReportWriterTestCase {
         def rw = new SingleSeriesHtmlReportWriter()
         rw.getTimestamp = { TIMESTAMP_DATE }
         return rw
+    }
+
+    private void configureReportWriter(Map properties) {
+        properties.each { name, value -> reportWriter[name] = value }
     }
 
     private static String getCssFileContents() {

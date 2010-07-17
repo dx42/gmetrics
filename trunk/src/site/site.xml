@@ -48,8 +48,10 @@
 
         <menu name="Reports">
             <item name="BasicHtmlReportWriter" href="/gmetrics-BasicHtmlReportWriter.html"/>
+            <item name="SingleSeriesHtmlReportWriter" href="/gmetrics-SingleSeriesHtmlReportWriter.html"/>
             <item name="XmlReportWriter" href="/gmetrics-XmlReportWriter.html"/>
             <item name="Sample HTML Report" href="/SampleGMetricsReport.html"/>
+            <item name="Sample Single-Series HTML Report" href="/SampleGMetricsSingleSeriesReport.html"/>
             <item name="Sample XML Report" href="/SampleGMetricsXmlReport.xml"/>
             <!-- <item name="Open Source Projects" href="/gmetrics-opensource-projects.html"/> -->
         </menu>

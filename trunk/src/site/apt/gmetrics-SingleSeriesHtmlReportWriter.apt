@@ -1,0 +1,91 @@
+		--------------------------------------------------
+					  GMetrics SingleSeriesHtmlReportWriter
+		--------------------------------------------------
+
+SingleSeriesHtmlReportWriter
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* Description
+~~~~~~~~~~~~~
+
+  The <<<org.gmetrics.report.SingleSeriesHtmlReportWriter>>> class produces an HTML report
+  of metric results based on a single metric, single level and single function to provide a single
+  series of data.
+
+  The <metric>, <level> and <function> properties are required (must
+  be non-null and non-empty). These three properties uniquely identify a single series of metric values.
+
+  See a {{{SampleGMetricsSingleSeriesReport.html}Sample Report}}.
+
+* Option Nested Elements
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+  The <<option>> element is a child of the <<report>> element and defines a report-specific option
+  for a report.
+
+  <<<org.gmetrics.report.SingleSeriesHtmlReportWriter>>> supports the following options:
+
+*---------------------+----------------------------------------------------------------+------------------------+
+| <<Attribute>>       | <<Description>>                                                | <<Required>>           |
+*---------------------+----------------------------------------------------------------+------------------------+
+| metric              | The name (case-sensitive) of a single Metric included in the   | Yes                    |
+|                     | analysis results (e.g. "CyclomaticComplexity").                |                        |
+*---------------------+----------------------------------------------------------------+------------------------+
+| level               | The single level at which results are included in the report.  | Yes                    |
+|                     | Valid <level> values are "package", "class" and "method".      |                        |
+*---------------------+----------------------------------------------------------------+------------------------+
+| function            | The function for which results are included in the report.     | Yes                    |
+|                     | Valid <function> values are metric-specific, but are typically |                        |
+|                     | "total", "average", "minimum" or "maximum".                    |                        |
+*---------------------+----------------------------------------------------------------+------------------------+
+| outputFile          | The path and filename for the output report file.              | No                     |
+*---------------------+----------------------------------------------------------------+------------------------+
+| title               | The title for the output report.                               | No                     |
+*---------------------+----------------------------------------------------------------+------------------------+
+| writeToStandardOut  | Set to "true" or <<<true>>> to write out the report to         | No                     |
+|                     | <stdout> (<<<System.out>>>) instead of writing to a file.      |                        |
+*---------------------+----------------------------------------------------------------+------------------------+
+| sort                | Controls whether the report results are sorted numerically.    | No                     |
+|                     | If specified (not <null>), then the value must be "ascending"  |                        |
+|                     | or "descending". If not specified (<null>) then no sorting is  |                        |
+|                     | performed.                                                     |                        |
+*---------------------+----------------------------------------------------------------+------------------------+
+| maxResults          | Specifies the limit on the number of results included in the   | No                     |
+|                     | report. If not <null>, then the value must be positive. If     |                        |
+|                     | <null> or zero, then no limit is used.                         |                        |
+*---------------------+----------------------------------------------------------------+------------------------+
+| greaterThan         | Specifies a lower-bound threshold -- only results with a larger| No                     |
+|                     | value are included within the report. If not specified (<null>),|                       |
+|                     | then no lower-bound threshold is applied.                      |                        |
+*---------------------+----------------------------------------------------------------+------------------------+
+| lessThan            | Specifies an upper-bound threshold -- only results with a      | No                     |
+|                     | smaller value are included within the report. If not specified |                        |
+|                     | (<null>), then no upper-bound threshold is applied.            |                        |
+*---------------------+----------------------------------------------------------------+------------------------+
+
+* Example
+~~~~~~~~~
+
+  Here is an example Ant XML build file illustrating configuration of
+  <<<org.gmetrics.report.SingleSeriesHtmlReportWriter>>>.
+
++----------------------------------------------------------------------------------------
+<taskdef name="gmetrics" classname="org.gmetrics.ant.GMetricsTask">
+<target name="runGMetrics">
+
+    <gmetrics>
+        <report type="org.gmetrics.report.SingleSeriesHtmlReportWriter">
+            <option name="outputFile" value="SampleGMetricsReport.html" />
+            <option name="title" value="Sample" />
+            <option name="metric" value="CyclomaticComplexity" />
+            <option name="level" value="class" />
+            <option name="function" value="average" />
+        </report>
+        <fileset dir="src">
+            <include name="**/*.groovy"/>
+        </fileset>
+    </gmetrics>
+
+</target>
++----------------------------------------------------------------------------------------
+
