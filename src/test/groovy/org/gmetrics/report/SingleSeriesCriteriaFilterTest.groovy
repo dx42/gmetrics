@@ -133,6 +133,45 @@ class SingleSeriesCriteriaFilterTest extends AbstractTestCase {
         }
     }
 
+
+    void testBuildSeriesData_LessThan_Integer() {
+        configureFilter(metric:'Metric1', level:'method', function:'average', lessThan:'1314')
+        def seriesData = filter.buildSeriesData(resultsNode, metricSet)
+        assertSeriesData(seriesData, ['ClassA1.MethodA1a':1311, 'ClassA3.MethodA3a':1313])
+    }
+
+    void testBuildSeriesData_LessThan_BigDecimal() {
+        configureFilter(metric:'Metric1', level:'class', function:'total', lessThan:'1202.7543')
+        def seriesData = filter.buildSeriesData(resultsNode, metricSet)
+        assertSeriesData(seriesData, ['ClassA1':1201.99])
+    }
+
+    void testBuildSeriesData_LessThan_SmallerThanAllValues() {
+        configureFilter(metric:'Metric1', level:'method', function:'average', sort:'descending', lessThan:'1200')
+        def seriesData = filter.buildSeriesData(resultsNode, metricSet)
+        assertSeriesData(seriesData, [:])
+    }
+
+    void testBuildSeriesData_LessThan_GreaterThanThanAllValues() {
+        configureFilter(metric:'Metric1', level:'method', function:'average', sort:'descending', lessThan:'1400')
+        def seriesData = filter.buildSeriesData(resultsNode, metricSet)
+        assertSeriesData(seriesData, ['ClassA1.MethodA1c':1314, 'ClassA3.MethodA3a':1313, 'ClassA1.MethodA1a':1311])
+    }
+
+    void testBuildSeriesData_InvalidLessThan_ThrowsException() {
+        configureFilter(metric:'Metric1', level:'package', function:'average')
+        ['234.67zzz', 'xx'].each { lessThan ->
+            filter.lessThan = lessThan
+            shouldFailWithMessageContaining(['lessThan',lessThan]) { filter.buildSeriesData(resultsNode, metricSet) }
+        }
+    }
+
+    void testBuildSeriesData_LessThan_AndGreaterThan() {
+        configureFilter(metric:'Metric1', level:'method', function:'average', lessThan:'1314', greaterThan:'1312')
+        def seriesData = filter.buildSeriesData(resultsNode, metricSet)
+        assertSeriesData(seriesData, ['ClassA3.MethodA3a':1313])
+    }
+
     void testBuildSeriesData_NoSuchMetric_ThrowsException() {
         configureFilter(metric:'NoSuchMetric', level:'package', function:'average')
         shouldFailWithMessageContaining('NoSuchMetric') { filter.buildSeriesData(resultsNode, metricSet) }
