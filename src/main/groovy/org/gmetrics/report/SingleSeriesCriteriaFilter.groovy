@@ -150,7 +150,7 @@ class SingleSeriesCriteriaFilter {
     }
 
     private void assertLevelExists() {
-        assert level in MetricLevel.NAMES, "The level named [$level] does not exist"
+        assert level in MetricLevel.names, "The level named [$level] does not exist"
     }
 
     private void assertFunctionExists(MetricSet metricSet) {
