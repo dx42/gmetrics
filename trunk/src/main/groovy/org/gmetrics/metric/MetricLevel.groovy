@@ -21,12 +21,14 @@ package org.gmetrics.metric
  * @author Chris Mair
  * @version $Revision$ - $Date$
  */
-class MetricLevel {
-    public static final METHOD = new MetricLevel('method')
-    public static final CLASS = new MetricLevel('class')
-    public static final PACKAGE = new MetricLevel('package')
+enum MetricLevel {
+    METHOD('method'),
+    CLASS('class'),
+    PACKAGE('package')
 
-    public static final NAMES = ['package', 'class', 'method']
+    static List getNames() {
+        return MetricLevel.values().collect { it.name }
+    }
 
     final String name
 
