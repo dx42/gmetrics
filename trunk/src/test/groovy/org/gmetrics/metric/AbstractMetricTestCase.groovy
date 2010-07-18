@@ -32,6 +32,8 @@ import org.gmetrics.result.NumberMetricResult
 abstract class AbstractMetricTestCase extends AbstractTestCase {
 
     private static final METRIC = [getFunctions:{ ['total', 'average'] }] as Metric
+    protected static final CONSTRUCTOR_NAME = '<init>'
+    
     protected metric
     protected sourceCode
 
@@ -106,7 +108,9 @@ abstract class AbstractMetricTestCase extends AbstractTestCase {
 
         def methodNames = methodValues?.keySet()
         methodNames.each { methodName ->
-            def methodValue = methodMetricResults[methodName]['total']
+            def metricResults = methodMetricResults[methodName]
+            assert metricResults, "No MetricResults exist for method named [$methodName]"
+            def methodValue = metricResults['total']
             assertEquals("methodName=$methodName", methodValues[methodName], methodValue)
         }
     }

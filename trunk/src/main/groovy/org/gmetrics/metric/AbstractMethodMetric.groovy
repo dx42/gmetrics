@@ -64,7 +64,9 @@ abstract class AbstractMethodMetric extends AbstractMetric {
     }
 
     private void addMethodsToMetricResults(SourceCode sourceCode, ClassNode classNode, Map childMetricResults) {
-        classNode.methods.each {methodNode ->
+        def methodsPlusConstructors = classNode.getMethods() + classNode.getDeclaredConstructors() + classNode.getMethods()
+
+        methodsPlusConstructors.each {methodNode ->
             def methodResults = calculate(methodNode, sourceCode)
             if (methodResults) {
                 childMetricResults[methodNode.name] = methodResults

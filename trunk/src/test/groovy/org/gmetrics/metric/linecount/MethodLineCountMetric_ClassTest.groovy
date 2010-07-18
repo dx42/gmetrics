@@ -66,7 +66,7 @@ class MethodLineCountMetric_ClassTest extends AbstractMetricTestCase {
     void testApplyToClass_ResultsForClassWithSeveralMethodsAndClosureFields() {
         final SOURCE = """
             class MyClass {
-                def a() {                   // 3
+                MyClass() {                   // 3
                     def x = 1; y = x
                 }
 
@@ -88,7 +88,7 @@ class MethodLineCountMetric_ClassTest extends AbstractMetricTestCase {
                     println 'ok' }
             }
         """
-        assertApplyToClass(SOURCE, 19, scale(19/5), [a:3, b:5, c:8, d:1, e:2])
+        assertApplyToClass(SOURCE, 19, scale(19/5), [(CONSTRUCTOR_NAME):3, b:5, c:8, d:1, e:2])
     }
 
     void testApplyToClass_ResultsForClassWithOneClosureField() {
