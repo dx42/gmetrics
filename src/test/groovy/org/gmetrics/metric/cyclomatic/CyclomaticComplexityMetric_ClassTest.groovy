@@ -70,7 +70,7 @@ class CyclomaticComplexityMetric_ClassTest extends AbstractMetricTestCase {
     void testApplyToClass_ResultsForClassWithSeveralMethodsAndClosureFields() {
         final SOURCE = """
             class MyClass {
-                def a() {                   // 3
+                MyClass() {                   // 3
                     done = x && y || y < 0
                 }
 
@@ -96,7 +96,7 @@ class CyclomaticComplexityMetric_ClassTest extends AbstractMetricTestCase {
 
             }
         """
-        assertApplyToClass(SOURCE, 14, scale(14/5), [a:3, b:3, c:5, d:1, e:2])
+        assertApplyToClass(SOURCE, 14, scale(14/5), [(CONSTRUCTOR_NAME):3, b:3, c:5, d:1, e:2])
     }
 
     void testApplyToClass_ResultsForClassWithOneClosureField() {

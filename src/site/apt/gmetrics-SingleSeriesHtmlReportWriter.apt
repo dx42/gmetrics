@@ -80,6 +80,8 @@ SingleSeriesHtmlReportWriter
             <option name="metric" value="CyclomaticComplexity" />
             <option name="level" value="class" />
             <option name="function" value="average" />
+            <option name="maxResults" value="50" />
+            <option name="greaterThan" value="100.0" />
         </report>
         <fileset dir="src">
             <include name="**/*.groovy"/>

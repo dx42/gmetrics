@@ -66,23 +66,25 @@ class AbcMetric_ClassTest extends AbstractAbcMetricTest {
 
     void testApplyToClass_ResultsForClassWithSeveralMethods() {
         final SOURCE = """
-            def a() {
-                def x = 1; y = x            // A=2
-            }
-            def b() {
-                new SomeClass(99)           // B=1
-                new SomeClass().run()       // B=2
-                x++                         // A=1
-            }
-            def c() {
-                switch(x) {
-                    case 1: break           // C=1
-                    case 3: break           // C=1
+            class MyClass {
+                def MyClass() {
+                    def x = 1; y = x            // A=2
                 }
-                return x && x > 0 && x < 100 && !ready      // C=4
+                def b() {
+                    new SomeClass(99)           // B=1
+                    new SomeClass().run()       // B=2
+                    x++                         // A=1
+                }
+                def c() {
+                    switch(x) {
+                        case 1: break           // C=1
+                        case 3: break           // C=1
+                    }
+                    return x && x > 0 && x < 100 && !ready      // C=4
+                }
             }
         """
-        assertApplyToClass(SOURCE, [3,3,6], [1,1,2], [a:[2,0,0], b:[1,3,0], c:[0,0,6]])
+        assertApplyToClass(SOURCE, [3,3,6], [1,1,2], [(CONSTRUCTOR_NAME):[2,0,0], b:[1,3,0], c:[0,0,6]])
     }
 
     void testApplyToClass_ResultsForScript_RunMethod() {
