@@ -70,6 +70,14 @@ class SingleSeriesCriteriaFilterTest extends AbstractTestCase {
         assertSeriesData(seriesData, ['ClassA3':1203.77, 'ClassA1':1201.99])
     }
 
+    void testBuildSeriesData_Sort_NullOrEmpty() {
+        [null, ''].each { sort ->
+            configureFilter(metric:'Metric1', level:'package', function:'average', sort:sort)
+            def seriesData = filter.buildSeriesData(resultsNode, metricSet)
+            assertSeriesData(seriesData, [DirA:1112, DirB:1113, DirC:1114])
+        }
+    }
+
     void testBuildSeriesData_InvalidSortValue_ThrowsException() {
         configureFilter(metric:'Metric1', level:'package', function:'average', sort:'xxx')
         shouldFailWithMessageContaining(['sort','xxx']) { filter.buildSeriesData(resultsNode, metricSet) }
@@ -87,10 +95,12 @@ class SingleSeriesCriteriaFilterTest extends AbstractTestCase {
         assertSeriesData(seriesData, ['ClassA1.MethodA1c':1314, 'ClassA3.MethodA3a':1313, 'ClassA1.MethodA1a':1311])
     }
 
-    void testBuildSeriesData_MaxResults_ZeroMaxResults_NoLimit() {
-        configureFilter(metric:'Metric1', level:'method', function:'average', sort:'descending', maxResults:'0')
-        def seriesData = filter.buildSeriesData(resultsNode, metricSet)
-        assertSeriesData(seriesData, ['ClassA1.MethodA1c':1314, 'ClassA3.MethodA3a':1313, 'ClassA1.MethodA1a':1311])
+    void testBuildSeriesData_MaxResults_ZeroNullOrEmpty_NoLimit() {
+        ['0', null, ''].each { maxResults ->
+            configureFilter(metric:'Metric1', level:'method', function:'average', sort:'descending', maxResults:maxResults)
+            def seriesData = filter.buildSeriesData(resultsNode, metricSet)
+            assertSeriesData(seriesData, ['ClassA1.MethodA1c':1314, 'ClassA3.MethodA3a':1313, 'ClassA1.MethodA1a':1311])
+        }
     }
 
     void testBuildSeriesData_InvalidMaxResults_ThrowsException() {
@@ -125,6 +135,14 @@ class SingleSeriesCriteriaFilterTest extends AbstractTestCase {
         assertSeriesData(seriesData, ['ClassA1.MethodA1c':1314, 'ClassA3.MethodA3a':1313, 'ClassA1.MethodA1a':1311])
     }
 
+    void testBuildSeriesData_GreaterThan_NullOrEmpty() {
+        [null, ''].each { greaterThan ->
+            configureFilter(metric:'Metric1', level:'method', function:'average', sort:'descending', greaterThan:greaterThan)
+            def seriesData = filter.buildSeriesData(resultsNode, metricSet)
+            assertSeriesData(seriesData, ['ClassA1.MethodA1c':1314, 'ClassA3.MethodA3a':1313, 'ClassA1.MethodA1a':1311])
+        }
+    }
+
     void testBuildSeriesData_InvalidGreaterThan_ThrowsException() {
         configureFilter(metric:'Metric1', level:'package', function:'average')
         ['234.67zzz', 'xx'].each { greaterThan ->
@@ -132,7 +150,6 @@ class SingleSeriesCriteriaFilterTest extends AbstractTestCase {
             shouldFailWithMessageContaining(['greaterThan',greaterThan]) { filter.buildSeriesData(resultsNode, metricSet) }            
         }
     }
-
 
     void testBuildSeriesData_LessThan_Integer() {
         configureFilter(metric:'Metric1', level:'method', function:'average', lessThan:'1314')
@@ -156,6 +173,14 @@ class SingleSeriesCriteriaFilterTest extends AbstractTestCase {
         configureFilter(metric:'Metric1', level:'method', function:'average', sort:'descending', lessThan:'1400')
         def seriesData = filter.buildSeriesData(resultsNode, metricSet)
         assertSeriesData(seriesData, ['ClassA1.MethodA1c':1314, 'ClassA3.MethodA3a':1313, 'ClassA1.MethodA1a':1311])
+    }
+
+    void testBuildSeriesData_LessThan_NullOrEmpty() {
+        [null, ''].each { lessThan ->
+            configureFilter(metric:'Metric1', level:'method', function:'average', sort:'descending', lessThan:lessThan)
+            def seriesData = filter.buildSeriesData(resultsNode, metricSet)
+            assertSeriesData(seriesData, ['ClassA1.MethodA1c':1314, 'ClassA3.MethodA3a':1313, 'ClassA1.MethodA1a':1311])
+        }
     }
 
     void testBuildSeriesData_InvalidLessThan_ThrowsException() {
