@@ -46,21 +46,21 @@ SingleSeriesHtmlReportWriter
 |                     | <stdout> (<<<System.out>>>) instead of writing to a file.      |                        |
 *---------------------+----------------------------------------------------------------+------------------------+
 | sort                | Controls whether the report results are sorted numerically.    | No                     |
-|                     | If specified (not <null>), then the value must be "ascending"  |                        |
-|                     | or "descending". If not specified (<null>) then no sorting is  |                        |
-|                     | performed.                                                     |                        |
+|                     | If specified (not <null> or empty ), then the value must be    |                        |
+|                     | "ascending" or "descending". A value of <null> means no        |                        |
+|                     | sorting is performed.                                          |                        |
 *---------------------+----------------------------------------------------------------+------------------------+
 | maxResults          | Specifies the limit on the number of results included in the   | No                     |
-|                     | report. If not <null>, then the value must be positive. If     |                        |
-|                     | <null> or zero, then no limit is used.                         |                        |
+|                     | report. A value of <null>, zero or empty means no limit is     |                        |
+|                     | applied; otherwise the value must be a positive integer.       |                        |
 *---------------------+----------------------------------------------------------------+------------------------+
 | greaterThan         | Specifies a lower-bound threshold -- only results with a larger| No                     |
-|                     | value are included within the report. If not specified (<null>),|                       |
-|                     | then no lower-bound threshold is applied.                      |                        |
+|                     | value are included within the report. A value of <null> or     |                       |
+|                     | empty means no lower-bound threshold is applied.               |                        |
 *---------------------+----------------------------------------------------------------+------------------------+
 | lessThan            | Specifies an upper-bound threshold -- only results with a      | No                     |
-|                     | smaller value are included within the report. If not specified |                        |
-|                     | (<null>), then no upper-bound threshold is applied.            |                        |
+|                     | smaller value are included within the report. A value of <null>|                        |
+|                     | or empty means no upper-bound threshold is applied.            |                        |
 *---------------------+----------------------------------------------------------------+------------------------+
 
 * Example

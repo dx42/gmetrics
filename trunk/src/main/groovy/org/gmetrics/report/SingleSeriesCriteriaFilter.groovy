@@ -36,18 +36,18 @@ import org.gmetrics.metric.Metric
  * The <code>function</code> property must be set to the name of a function supported by the
  * metric, typically one of: "total", "average", "minimum" or "maximum". 
  * <p/>
- * The <code>sort</code> property is optional, and if not <code>null</code>, must either have the value
- * of "ascending" or "descending", and causes the results to be sorted numerically in either ascending
+ * The <code>sort</code> property is optional, and if not <code>null</code> or empty, must either have
+ * the value of "ascending" or "descending", and causes the results to be sorted numerically in either ascending
  * or descending order.
  * <p/>
- * The <code>maxResults</code> property is optional. A value of <code>null</code> or <code>0</code> means
- * no limit. Otherwise, the value must be positive, and limits the number of results returned.
+ * The <code>maxResults</code> property is optional. A value of <code>null</code>, empty or <code>0</code>
+ * means no limit. Otherwise, the value must be positive, and limits the number of results returned.
  * <p/>
  * The <code>greaterThan</code> property is optional. The value specifies a threshold -- only results
- * with a larger value are returned. A value of <code>null</code> means no threshold. 
+ * with a larger value are returned. A value of <code>null</code> or empty means no threshold.
  * <p/>
  * The <code>lessThan</code> property is optional. The value specifies a threshold -- only results
- * with a smaller value are returned. A value of <code>null</code> means no threshold.
+ * with a smaller value are returned. A value of <code>null</code> or empty means no threshold.
  *
  * @author Chris Mair
  * @version $Revision$ - $Date$
@@ -159,11 +159,11 @@ class SingleSeriesCriteriaFilter {
     }
 
     private void assertValidSortValue() {
-        assert sort == null || sort in VALID_SORT_VALUES, "The sort value named [$sort] is not one of $VALID_SORT_VALUES"
+        assert !sort || sort in VALID_SORT_VALUES, "The sort value named [$sort] is not one of $VALID_SORT_VALUES"
     }
 
     private void assertValidMaxResultsValue() {
-        if (maxResults != null) {
+        if (maxResults) {
             try {
                 def value = Integer.parseInt(maxResults)
                 assert value >= 0, "The maxResults value [$maxResults] must be null or greater than or equal to zero"
@@ -183,7 +183,7 @@ class SingleSeriesCriteriaFilter {
     }
 
     private void assertValidNumberValue(value, String name) {
-        if (value != null) {
+        if (value) {
             try {
                 new BigDecimal(value)
             }
