@@ -21,15 +21,21 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.codehaus.gmaven.runtime</groupId>
-            <artifactId>gmaven-runtime-1.6</artifactId>
-            <version>1.2</version>
+             <groupId>org.codehaus.groovy</groupId>
+             <artifactId>groovy-all</artifactId>
+             <version>1.6.9</version>
         </dependency>
 
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>1.2.13</version>
+        </dependency>
+
+        <dependency>
+            <groupId>ant</groupId>
+            <artifactId>ant</artifactId>
+            <version>1.6.5</version>
         </dependency>
 
         <dependency>
@@ -95,20 +101,40 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.codehaus.groovy.maven</groupId>
-                <artifactId>gmaven-plugin</artifactId>
-                <version>1.0</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>generateStubs</goal>
-                            <goal>compile</goal>
-                            <goal>generateTestStubs</goal>
-                            <goal>testCompile</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+                   <groupId>org.codehaus.gmaven</groupId>
+                   <artifactId>gmaven-plugin</artifactId>
+                   <version>1.2</version>
+                   <configuration>
+                     <providerSelection>1.6</providerSelection>
+                   </configuration>
+                   <executions>
+                     <execution>
+                       <goals>
+                         <goal>compile</goal>
+                         <goal>testCompile</goal>
+                         <!-- if you want joint compilation, add stub generation goals here -->
+                       </goals>
+                     </execution>
+                   </executions>
+                   <dependencies>
+                     <dependency>
+                       <groupId>org.codehaus.gmaven.runtime</groupId>
+                       <artifactId>gmaven-runtime-1.6</artifactId>
+                       <version>1.2</version>
+                       <exclusions>
+                         <exclusion>
+                           <groupId>org.codehaus.groovy</groupId>
+                           <artifactId>groovy-all</artifactId>
+                         </exclusion>
+                       </exclusions>
+                     </dependency>
+                     <dependency>
+                       <groupId>org.codehaus.groovy</groupId>
+                       <artifactId>groovy-all</artifactId>
+                       <version>1.6.9</version>
+                     </dependency>
+                   </dependencies>
+                 </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

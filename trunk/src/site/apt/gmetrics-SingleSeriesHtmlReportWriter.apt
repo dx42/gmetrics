@@ -46,9 +46,8 @@ SingleSeriesHtmlReportWriter
 |                     | <stdout> (<<<System.out>>>) instead of writing to a file.      |                        |
 *---------------------+----------------------------------------------------------------+------------------------+
 | sort                | Controls whether the report results are sorted numerically.    | No                     |
-|                     | If specified (not <null> or empty ), then the value must be    |                        |
-|                     | "ascending" or "descending". A value of <null> means no        |                        |
-|                     | sorting is performed.                                          |                        |
+|                     | A value of <null> or empty means no sorting is performed;      |                        |
+|                     | otherwise, the value must be either "ascending" or "descending".|                       |
 *---------------------+----------------------------------------------------------------+------------------------+
 | maxResults          | Specifies the limit on the number of results included in the   | No                     |
 |                     | report. A value of <null>, zero or empty means no limit is     |                        |
