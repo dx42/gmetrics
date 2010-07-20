@@ -56,7 +56,7 @@ class PackageResultsNode implements ResultsNode {
     }
 
     void applyMetric(Metric metric) {
-        children = children.asImmutable()
+        this.children = children.asImmutable()
         def childMetricResultsForMetric = []
         children.values().each { child ->
             def metricResult = child.getMetricResult(metric)

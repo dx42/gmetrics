@@ -12,22 +12,12 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="Maven: org.codehaus.gmaven.runtime:gmaven-runtime-1.6:1.2" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.slf4j:slf4j-api:1.5.10" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.codehaus.gmaven.feature:gmaven-feature-support:1.2" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.codehaus.gmaven.feature:gmaven-feature-api:1.2" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.codehaus.gmaven.runtime:gmaven-runtime-support:1.2" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.codehaus.gmaven.runtime:gmaven-runtime-api:1.2" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.sonatype.gshell:gshell-io:2.0" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.sonatype.gossip:gossip:1.0" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.codehaus.plexus:plexus-utils:1.5.5" level="project" />
-    <orderEntry type="library" exported="" name="Maven: com.thoughtworks.qdox:qdox:1.8" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.codehaus.groovy:groovy-all:1.6.5" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.codehaus.groovy:groovy-all:1.6.9" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: junit:junit:3.8.1" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.apache.ant:ant:1.7.1" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.apache.ant:ant-launcher:1.7.1" level="project" />
-    <orderEntry type="library" exported="" name="Maven: jline:jline:0.9.94" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: junit:junit:3.8.1" level="project" />
     <orderEntry type="library" exported="" name="Maven: log4j:log4j:1.2.13" level="project" />
+    <orderEntry type="library" exported="" name="Maven: ant:ant:1.6.5" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.codenarc:CodeNarc:0.9" level="project" />
   </component>
 </module>
