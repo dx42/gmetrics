@@ -33,7 +33,7 @@ abstract class AbstractMetric implements Metric {
     boolean enabled = true
     List<String> functions = ['total', 'average']
 
-    abstract ClassMetricResult calculateForClass(ClassNode classNode, SourceCode sourceCode)
+    protected abstract ClassMetricResult calculateForClass(ClassNode classNode, SourceCode sourceCode)
 
     MetricResult applyToPackage(Collection childMetricResults) {
         if (!enabled) {
@@ -57,7 +57,7 @@ abstract class AbstractMetric implements Metric {
         return !(classNode.modifiers & ClassNode.ACC_INTERFACE)
     }
 
-    protected createAggregateMetricResult(Collection childMetricResults) {
+    protected MetricResult createAggregateMetricResult(Collection childMetricResults) {
         new AggregateNumberMetricResult(this, childMetricResults)
     }
 

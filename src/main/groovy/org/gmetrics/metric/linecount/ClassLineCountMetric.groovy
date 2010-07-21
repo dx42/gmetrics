@@ -36,7 +36,7 @@ class ClassLineCountMetric extends AbstractMetric {
     final String name = 'ClassLineCount'
     final MetricLevel baseLevel = MetricLevel.CLASS
 
-    ClassMetricResult calculateForClass(ClassNode classNode, SourceCode sourceCode) {
+    protected ClassMetricResult calculateForClass(ClassNode classNode, SourceCode sourceCode) {
         def visitor = new ClassLineCountAstVisitor(sourceCode:sourceCode)
         visitor.visitClass(classNode)
         if (visitor.numberOfLinesInClass == 0) {
@@ -44,10 +44,6 @@ class ClassLineCountMetric extends AbstractMetric {
         }
         def metricResult = new NumberMetricResult(this, visitor.numberOfLinesInClass)
         return new ClassMetricResult(metricResult)
-    }
-
-    protected createAggregateMetricResult(Collection childMetricResults) {
-        new AggregateNumberMetricResult(this, childMetricResults)
     }
 
 }

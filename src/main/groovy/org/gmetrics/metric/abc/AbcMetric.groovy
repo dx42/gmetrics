@@ -21,6 +21,7 @@ import org.gmetrics.metric.AbstractMethodMetric
 import org.gmetrics.source.SourceCode
 import org.gmetrics.metric.abc.result.AggregateAbcMetricResult
 import org.gmetrics.metric.abc.result.AbcMetricResult
+import org.gmetrics.result.MetricResult
 
 /**
  * Calculate the ABC Metric for a class/method.
@@ -57,7 +58,7 @@ import org.gmetrics.metric.abc.result.AbcMetricResult
 class AbcMetric extends AbstractMethodMetric {
     final String name = "ABC"
 
-    def calculate(MethodNode methodNode, SourceCode sourceCode) {
+    MetricResult calculate(MethodNode methodNode, SourceCode sourceCode) {
         def visitor = new AbcAstVisitor(sourceCode:sourceCode)
         visitor.visitMethod(methodNode)
         if (visitor.visited) {
@@ -67,14 +68,14 @@ class AbcMetric extends AbstractMethodMetric {
         return null
     }
 
-    def calculate(ClosureExpression closureExpression, SourceCode sourceCode) {
+    MetricResult calculate(ClosureExpression closureExpression, SourceCode sourceCode) {
         def visitor = new AbcAstVisitor(sourceCode:sourceCode)
         visitor.visitClosureExpression(closureExpression) 
         def abcVector = new AbcVector(visitor.numberOfAssignments, visitor.numberOfBranches, visitor.numberOfConditions)
         return new AbcMetricResult(this, abcVector)
     }
 
-    protected createAggregateMetricResult(Collection childMetricResults) {
+    protected MetricResult createAggregateMetricResult(Collection childMetricResults) {
         new AggregateAbcMetricResult(this, childMetricResults)
     }
 
