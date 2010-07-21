@@ -21,6 +21,7 @@ import org.codehaus.groovy.ast.expr.ClosureExpression
 import org.gmetrics.source.SourceCode
 import org.gmetrics.util.AstUtil
 import org.gmetrics.result.ClassMetricResult
+import org.gmetrics.result.MetricResult
 
 /**
  * Abstract superclass for method-based metrics.
@@ -32,10 +33,10 @@ abstract class AbstractMethodMetric extends AbstractMetric {
 
     final MetricLevel baseLevel = MetricLevel.METHOD
 
-    abstract def calculate(MethodNode methodNode, SourceCode sourceCode)
-    abstract def calculate(ClosureExpression closureExpression, SourceCode sourceCode)
+    abstract MetricResult calculate(MethodNode methodNode, SourceCode sourceCode)
+    abstract MetricResult calculate(ClosureExpression closureExpression, SourceCode sourceCode)
 
-    ClassMetricResult calculateForClass(ClassNode classNode, SourceCode sourceCode) {
+    protected ClassMetricResult calculateForClass(ClassNode classNode, SourceCode sourceCode) {
         def childMetricResults = [:]
 
         if (isNotAnInterface(classNode)) {

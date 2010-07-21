@@ -20,6 +20,7 @@ import org.codehaus.groovy.ast.expr.ClosureExpression
 import org.gmetrics.result.NumberMetricResult
 import org.gmetrics.metric.AbstractMethodMetric
 import org.gmetrics.source.SourceCode
+import org.gmetrics.result.MetricResult
 
 /**
  * Metric for counting the lines of code for methods and closure fields.
@@ -30,14 +31,14 @@ import org.gmetrics.source.SourceCode
 class MethodLineCountMetric extends AbstractMethodMetric {
     final String name = 'MethodLineCount'
 
-    def calculate(MethodNode methodNode, SourceCode sourceCode) {
+    MetricResult calculate(MethodNode methodNode, SourceCode sourceCode) {
         def visitor = new MethodLineCountAstVisitor(sourceCode:sourceCode)
         visitor.visitMethod(methodNode)
         def numLines = visitor.numberOfLinesInMethod
         return numLines ? new NumberMetricResult(this, numLines) : null
     }
 
-    def calculate(ClosureExpression closureExpression, SourceCode sourceCode) {
+    MetricResult calculate(ClosureExpression closureExpression, SourceCode sourceCode) {
         def visitor = new MethodLineCountAstVisitor(sourceCode:sourceCode)
         visitor.visitClosureExpression(closureExpression)
         return new NumberMetricResult(this, visitor.numberOfLinesInClosure)
