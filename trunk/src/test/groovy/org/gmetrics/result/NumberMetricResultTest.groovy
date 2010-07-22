@@ -41,6 +41,11 @@ class NumberMetricResultTest extends AbstractTestCase {
         assert result.getMetric() == METRIC
     }
 
+    void testGetLineNumberIsSameValuePassedIntoConstructor() {
+        def result = new NumberMetricResult(METRIC, 23, 67)
+        assert result.getLineNumber() == 67
+    }
+
     void testGetTotalValueIsSameIntegerValuePassedIntoConstructor() {
         def result = new NumberMetricResult(METRIC, 23)
         assert result['total'] == 23

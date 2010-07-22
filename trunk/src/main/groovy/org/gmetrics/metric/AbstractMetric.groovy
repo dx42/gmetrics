@@ -18,6 +18,7 @@ package org.gmetrics.metric
 import org.codehaus.groovy.ast.ClassNode
 import org.gmetrics.source.SourceCode
 import org.gmetrics.result.*
+import org.codehaus.groovy.ast.ASTNode
 
 /**
  * Abstract superclass for metrics.
@@ -57,8 +58,8 @@ abstract class AbstractMetric implements Metric {
         return !(classNode.modifiers & ClassNode.ACC_INTERFACE)
     }
 
-    protected MetricResult createAggregateMetricResult(Collection childMetricResults) {
-        new AggregateNumberMetricResult(this, childMetricResults)
+    protected MetricResult createAggregateMetricResult(Collection childMetricResults, ASTNode node=null) {
+        new AggregateNumberMetricResult(this, childMetricResults, node?.lineNumber)
     }
 
 }

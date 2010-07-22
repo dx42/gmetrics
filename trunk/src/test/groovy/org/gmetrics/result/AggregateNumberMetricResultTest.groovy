@@ -44,6 +44,11 @@ class AggregateNumberMetricResultTest extends AbstractTestCase {
         assert mr.metric == METRIC
     }
 
+    void testGetLineNumberIsSameValuePassedIntoConstructor() {
+        def result = new AggregateNumberMetricResult(METRIC, [], 67)
+        assert result.getLineNumber() == 67
+    }
+
     // Tests for no children
 
     void testFunctionValuesForNoChildrenAreAllZero() {

@@ -49,4 +49,47 @@ abstract class AbstractCommonMetricTestCase extends AbstractMetricTestCase {
         assert applyToClass(SOURCE) == null
     }
 
+    private boolean isMethodLevelMetric() {
+        return metric.getBaseLevel() == MetricLevel.METHOD
+    }
+
+    void testCalculate_Method_SetsLineNumber() {
+        if (isMethodLevelMetric()) {
+            final SOURCE = """
+                def myMethod() { }
+            """
+            def metricResult = metric.calculate(findFirstMethod(SOURCE), sourceCode)
+            assertEquals 2, metricResult.lineNumber
+        }
+        else {
+            log("Skipping $name()")
+        }
+    }
+
+    void testCalculate_ClosureField_SetsLineNumber() {
+        if (isMethodLevelMetric()) {
+            final SOURCE = """
+                class MyClass {
+                    def myClosure = {
+                    }
+                }
+            """
+            def metricResult = metric.calculate(findFirstField(SOURCE).initialExpression, sourceCode)
+            assertEquals 3, metricResult.lineNumber
+        }
+        else {
+            log("Skipping $name()")
+        }
+    }
+
+    void testApplyToClass_SetsLineNumber() {
+        final SOURCE = """
+            class MyClass {
+                def a() { }
+            }
+        """
+        def results = applyToClass(SOURCE)
+        assertEquals 2, results.classMetricResult.lineNumber
+    }
+
 }

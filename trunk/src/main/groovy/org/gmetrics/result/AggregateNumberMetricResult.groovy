@@ -30,12 +30,14 @@ class AggregateNumberMetricResult implements MetricResult {
     int scale = 1
     private functionValues = [:]
     final Metric metric
+    final Integer lineNumber
 
-    AggregateNumberMetricResult(Metric metric, Collection children) {
+    AggregateNumberMetricResult(Metric metric, Collection children, Integer lineNumber=null) {
         assert metric != null
         assert children != null
         this.metric = metric
         calculateFunctions(metric, children)
+        this.lineNumber = lineNumber
     }
 
     int getCount() {

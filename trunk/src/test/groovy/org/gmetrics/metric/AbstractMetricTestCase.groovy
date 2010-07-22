@@ -129,7 +129,7 @@ abstract class AbstractMetricTestCase extends AbstractTestCase {
         new NumberMetricResult(METRIC, number)
     }
 
-    private findFirstField(String source) {
+    protected findFirstField(String source) {
         def classNode = parseClass(source)
         return classNode.fields.find { it.lineNumber >= 0 }
     }

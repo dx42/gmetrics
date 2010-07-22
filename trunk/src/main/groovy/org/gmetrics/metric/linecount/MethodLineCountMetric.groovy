@@ -35,13 +35,13 @@ class MethodLineCountMetric extends AbstractMethodMetric {
         def visitor = new MethodLineCountAstVisitor(sourceCode:sourceCode)
         visitor.visitMethod(methodNode)
         def numLines = visitor.numberOfLinesInMethod
-        return numLines ? new NumberMetricResult(this, numLines) : null
+        return numLines ? new NumberMetricResult(this, numLines, methodNode.lineNumber) : null
     }
 
     MetricResult calculate(ClosureExpression closureExpression, SourceCode sourceCode) {
         def visitor = new MethodLineCountAstVisitor(sourceCode:sourceCode)
         visitor.visitClosureExpression(closureExpression)
-        return new NumberMetricResult(this, visitor.numberOfLinesInClosure)
+        return new NumberMetricResult(this, visitor.numberOfLinesInClosure, closureExpression.lineNumber)
     }
 
 }
