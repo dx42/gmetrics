@@ -27,19 +27,21 @@ import org.gmetrics.metric.abc.AbcVector
  */
 class AggregateAbcMetricResult implements MetricResult {
 
-    private count
     final Metric metric
+    final Object value = null
+    final Integer lineNumber
     private assignmentSum = 0
     private branchSum = 0
     private conditionSum = 0
-    final Object value = null
+    private count
     private functionValues = [:]
 
-    AggregateAbcMetricResult(Metric metric, Collection children) {
+    AggregateAbcMetricResult(Metric metric, Collection children, Integer lineNumber=null) {
         assert metric != null
         assert children != null
         this.metric = metric
         calculateFunctions(children)
+        this.lineNumber = lineNumber
     }
 
     protected void calculateFunctions(Collection children) {

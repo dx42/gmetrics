@@ -48,7 +48,7 @@ abstract class AbstractMethodMetric extends AbstractMetric {
             return null
         }
 
-        def aggregateMetricResults = createAggregateMetricResult(childMetricResults.values())
+        def aggregateMetricResults = createAggregateMetricResult(childMetricResults.values(), classNode)
 
         return new ClassMetricResult(aggregateMetricResults, childMetricResults)
     }
@@ -59,8 +59,8 @@ abstract class AbstractMethodMetric extends AbstractMetric {
                     fieldNode.initialExpression instanceof ClosureExpression
         }
         closureFields.each {fieldNode ->
-            def fieldResults = calculate(fieldNode.initialExpression, sourceCode)
-            childMetricResults[fieldNode.name] = fieldResults
+            def fieldResult = calculate(fieldNode.initialExpression, sourceCode)
+            childMetricResults[fieldNode.name] = fieldResult
         }
     }
 
@@ -68,9 +68,9 @@ abstract class AbstractMethodMetric extends AbstractMetric {
         def methodsPlusConstructors = classNode.getMethods() + classNode.getDeclaredConstructors() + classNode.getMethods()
 
         methodsPlusConstructors.each {methodNode ->
-            def methodResults = calculate(methodNode, sourceCode)
-            if (methodResults) {
-                childMetricResults[methodNode.name] = methodResults
+            def methodResult = calculate(methodNode, sourceCode)
+            if (methodResult) {
+                childMetricResults[methodNode.name] = methodResult
             }
         }
     }

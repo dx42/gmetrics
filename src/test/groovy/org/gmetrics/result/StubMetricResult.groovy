@@ -24,6 +24,7 @@ class StubMetricResult implements MetricResult {
     int count
     Object total, average, minimum, maximum
     Object value
+    Integer lineNumber
 
     Object getAt(String propertyName) {
         return (propertyName in FUNCTION_NAMES) ? super.getAt(propertyName) : null        

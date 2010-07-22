@@ -29,13 +29,15 @@ class AbcMetricResult implements MetricResult {
 
     final AbcVector abcVector
     final Metric metric
+    final Integer lineNumber
     private magnitude
 
-    AbcMetricResult(Metric metric, AbcVector abcVector) {
+    AbcMetricResult(Metric metric, AbcVector abcVector, Integer lineNumber=null) {
         assert abcVector
         this.abcVector = abcVector
         this.metric = metric
         this.magnitude = abcVector.magnitude
+        this.lineNumber = lineNumber
     }
 
     int getCount() {

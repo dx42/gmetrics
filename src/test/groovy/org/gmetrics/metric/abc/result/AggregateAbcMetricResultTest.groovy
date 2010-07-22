@@ -45,6 +45,11 @@ class AggregateAbcMetricResultTest extends AbstractTestCase {
         assert mr.metric == METRIC
     }
 
+    void testGetLineNumberIsSameValuePassedIntoConstructor() {
+        def result = new AggregateAbcMetricResult(METRIC, [], 67)
+        assert result.getLineNumber() == 67
+    }
+
     // Tests for no children
 
     void testAverageAbcVectorForNoVectorsIsZeroVector() {

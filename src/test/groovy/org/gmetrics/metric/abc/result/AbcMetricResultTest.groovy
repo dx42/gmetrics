@@ -36,6 +36,12 @@ class AbcMetricResultTest extends AbstractTestCase {
         shouldFailWithMessageContaining('abcVector') { new AbcMetricResult(METRIC, null) }
     }
 
+    void testGetLineNumberIsSameValuePassedIntoConstructor() {
+        def abcVector = new AbcVector(0, 0, 0)
+        def result = new AbcMetricResult(METRIC, abcVector, 67)
+        assert result.getLineNumber() == 67
+    }
+
     void testValuesForEmptyVectorSetIsZero() {
         assert abcMetricResultAllFunctionValues(0, 0, 0) == 0
     }

@@ -27,12 +27,14 @@ class NumberMetricResult implements MetricResult {
 
     final Metric metric
     final number
+    final Integer lineNumber
 
-    NumberMetricResult(Metric metric, number) {
+    NumberMetricResult(Metric metric, number, Integer lineNumber=null) {
         assert metric != null
         assert number != null
         this.metric = metric
         this.number = number
+        this.lineNumber = lineNumber
     }
 
     int getCount() {

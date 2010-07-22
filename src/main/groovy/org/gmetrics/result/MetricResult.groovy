@@ -46,4 +46,11 @@ interface MetricResult {
      * @return the named function value or null if that function is not supported
      */
     Object getAt(String propertyName)
+
+
+    /**
+     * Return the line number associated with this metric result (i.e., method or class)
+     * @return an Integer; may be null
+     */
+    Integer getLineNumber()
 }

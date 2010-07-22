@@ -19,10 +19,8 @@ import org.gmetrics.metric.MetricLevel
 import org.gmetrics.result.ClassMetricResult
 import org.codehaus.groovy.ast.ClassNode
 import org.gmetrics.source.SourceCode
-import org.gmetrics.result.MetricResult
 import org.gmetrics.metric.AbstractAstVisitor
 import org.gmetrics.result.NumberMetricResult
-import org.gmetrics.result.AggregateNumberMetricResult
 import org.gmetrics.metric.AbstractMetric
 
 /**
@@ -42,7 +40,7 @@ class ClassLineCountMetric extends AbstractMetric {
         if (visitor.numberOfLinesInClass == 0) {
             return null
         }
-        def metricResult = new NumberMetricResult(this, visitor.numberOfLinesInClass)
+        def metricResult = new NumberMetricResult(this, visitor.numberOfLinesInClass, classNode.lineNumber)
         return new ClassMetricResult(metricResult)
     }
 
