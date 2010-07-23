@@ -2,7 +2,7 @@ GMetrics Change Log
 -------------------------------------------------------------------------------
 http://www.gmetrics.org
 
-Changes in version 0.3 (22 Jul 2010)
+Changes in version 0.3 (23 Jul 2010)
 --------------------------------------
 NEW FEATURES
 - NEW: SingleSeriesHtmlReportWriter. Creates HTML report for single series (univariate) of metric values.
