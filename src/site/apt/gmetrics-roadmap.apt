@@ -13,27 +13,14 @@ GMetrics - Road Map
 
   * More metrics
 
-  * More functions (min, max) for metric values
-
-  * Customize functions (total, average, min, max) for metrics included in the report(s)
-
-  * Integrate with {{{http://codenarc.sourceforge.net/index.html}CodeNarc}}.
-
   * Analyze source code within jar files or zip files.
-
-  * Create Grails plugin.
-
-  * Create Hudson plugin.
-
-  * Create Eclipse plugin.
-
-  * Create Maven plugin.
 
 
 ** Considering (Optional)
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  * Create IntelliJ plugin.
+  * Create Maven plugin.
 
-  * Create Netbeans plugin.
+  * Create Hudson plugin.
+
 
