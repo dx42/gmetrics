@@ -5,7 +5,7 @@
     <groupId>org.gmetrics</groupId>
     <artifactId>GMetrics</artifactId>
     <name>GMetrics</name>
-    <version>0.3-SNAPSHOT</version>
+    <version>0.3</version>
     <description>
         The GMetrics project provides calculation and reporting of size and
         complexity metrics for Groovy source code.
@@ -101,40 +101,43 @@
     <build>
         <plugins>
             <plugin>
-                   <groupId>org.codehaus.gmaven</groupId>
-                   <artifactId>gmaven-plugin</artifactId>
+               <groupId>org.codehaus.gmaven</groupId>
+               <artifactId>gmaven-plugin</artifactId>
+               <version>1.2</version>
+               <configuration>
+                 <providerSelection>1.6</providerSelection>
+                 <source>1.6</source>
+                 <targetBytecode>1.6</targetBytecode>
+               </configuration>
+               <executions>
+                 <execution>
+                   <goals>
+                      <goal>generateStubs</goal>
+                       <goal>generateTestStubs</goal>
+                      <goal>compile</goal>
+                      <goal>testCompile</goal>
+                   </goals>
+                 </execution>
+               </executions>
+               <dependencies>
+                 <dependency>
+                   <groupId>org.codehaus.gmaven.runtime</groupId>
+                   <artifactId>gmaven-runtime-1.6</artifactId>
                    <version>1.2</version>
-                   <configuration>
-                     <providerSelection>1.6</providerSelection>
-                   </configuration>
-                   <executions>
-                     <execution>
-                       <goals>
-                         <goal>compile</goal>
-                         <goal>testCompile</goal>
-                         <!-- if you want joint compilation, add stub generation goals here -->
-                       </goals>
-                     </execution>
-                   </executions>
-                   <dependencies>
-                     <dependency>
-                       <groupId>org.codehaus.gmaven.runtime</groupId>
-                       <artifactId>gmaven-runtime-1.6</artifactId>
-                       <version>1.2</version>
-                       <exclusions>
-                         <exclusion>
-                           <groupId>org.codehaus.groovy</groupId>
-                           <artifactId>groovy-all</artifactId>
-                         </exclusion>
-                       </exclusions>
-                     </dependency>
-                     <dependency>
+                   <exclusions>
+                     <exclusion>
                        <groupId>org.codehaus.groovy</groupId>
                        <artifactId>groovy-all</artifactId>
-                       <version>1.6.9</version>
-                     </dependency>
-                   </dependencies>
-                 </plugin>
+                     </exclusion>
+                   </exclusions>
+                 </dependency>
+                 <dependency>
+                   <groupId>org.codehaus.groovy</groupId>
+                   <artifactId>groovy-all</artifactId>
+                   <version>1.6.9</version>
+                 </dependency>
+               </dependencies>
+             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -194,6 +197,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.4</version>
             </plugin>
 
         </plugins>
