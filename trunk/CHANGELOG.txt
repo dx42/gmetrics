@@ -2,6 +2,33 @@ GMetrics Change Log
 -------------------------------------------------------------------------------
 http://www.gmetrics.org
 
+Changes in version 0.3 (22 Jul 2010)
+--------------------------------------
+NEW FEATURES
+- NEW: SingleSeriesHtmlReportWriter. Creates HTML report for single series (univariate) of metric values.
+    This single series is specified by a single Metric, a level (package, class or method) and a single function (total, average, minimum, maximum).
+    e.g., metric:"ABC", function:"average", level:"method".
+    Also supports optional: greaterThan:"50", lessThan:"100", sort:"descending", maxResults:"20" 
+- For BasicHtmlReportWriter and XmlReportWriter:
+    Add support for filtering metric values included within the reports by metric name, level ("package", "class" and "method") or function ("total", "average", "minimum" and "maximum").
+    e.g., 
+        metrics="CyclomaticComplexity, ABC"
+        levels="CyclomaticComplexity=class,method; ABC=method"
+        functions="ABC=average; CyclomaticComplexity=total,maximum"
+- Add support for "maximum" and "minimum" function for metrics.
+
+FIXES AND ENHANCEMENTS
+- Fix: All method-level Metrics (e.g. MethodLineCountMetric): Apply to constructors as well as regular methods.
+
+FRAMEWORK/API CHANGES
+- MetricResult: Replace hard-coded getTotal() and getAverage() methods with getAt(String) to support the metricResult['total'] syntax.
+- MetricResult. Add getLineNumber() method to interface. Change AbstractMetric and subclasses to populate the results accordingly.
+- AbstractMetric: Change calculateForClass() to be protected. AbstractMethodMetric: Specify MetricResult return type for calculate() methods.
+- MetricLevel: Change to be an enum.
+- GroovyDslMetricSet: Throw MissingPropertyException if a non-existent property is set within a Groovy MetricSet DSL. Set ruleset Closure resolveStrategy to DELEGATE_ONLY. (See CodeNarc GroovyDslRuleSet).
+- Upgrade to GMaven 1.2.
+
+
 Changes in version 0.2 (10 Mar 2010)
 --------------------------------------
 NEW FEATURES
