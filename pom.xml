@@ -5,7 +5,7 @@
     <groupId>org.gmetrics</groupId>
     <artifactId>GMetrics</artifactId>
     <name>GMetrics</name>
-    <version>0.4-SNAPSHOT</version>
+    <version>0.3</version>
     <description>
         The GMetrics project provides calculation and reporting of size and
         complexity metrics for Groovy source code.
@@ -100,14 +100,15 @@
 
     <build>
         <plugins>
+
             <plugin>
                <groupId>org.codehaus.gmaven</groupId>
                <artifactId>gmaven-plugin</artifactId>
                <version>1.2</version>
                <configuration>
-                 <providerSelection>1.6</providerSelection>
-                 <source>1.6</source>
-                 <targetBytecode>1.6</targetBytecode>
+                 <providerSelection>1.7</providerSelection>
+                 <source>1.5</source>
+                 <targetBytecode>1.5</targetBytecode>
                </configuration>
                <executions>
                  <execution>
@@ -141,6 +142,15 @@
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.5</source>
+                    <target>1.5</target>
+                </configuration>
+             </plugin>
+            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
                     <archive>
@@ -150,6 +160,20 @@
                     </archive>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
 
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
