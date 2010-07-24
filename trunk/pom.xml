@@ -5,7 +5,7 @@
     <groupId>org.gmetrics</groupId>
     <artifactId>GMetrics</artifactId>
     <name>GMetrics</name>
-    <version>0.3</version>
+    <version>0.4-SNAPSHOT</version>
     <description>
         The GMetrics project provides calculation and reporting of size and
         complexity metrics for Groovy source code.
