@@ -28,9 +28,13 @@ import org.gmetrics.metric.Metric
 class PackageResultsNode implements ResultsNode {
 
     final MetricLevel level = MetricLevel.PACKAGE
-    final Map children = [:]
     final List metricResults = []
     String path
+    private Map children = [:]
+
+    Map getChildren() {
+        return children
+    }
 
     boolean containsClassResults() {
         return children.values().find { node -> node.containsClassResults() }
