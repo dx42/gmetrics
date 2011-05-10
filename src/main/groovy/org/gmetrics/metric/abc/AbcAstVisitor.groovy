@@ -41,7 +41,7 @@ class AbcAstVisitor extends AbstractAstVisitor {
     int numberOfAssignments = 0
     int numberOfBranches = 0
     int numberOfConditions = 0
-    boolean visited = false
+    private boolean visited = false
 
     void visitMethod(MethodNode methodNode) {
         if (!isSyntheticNonRunMethod(methodNode)  && !methodNode.isAbstract()) {
