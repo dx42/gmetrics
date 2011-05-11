@@ -2,6 +2,12 @@ GMetrics Change Log
 -------------------------------------------------------------------------------
 http://www.gmetrics.org
 
+Changes in version 0.4 (?? ??? 2011)
+--------------------------------------
+FIXES AND ENHANCEMENTS
+- Fix #3186167: GMetrics can't be built with Groovy >= 1.7.7. Fix illegal writes to final properties.
+
+
 Changes in version 0.3 (23 Jul 2010)
 --------------------------------------
 NEW FEATURES
@@ -45,8 +51,8 @@ FIXES AND ENHANCEMENTS
 - GMetricsTask: Fix: Replace call to Class.forName() with getClass().classLoader.loadClass().
 - WildcardPattern: Escape plus sign ('+') within patterns. Add plus sign ('+') to convertStringWithWildcardsToRegex().
 REPORTS
-- BasicHtmlReportWriter: Don’t nest packages? Put all packages at the same level (no indent).
-- BasicHtmlReportWriter: Display full (relative) package names – e.g., “org/gmetrics/source”.
+- BasicHtmlReportWriter: Donï¿½t nest packages? Put all packages at the same level (no indent).
+- BasicHtmlReportWriter: Display full (relative) package names ï¿½ e.g., ï¿½org/gmetrics/sourceï¿½.
 - Enable configuring all reports (AbstractReportWriter) to write to the stdout (console).
 - Add support for 'enabled' property to BasicHtmlReportWriter.
 METRICS
