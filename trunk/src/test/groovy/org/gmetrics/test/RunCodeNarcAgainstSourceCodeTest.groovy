@@ -43,6 +43,8 @@ class RunCodeNarcAgainstSourceCodeTest extends org.gmetrics.test.AbstractTestCas
                include(name:GROOVY_FILES)
            }
 
+           //report(type:'html') { }
+
            report(type:'text') {
                option(name:'writeToStandardOut', value:true)
            }
