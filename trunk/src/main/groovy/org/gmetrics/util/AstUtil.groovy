@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 the original author or authors.
+ * Copyright 2011 the original author or authors.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,6 +25,9 @@ import org.codehaus.groovy.ast.AnnotationNode
 import org.codehaus.groovy.ast.expr.DeclarationExpression
 import org.gmetrics.source.SourceCode
 import org.codehaus.groovy.ast.ASTNode
+import org.codehaus.groovy.ast.expr.TupleExpression
+import org.codehaus.groovy.ast.expr.ListExpression
+import org.codehaus.groovy.ast.expr.ArrayExpression
 
 /**
  * Contains static utility methods related to Groovy AST.
@@ -159,7 +162,19 @@ class AstUtil {
      */
     static List getVariableExpressions(DeclarationExpression declarationExpression) {
         def leftExpression = declarationExpression.leftExpression
-        return leftExpression.properties['expressions'] ?: [leftExpression]
+
+        // !important: performance enhancement
+        if (leftExpression instanceof ArrayExpression) {
+            leftExpression.expressions ?: [leftExpression]
+        } else if (leftExpression instanceof ListExpression) {
+            leftExpression.expressions ?: [leftExpression]
+        } else if (leftExpression instanceof TupleExpression) {
+            leftExpression.expressions ?: [leftExpression]
+        } else if (leftExpression instanceof VariableExpression) {
+            [leftExpression]
+        } else {
+            leftExpression.properties['expressions'] ?: [leftExpression]
+        }
     }
 
     /**
