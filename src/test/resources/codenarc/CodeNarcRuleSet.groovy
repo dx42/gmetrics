@@ -43,9 +43,11 @@ ruleset {
         }
     }
     ruleset('rulesets/size.xml') {
-        // Re-enable once CodeNarc is updated to use new metricResult['total'] and metricResult['average'] syntax
         AbcComplexity(enabled:false)
-        CyclomaticComplexity(enabled:false)
+
+        CyclomaticComplexity {
+            maxMethodComplexity = 10
+        }
 
         MethodCount {
             doNotApplyToClassNames = '*Test, *TestCase'
