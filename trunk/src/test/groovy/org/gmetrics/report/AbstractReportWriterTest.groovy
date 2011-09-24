@@ -135,7 +135,7 @@ class AbstractReportWriterTest extends AbstractTestCase {
     }
 
     private void assertFileDoesNotExist(String filename) {
-        assert new File(filename).exists() == false, filename
+        assertFalse new File(filename).exists()
     }
 }
 

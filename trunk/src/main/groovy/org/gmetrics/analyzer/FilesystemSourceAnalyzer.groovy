@@ -99,14 +99,14 @@ class FilesystemSourceAnalyzer implements SourceAnalyzer {
                 }
             }
             else {
-                processFile(file, filePath, dirResults, metricSet)
+                processFile(file, dirResults, metricSet)
             }
         }
         metricSet.metrics.each { metric -> dirResults.applyMetric(metric) }
         return dirResults
     }
 
-    private void processFile(file, String filePath, PackageResultsNode packageResults, MetricSet metricSet) {
+    private void processFile(file, PackageResultsNode packageResults, MetricSet metricSet) {
         def sourceCode = sourceCodeFactory.getSourceCode(file)
         if  (matches(sourceCode)) {
             def ast = sourceCode.ast

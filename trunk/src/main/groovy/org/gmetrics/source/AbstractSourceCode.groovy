@@ -109,7 +109,7 @@ abstract class AbstractSourceCode implements SourceCode {
     protected String normalizePath(String path) {
         final SEP = '/' as char
         char separatorChar = System.getProperty("file.separator").charAt(0)
-        return (separatorChar != SEP) ? path.replace(separatorChar, SEP) : path
+        return (separatorChar == SEP) ? path : path.replace(separatorChar, SEP)
     }
 
 }

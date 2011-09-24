@@ -94,10 +94,10 @@ class SingleSeriesCriteriaFilter {
 
     private void findMatchingValues(ResultsNode resultsNode, String name, List matchingValues) {
         def metricResults = resultsNode.getMetricResults()
-        boolean matchesLevel = resultsNode.getLevel().getName().equals(level)
+        boolean matchesLevel = resultsNode.getLevel().getName() == level
         if (matchesLevel) {
             def metricResult = metricResults.find { metricResult ->
-                boolean matchesMetric = metricResult.getMetric().getName().equals(metric)
+                boolean matchesMetric = metricResult.getMetric().getName() == metric
                 boolean hasMatchingFunction = metricResult[function]
                 return matchesMetric && hasMatchingFunction
             }

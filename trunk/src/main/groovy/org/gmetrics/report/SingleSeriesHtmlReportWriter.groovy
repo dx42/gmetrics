@@ -78,7 +78,7 @@ class SingleSeriesHtmlReportWriter extends AbstractReportWriter {
         def html = builder.bind() {
             html {
                 out << buildHeaderSection()
-                out << buildBodySection(seriesData, analysisContext)
+                out << buildBodySection(seriesData)
             }
         }
         writer << html
@@ -104,7 +104,7 @@ class SingleSeriesHtmlReportWriter extends AbstractReportWriter {
         }
     }
 
-    private buildBodySection(List<SeriesValue> seriesData, AnalysisContext analysisContext) {
+    private buildBodySection(List<SeriesValue> seriesData) {
         return {
             body {
                 h1(title)

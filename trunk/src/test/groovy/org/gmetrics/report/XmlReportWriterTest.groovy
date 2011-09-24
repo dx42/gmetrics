@@ -28,7 +28,7 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
     private static final TIMESTAMP_DATE = new Date(1262361072497)
     private static final FORMATTED_TIMESTAMP = DateFormat.getDateTimeInstance().format(TIMESTAMP_DATE)
     private static final TITLE = 'My Cool Project'
-    private static final XML_DECLARATION = '<?xml version="1.0"?>'
+    private static final XML_DECLARATION = "<?xml version='1.0'?>"
     private static final GMETRICS_ROOT = """<GMetrics url='http://www.gmetrics.org' version='${getVersion()}'>"""
     private static final GMETRICS_END_TAG = "</GMetrics>"
     private static final REPORT_TIMESTAMP = "<Report timestamp='${FORMATTED_TIMESTAMP}'/>"

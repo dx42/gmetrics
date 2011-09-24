@@ -76,6 +76,7 @@ class TopLevelDelegate {
         allMetricSet.addMetric(metric)
     }
 
+    @SuppressWarnings('EmptyMethod')
     void description(String description) {
         // Do nothing
     }

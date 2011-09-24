@@ -85,13 +85,13 @@ class XmlReportWriter extends AbstractReportWriter {
 
     private buildElement(ResultsNode resultsNode, String name) {
         switch(resultsNode.level) {
-            case MetricLevel.PACKAGE: return buildPackageElement(resultsNode, name)
+            case MetricLevel.PACKAGE: return buildPackageElement(resultsNode)
             case MetricLevel.CLASS: return buildChildElement('Class', resultsNode, name)
             case MetricLevel.METHOD: return buildChildElement('Method', resultsNode, name)
         }
     }
 
-    private buildPackageElement(resultsNode, String name) {
+    private buildPackageElement(resultsNode) {
         def elementName = isRoot(resultsNode) ? 'PackageSummary' : 'Package'
         def attributeMap = isRoot(resultsNode) ? [:] : [path:resultsNode.path]
         return {

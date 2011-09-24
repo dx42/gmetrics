@@ -266,17 +266,6 @@
   </component>
   <component name="WebServicesPlugin" addRequiredLibraries="true" />
   <component name="libraryTable">
-    <library name="Maven: ant:ant:1.6.5">
-      <CLASSES>
-        <root url="jar://$M2_REPO$/ant/ant/1.6.5/ant-1.6.5.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$M2_REPO$/ant/ant/1.6.5/ant-1.6.5-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$M2_REPO$/ant/ant/1.6.5/ant-1.6.5-sources.jar!/" />
-      </SOURCES>
-    </library>
     <library name="Maven: junit:junit:3.8.1">
       <CLASSES>
         <root url="jar://$M2_REPO$/junit/junit/3.8.1/junit-3.8.1.jar!/" />
@@ -321,26 +310,26 @@
         <root url="jar://$M2_REPO$/org/apache/ant/ant/1.7.1/ant-1.7.1-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.codehaus.groovy:groovy-all:1.6.9">
+    <library name="Maven: org.codehaus.groovy:groovy-all:1.7.5">
       <CLASSES>
-        <root url="jar://$M2_REPO$/org/codehaus/groovy/groovy-all/1.6.9/groovy-all-1.6.9.jar!/" />
+        <root url="jar://$M2_REPO$/org/codehaus/groovy/groovy-all/1.7.5/groovy-all-1.7.5.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$M2_REPO$/org/codehaus/groovy/groovy-all/1.6.9/groovy-all-1.6.9-javadoc.jar!/" />
+        <root url="jar://$M2_REPO$/org/codehaus/groovy/groovy-all/1.7.5/groovy-all-1.7.5-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$M2_REPO$/org/codehaus/groovy/groovy-all/1.6.9/groovy-all-1.6.9-sources.jar!/" />
+        <root url="jar://$M2_REPO$/org/codehaus/groovy/groovy-all/1.7.5/groovy-all-1.7.5-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.codenarc:CodeNarc:0.9">
+    <library name="Maven: org.codenarc:CodeNarc:0.15">
       <CLASSES>
-        <root url="jar://$M2_REPO$/org/codenarc/CodeNarc/0.9/CodeNarc-0.9.jar!/" />
+        <root url="jar://$M2_REPO$/org/codenarc/CodeNarc/0.15/CodeNarc-0.15.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$M2_REPO$/org/codenarc/CodeNarc/0.9/CodeNarc-0.9-javadoc.jar!/" />
+        <root url="jar://$M2_REPO$/org/codenarc/CodeNarc/0.15/CodeNarc-0.15-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$M2_REPO$/org/codenarc/CodeNarc/0.9/CodeNarc-0.9-sources.jar!/" />
+        <root url="jar://$M2_REPO$/org/codenarc/CodeNarc/0.15/CodeNarc-0.15-sources.jar!/" />
       </SOURCES>
     </library>
   </component>

@@ -28,7 +28,10 @@ ruleset {
         }
     }
     ruleset('rulesets/imports.xml')
-    ruleset('rulesets/junit.xml')
+    ruleset('rulesets/junit.xml') {
+        JUnitStyleAssertions(enabled:false)
+        JUnitTestMethodWithoutAssert(enabled:false)
+    }
     ruleset('rulesets/logging.xml') {
         Println {
             doNotApplyToClassNames = 'AbstractTestCase, ResultsNodeTestUtil'
@@ -43,6 +46,11 @@ ruleset {
         // Re-enable once CodeNarc is updated to use new metricResult['total'] and metricResult['average'] syntax
         AbcComplexity(enabled:false)
         CyclomaticComplexity(enabled:false)
+
+        MethodCount {
+            doNotApplyToClassNames = '*Test, *TestCase'
+        }
+
     }
     ruleset('rulesets/unused.xml')
 

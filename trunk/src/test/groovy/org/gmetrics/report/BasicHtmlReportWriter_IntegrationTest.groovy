@@ -39,7 +39,7 @@ class BasicHtmlReportWriter_IntegrationTest extends AbstractTestCase {
     void test_RunAnalysis_And_GenerateReport() {
         def resultsNode = sourceAnalyzer.analyze(metricSet)
         log("resultsNode=$resultsNode")
-        assertReportContents(resultsNode, [], true) 
+        assertReportContents(resultsNode)
     }
 
     void setUp() {
@@ -50,7 +50,7 @@ class BasicHtmlReportWriter_IntegrationTest extends AbstractTestCase {
         analysisContext = new AnalysisContext(metricSet:metricSet)
     }
 
-    private void assertReportContents(resultsNode, expectedContents, boolean writeToFile=false) {
+    private void assertReportContents(resultsNode) {
         def file = new File(REPORT_FILE)
         file.delete()
         reportWriter.writeReport(resultsNode, analysisContext)
