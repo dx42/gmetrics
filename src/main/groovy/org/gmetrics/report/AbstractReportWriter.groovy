@@ -38,7 +38,10 @@ abstract class AbstractReportWriter implements ReportWriter {
 
     String outputFile
     Object writeToStandardOut
+
+    @SuppressWarnings(['LoggerWithWrongModifiers', 'FieldName'])
     protected final LOG = Logger.getLogger(getClass())
+
     protected customMessagesBundleName = CUSTOM_MESSAGES_BUNDLE
     protected resourceBundle
 

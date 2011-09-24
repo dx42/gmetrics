@@ -72,7 +72,7 @@ class AstUtil {
         if (respondsTo(argumentsExpression, 'getMapEntryExpressions')) {
             return argumentsExpression.mapEntryExpressions
         }
-        return null
+        return []
     }
 
     /**

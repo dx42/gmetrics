@@ -31,7 +31,7 @@ abstract class AbstractAstVisitor extends ClassCodeVisitorSupport implements Ast
     public static final MAX_SOURCE_LINE_LENGTH = 60
     public static final SOURCE_LINE_LAST_SEGMENT_LENGTH = 12
     SourceCode sourceCode
-    private Set visited = new HashSet()
+    private Set visited = [] as Set
 
     /**
      * Return true if the AST expression has not already been visited. If it is

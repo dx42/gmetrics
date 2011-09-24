@@ -192,7 +192,7 @@ class BasicHtmlReportWriter extends AbstractReportWriter {
 
     private buildMetricDescriptions(MetricSet metricSet) {
         def metrics = new ArrayList(metricSet.metrics).findAll { metric -> metric.enabled && includesMetric(metric)}
-        def sortedMetrics = metrics.sort { metric -> metric.name }
+        metrics.sort { metric -> metric.name }
 
         return {
             h2(getResourceBundleString('basicHtmlReport.metricDescriptions.title'))
@@ -203,7 +203,7 @@ class BasicHtmlReportWriter extends AbstractReportWriter {
                     th(getResourceBundleString('basicHtmlReport.metricDescriptions.descriptionHeading'), class:'metricDescriptions')
                 }
 
-                sortedMetrics.eachWithIndex { metric, index ->
+                metrics.eachWithIndex { metric, index ->
                     tr(class:'metricDescriptions') {
                         a((metric.name):metric.name)
                         td(index+1)

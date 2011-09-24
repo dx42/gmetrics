@@ -25,7 +25,8 @@ import org.gmetrics.metric.Metric
  * @author Chris Mair
  * @version $Revision$ - $Date$
  */
-public class StubResultsNode implements ResultsNode {
+@SuppressWarnings('ConfusingMethodName')
+class StubResultsNode implements ResultsNode {
 
     MetricLevel level = MetricLevel.CLASS
     boolean containsClassResults = false

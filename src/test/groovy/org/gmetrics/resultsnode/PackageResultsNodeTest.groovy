@@ -152,18 +152,18 @@ class PackageResultsNodeTest extends AbstractTestCase {
     }
 
     void testContainsClassResults_ReturnsFalseIfHasNoChildren() {
-        assert packageResultsNode.containsClassResults() == false
+        assertFalse packageResultsNode.containsClassResults()
     }
 
     void testContainsClassResults_ReturnsFalseIfContainsOnlyChildPackageResults() {
         packageResultsNode.addChildIfNotEmpty('a', packageResultsNode2)
-        assert packageResultsNode.containsClassResults() == false
+        assertFalse packageResultsNode.containsClassResults()
     }
 
     void testContainsClassResults_ReturnsTrueIfChildContainsClassResults() {
         packageResultsNode.addChildIfNotEmpty('a', packageResultsNode2)
         packageResultsNode.addChildIfNotEmpty('b', classResultsNode)
-        assert packageResultsNode.containsClassResults() == true
+        assertTrue packageResultsNode.containsClassResults()
     }
 
     void setUp() {

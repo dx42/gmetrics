@@ -155,6 +155,7 @@ class AbcAstVisitor extends AbstractAstVisitor {
         return count
     }
 
+    @SuppressWarnings('UnusedPrivateMethodParameter')
     private int countUnaryConditionals(Expression expression) {     // Not necessary?
         return 0
     }

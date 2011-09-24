@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 the original author or authors.
+ * Copyright 2011 the original author or authors.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,20 +15,19 @@
  */
 package org.gmetrics.test
 
-
 /**
  * Run CodeNarc against the project source code. Fail on configured rule violations.
  *
  * @author Chris Mair
  * @version $Revision$ - $Date$
  */
-class RunCodeNarcAgainstSourceCodeTest extends AbstractTestCase {
+class RunCodeNarcAgainstSourceCodeTest extends org.gmetrics.test.AbstractTestCase {
 
     private static final GROOVY_FILES = '**/*.groovy'
     private static final RULESET_FILES = 'codenarc/CodeNarcRuleSet.groovy'
 
     void testRunCodeNarc() {
-        def ant = new AntBuilder()
+        def ant = new groovy.util.AntBuilder()
 
         ant.taskdef(name:'codenarc', classname:'org.codenarc.ant.CodeNarcTask')
 
