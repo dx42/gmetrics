@@ -1,0 +1,15 @@
+import org.gmetrics.metric.cyclomatic.CyclomaticComplexityMetric
+import org.gmetrics.metric.linecount.ClassLineCountMetric
+import org.gmetrics.metric.linecount.MethodLineCountMetric
+
+metricset {
+
+    description 'MetricSet for RunGMetricsAgainstGrails'
+
+    metric(CyclomaticComplexityMetric)
+
+    metric(ClassLineCountMetric)
+
+    metric(MethodLineCountMetric)
+
+}
