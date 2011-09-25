@@ -11,6 +11,7 @@ FIXES AND ENHANCEMENTS
 - Fix #3413604: Reimplement ASTUtil.getVariableExpressions() to optimize performance. Thanks to Hamlet D’Arcy.
 - Fix #3186167: GMetrics can't be built with Groovy >= 1.7.7. Fix illegal writes to final properties.
 - Upgrade to use CodeNarc 0.15 for tests/analysis.
+- ReportWriters: Include output file name in “Report created” message
 
 Changes in version 0.3 (23 Jul 2010)
 --------------------------------------

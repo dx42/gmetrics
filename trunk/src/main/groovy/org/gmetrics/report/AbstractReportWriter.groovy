@@ -71,6 +71,7 @@ abstract class AbstractReportWriter implements ReportWriter {
         file.withWriter { writer ->
             writeReport(writer, resultsNode, analysisContext)
         }
+        LOG.info("Report file [$outputFilename] created.")
     }
 
     protected void initializeDefaultResourceBundle() {

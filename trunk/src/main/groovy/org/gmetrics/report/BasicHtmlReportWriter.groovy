@@ -60,7 +60,6 @@ class BasicHtmlReportWriter extends AbstractReportWriter {
             }
         }
         writer << html
-        LOG.info("Report created")
     }
 
     //--------------------------------------------------------------------------
