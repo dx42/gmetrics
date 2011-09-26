@@ -9,24 +9,24 @@ GMetrics
   Groovy source code. <<GMetrics>> scans Groovy source code, applying a set of metrics, and
   generates an HTML report of the results.
 
-  You can run <<GMetrics>> using the supplied {{{gmetrics-ant-task.html}Ant Task}}.
+  You can run <<GMetrics>> using the supplied {{{./gmetrics-ant-task.html}Ant Task}}.
 
   Total and average values for the following metrics are provided:
 
-  * {{{gmetrics-CyclomaticComplexityMetric.html}Cyclomatic Complexity}}. 
+  * {{{./gmetrics-CyclomaticComplexityMetric.html}Cyclomatic Complexity}}.
 
-  * {{{gmetrics-ABCMetric.html}ABC}} Size/Complexity. Also see the {{{http://c2.com/cgi/wiki?AbcMetric}C2 Wiki page}}.
+  * {{{./gmetrics-ABCMetric.html}ABC}} Size/Complexity. Also see the {{{http://c2.com/cgi/wiki?AbcMetric}C2 Wiki page}}.
 
-  * {{{gmetrics-MethodLineCountMetric.html}Lines per method}}
+  * {{{./gmetrics-MethodLineCountMetric.html}Lines per method}}
 
-  * {{{gmetrics-ClassLineCountMetric.html}Lines per class}}
+  * {{{./gmetrics-ClassLineCountMetric.html}Lines per class}}
 
   []
 
   See the site navigation menu for a list of the metrics and reports provided
   out of the box by <<GMetrics>>.
 
-  Take a look at a {{{SampleGMetricsReport.html}Sample GMetrics Report}}.
+  Take a look at a {{{./SampleGMetricsReport.html}Sample GMetrics Report}}.
 
 * Requirements
 ~~~~~~~~~~~~~~

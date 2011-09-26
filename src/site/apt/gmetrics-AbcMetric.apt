@@ -73,7 +73,7 @@ ABC Metric
 ~~~~~~~~~~~~~~~~~~~
 
   The following properties can be configured for this metric within a <MetricSet>. See
-  {{{gmetrics-creating-metricset.html}Creating a MetricSet}} for information on the syntax of
+  {{{./gmetrics-creating-metricset.html}Creating a MetricSet}} for information on the syntax of
   setting a metric property.
 
 *-----------------+--------------------------------------------------------------------+------------------------+

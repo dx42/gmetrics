@@ -23,7 +23,7 @@ GMetrics - Ant Task
 |                        | filesystem path), or "http:".                                  |                        |
 |                        |                                                                |                        |
 |                        | If not specified, it uses the set of <<<Metric>>>s defined by  |                        |
-|                        | the {{{gmetrics-DefaultMetricSet.html}Default MetricSet}}.     |                        |
+|                        | the {{{./gmetrics-DefaultMetricSet.html}Default MetricSet}}.   |                        |
 *------------------------+----------------------------------------------------------------+------------------------+
 
 
