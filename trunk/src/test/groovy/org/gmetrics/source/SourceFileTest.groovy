@@ -26,6 +26,7 @@ import org.gmetrics.test.AbstractTestCase
 class SourceFileTest extends AbstractTestCase {
 
     private static final FILE = 'src/test/resources/SampleFile.groovy'
+    private static final BAD_FILE = 'src/test/resources/log4j.properties'
     private static final SCRIPT_FILE = 'src/test/resources/samplescripts/config.groovy'
     private sourceFile
     private file
@@ -91,7 +92,12 @@ class SourceFileTest extends AbstractTestCase {
         assert sourceFile.getLineNumberForCharacterIndex(999) == -1
         assert sourceFile.getLineNumberForCharacterIndex(-1) == -1
     }
-    
+
+    void testIsValid() {
+        assertTrue sourceFile.valid
+        assertFalse new SourceFile(new File(BAD_FILE)).valid
+    }
+
     void setUp() {
         super.setUp()
         file = new File(FILE)

@@ -6,6 +6,7 @@ Changes in version 0.4 (?? ??? 2011)
 --------------------------------------
 NEW FEATURES
 - Upgrade to Groovy 1.7. NOTE: GMetrics now requires Groovy 1.7.
+- Add isValid() method to the SourceCode interface and implementations.
 
 FIXES AND ENHANCEMENTS
 - Fix #3413604: Reimplement ASTUtil.getVariableExpressions() to optimize performance. Thanks to Hamlet D’Arcy.

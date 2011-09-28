@@ -56,6 +56,7 @@ abstract class AbstractMetricTestCase extends AbstractTestCase {
 
     protected parseClass(String source) {
         sourceCode = new SourceString(source)
+        assert sourceCode.valid
         def ast = sourceCode.ast
         return ast.classes[0]
     }

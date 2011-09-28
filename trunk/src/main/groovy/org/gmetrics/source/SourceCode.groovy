@@ -63,6 +63,12 @@ interface SourceCode {
     ModuleNode getAst()
     
     /**
+     * Return true if and only if the source code can be successfully compiled
+     * @return true only if the source code is valid
+     */
+    boolean isValid()
+
+    /**
      * Return the line index for the line containing the character at the specified index within the source code.
      * @param charIndex - the index of the character within the source code (zero-based)
      * @return the line number (one-based) containing the specified character; Return -1 if charIndex is not valid.
