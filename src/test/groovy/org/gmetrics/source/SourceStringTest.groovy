@@ -133,6 +133,11 @@ class SourceStringTest extends AbstractTestCase {
         assert sourceString.ast == null
     }
 
+    void testIsValid() {
+        assertTrue new SourceString(SOURCE).valid
+        assertFalse new SourceString('XC$%ED@#').valid
+    }
+
     void testGetLineNumberForCharacterIndex() {
         final NEW_SOURCE = '\nclass MyClass { \r\n  try {\n} catch(MyException e) {\n// TODO \n }\n }\n'
 //        NEW_SOURCE.eachWithIndex { ch, i -> print "$i=${ch as int} " }
