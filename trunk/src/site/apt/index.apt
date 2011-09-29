@@ -33,7 +33,7 @@ GMetrics
 
   The <<GMetrics>> project requires:
 
-  * Groovy version 1.6 or later
+  * Groovy version 1.7 or later
 
   * Java 1.5 or later
 
