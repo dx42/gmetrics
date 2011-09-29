@@ -13,3 +13,10 @@ GMetrics - Integration with Other Tools / Frameworks
   * {{{http://griffon.codehaus.org/}Griffon}} - See the {{{http://docs.codehaus.org/display/GRIFFON/Gmetrics+Plugin}Griffon GMetrics Plugin}}
 
 
+* Build and Code Quality Tools
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  * {{{http://www.sonarsource.org/}Sonar}} - The {{{http://docs.codehaus.org/display/SONAR/Groovy+Plugin}Sonar Groovy Plugin}}
+    uses <<GMetrics>> for its calculation of <Cyclomatic Complexity> for Groovy source code.
+
+

@@ -31,6 +31,9 @@ class GMetricsTask_AntBuilderTest extends AbstractTestCase {
     private static final HTML_REPORT_FILE = 'AntBuilderTestReport.html'
     private static final HTML_TEMP_REPORT_FILE = 'AntBuilderTestReport_Temp.html'
 
+    private static final ALL_HTML_REPORT_FILE = 'AllMetricsAntBuilderTestReport.html'
+    private static final ALL_METRICSET_FILE = 'metricsets/AllMetricSet.txt'
+
     private static final SERIES_HTML_REPORT_WRITER = 'org.gmetrics.report.SingleSeriesHtmlReportWriter'
     private static final SERIES_HTML_REPORT_FILE = 'AntBuilderTestSingleSeriesHtmlReport.html'
     private static final SERIES_TITLE = 'Methods With Highest Line Count'
@@ -75,6 +78,19 @@ class GMetricsTask_AntBuilderTest extends AbstractTestCase {
         verifyReportFile(XML_REPORT_FILE, [TITLE, 'org/gmetrics', 'Description'] + xmlMetricNames)
 
         verifyReportFile(SERIES_HTML_REPORT_FILE, [SERIES_TITLE, 'Method'])
+    }
+
+    void testAntTask_Execute_AllMetrics() {
+        ant.gmetrics(metricSetFile: ALL_METRICSET_FILE) {
+           fileset(dir:'src/main/groovy/org/gmetrics/metricset') {
+               include(name:"**/*.groovy")
+           }
+           report(type:HTML_REPORT_WRITER){
+               option(name:'title', value:TITLE)
+               option(name:'outputFile', value:ALL_HTML_REPORT_FILE)
+           }
+        }
+        verifyReportFile(ALL_HTML_REPORT_FILE, [TITLE, 'org.gmetrics.metricset', 'Description'])
     }
 
     void testAntTask_Execute_SpecifyMetricSetFile() {
