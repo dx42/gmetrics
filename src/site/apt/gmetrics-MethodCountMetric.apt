@@ -5,9 +5,7 @@
 MethodCount Metric
 ~~~~~~~~~~~~~~~~~~~~~~
 
-~~ and closure fields
-
- Metric for counting the number methods within each class. Note that
+ Metric for counting the number methods and closure fields within each class. Note that
  this metric counts methods and constructors.
 
  Implemented by the <<<org.gmetrics.metric.methodcount.MethodCountMetric>>> class.
@@ -16,8 +14,8 @@ MethodCount Metric
 * Additional notes
 ~~~~~~~~~~~~~~~~~~
 
-~~ * If a class field is initialized to a Closure (ClosureExpression), then that Closure is
-~~   analyzed just like a method.
+ * If a class field is initialized to a Closure (ClosureExpression), then that Closure is
+   analyzed just like a method.
 
 
 * Metric Properties

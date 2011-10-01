@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 the original author or authors.
+ * Copyright 2011 the original author or authors.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,6 +29,7 @@ import org.codehaus.groovy.ast.expr.GStringExpression
 import org.codehaus.groovy.ast.AnnotationNode
 import org.apache.log4j.Logger
 import org.codehaus.groovy.ast.expr.DeclarationExpression
+import org.codehaus.groovy.ast.ClassNode
 
 /**
  * Tests for AstUtil
@@ -211,6 +212,22 @@ class AstUtilTest extends AbstractTestCase {
         }
     }
 
+    void testIsClosureField() {
+        final NEW_SOURCE = '''
+            class MyClass {
+                int count
+                def closure = { prinltn 123 }
+            }
+            '''
+        applyVisitor(NEW_SOURCE)
+        log visitor.fieldNodes.name
+        def nonClosureField = visitor.fieldNodes.find { fieldNode -> fieldNode.name == 'count' }
+        assert !AstUtil.isClosureField(nonClosureField)
+
+        def closureField = visitor.fieldNodes.find { fieldNode -> fieldNode.name == 'closure' }
+        assert AstUtil.isClosureField(closureField)
+    }
+
     void setUp() {
         super.setUp()
         visitor = new AstUtilTestVisitor()
@@ -242,19 +259,29 @@ class AstUtilTestVisitor extends ClassCodeVisitorSupport {
     def methodCallExpressions = []
     def statements = []
     def declarationExpressions = []
+    def fieldNodes = []
 
+    @Override
+    void visitClass(ClassNode node) {
+        super.visitClass(node)
+        fieldNodes = node.fields
+    }
+
+    @Override
     void visitMethod(MethodNode methodNode) {
         LOG.info("visitMethod name=${methodNode.name}")
         methodNodes[methodNode.name] = methodNode
         super.visitMethod(methodNode)
     }
 
+    @Override
     void visitStatement(Statement statement) {
         LOG.info("visitStatement text=${statement.text}")
         this.statements << statement
         super.visitStatement(statement)
     }
 
+    @Override
     void visitMethodCallExpression(MethodCallExpression methodCallExpression) {
         this.methodCallExpressions << methodCallExpression
         def args = AstUtil.getMethodArguments(methodCallExpression)
@@ -262,11 +289,13 @@ class AstUtilTestVisitor extends ClassCodeVisitorSupport {
         super.visitMethodCallExpression(methodCallExpression)
     }
 
+    @Override
     void visitDeclarationExpression(DeclarationExpression declarationExpression) {
         declarationExpressions << declarationExpression
         super.visitDeclarationExpression(declarationExpression)
     }
 
+    @Override
     protected SourceUnit getSourceUnit() {
         return source
     }

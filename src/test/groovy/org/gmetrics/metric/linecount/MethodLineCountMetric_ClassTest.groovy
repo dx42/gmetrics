@@ -94,6 +94,7 @@ class MethodLineCountMetric_ClassTest extends AbstractMetricTestCase {
     void testApplyToClass_ResultsForClassWithOneClosureField() {
         final SOURCE = """
             class MyClass {
+                int count       // non-Closure field
                 def myClosure = {
                     def x = 1; x++
                     doSomething()

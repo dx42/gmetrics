@@ -54,10 +54,7 @@ abstract class AbstractMethodMetric extends AbstractMetric {
     }
 
     private void addClosureFieldsToMetricResults(SourceCode sourceCode, ClassNode classNode, Map childMetricResults) {
-        def closureFields = classNode.fields.findAll {fieldNode ->
-            !AstUtil.isFromGeneratedSourceCode(fieldNode) &&
-                    fieldNode.initialExpression instanceof ClosureExpression
-        }
+        def closureFields = classNode.fields.findAll {fieldNode -> AstUtil.isClosureField(fieldNode) }
         closureFields.each {fieldNode ->
             def fieldResult = calculate(fieldNode.initialExpression, sourceCode)
             childMetricResults[fieldNode.name] = fieldResult

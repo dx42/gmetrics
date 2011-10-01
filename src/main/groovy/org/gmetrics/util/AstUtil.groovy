@@ -28,6 +28,8 @@ import org.codehaus.groovy.ast.ASTNode
 import org.codehaus.groovy.ast.expr.TupleExpression
 import org.codehaus.groovy.ast.expr.ListExpression
 import org.codehaus.groovy.ast.expr.ArrayExpression
+import org.codehaus.groovy.ast.FieldNode
+import org.codehaus.groovy.ast.expr.ClosureExpression
 
 /**
  * Contains static utility methods related to Groovy AST.
@@ -38,6 +40,15 @@ import org.codehaus.groovy.ast.expr.ArrayExpression
  * @version $Revision$ - $Date$
  */
 class AstUtil {
+
+    /**
+     * Return true only if the specified FieldNode has an initial expression that is a Closure
+     * @param fieldNode - the FieldNode
+     * @return true if the field is a Closure field; otherwise return false
+     */
+    static boolean isClosureField(FieldNode fieldNode) {
+        !isFromGeneratedSourceCode(fieldNode) && fieldNode.initialExpression instanceof ClosureExpression
+    }
 
     /**
      * Return true if the Statement is a block

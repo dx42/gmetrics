@@ -82,6 +82,30 @@ class MethodCountMetricTest extends AbstractMetricTestCase {
         assertApplyToClass(SOURCE, 2, 2)
     }
 
+    void testApplyToClass_ClosureFields() {
+        final SOURCE = """
+            class MyClass {
+                int myValue
+                def closure1 = { println 123 }      // Closure field
+                void printMe() { println this }     // Method
+                def closure2 = { println 345 }      // Closure field
+            }
+        """
+        assertApplyToClass(SOURCE, 3, 3)
+    }
+
+    void testApplyToClass_IgnoreNonFieldClosures() {
+        final SOURCE = """
+            class MyClass {
+                def myMethod() {
+                    def var1 = { println 123 }
+                    def var2 = { println 345 }
+                }
+            }
+        """
+        assertApplyToClass(SOURCE, 1, 1)
+    }
+
     void testApplyToClass_Interface() {
         final SOURCE = """
             interface MyInterface {

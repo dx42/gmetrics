@@ -17,6 +17,8 @@ package org.gmetrics.metric.methodcount
 
 import org.codehaus.groovy.ast.ClassNode
 import org.gmetrics.metric.AbstractAstVisitor
+import org.codehaus.groovy.ast.FieldNode
+import org.gmetrics.util.AstUtil
 
 /**
  * AstVisitor for the MethodCountMetric.
@@ -36,6 +38,7 @@ class MethodCountAstVisitor extends AbstractAstVisitor {
         if (classNode.lineNumber >= 0) {
             numberOfMethods += classNode.methods?.size() ?: 0
             numberOfMethods += classNode.declaredConstructors?.size() ?: 0
+            numberOfMethods += classNode.fields.findAll { AstUtil.isClosureField(it) }.size()
         }
         super.visitClass(classNode)
     }
