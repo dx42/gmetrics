@@ -27,7 +27,7 @@ import org.gmetrics.metric.Metric
  */
 class MethodResultsNode implements ResultsNode {
     final MetricLevel level = MetricLevel.METHOD
-    final List metricResults = []
+    final List<MetricResult> metricResults = []
 
     boolean containsClassResults() {
         return false
