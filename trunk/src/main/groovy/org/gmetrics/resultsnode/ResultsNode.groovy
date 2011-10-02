@@ -28,8 +28,8 @@ interface ResultsNode {
 
     MetricLevel getLevel()
     boolean containsClassResults()
-    List getMetricResults()
-    Map getChildren()
+    List<MetricResult> getMetricResults()
+    Map<String, ResultsNode> getChildren()
     MetricResult getMetricResult(Metric metric)
     
 }

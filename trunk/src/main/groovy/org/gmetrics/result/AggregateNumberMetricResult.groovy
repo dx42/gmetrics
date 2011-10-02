@@ -32,7 +32,7 @@ class AggregateNumberMetricResult implements MetricResult {
     final Metric metric
     final Integer lineNumber
 
-    AggregateNumberMetricResult(Metric metric, Collection children, Integer lineNumber=null) {
+    AggregateNumberMetricResult(Metric metric, Collection<MetricResult> children, Integer lineNumber=null) {
         assert metric != null
         assert children != null
         this.metric = metric
@@ -52,7 +52,7 @@ class AggregateNumberMetricResult implements MetricResult {
         "AggregateNumberMetricResult[count=$count, $functionValues}]"
     }
 
-    protected void calculateFunctions(Metric metric, Collection children) {
+    protected void calculateFunctions(Metric metric, Collection<MetricResult> children) {
         def sum = children.inject(0) { value, child -> value + child['total'] }
         count = children.inject(0) { value, child -> value + child.count }
         if (includesFunction('total')) {
@@ -69,12 +69,12 @@ class AggregateNumberMetricResult implements MetricResult {
         }
     }
 
-    private Object calculateMinimum(children) {
+    private Object calculateMinimum(Collection<MetricResult> children) {
         def minChild = children.min { child -> child['minimum'] }
         return minChild != null ? minChild['minimum'] : 0
     }
 
-    private Object calculateMaximum(children) {
+    private Object calculateMaximum(Collection<MetricResult> children) {
         def maxChild = children.max { child -> child['maximum'] }
         return maxChild != null ? maxChild['maximum'] : 0
     }

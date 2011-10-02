@@ -28,11 +28,11 @@ import org.gmetrics.metric.Metric
 class PackageResultsNode implements ResultsNode {
 
     final MetricLevel level = MetricLevel.PACKAGE
-    final List metricResults = []
+    final List<MetricResult> metricResults = []
     String path
-    private Map children = [:]
+    private Map<String, ResultsNode> children = [:]
 
-    Map getChildren() {
+    Map<String, ResultsNode> getChildren() {
         return children
     }
 

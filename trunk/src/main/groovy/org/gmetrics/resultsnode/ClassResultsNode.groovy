@@ -29,8 +29,8 @@ import org.gmetrics.result.ClassMetricResult
 class ClassResultsNode implements ResultsNode {
 
     final MetricLevel level = MetricLevel.CLASS
-    final Map children = [:]
-    final List metricResults = []
+    final Map<String, ResultsNode> children = [:]
+    final List<MetricResult> metricResults = []
 
     boolean containsClassResults() {
         return true

@@ -98,7 +98,7 @@ abstract class AbstractMetricTestCase extends AbstractTestCase {
         return results
     }
 
-    protected void assertApplyToClass(String source, classTotalValue, classAverageValue, Map methodValues=null) {
+    protected void assertApplyToClass(String source, classTotalValue, classAverageValue=classTotalValue, Map methodValues=null) {
         def results = applyToClass(source)
         def classMetricResult = results.classMetricResult
         assertEquals(classAverageValue, classMetricResult['average'])
