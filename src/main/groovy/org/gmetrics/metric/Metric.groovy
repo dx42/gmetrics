@@ -28,14 +28,13 @@ import org.gmetrics.result.MetricResult
  */
 interface Metric {
 
-
     String getName()
 
     MetricLevel getBaseLevel()
 
     ClassMetricResult applyToClass(ClassNode classNode, SourceCode sourceCode)
     
-    MetricResult applyToPackage(Collection childMetricResults)
+    MetricResult applyToPackage(Collection<MetricResult> childMetricResults)
 
     List<String> getFunctions()
 
