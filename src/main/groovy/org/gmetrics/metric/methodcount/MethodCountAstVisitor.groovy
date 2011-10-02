@@ -17,7 +17,6 @@ package org.gmetrics.metric.methodcount
 
 import org.codehaus.groovy.ast.ClassNode
 import org.gmetrics.metric.AbstractAstVisitor
-import org.codehaus.groovy.ast.FieldNode
 import org.gmetrics.util.AstUtil
 
 /**
