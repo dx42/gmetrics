@@ -29,6 +29,7 @@ import org.gmetrics.analyzer.AbstractSourceAnalyzer_IntegrationTest
 import org.gmetrics.analyzer.SourceAnalyzer
 import org.gmetrics.metric.linecount.ClassLineCountMetric
 import org.gmetrics.metric.linecount.MethodLineCountMetric
+import org.gmetrics.metric.MetricLevel
 
 /**
  * Tests for AntFileSetSourceAnalyzer
@@ -58,11 +59,11 @@ class AntFileSetSourceAnalyzerTest extends AbstractSourceAnalyzer_IntegrationTes
     void setUp() {
         super.setUp()
         metric1 = new StubMetric()
-        metricResult1 = new NumberMetricResult(metric1, 11)
+        metricResult1 = new NumberMetricResult(metric1, MetricLevel.METHOD, 11)
         metric1.packageMetricResult = metricResult1
         metric1.classMetricResult = new ClassMetricResult(metricResult1, [:])
         metric2 = new StubMetric()
-        metricResult2 = new NumberMetricResult(metric2, 22)
+        metricResult2 = new NumberMetricResult(metric2, MetricLevel.METHOD, 22)
         metric2.packageMetricResult = metricResult2
         metric2.classMetricResult = new ClassMetricResult(metricResult2, [:])
 

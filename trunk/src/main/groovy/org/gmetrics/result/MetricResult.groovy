@@ -16,6 +16,7 @@
 package org.gmetrics.result
 
 import org.gmetrics.metric.Metric
+import org.gmetrics.metric.MetricLevel
 
 /**
  * Represents the result from applying a single metric (to a package, class or method)
@@ -30,6 +31,11 @@ interface MetricResult {
      */
 
     Metric getMetric()
+
+    /**
+     * @return the MetricLevel for this metric result
+     */
+    MetricLevel getMetricLevel()
 
     /**
      * Return the count of the nodes/results that are descendants. For instance, if this result

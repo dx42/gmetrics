@@ -18,6 +18,7 @@ package org.gmetrics.metric.abc.result
 import org.gmetrics.result.MetricResult
 import org.gmetrics.metric.Metric
 import org.gmetrics.metric.abc.AbcVector
+import org.gmetrics.metric.MetricLevel
 
 /**
  * A MetricResult specifically for the ABC metric
@@ -29,11 +30,14 @@ class AbcMetricResult implements MetricResult {
 
     final AbcVector abcVector
     final Metric metric
+    final MetricLevel metricLevel
     final Integer lineNumber
     private magnitude
 
-    AbcMetricResult(Metric metric, AbcVector abcVector, Integer lineNumber=null) {
+    AbcMetricResult(Metric metric, MetricLevel metricLevel, AbcVector abcVector, Integer lineNumber=null) {
         assert abcVector
+        assert metricLevel
+        this.metricLevel = metricLevel
         this.abcVector = abcVector
         this.metric = metric
         this.magnitude = abcVector.magnitude

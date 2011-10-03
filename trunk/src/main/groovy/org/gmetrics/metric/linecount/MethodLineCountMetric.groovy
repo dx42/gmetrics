@@ -21,6 +21,7 @@ import org.gmetrics.result.NumberMetricResult
 import org.gmetrics.metric.AbstractMethodMetric
 import org.gmetrics.source.SourceCode
 import org.gmetrics.result.MetricResult
+import org.gmetrics.metric.MetricLevel
 
 /**
  * Metric for counting the lines of code for methods and closure fields.
@@ -35,13 +36,13 @@ class MethodLineCountMetric extends AbstractMethodMetric {
         def visitor = new MethodLineCountAstVisitor(sourceCode:sourceCode)
         visitor.visitMethod(methodNode)
         def numLines = visitor.numberOfLinesInMethod
-        return numLines ? new NumberMetricResult(this, numLines, methodNode.lineNumber) : null
+        return numLines ? new NumberMetricResult(this, MetricLevel.METHOD, numLines, methodNode.lineNumber) : null
     }
 
     MetricResult calculate(ClosureExpression closureExpression, SourceCode sourceCode) {
         def visitor = new MethodLineCountAstVisitor(sourceCode:sourceCode)
         visitor.visitClosureExpression(closureExpression)
-        return new NumberMetricResult(this, visitor.numberOfLinesInClosure, closureExpression.lineNumber)
+        return new NumberMetricResult(this, MetricLevel.METHOD, visitor.numberOfLinesInClosure, closureExpression.lineNumber)
     }
 
 }

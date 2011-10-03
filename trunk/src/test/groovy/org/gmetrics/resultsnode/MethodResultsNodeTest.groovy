@@ -29,9 +29,9 @@ import org.gmetrics.metric.StubMetric
 class MethodResultsNodeTest extends AbstractTestCase {
 
     private static final METRIC = new StubMetric()
-    private static final METRIC_RESULT1 = new NumberMetricResult(METRIC, 1)
-    private static final METRIC_RESULT2 = new NumberMetricResult(METRIC, 2)
-    private static final METRIC_RESULT3 = new NumberMetricResult(METRIC, 3)
+    private static final METRIC_RESULT1 = new NumberMetricResult(METRIC, MetricLevel.METHOD, 1)
+    private static final METRIC_RESULT2 = new NumberMetricResult(METRIC, MetricLevel.METHOD, 2)
+    private static final METRIC_RESULT3 = new NumberMetricResult(METRIC, MetricLevel.METHOD, 3)
 
     private methodResultsNode
 
@@ -71,9 +71,9 @@ class MethodResultsNodeTest extends AbstractTestCase {
     void test_getMetricResult_ReturnsCorrectMetricResult() {
         def metric2 = new StubMetric()
         def metric3 = new StubMetric()
-        methodResultsNode.addMetricResult(new NumberMetricResult(metric2, 2))
+        methodResultsNode.addMetricResult(new NumberMetricResult(metric2, MetricLevel.METHOD, 2))
         methodResultsNode.addMetricResult(METRIC_RESULT1)
-        methodResultsNode.addMetricResult(new NumberMetricResult(metric3, 3))
+        methodResultsNode.addMetricResult(new NumberMetricResult(metric3, MetricLevel.METHOD, 3))
 
         assert methodResultsNode.getMetricResult(METRIC) == METRIC_RESULT1
     }

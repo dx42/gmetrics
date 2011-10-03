@@ -132,6 +132,7 @@ class AbcMetric_ClassTest extends AbstractAbcMetricTest {
         def results = metric.applyToClass(classNode, sourceCode)
         log("results=$results")
         def classMetricResult = results.classMetricResult
+        assert classMetricResult.metricLevel == MetricLevel.CLASS
         AbcTestUtil.assertEquals(classMetricResult.averageAbcVector, classAverageValue)
         AbcTestUtil.assertEquals(classMetricResult.totalAbcVector, classTotalValue)
 
@@ -142,6 +143,7 @@ class AbcMetric_ClassTest extends AbstractAbcMetricTest {
         methodNames.each { methodName ->
             def methodValue = methodMetricResults[methodName].abcVector
             AbcTestUtil.assertEquals(methodValue, methodValues[methodName])
+            assert methodMetricResults[methodName].metricLevel == MetricLevel.METHOD
         }
     }
 

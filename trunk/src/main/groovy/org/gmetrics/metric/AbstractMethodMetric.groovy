@@ -48,7 +48,7 @@ abstract class AbstractMethodMetric extends AbstractMetric {
             return null
         }
 
-        def aggregateMetricResults = createAggregateMetricResult(childMetricResults.values(), classNode)
+        def aggregateMetricResults = createAggregateMetricResult(MetricLevel.CLASS, childMetricResults.values(), classNode)
 
         return new ClassMetricResult(aggregateMetricResults, childMetricResults)
     }

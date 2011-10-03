@@ -17,6 +17,7 @@ package org.gmetrics.result
 
 import org.gmetrics.test.AbstractTestCase
 import org.gmetrics.metric.Metric
+import org.gmetrics.metric.MetricLevel
 
 /**
  * Tests for AggregateNumberMetricResults
@@ -32,20 +33,29 @@ class AggregateNumberMetricResultTest extends AbstractTestCase {
     private aggregateNumberMetricResult
 
     void testConstructorThrowsExceptionForNullMetricParameter() {
-        shouldFailWithMessageContaining('metric') { new AggregateNumberMetricResult(null, []) }
+        shouldFailWithMessageContaining('metric') { new AggregateNumberMetricResult(null, MetricLevel.METHOD, []) }
+    }
+
+    void testConstructorThrowsExceptionForNullMetricLevelParameter() {
+        shouldFailWithMessageContaining('metricLevel') { new AggregateNumberMetricResult(METRIC, null, []) }
     }
 
     void testConstructorThrowsExceptionForNullChildrenParameter() {
-        shouldFailWithMessageContaining('children') { new AggregateNumberMetricResult(METRIC, null) }
+        shouldFailWithMessageContaining('children') { new AggregateNumberMetricResult(METRIC, MetricLevel.METHOD, null) }
     }
 
     void testConstructorSetsMetricProperly() {
-        def mr = new AggregateNumberMetricResult(METRIC, [])
+        def mr = new AggregateNumberMetricResult(METRIC, MetricLevel.METHOD, [])
         assert mr.metric == METRIC
     }
 
+    void testConstructorSetsMetricLevelProperly() {
+        def mr = new AggregateNumberMetricResult(METRIC, MetricLevel.METHOD, [])
+        assert mr.metricLevel == MetricLevel.METHOD
+    }
+
     void testGetLineNumberIsSameValuePassedIntoConstructor() {
-        def result = new AggregateNumberMetricResult(METRIC, [], 67)
+        def result = new AggregateNumberMetricResult(METRIC, MetricLevel.METHOD, [], 67)
         assert result.getLineNumber() == 67
     }
 
@@ -124,7 +134,7 @@ class AggregateNumberMetricResultTest extends AbstractTestCase {
 
     void testCorrectCountForChildResultsWithCountsGreaterThanOne() {
         def children = [new StubMetricResult(count:3, total:0), new StubMetricResult(count:7, total:0)]
-        aggregateNumberMetricResult = new AggregateNumberMetricResult(METRIC, children)
+        aggregateNumberMetricResult = new AggregateNumberMetricResult(METRIC, MetricLevel.METHOD, children)
         assert aggregateNumberMetricResult.count == 10
     }
 
@@ -132,7 +142,7 @@ class AggregateNumberMetricResultTest extends AbstractTestCase {
 
     void testDefaultScaleIsAppliedToAverageValue() {
         def children = [new StubMetricResult(count:3, total:10)]
-        aggregateNumberMetricResult = new AggregateNumberMetricResult(METRIC, children)
+        aggregateNumberMetricResult = new AggregateNumberMetricResult(METRIC, MetricLevel.METHOD, children)
         assert aggregateNumberMetricResult['average'] == scale(10/3)
     }
 
@@ -151,7 +161,7 @@ class AggregateNumberMetricResultTest extends AbstractTestCase {
     void testUsesFunctionNamesFromMetric() {
         final FUNCTION_NAMES = ['average', 'maximum']
         def metric = [getName:{'TestMetric'}, getFunctions:{ FUNCTION_NAMES }] as Metric
-        aggregateNumberMetricResult = new AggregateNumberMetricResult(metric, [])
+        aggregateNumberMetricResult = new AggregateNumberMetricResult(metric, MetricLevel.METHOD, [])
         assert aggregateNumberMetricResult['average'] != null
         assert aggregateNumberMetricResult['maximum'] != null 
         assert aggregateNumberMetricResult['total'] == null
@@ -163,12 +173,12 @@ class AggregateNumberMetricResultTest extends AbstractTestCase {
     //--------------------------------------------------------------------------
     
     private void initializeNoChildMetricResults() {
-        aggregateNumberMetricResult = new AggregateNumberMetricResult(METRIC, [])
+        aggregateNumberMetricResult = new AggregateNumberMetricResult(METRIC, MetricLevel.METHOD, [])
     }
 
     private void initializeOneChildMetricResult(value) {
-        def children = [new NumberMetricResult(METRIC, value)]
-        aggregateNumberMetricResult = new AggregateNumberMetricResult(METRIC, children)
+        def children = [new NumberMetricResult(METRIC, MetricLevel.METHOD, value)]
+        aggregateNumberMetricResult = new AggregateNumberMetricResult(METRIC, MetricLevel.METHOD, children)
     }
 
     private void initializeThreeIntegerChildMetricResults() {
@@ -180,8 +190,8 @@ class AggregateNumberMetricResultTest extends AbstractTestCase {
     }
 
     private void initializeThreeChildMetricResults(x, y, z) {
-        def children = [new NumberMetricResult(METRIC, x),new NumberMetricResult(METRIC, y), new NumberMetricResult(METRIC, z)]
-        aggregateNumberMetricResult = new AggregateNumberMetricResult(METRIC, children)
+        def children = [new NumberMetricResult(METRIC, MetricLevel.METHOD, x),new NumberMetricResult(METRIC, MetricLevel.METHOD, y), new NumberMetricResult(METRIC, MetricLevel.METHOD, z)]
+        aggregateNumberMetricResult = new AggregateNumberMetricResult(METRIC, MetricLevel.METHOD, children)
     }
 
 }

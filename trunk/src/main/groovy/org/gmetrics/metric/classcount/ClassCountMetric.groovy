@@ -18,11 +18,10 @@ package org.gmetrics.metric.classcount
 import org.codehaus.groovy.ast.ClassNode
 import org.gmetrics.metric.AbstractMetric
 import org.gmetrics.metric.MetricLevel
-import org.gmetrics.metric.methodcount.MethodCountAstVisitor
 import org.gmetrics.result.ClassMetricResult
 import org.gmetrics.result.NumberMetricResult
 import org.gmetrics.source.SourceCode
-import org.gmetrics.util.AstUtil
+import org.gmetrics.result.MetricResult
 
 /**
  * Metric for counting the number of classes within each package.
@@ -35,17 +34,13 @@ class ClassCountMetric extends AbstractMetric {
     final MetricLevel baseLevel = MetricLevel.PACKAGE
 
     protected ClassMetricResult calculateForClass(ClassNode classNode, SourceCode sourceCode) {
-        def metricResult = new NumberMetricResult(this, 1, classNode.lineNumber)
+        def metricResult = new NumberMetricResult(this, MetricLevel.CLASS, 1, classNode.lineNumber)
         return new ClassMetricResult(metricResult)
+    }
 
-
-//        def visitor = new MethodCountAstVisitor(sourceCode:sourceCode)
-//        if (AstUtil.isFromGeneratedSourceCode(classNode)) {
-//            return null
-//        }
-//        visitor.visitClass(classNode)
-//        def metricResult = new NumberMetricResult(this, visitor.numberOfMethods, classNode.lineNumber)
-//        return new ClassMetricResult(metricResult)
+    protected MetricResult calculateForPackage(Collection<MetricResult> childMetricResults) {
+        def onlyClassLevelMetricResults = childMetricResults.findAll { it.metricLevel == MetricLevel.CLASS }
+        return createAggregateMetricResult(MetricLevel.PACKAGE, onlyClassLevelMetricResults)
     }
 
 }

@@ -80,12 +80,12 @@ class ClassResultsNodeTest extends AbstractTestCase {
     }
 
     void test_getMetricResult_ReturnsCorrectMetricResult() {
-        final METRIC_RESULT = new NumberMetricResult(METRIC, 11)
+        final METRIC_RESULT = new NumberMetricResult(METRIC, MetricLevel.METHOD, 11)
         def metric2 = new StubMetric()
         def metric3 = new StubMetric()
-        classResultsNode.addClassMetricResult(new ClassMetricResult(new NumberMetricResult(metric2, 22), [:]))
+        classResultsNode.addClassMetricResult(new ClassMetricResult(new NumberMetricResult(metric2, MetricLevel.METHOD, 22), [:]))
         classResultsNode.addClassMetricResult(new ClassMetricResult(METRIC_RESULT, [:]))
-        classResultsNode.addClassMetricResult(new ClassMetricResult(new NumberMetricResult(metric3, 33), [:]))
+        classResultsNode.addClassMetricResult(new ClassMetricResult(new NumberMetricResult(metric3, MetricLevel.METHOD, 33), [:]))
 
         assert classResultsNode.getMetricResult(METRIC) == METRIC_RESULT
     }
@@ -103,7 +103,7 @@ class ClassResultsNodeTest extends AbstractTestCase {
     }
 
     private NumberMetricResult m(int number) {
-        return new NumberMetricResult(METRIC, number)
+        return new NumberMetricResult(METRIC, MetricLevel.METHOD, number)
     }
 
 }

@@ -44,7 +44,7 @@ abstract class AbstractMetric implements Metric {
     }
 
     protected MetricResult calculateForPackage(Collection<MetricResult> childMetricResults) {
-        return createAggregateMetricResult(childMetricResults)
+        return createAggregateMetricResult(MetricLevel.PACKAGE, childMetricResults)
     }
 
     ClassMetricResult applyToClass(ClassNode classNode, SourceCode sourceCode) {
@@ -58,8 +58,8 @@ abstract class AbstractMetric implements Metric {
         return !(classNode.modifiers & ClassNode.ACC_INTERFACE)
     }
 
-    protected MetricResult createAggregateMetricResult(Collection<MetricResult> childMetricResults, ASTNode node=null) {
-        new AggregateNumberMetricResult(this, childMetricResults, node?.lineNumber)
+    protected MetricResult createAggregateMetricResult(MetricLevel metricLevel, Collection<MetricResult> childMetricResults, ASTNode node=null) {
+        new AggregateNumberMetricResult(this, metricLevel, childMetricResults, node?.lineNumber)
     }
 
 }
