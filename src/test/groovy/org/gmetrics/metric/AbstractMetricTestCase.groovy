@@ -101,6 +101,7 @@ abstract class AbstractMetricTestCase extends AbstractTestCase {
     protected void assertApplyToClass(String source, classTotalValue, classAverageValue=classTotalValue, Map methodValues=null) {
         def results = applyToClass(source)
         def classMetricResult = results.classMetricResult
+        assert classMetricResult.metricLevel == MetricLevel.CLASS
         assertEquals(classAverageValue, classMetricResult['average'])
         assertEquals(classTotalValue, classMetricResult['total'])
 
@@ -111,6 +112,7 @@ abstract class AbstractMetricTestCase extends AbstractTestCase {
         methodNames.each { methodName ->
             def metricResults = methodMetricResults[methodName]
             assert metricResults, "No MetricResults exist for method named [$methodName]"
+            assert metricResults.metricLevel == MetricLevel.METHOD
             def methodValue = metricResults['total']
             assertEquals("methodName=$methodName", methodValues[methodName], methodValue)
         }
@@ -127,7 +129,15 @@ abstract class AbstractMetricTestCase extends AbstractTestCase {
     }
 
     protected MetricResult metricResult(number) {
-        new NumberMetricResult(METRIC, number)
+        new NumberMetricResult(METRIC, MetricLevel.METHOD, number)
+    }
+
+    protected MetricResult metricResultForClass(number) {
+        new NumberMetricResult(METRIC, MetricLevel.CLASS, number)
+    }
+
+    protected MetricResult metricResultForPackage(number) {
+        new NumberMetricResult(METRIC, MetricLevel.PACKAGE, number)
     }
 
     protected findFirstField(String source) {

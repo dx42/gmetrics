@@ -39,7 +39,7 @@ class MethodCountMetric extends AbstractMetric {
             return null
         }
         visitor.visitClass(classNode)
-        def metricResult = new NumberMetricResult(this, visitor.numberOfMethods, classNode.lineNumber)
+        def metricResult = new NumberMetricResult(this, MetricLevel.CLASS, visitor.numberOfMethods, classNode.lineNumber)
         return new ClassMetricResult(metricResult)
     }
 

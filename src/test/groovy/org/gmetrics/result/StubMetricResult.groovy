@@ -16,11 +16,13 @@
 package org.gmetrics.result
 
 import org.gmetrics.metric.Metric
+import org.gmetrics.metric.MetricLevel
 
 class StubMetricResult implements MetricResult {
 
     private static final FUNCTION_NAMES = ['total', 'average', 'minimum', 'maximum']
     Metric metric
+    MetricLevel metricLevel
     int count
     Object total, average, minimum, maximum
     Object value

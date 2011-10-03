@@ -23,6 +23,7 @@ import org.gmetrics.metric.StubMetric
 import org.gmetrics.metricset.ListMetricSet
 import org.gmetrics.result.StubMetricResult
 import org.gmetrics.result.MetricResult
+import org.gmetrics.metric.MetricLevel
 
 /**
  * Abstract superclass for ReportWriter test classes.
@@ -135,15 +136,15 @@ abstract class AbstractReportWriterTestCase extends AbstractTestCase {
     }
 
     protected metric1Result(value) {
-        new NumberMetricResult(metric1, value)
+        new NumberMetricResult(metric1, MetricLevel.METHOD, value)
     }
 
     protected metric2Result(value) {
-        new NumberMetricResult(metric2, value)
+        new NumberMetricResult(metric2, MetricLevel.METHOD, value)
     }
 
     protected metric3Result(value) {
-        new NumberMetricResult(metric3, value)
+        new NumberMetricResult(metric3, MetricLevel.METHOD, value)
     }
 
     protected void writeOutToFile(String text, boolean writeToFile) {

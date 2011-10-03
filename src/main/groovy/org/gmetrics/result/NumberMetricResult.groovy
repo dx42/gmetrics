@@ -16,6 +16,7 @@
 package org.gmetrics.result
 
 import org.gmetrics.metric.Metric
+import org.gmetrics.metric.MetricLevel
 
 /**
  * A MetricResult for numbers (integers, BigDecimals, etc.)
@@ -26,13 +27,16 @@ import org.gmetrics.metric.Metric
 class NumberMetricResult implements MetricResult {
 
     final Metric metric
+    final MetricLevel metricLevel
     final number
     final Integer lineNumber
 
-    NumberMetricResult(Metric metric, number, Integer lineNumber=null) {
-        assert metric != null
+    NumberMetricResult(Metric metric, MetricLevel metricLevel, number, Integer lineNumber=null) {
+        assert metric
+        assert metricLevel
         assert number != null
         this.metric = metric
+        this.metricLevel = metricLevel
         this.number = number
         this.lineNumber = lineNumber
     }

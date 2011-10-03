@@ -20,6 +20,7 @@ import org.gmetrics.metric.abc.AbcMetric
 import org.gmetrics.metric.abc.AbcVector
 import org.gmetrics.metric.abc.AbcTestUtil
 import org.gmetrics.metric.Metric
+import org.gmetrics.metric.MetricLevel
 
 /**
  * Tests for AbcMetricResult
@@ -31,15 +32,24 @@ class AbcMetricResultTest extends AbstractTestCase {
 
     private static final DEFAULT_FUNCTION_NAMES = ['total', 'average', 'minimum', 'maximum']
     private static final METRIC = new AbcMetric(functions:DEFAULT_FUNCTION_NAMES)
+    private static final ABC_VECTOR = new AbcVector(0, 0, 0)
 
     void testPassingNullAbcVectorIntoConstructorThrowsException() {
-        shouldFailWithMessageContaining('abcVector') { new AbcMetricResult(METRIC, null) }
+        shouldFailWithMessageContaining('abcVector') { new AbcMetricResult(METRIC, MetricLevel.METHOD, null) }
+    }
+
+    void testPassingNullLevelIntoConstructorThrowsException() {
+        shouldFailWithMessageContaining('metricLevel') { new AbcMetricResult(METRIC, null, ABC_VECTOR) }
     }
 
     void testGetLineNumberIsSameValuePassedIntoConstructor() {
-        def abcVector = new AbcVector(0, 0, 0)
-        def result = new AbcMetricResult(METRIC, abcVector, 67)
+        def result = new AbcMetricResult(METRIC, MetricLevel.METHOD, ABC_VECTOR, 67)
         assert result.getLineNumber() == 67
+    }
+
+    void testGetMetricLevelIsSameValuePassedIntoConstructor() {
+        def result = new AbcMetricResult(METRIC, MetricLevel.METHOD, ABC_VECTOR, 67)
+        assert result.getMetricLevel() == MetricLevel.METHOD
     }
 
     void testValuesForEmptyVectorSetIsZero() {

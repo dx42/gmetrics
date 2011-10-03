@@ -1,5 +1,5 @@
 /*
-* Copyright 2009 the original author or authors.
+* Copyright 2011 the original author or authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@ import org.gmetrics.metric.abc.result.AggregateAbcMetricResult
 import org.gmetrics.metric.abc.result.AbcMetricResult
 import org.gmetrics.result.MetricResult
 import org.codehaus.groovy.ast.ASTNode
+import org.gmetrics.metric.MetricLevel
 
 /**
  * Calculate the ABC Metric for a class/method.
@@ -64,7 +65,7 @@ class AbcMetric extends AbstractMethodMetric {
         visitor.visitMethod(methodNode)
         if (visitor.visited) {
             def abcVector = new AbcVector(visitor.numberOfAssignments, visitor.numberOfBranches, visitor.numberOfConditions)
-            return new AbcMetricResult(this, abcVector, methodNode.lineNumber)
+            return new AbcMetricResult(this, MetricLevel.METHOD, abcVector, methodNode.lineNumber)
         }
         return null
     }
@@ -73,11 +74,11 @@ class AbcMetric extends AbstractMethodMetric {
         def visitor = new AbcAstVisitor(sourceCode:sourceCode)
         visitor.visitClosureExpression(closureExpression) 
         def abcVector = new AbcVector(visitor.numberOfAssignments, visitor.numberOfBranches, visitor.numberOfConditions)
-        return new AbcMetricResult(this, abcVector, closureExpression.lineNumber)
+        return new AbcMetricResult(this, MetricLevel.METHOD, abcVector, closureExpression.lineNumber)
     }
 
-    protected MetricResult createAggregateMetricResult(Collection childMetricResults, ASTNode node) {
-        new AggregateAbcMetricResult(this, childMetricResults, node?.lineNumber)
+    protected MetricResult createAggregateMetricResult(MetricLevel metricLevel, Collection childMetricResults, ASTNode node) {
+        new AggregateAbcMetricResult(this, metricLevel, childMetricResults, node?.lineNumber)
     }
 
 }

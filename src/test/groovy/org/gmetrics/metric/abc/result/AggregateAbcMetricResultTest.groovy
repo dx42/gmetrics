@@ -19,6 +19,7 @@ import org.gmetrics.metric.Metric
 import org.gmetrics.test.AbstractTestCase
 import org.gmetrics.metric.abc.AbcTestUtil
 import org.gmetrics.metric.abc.AbcVector
+import org.gmetrics.metric.MetricLevel
 
 /**
  * Tests for AggregateAbcMetricResult
@@ -33,20 +34,29 @@ class AggregateAbcMetricResultTest extends AbstractTestCase {
     private aggregateAbcMetricResult
 
     void testConstructorThrowsExceptionForNullMetricParameter() {
-        shouldFailWithMessageContaining('metric') { new AggregateAbcMetricResult(null, []) }
+        shouldFailWithMessageContaining('metric') { new AggregateAbcMetricResult(null, MetricLevel.METHOD, []) }
+    }
+
+    void testConstructorThrowsExceptionForNullMetricLevelParameter() {
+        shouldFailWithMessageContaining('metric') { new AggregateAbcMetricResult(METRIC, null, []) }
     }
 
     void testConstructorThrowsExceptionForNullChildrenParameter() {
-        shouldFailWithMessageContaining('children') { new AggregateAbcMetricResult(METRIC, null) }
+        shouldFailWithMessageContaining('children') { new AggregateAbcMetricResult(METRIC, MetricLevel.METHOD, null) }
     }
 
     void testConstructorSetsMetricProperly() {
-        def mr = new AggregateAbcMetricResult(METRIC, [])
+        def mr = new AggregateAbcMetricResult(METRIC, MetricLevel.METHOD, [])
         assert mr.metric == METRIC
     }
 
+    void testConstructorSetsMetricLevelProperly() {
+        def mr = new AggregateAbcMetricResult(METRIC, MetricLevel.METHOD, [])
+        assert mr.metricLevel == MetricLevel.METHOD
+    }
+
     void testGetLineNumberIsSameValuePassedIntoConstructor() {
-        def result = new AggregateAbcMetricResult(METRIC, [], 67)
+        def result = new AggregateAbcMetricResult(METRIC, MetricLevel.METHOD, [], 67)
         assert result.getLineNumber() == 67
     }
 
@@ -163,7 +173,7 @@ class AggregateAbcMetricResultTest extends AbstractTestCase {
 
     void testCorrectCountForChildResultsWithCountsGreaterThanOne() {
         initializeWithThreeChildMetricResults()
-        def aggregate = new AggregateAbcMetricResult(METRIC, [aggregateAbcMetricResult, aggregateAbcMetricResult])
+        def aggregate = new AggregateAbcMetricResult(METRIC, MetricLevel.METHOD, [aggregateAbcMetricResult, aggregateAbcMetricResult])
         assert aggregate.count == 6
     }
 
@@ -177,7 +187,7 @@ class AggregateAbcMetricResultTest extends AbstractTestCase {
     void testUsesFunctionNamesFromMetric() {
         final FUNCTION_NAMES = ['average', 'maximum']
         def metric = [getName:{'TestMetric'}, getFunctions:{ FUNCTION_NAMES }] as Metric
-        aggregateAbcMetricResult = new AggregateAbcMetricResult(metric, [])
+        aggregateAbcMetricResult = new AggregateAbcMetricResult(metric, MetricLevel.METHOD, [])
         assert aggregateAbcMetricResult['average'] != null
         assert aggregateAbcMetricResult['maximum'] != null
         assert aggregateAbcMetricResult['total'] == null
@@ -189,18 +199,18 @@ class AggregateAbcMetricResultTest extends AbstractTestCase {
     //--------------------------------------------------------------------------
     
     private void initializeWithZeroChildMetricResults() {
-        aggregateAbcMetricResult = new AggregateAbcMetricResult(METRIC, [])
+        aggregateAbcMetricResult = new AggregateAbcMetricResult(METRIC, MetricLevel.METHOD, [])
     }
 
     private void initializeWithOneChildMetricResult() {
         def children = [AbcTestUtil.abcMetricResult(METRIC, 7, 9, 21)]
-        aggregateAbcMetricResult = new AggregateAbcMetricResult(METRIC, children)
+        aggregateAbcMetricResult = new AggregateAbcMetricResult(METRIC, MetricLevel.METHOD, children)
     }
 
     private void initializeWithThreeChildMetricResults() {
         def child1 = AbcTestUtil.abcMetricResult(METRIC, 7, 9, 21)
         def child2 = AbcTestUtil.abcMetricResult(METRIC, 11, 1, 22)
         def child3 = AbcTestUtil.abcMetricResult(METRIC, 9, 2, 25)
-        aggregateAbcMetricResult = new AggregateAbcMetricResult(METRIC, [child1, child2, child3])
+        aggregateAbcMetricResult = new AggregateAbcMetricResult(METRIC, MetricLevel.METHOD, [child1, child2, child3])
     }
 }

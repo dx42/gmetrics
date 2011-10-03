@@ -21,6 +21,7 @@ import org.gmetrics.metric.AbstractMethodMetric
 import org.gmetrics.result.NumberMetricResult
 import org.codehaus.groovy.ast.expr.ClosureExpression
 import org.gmetrics.result.MetricResult
+import org.gmetrics.metric.MetricLevel
 
 /**
  * Metric for counting the (McCabe) Cyclomatic Complexity for methods and closure fields.
@@ -50,13 +51,13 @@ class CyclomaticComplexityMetric extends AbstractMethodMetric {
         def visitor = new CyclomaticComplexityAstVisitor(sourceCode:sourceCode)
         visitor.visitMethod(methodNode)
         def complexity = visitor.complexity
-        return complexity ? new NumberMetricResult(this, complexity, methodNode.lineNumber) : null
+        return complexity ? new NumberMetricResult(this, MetricLevel.METHOD, complexity, methodNode.lineNumber) : null
     }
 
     MetricResult calculate(ClosureExpression closureExpression, SourceCode sourceCode) {
         def visitor = new CyclomaticComplexityAstVisitor(sourceCode:sourceCode)
         visitor.visitClosureExpression(closureExpression)
         def complexity = visitor.complexity
-        return complexity ? new NumberMetricResult(this, complexity, closureExpression.lineNumber) : null
+        return complexity ? new NumberMetricResult(this, MetricLevel.METHOD, complexity, closureExpression.lineNumber) : null
     }
 }

@@ -18,6 +18,7 @@ package org.gmetrics.metric.abc.result
 import org.gmetrics.result.MetricResult
 import org.gmetrics.metric.Metric
 import org.gmetrics.metric.abc.AbcVector
+import org.gmetrics.metric.MetricLevel
 
 /**
  * An aggregate MetricResult implementation specifically for the ABC Metric.
@@ -28,6 +29,7 @@ import org.gmetrics.metric.abc.AbcVector
 class AggregateAbcMetricResult implements MetricResult {
 
     final Metric metric
+    final MetricLevel metricLevel
     final Object value = null
     final Integer lineNumber
     private assignmentSum = 0
@@ -36,10 +38,12 @@ class AggregateAbcMetricResult implements MetricResult {
     private count
     private functionValues = [:]
 
-    AggregateAbcMetricResult(Metric metric, Collection children, Integer lineNumber=null) {
-        assert metric != null
+    AggregateAbcMetricResult(Metric metric, MetricLevel metricLevel, Collection children, Integer lineNumber=null) {
+        assert metric
+        assert metricLevel
         assert children != null
         this.metric = metric
+        this.metricLevel = metricLevel
         calculateFunctions(children)
         this.lineNumber = lineNumber
     }

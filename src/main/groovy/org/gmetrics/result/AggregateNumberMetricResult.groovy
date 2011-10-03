@@ -16,6 +16,7 @@
 package org.gmetrics.result
 
 import org.gmetrics.metric.Metric
+import org.gmetrics.metric.MetricLevel
 
 /**
  * A NumberMetricResult that aggregates multiple values. This MetricResult supports the
@@ -30,12 +31,15 @@ class AggregateNumberMetricResult implements MetricResult {
     int scale = 1
     private functionValues = [:]
     final Metric metric
+    final MetricLevel metricLevel
     final Integer lineNumber
 
-    AggregateNumberMetricResult(Metric metric, Collection<MetricResult> children, Integer lineNumber=null) {
-        assert metric != null
+    AggregateNumberMetricResult(Metric metric, MetricLevel metricLevel, Collection<MetricResult> children, Integer lineNumber=null) {
+        assert metric
+        assert metricLevel
         assert children != null
         this.metric = metric
+        this.metricLevel = metricLevel
         calculateFunctions(metric, children)
         this.lineNumber = lineNumber
     }

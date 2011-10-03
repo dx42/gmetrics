@@ -17,6 +17,7 @@ package org.gmetrics.metric.abc
 
 import org.gmetrics.metric.Metric
 import org.gmetrics.metric.abc.result.AbcMetricResult
+import org.gmetrics.metric.MetricLevel
 
 /**
  * Utility methods for ABC test classes
@@ -34,6 +35,6 @@ abstract class AbcTestUtil {
 
     static AbcMetricResult abcMetricResult(Metric metric, int a, int b, int c) {
         def abcVector = new AbcVector(a, b, c)
-        return new AbcMetricResult(metric, abcVector)
+        return new AbcMetricResult(metric, MetricLevel.METHOD, abcVector)
     }
 }

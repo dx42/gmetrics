@@ -40,7 +40,7 @@ class ClassLineCountMetric extends AbstractMetric {
         if (visitor.numberOfLinesInClass == 0) {
             return null
         }
-        def metricResult = new NumberMetricResult(this, visitor.numberOfLinesInClass, classNode.lineNumber)
+        def metricResult = new NumberMetricResult(this, MetricLevel.CLASS, visitor.numberOfLinesInClass, classNode.lineNumber)
         return new ClassMetricResult(metricResult)
     }
 

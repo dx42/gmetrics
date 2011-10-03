@@ -58,35 +58,22 @@ class ClassCountMetricTest extends AbstractMetricTestCase {
         assertApplyToClass(SOURCE, 1)
     }
 
-// TODO Delete - I don't think we need this
-//    void testApplyToClass_MultipleClasses() {
-//        final SOURCE = """
-//            interface MyInterface {
-//                int doSomething(String name)
-//            }
-//            class MyClass {
-//                int myValue
-//            }
-//            enum MyEnum {
-//                ONE, TWO, THREE
-//            }
-//        """
-//        assertApplyToClass(SOURCE, 3)
-//    }
-
    void testApplyToPackage_ResultsForNoChildren() {
         assertApplyToPackage([], 0, 0)
     }
 
     void testApplyToPackage_ResultsForOneChildClass() {
-        assertApplyToPackage([metricResult(1)], 1, 1)
+        assertApplyToPackage([metricResultForClass(1)], 1, 1)
     }
 
     void testApplyToPackage_ResultsForThreeChildClasses() {
-        assertApplyToPackage([metricResult(1), metricResult(1), metricResult(1)], 3, 1)
+        assertApplyToPackage([metricResultForClass(1), metricResultForClass(1), metricResultForClass(1)], 3, 1)
     }
 
-    // TODO Need a way to test a mix of children: classes and sub-packages
-
+    void testApplyToPackage_ResultsForClassesAndSubPackages_IgnoreSubPackages() {
+        assertApplyToPackage([
+            metricResultForClass(1), metricResultForClass(1), metricResultForPackage(99), metricResultForClass(1)
+        ], 3, 1)
+    }
 
 }
