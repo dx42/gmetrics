@@ -1,0 +1,36 @@
+		--------------------------------------------------
+					  GMetrics - ClassCount Metric
+		--------------------------------------------------
+
+ClassCount Metric
+~~~~~~~~~~~~~~~~~~~~~
+
+ Metric for counting the number of classes in each package. This metric counts
+ the number of classes, interfaces and enums within a package.
+
+ Implemented by the <<<org.gmetrics.metric.classcount.ClassCountMetric>>> class.
+
+
+* Metric Properties
+~~~~~~~~~~~~~~~~~~~
+
+  The following properties can be configured for this metric within a <MetricSet>. See
+  {{{./gmetrics-creating-metricset.html}Creating a MetricSet}} for information on the syntax of
+  setting a metric property.
+
+*-----------------+--------------------------------------------------------------------+------------------------+
+| <<Property>>    | <<Description>>                                                    | <<Default Value>>      |
+*-----------------+--------------------------------------------------------------------+------------------------+
+| enabled         | This <<<boolean>>> property controls whether the metric is         | <<<true>>>             |
+|                 | <enabled>. If set to <<<false>>>, then the metric is not included  |                        |
+|                 | as part of the results or the output reports.                      |                        |
+*-----------------+--------------------------------------------------------------------+------------------------+
+| functions       | This <<<List\<String\>>>> property contains the names of the functions| <<<["total","average"]>>>|
+|                 | to be calculated at the <class> and <package> levels and           |                        |
+|                 | (potentially) included within the report(s). Valid values are:     |                        |
+|                 |    - "total"                                                       |                        |
+|                 |    - "average"                                                     |                        |
+|                 |    - "minimum"                                                     |                        |
+|                 |    - "maximum"                                                     |                        |
+*-----------------+--------------------------------------------------------------------+------------------------+
+

@@ -82,7 +82,7 @@ class GMetricsTask_AntBuilderTest extends AbstractTestCase {
 
     void testAntTask_Execute_AllMetrics() {
         ant.gmetrics(metricSetFile: ALL_METRICSET_FILE) {
-           fileset(dir:'src/main/groovy/org/gmetrics/metricset') {
+           fileset(dir:'src/main/groovy/org/gmetrics/metric') {
                include(name:"**/*.groovy")
            }
            report(type:HTML_REPORT_WRITER){
@@ -90,7 +90,7 @@ class GMetricsTask_AntBuilderTest extends AbstractTestCase {
                option(name:'outputFile', value:ALL_HTML_REPORT_FILE)
            }
         }
-        verifyReportFile(ALL_HTML_REPORT_FILE, [TITLE, 'org.gmetrics.metricset', 'Description'])
+        verifyReportFile(ALL_HTML_REPORT_FILE, [TITLE, 'org.gmetrics.metric', 'Description'])
     }
 
     void testAntTask_Execute_SpecifyMetricSetFile() {
