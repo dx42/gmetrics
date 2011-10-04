@@ -56,6 +56,7 @@
 
         <menu name="Metrics">
             <item name="ABC" href="/gmetrics-AbcMetric.html"/>
+            <item name="ClassCount" href="/gmetrics-ClassCountMetric.html"/>
             <item name="ClassLineCount" href="/gmetrics-ClassLineCountMetric.html"/>
             <item name="Cyclomatic Complexity" href="/gmetrics-CyclomaticComplexityMetric.html"/>
             <item name="MethodLineCount" href="/gmetrics-MethodLineCountMetric.html"/>
