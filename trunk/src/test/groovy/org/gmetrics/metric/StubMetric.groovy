@@ -30,7 +30,7 @@ class StubMetric implements Metric {
 
     boolean enabled = true
     String name = 'Stub'
-    MetricLevel baseLevel = MetricLevel.CLASS
+    MetricLevel baseLevel = MetricLevel.METHOD
     ClassMetricResult classMetricResult
     MetricResult packageMetricResult
     String otherProperty
@@ -45,6 +45,6 @@ class StubMetric implements Metric {
     }
 
     String toString() {
-        "StubMetric[name=$name, otherProperty=$otherProperty]"
+        "StubMetric[name=$name, baseLevel=$baseLevel, otherProperty=$otherProperty]"
     }
 }

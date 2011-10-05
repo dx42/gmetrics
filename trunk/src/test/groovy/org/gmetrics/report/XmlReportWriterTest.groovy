@@ -16,6 +16,7 @@
 package org.gmetrics.report
 
 import java.text.DateFormat
+import org.gmetrics.metric.MetricLevel
 
 /**
  * Tests for XmlReportWriter
@@ -89,6 +90,32 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
         def resultsNode = packageResultsNode(metricResults:[metric1Result(10), metric2Result(20)])
         reportWriter.setMetrics('Metric1')
         assertReportXml(resultsNode, XML)
+    }
+
+    void testWriteReport_DoNotShowResultsForLevelBelowMetricBaseLevel() {
+        final PACKAGES = """
+            <Package path='org'>
+                <MetricResult name='Metric1' total='11' average='11'/>
+                <MetricResult name='Metric2' total='21' average='21'/>
+                <Class name='MyDao'>
+                    <MetricResult name='Metric1' total='101' average='101'/>
+                </Class>
+                <Class name='MyController'>
+                    <MetricResult name='Metric1' total='102' average='102'/>
+                </Class>
+            </Package>
+        """
+        final XML = XML_DECLARATION + GMETRICS_ROOT + REPORT_TIMESTAMP + PROJECT + PACKAGE_SUMMARY_2 + PACKAGES + METRIC_DESCRIPTIONS_2 + GMETRICS_END_TAG
+        def rootNode = packageResultsNode([metricResults:[metric1Result(10), metric2Result(20)]],
+        [
+            org: packageResultsNode([path:'org', metricResults:[metric1Result(11), metric2Result(21)]],
+            [
+                MyDao: classResultsNode(metricResults:[metric1Result(101), metric2Result(201)]),
+                MyController: classResultsNode(metricResults:[metric1Result(102), metric2Result(202)])
+            ])
+        ])
+        metric2.baseLevel = MetricLevel.PACKAGE
+        assertReportXml(rootNode, XML)
     }
 
     void testWriteReport_Package_TwoMetrics() {

@@ -135,8 +135,8 @@ abstract class AbstractReportWriterTestCase extends AbstractTestCase {
         return new StubMetricResult(constructorMap)
     }
 
-    protected metric1Result(value) {
-        new NumberMetricResult(metric1, MetricLevel.METHOD, value)
+    protected metric1Result(value, MetricLevel metricLevel = MetricLevel.METHOD) {
+        new NumberMetricResult(metric1, metricLevel, value)
     }
 
     protected metric2Result(value) {

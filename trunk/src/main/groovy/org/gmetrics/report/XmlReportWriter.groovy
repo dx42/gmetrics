@@ -135,7 +135,7 @@ class XmlReportWriter extends AbstractReportWriter {
     private buildMetricElement(MetricResult metricResult, MetricLevel level) {
         def metric = metricResult.getMetric()
         return {
-            if (includesMetric(metric) && includesLevel(metric, level)) {
+            if (includesMetric(metric) && includesLevel(metric, level) && level >= metric.getBaseLevel()) {
                 def attributes = [name: metric.name]
                 metric.functions.each { functionName ->
                     if (includesFunction(metric, functionName)) {

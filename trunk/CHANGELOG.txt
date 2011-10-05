@@ -6,13 +6,23 @@ Changes in version 0.4 (?? ??? 2011)
 --------------------------------------
 NEW FEATURES
 - Upgrade to Groovy 1.7. NOTE: GMetrics now requires Groovy 1.7.
-- Add isValid() method to the SourceCode interface and implementations.
+
+NEW METRICS
+- New MethodCountMetric. Counts the number of methods within each class. (Also counts Closure fields)
 
 FIXES AND ENHANCEMENTS
 - Fix #3413604: Reimplement ASTUtil.getVariableExpressions() to optimize performance. Thanks to Hamlet D’Arcy.
 - Fix #3186167: GMetrics can't be built with Groovy >= 1.7.7. Fix illegal writes to final properties.
+- Fix #3418843: Reports: Exclude results for level "less" than metric base level
 - Upgrade to use CodeNarc 0.15 for tests/analysis.
 - ReportWriters: Include output file name in “Report created” message
+
+FRAMEWORK/API CHANGES  (Potential breaking changes if you have implemented your own Metrics)
+- Add isValid() method to the SourceCode interface and implementations.
+- #3418135: Add MetricLevel getMetricLevel() to MetricResult interface and impl classes.
+  Also  AbstractMetric: Change protected createAggregateMetricResult() to add MetricLevel parameter.
+- Specify collection types (generics) for method signatures within Metric, MetricResult , ResultsNode and ClassMetricResult classes.
+
 
 Changes in version 0.3 (23 Jul 2010)
 --------------------------------------

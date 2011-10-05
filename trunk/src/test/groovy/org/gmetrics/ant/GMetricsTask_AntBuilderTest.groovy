@@ -32,6 +32,7 @@ class GMetricsTask_AntBuilderTest extends AbstractTestCase {
     private static final HTML_TEMP_REPORT_FILE = 'AntBuilderTestReport_Temp.html'
 
     private static final ALL_HTML_REPORT_FILE = 'AllMetricsAntBuilderTestReport.html'
+    private static final ALL_XML_REPORT_FILE = 'AllMetricsAntBuilderTestReport.xml'
     private static final ALL_METRICSET_FILE = 'metricsets/AllMetricSet.txt'
 
     private static final SERIES_HTML_REPORT_WRITER = 'org.gmetrics.report.SingleSeriesHtmlReportWriter'
@@ -88,6 +89,10 @@ class GMetricsTask_AntBuilderTest extends AbstractTestCase {
            report(type:HTML_REPORT_WRITER){
                option(name:'title', value:TITLE)
                option(name:'outputFile', value:ALL_HTML_REPORT_FILE)
+           }
+           report(type:XML_REPORT_WRITER){
+               option(name:'title', value:TITLE)
+               option(name:'outputFile', value:ALL_XML_REPORT_FILE)
            }
         }
         verifyReportFile(ALL_HTML_REPORT_FILE, [TITLE, 'org.gmetrics.metric', 'Description'])
