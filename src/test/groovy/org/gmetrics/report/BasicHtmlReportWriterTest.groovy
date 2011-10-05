@@ -1,24 +1,25 @@
 /*
-* Copyright 2010 the original author or authors.
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-*      http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ * Copyright 2011 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.gmetrics.report
 
 import org.gmetrics.resultsnode.StubResultsNode
 //import static org.gmetrics.resultsnode.ResultsNodeTestUtil.*
 
 import org.gmetrics.analyzer.AnalysisContext
+import org.gmetrics.metric.MetricLevel
 
 /**
  * Tests for BasicHtmlReportWriter
@@ -215,6 +216,18 @@ class BasicHtmlReportWriterTest extends AbstractReportWriterTestCase {
                 metric2.name, metricDescription(metric2),
                 BOTTOM_LINK]
         def resultsNode = new StubResultsNode(metricResults:[metric1Result(10)])
+        assertReportContents(resultsNode, CONTENTS)
+    }
+
+    void testWriteReport_DoNotShowResultsForLevelBelowMetricBaseLevel() {
+        final CONTENTS = [
+                HTML_TAG,
+                ALL_PACKAGES, NA, NA, 20, 20,
+                metric1.name, metricDescription(metric1),
+                metric2.name, metricDescription(metric2),
+                BOTTOM_LINK]
+        metric1.baseLevel = MetricLevel.PACKAGE
+        def resultsNode = new StubResultsNode(metricResults:[metric1Result(10), metric2Result(20)], level:MetricLevel.CLASS)
         assertReportContents(resultsNode, CONTENTS)
     }
 

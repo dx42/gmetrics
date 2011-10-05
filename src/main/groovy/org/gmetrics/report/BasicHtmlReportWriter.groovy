@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 the original author or authors.
+ * Copyright 2011 the original author or authors.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ import groovy.xml.StreamingMarkupBuilder
 import org.gmetrics.metricset.MetricSet
 import org.gmetrics.metric.MetricLevel
 import org.gmetrics.analyzer.AnalysisContext
+import org.gmetrics.metric.Metric
 
 /**
  * ReportWriter that generates a basic HTML report. The HTML includes a table containing
@@ -42,6 +43,7 @@ class BasicHtmlReportWriter extends AbstractReportWriter {
 
     static defaultOutputFile = DEFAULT_OUTPUT_FILE
     String title
+    private String notApplicable
 
     void writeReport(Writer writer, ResultsNode resultsNode, AnalysisContext analysisContext) {
         assert resultsNode
@@ -50,6 +52,7 @@ class BasicHtmlReportWriter extends AbstractReportWriter {
         assert writer
 
         initializeResourceBundle()
+        notApplicable = getResourceBundleString('basicHtmlReport.metricResults.notApplicable')
         def metricResultColumns = buildMetricResultColumns(analysisContext.metricSet)
 
         def builder = new StreamingMarkupBuilder()
@@ -154,12 +157,11 @@ class BasicHtmlReportWriter extends AbstractReportWriter {
                 }
 
                 metricResultColumns.each { columnDef ->
-                    def metric = columnDef.metric
+                    Metric metric = columnDef.metric
                     if (includesMetric(metric)) {
-                        def metricResult = includesLevel(metric, level) ? resultsNode.getMetricResult(metric) : null
-                        def value = metricResult ?
-                            metricResult[columnDef.property] :
-                            getResourceBundleString('basicHtmlReport.metricResults.notApplicable')
+                        def includeMetricResults = includesLevel(metric, level) && level >= metric.getBaseLevel()
+                        def metricResult = includeMetricResults ? resultsNode.getMetricResult(metric) : null
+                        def value = metricResult ? metricResult[columnDef.property] : notApplicable
                         td(value, class:'metricValue')
                     }
                 }
