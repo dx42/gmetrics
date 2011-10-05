@@ -8,7 +8,8 @@ NEW FEATURES
 - Upgrade to Groovy 1.7. NOTE: GMetrics now requires Groovy 1.7.
 
 NEW METRICS
-- New MethodCountMetric. Counts the number of methods within each class. (Also counts Closure fields)
+- New MethodCountMetric. Counts the number of methods (and closure fields) within each class. (#3341804)
+- New ClassCountMetric. Counts the number of classes within each package. (#3341812)
 
 FIXES AND ENHANCEMENTS
 - Fix #3413604: Reimplement ASTUtil.getVariableExpressions() to optimize performance. Thanks to Hamlet D’Arcy.
@@ -18,10 +19,10 @@ FIXES AND ENHANCEMENTS
 - ReportWriters: Include output file name in “Report created” message
 
 FRAMEWORK/API CHANGES  (Potential breaking changes if you have implemented your own Metrics)
-- Add isValid() method to the SourceCode interface and implementations.
 - #3418135: Add MetricLevel getMetricLevel() to MetricResult interface and impl classes.
   Also  AbstractMetric: Change protected createAggregateMetricResult() to add MetricLevel parameter.
 - Specify collection types (generics) for method signatures within Metric, MetricResult , ResultsNode and ClassMetricResult classes.
+- Add isValid() method to the SourceCode interface and implementations.
 
 
 Changes in version 0.3 (23 Jul 2010)
