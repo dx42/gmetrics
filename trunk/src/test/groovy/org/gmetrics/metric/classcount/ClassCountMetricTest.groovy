@@ -67,13 +67,13 @@ class ClassCountMetricTest extends AbstractMetricTestCase {
     }
 
     void testApplyToPackage_ResultsForThreeChildClasses() {
-        assertApplyToPackage([metricResultForClass(1), metricResultForClass(1), metricResultForClass(1)], 3, 1)
+        assertApplyToPackage([metricResultForClass(1), metricResultForClass(1), metricResultForClass(1)], 3, 3)
     }
 
     void testApplyToPackage_ResultsForClassesAndSubPackages_IgnoreSubPackages() {
         assertApplyToPackage([
             metricResultForClass(1), metricResultForClass(1), metricResultForPackage(99), metricResultForClass(1)
-        ], 3, 1)
+        ], 3, 3)
     }
 
 }
