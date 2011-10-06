@@ -22,6 +22,7 @@ import org.gmetrics.metric.Metric
 import org.gmetrics.result.MetricResult
 import org.gmetrics.metric.MetricLevel
 import org.gmetrics.analyzer.AnalysisContext
+import org.gmetrics.util.GMetricsVersion
 
 /**
  * ReportWriter that generates an XML report. The XML includes
@@ -49,7 +50,7 @@ class XmlReportWriter extends AbstractReportWriter {
         def builder = new StreamingMarkupBuilder()
         def xml = builder.bind {
             mkp.xmlDeclaration()
-            GMetrics(url:GMETRICS_URL, version:getGMetricsVersion()) {
+            GMetrics(url:GMETRICS_URL, version:GMetricsVersion.getVersion()) {
                 out << buildReportElement()
                 out << buildProjectElement(analysisContext)
                 out << buildPackageElements(resultsNode)

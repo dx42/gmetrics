@@ -24,6 +24,8 @@ FRAMEWORK/API CHANGES  (Potential breaking changes if you have implemented your 
 - Specify collection types (generics) for method signatures within Metric, MetricResult , ResultsNode and ClassMetricResult classes.
 - Add isValid() method to the SourceCode interface and implementations.
 
+INFRASTRUCTURE AND TESTS
+- GMetricsVersion class with String getVersion(). Remove "GMetrics" from version file.
 
 Changes in version 0.3 (23 Jul 2010)
 --------------------------------------

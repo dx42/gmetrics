@@ -15,7 +15,6 @@
  */
 package org.gmetrics.report
 
-import org.gmetrics.util.io.ClassPathResource
 import org.apache.log4j.Logger
 import org.gmetrics.resultsnode.ResultsNode
 import org.gmetrics.analyzer.AnalysisContext
@@ -33,7 +32,6 @@ abstract class AbstractReportWriter implements ReportWriter {
 
     protected static final BASE_MESSAGES_BUNDLE = "gmetrics-base-messages"
     protected static final CUSTOM_MESSAGES_BUNDLE = "gmetrics-messages"
-    protected static final VERSION_FILE = 'gmetrics-version.txt'
     protected static final GMETRICS_URL = "http://www.gmetrics.org"
 
     String outputFile
@@ -100,10 +98,6 @@ abstract class AbstractReportWriter implements ReportWriter {
     protected String getFormattedTimestamp() {
         def dateFormat = java.text.DateFormat.getDateTimeInstance()
         return dateFormat.format(getTimestamp())
-    }
-
-    protected String getGMetricsVersion() {
-        return ClassPathResource.getInputStream(VERSION_FILE).text
     }
 
     private boolean isWriteToStandardOut() {

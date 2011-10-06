@@ -1,5 +1,5 @@
 /*
-* Copyright 2009 the original author or authors.
+* Copyright 2011 the original author or authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -28,6 +28,7 @@ import org.gmetrics.analyzer.AnalysisContext
  * @version $Revision$ - $Date$
  */
 class AbstractReportWriterTest extends AbstractTestCase {
+
     private static final RESULTS_NODE = new StubResultsNode()
     private static final METRIC_SET = [:] as MetricSet
     private static final ANALYSIS_CONTEXT = new AnalysisContext(metricSet:METRIC_SET)
@@ -111,10 +112,6 @@ class AbstractReportWriterTest extends AbstractTestCase {
         reportWriter.getTimestamp = { timestamp }
         def expected = java.text.DateFormat.getDateTimeInstance().format(timestamp)
         assert reportWriter.getFormattedTimestamp() == expected
-    }
-
-    void testGetGMetricsVersion() {
-        assert reportWriter.getGMetricsVersion() == new File('src/main/resources/gmetrics-version.txt').text
     }
 
     void setUp() {
