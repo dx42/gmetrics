@@ -22,6 +22,7 @@ import org.gmetrics.metricset.MetricSet
 import org.gmetrics.metric.MetricLevel
 import org.gmetrics.analyzer.AnalysisContext
 import org.gmetrics.metric.Metric
+import org.gmetrics.util.GMetricsVersion
 
 /**
  * ReportWriter that generates a basic HTML report. The HTML includes a table containing
@@ -222,7 +223,7 @@ class BasicHtmlReportWriter extends AbstractReportWriter {
     }
 
     private buildVersionFooter() {
-        def versionText = getGMetricsVersion()
+        def versionText = 'GMetrics ' + GMetricsVersion.getVersion()
         return {
             p(class:'version') {
                 a(versionText, href:GMETRICS_URL)

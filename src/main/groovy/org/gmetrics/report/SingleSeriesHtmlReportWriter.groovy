@@ -19,6 +19,7 @@ import org.gmetrics.resultsnode.ResultsNode
 import org.gmetrics.analyzer.AnalysisContext
 import groovy.xml.StreamingMarkupBuilder
 import org.gmetrics.util.io.ClassPathResource
+import org.gmetrics.util.GMetricsVersion
 
 /**
  * ReportWriter that generates a HTML report for a single series of metric values. This single
@@ -164,7 +165,7 @@ class SingleSeriesHtmlReportWriter extends AbstractReportWriter {
     }
 
     private buildVersionFooter() {
-        def versionText = getGMetricsVersion()
+        def versionText = 'GMetrics ' + GMetricsVersion.getVersion()
         return {
             p(class:'version') {
                 a(versionText, href:GMETRICS_URL)
