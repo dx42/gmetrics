@@ -59,6 +59,7 @@
             <item name="ClassCount" href="/gmetrics-ClassCountMetric.html"/>
             <item name="ClassLineCount" href="/gmetrics-ClassLineCountMetric.html"/>
             <item name="Cyclomatic Complexity" href="/gmetrics-CyclomaticComplexityMetric.html"/>
+            <item name="FieldCount" href="/gmetrics-FieldCountMetric.html"/>
             <item name="MethodLineCount" href="/gmetrics-MethodLineCountMetric.html"/>
             <item name="MethodCount" href="/gmetrics-MethodCountMetric.html"/>
         </menu>
