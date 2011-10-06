@@ -8,6 +8,7 @@ NEW FEATURES
 - Upgrade to Groovy 1.7. NOTE: GMetrics now requires Groovy 1.7.
 
 NEW METRICS
+- New FieldCountMetric. Counts the number of fields within each class. (#3341811)
 - New MethodCountMetric. Counts the number of methods (and closure fields) within each class. (#3341804)
 - New ClassCountMetric. Counts the number of classes within each package. (#3341812)
 
@@ -15,7 +16,6 @@ FIXES AND ENHANCEMENTS
 - Fix #3413604: Reimplement ASTUtil.getVariableExpressions() to optimize performance. Thanks to Hamlet D’Arcy.
 - Fix #3186167: GMetrics can't be built with Groovy >= 1.7.7. Fix illegal writes to final properties.
 - Fix #3418843: Reports: Exclude results for level "less" than metric base level
-- Upgrade to use CodeNarc 0.15 for tests/analysis.
 - ReportWriters: Include output file name in “Report created” message
 
 FRAMEWORK/API CHANGES  (Potential breaking changes if you have implemented your own Metrics)
@@ -26,6 +26,8 @@ FRAMEWORK/API CHANGES  (Potential breaking changes if you have implemented your 
 
 INFRASTRUCTURE AND TESTS
 - GMetricsVersion class with String getVersion(). Remove "GMetrics" from version file.
+- Upgrade to use CodeNarc 0.15 for tests/analysis.
+
 
 Changes in version 0.3 (23 Jul 2010)
 --------------------------------------

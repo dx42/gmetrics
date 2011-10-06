@@ -9,6 +9,8 @@ metricset {
 
     metric(org.gmetrics.metric.classcount.ClassCountMetric)
 
+    metric(org.gmetrics.metric.fieldcount.FieldCountMetric)
+
     metric(org.gmetrics.metric.linecount.ClassLineCountMetric)
 
     metric(org.gmetrics.metric.linecount.MethodLineCountMetric)
