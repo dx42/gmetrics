@@ -13,6 +13,7 @@ NEW METRICS
 - New ClassCountMetric. Counts the number of classes within each package. (#3341812)
 
 FIXES AND ENHANCEMENTS
+- Fix #3305753: Make GMetrics runnable (compatible) with Groovy 1.8.
 - Fix #3413604: Reimplement ASTUtil.getVariableExpressions() to optimize performance. Thanks to Hamlet D’Arcy.
 - Fix #3186167: GMetrics can't be built with Groovy >= 1.7.7. Fix illegal writes to final properties.
 - Fix #3418843: Reports: Exclude results for level "less" than metric base level
