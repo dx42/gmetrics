@@ -5,7 +5,8 @@ http://www.gmetrics.org
 Changes in version 0.4 (?? ??? 2011)
 --------------------------------------
 NEW FEATURES
-- Upgrade to Groovy 1.7. NOTE: GMetrics now requires Groovy 1.7.
+- Upgrade to Groovy 1.7. NOTE: GMetrics now requires Groovy 1.7. (#3421010)
+- Support specifying metrics within the MetricSet by specifying the metric name, with optional properties Map or optional closure. (#3421008)
 
 NEW METRICS
 - New FieldCountMetric. Counts the number of fields within each class. (#3341811)
@@ -26,7 +27,7 @@ FRAMEWORK/API CHANGES  (Potential breaking changes if you have implemented your 
 - Add isValid() method to the SourceCode interface and implementations.
 
 INFRASTRUCTURE AND TESTS
-- GMetricsVersion class with String getVersion(). Remove "GMetrics" from version file.
+- Create GMetricsVersion class with String getVersion(). Remove "GMetrics" from version file.
 - Upgrade to use CodeNarc 0.15 for tests/analysis.
 
 

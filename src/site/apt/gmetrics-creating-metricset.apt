@@ -10,18 +10,54 @@ GMetrics - Creating a MetricSet
 
   <<GMetrics>> provides a Groovy DSL (domain-specific language) for defining <MetricSets>.
 
-
 ** A Sample Groovy MetricSet
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  Here is an example of a Groovy <MetricSet> file:
+  The preferred syntax for defining a <MetricSet> is to specify the list of <Metric>s using the <Metric>
+  names. Here is simple example:
+
++----------------------------------------------------------------------------------------
+metricset {
+
+    description 'A simple MetricSet'
+
+    ClassCount          // specify metric name only (note no "Metric" suffix on metric name)
+
+    FieldCount {        // configure the Metric using a Closure
+        functions = ['total']
+    }
+
+    MethodCount([functions:['total'])    // configure the Metric using a Map of properties
+}
++----------------------------------------------------------------------------------------
+
+  Things to note:
+
+    * The Groovy <MetricSet> file itself must be accessible on the classpath.
+
+    * This <MetricSet> includes the <<ClassCount>>, <<FieldCount>> and <<MethodCount>> <Metric>s.
+
+    * Note that the <Metric> names do not include the "Metric" suffix (of the <Metric> implementation class name).
+
+    * <Metric> properties can be configured either within a Closure (as assignments) or through a
+      <Map> passed in within the parentheses (after the <Metric> name).
+
+    * You can specify the <Metric> names for all <Metric>s provided with <<GMetrics>>. If you provide
+      your own custom <Metric>s, then you must use the <<<metric(Class)>>> syntax instead -- see below.
+
+
+** A More Comprehensive Groovy MetricSet
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  Here is an example of a more comprehensive Groovy <MetricSet> file, illustrating specifying <Metric>s
+  by <Metric> class or <Metric> name, and also nested <MetricSet> files:
 
 +----------------------------------------------------------------------------------------
 import org.gmetrics.metric.cyclomatic.CyclomaticComplexityMetric
 
 metricset {
 
-    description 'A sample MetricSet'
+    description 'An example MetricSet'
 
     metricset("MyMetricSet.groovy")
 
@@ -29,7 +65,13 @@ metricset {
         functions = ['average', 'maximum']
     }
 
-    metric(CyclomaticComplexityMetric)
+    metric(CyclomaticComplexityMetric)      // specify metric class (see import)
+
+    ClassCount          // specify metric name only (note no "Metric" suffix on metric name)
+
+    FieldCount {          // specify metric name only
+        functions = ['total']
+    }
 
     metricset("somepath/MyOtherMetricSet.groovy") {
         ClassLineCount {
@@ -80,6 +122,8 @@ metricset {
       <closure> containing property assignment statements. See <<<AbcMetric>>> within the example.
       As within <<MetricSet>> statements, properties set this way can be of type <<<String>>>, <<<int>>>,
       <<<long>>> or <<<boolean>>>.
+
+    * The <<ClassCount>> and <<FieldCount>> <Metric>s are included by specifying only the <Metric> name (not the class)
 
     * Setting the <<<enabled>>> property of a <Metric> turns it off so that it will not show up in the 
       output report(s).
