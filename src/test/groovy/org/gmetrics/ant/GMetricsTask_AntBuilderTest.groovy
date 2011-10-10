@@ -15,9 +15,10 @@
  */
 package org.gmetrics.ant
 
-import org.gmetrics.test.AbstractTestCase
-import org.gmetrics.metricset.MetricSetTestFiles
+import org.gmetrics.metricregistry.MetricRegistryHolder
 import org.gmetrics.metricset.DefaultMetricSet
+import org.gmetrics.metricset.MetricSetTestFiles
+import org.gmetrics.test.AbstractTestCase
 
 /**
  * Tests for GMetricsTask that use the Groovy AntBuilder.
@@ -33,7 +34,8 @@ class GMetricsTask_AntBuilderTest extends AbstractTestCase {
 
     private static final ALL_HTML_REPORT_FILE = 'AllMetricsAntBuilderTestReport.html'
     private static final ALL_XML_REPORT_FILE = 'AllMetricsAntBuilderTestReport.xml'
-    private static final ALL_METRICSET_FILE = 'metricsets/AllMetricSet.txt'
+    private static final ALL_METRICSET_FILE = 'AllMetricSet.txt'
+//    private static final ALL_METRICSET_FILE = 'metricsets/AllMetricSet.txt'
 
     private static final SERIES_HTML_REPORT_WRITER = 'org.gmetrics.report.SingleSeriesHtmlReportWriter'
     private static final SERIES_HTML_REPORT_FILE = 'AntBuilderTestSingleSeriesHtmlReport.html'
@@ -82,7 +84,10 @@ class GMetricsTask_AntBuilderTest extends AbstractTestCase {
     }
 
     void testAntTask_Execute_AllMetrics() {
-        ant.gmetrics(metricSetFile: ALL_METRICSET_FILE) {
+        def allMetricSetFile = new File(ALL_METRICSET_FILE)
+        generateAllMetricsFile(allMetricSetFile)
+
+        ant.gmetrics(metricSetFile: 'file:' + ALL_METRICSET_FILE) {
            fileset(dir:'src/main/groovy/org/gmetrics/metric') {
                include(name:"**/*.groovy")
            }
@@ -96,6 +101,7 @@ class GMetricsTask_AntBuilderTest extends AbstractTestCase {
            }
         }
         verifyReportFile(ALL_HTML_REPORT_FILE, [TITLE, 'org.gmetrics.metric', 'Description'])
+        allMetricSetFile.delete()
     }
 
     void testAntTask_Execute_SpecifyMetricSetFile() {
@@ -126,5 +132,15 @@ class GMetricsTask_AntBuilderTest extends AbstractTestCase {
         def file = new File(reportFile)
         assert file.exists()
         assertContainsAllInOrder(file.text, strings)
+    }
+
+    private void generateAllMetricsFile(File allMetricSetFile) {
+        allMetricSetFile.withWriter { w ->
+            w.println 'metricset {'
+            MetricRegistryHolder.metricRegistry.allMetricNames.each { metricName ->
+                w.println metricName
+            }
+            w.println '}'
+        }
     }
 }

@@ -18,6 +18,8 @@ package org.gmetrics.metricset
 import org.gmetrics.test.AbstractTestCase
 import org.gmetrics.metric.abc.AbcMetric
 import org.gmetrics.metric.StubMetric
+import org.gmetrics.metricregistry.MetricRegistryHolder
+import org.gmetrics.metricregistry.MetricRegistry
 
 /**
  * Tests for MetricSetBuilder
@@ -97,6 +99,14 @@ class MetricSetBuilderTest extends AbstractTestCase {
         assertMetricNames('Stub', 'XXX')
     }
 
+    void testMetric_Class_Map() {
+        metricSetBuilder.metricset {
+            metric(AbcMetric, [enabled:false])
+        }
+        assertMetricNames('ABC')
+        assert !findMetric('ABC').enabled
+    }
+
     void testMetric_Class_NoClosure() {
         metricSetBuilder.metricset {
             metric AbcMetric
@@ -155,6 +165,47 @@ class MetricSetBuilderTest extends AbstractTestCase {
         }
     }
 
+    void testMetric_MetricName_EmptyParentheses() {
+        metricSetBuilder.metricset {
+            ABC()
+        }
+        assertMetricNames('ABC')
+    }
+
+    void testMetric_MetricName_ParenthesesWithMap() {
+        metricSetBuilder.metricset {
+            ABC([enabled:false])
+        }
+        assertMetricNames('ABC')
+        assert !findMetric('ABC').enabled
+    }
+
+    void testMetric_MetricName_NoParenthesesWithClosure() {
+        metricSetBuilder.metricset {
+            ABC {
+                enabled = false
+            }
+        }
+        assertMetricNames('ABC')
+        assert !findMetric('ABC').enabled
+    }
+
+    void testMetric_MetricName_NoParenthesesOrClosure() {
+        metricSetBuilder.metricset {
+            ABC
+        }
+        assertMetricNames('ABC')
+    }
+
+    void testMetric_MetricName_NoSuchMetricName() {
+        MetricRegistryHolder.metricRegistry = [getMetricClass:{ null }] as MetricRegistry
+        shouldFailWithMessageContaining('DoesNotExist') {
+            metricSetBuilder.metricset {
+                DoesNotExist
+            }
+        }
+    }
+
     void testDescription() {
         metricSetBuilder.metricset {
             description 'abc'
@@ -164,6 +215,7 @@ class MetricSetBuilderTest extends AbstractTestCase {
     void setUp() {
         super.setUp()
         metricSetBuilder = new MetricSetBuilder()
+        MetricRegistryHolder.metricRegistry = [getMetricClass:{ AbcMetric }] as MetricRegistry
     }
 
     private MetricSet getMetricSet() {
