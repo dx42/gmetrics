@@ -16,6 +16,7 @@
 package org.gmetrics.metricset
 
 import org.gmetrics.metric.Metric
+import org.gmetrics.metricregistry.MetricRegistryHolder
 
 /**
  * A Builder for MetricSets. Create a MetricSet by calling the <code>metricset</code>
@@ -57,6 +58,7 @@ class TopLevelDelegate {
         def metricSet = new GroovyDslMetricSet(path)
         def metricSetConfigurer = new MetricSetDelegate(metricSet)
         closure.delegate = metricSetConfigurer
+        closure.setResolveStrategy(Closure.DELEGATE_FIRST)
         closure.call()
         allMetricSet.addMetricSet(metricSetConfigurer.metricSet)
     }
@@ -67,6 +69,13 @@ class TopLevelDelegate {
         allMetricSet.addMetric(metric)
     }
 
+    void metric(Class metricClass, Map properties) {
+        assertClassImplementsMetricInterface(metricClass)
+        Metric metric = metricClass.newInstance()
+        properties.each { key, value -> metric[key] = value }
+        allMetricSet.addMetric(metric)
+    }
+
     void metric(Class metricClass, Closure closure) {
         assertClassImplementsMetricInterface(metricClass)
         Metric metric = metricClass.newInstance()
@@ -74,6 +83,23 @@ class TopLevelDelegate {
         closure.resolveStrategy = Closure.DELEGATE_FIRST
         closure.call()
         allMetricSet.addMetric(metric)
+    }
+
+    def propertyMissing(String name) {
+        def metricClass = MetricRegistryHolder.metricRegistry?.getMetricClass(name)
+        assert metricClass, "No such metric named [$name]"
+        metric(metricClass)
+    }
+
+    def methodMissing(String name, args) {
+        def metricClass = MetricRegistryHolder.metricRegistry?.getMetricClass(name)
+        assert metricClass, "No such metric named [$name]"
+        if (args.size() > 0) {
+            metric(metricClass, args[0])
+        }
+        else {
+            metric(metricClass)
+        }
     }
 
     @SuppressWarnings('EmptyMethod')
