@@ -5,7 +5,7 @@
     <groupId>org.gmetrics</groupId>
     <artifactId>GMetrics</artifactId>
     <name>GMetrics</name>
-    <version>0.4-SNAPSHOT</version>
+    <version>0.4</version>
 
     <parent>
         <groupId>org.sonatype.oss</groupId>
@@ -21,9 +21,9 @@
     <url>http://gmetrics.sourceforge.net/</url>
 
     <scm>
-        <connection>scm:svn:https://gmetrics.svn.sourceforge.net/svnroot/gmetrics/tags/GMetrics-0.3</connection>
-        <developerConnection>scm:svn:https://gmetrics.svn.sourceforge.net/svnroot/gmetrics/tags/GMetrics-0.3</developerConnection>
-        <url>https://gmetrics.svn.sourceforge.net/svnroot/gmetrics/tags/GMetrics-0.3</url>
+        <connection>scm:svn:https://gmetrics.svn.sourceforge.net/svnroot/gmetrics/tags/GMetrics-0.4</connection>
+        <developerConnection>scm:svn:https://gmetrics.svn.sourceforge.net/svnroot/gmetrics/tags/GMetrics-0.4</developerConnection>
+        <url>https://gmetrics.svn.sourceforge.net/svnroot/gmetrics/tags/GMetrics-0.4</url>
     </scm>
 
     <dependencies>
