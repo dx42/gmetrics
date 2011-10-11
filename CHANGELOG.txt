@@ -2,7 +2,7 @@ GMetrics Change Log
 -------------------------------------------------------------------------------
 http://www.gmetrics.org
 
-Changes in version 0.4 (?? ??? 2011)
+Changes in version 0.4 (Oct 2011)
 --------------------------------------
 NEW FEATURES
 - Upgrade to Groovy 1.7. NOTE: GMetrics now requires Groovy 1.7. (#3421010)
