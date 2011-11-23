@@ -87,9 +87,24 @@ class SingleSeriesCriteriaFilter {
 
     private void findMatchingValuesForChildren(ResultsNode resultsNode, String parentName, List matchingValues) {
         resultsNode.children.each { childName, childResultsNode ->
-            String fullChildName = (childResultsNode.level == MetricLevel.METHOD) ? "${parentName}.${childName}" : childName
+            String fullChildName = getResultsNodeFullName(childResultsNode, childName, parentName)
             findMatchingValues(childResultsNode, fullChildName, matchingValues)
         }
+    }
+
+    private String getResultsNodeFullName(ResultsNode childResultsNode, childName, String parentName) {
+        String fullChildName
+        switch (childResultsNode.level) {
+            case MetricLevel.METHOD:
+                fullChildName = "${parentName}.${childName}"
+                break
+            case MetricLevel.PACKAGE:
+                fullChildName = childResultsNode.path
+                break
+            default:
+                fullChildName = childName
+        }
+        return fullChildName
     }
 
     private void findMatchingValues(ResultsNode resultsNode, String name, List matchingValues) {

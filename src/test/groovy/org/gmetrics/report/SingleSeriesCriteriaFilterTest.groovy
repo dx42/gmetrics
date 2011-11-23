@@ -49,7 +49,7 @@ class SingleSeriesCriteriaFilterTest extends AbstractTestCase {
     void testBuildSeriesData_Package() {
         configureFilter(metric:'Metric1', level:'package', function:'average')
         def seriesData = filter.buildSeriesData(resultsNode, metricSet)
-        assertSeriesData(seriesData, [DirA:1112, DirB:1113, DirC:1114])
+        assertSeriesData(seriesData, ['org.gmetrics.DirA':1112, 'org.gmetrics.DirB':1113, 'org.gmetrics.DirC':1114])
     }
 
     void testBuildSeriesData_Sort_Descending() {
@@ -74,7 +74,7 @@ class SingleSeriesCriteriaFilterTest extends AbstractTestCase {
         [null, ''].each { sort ->
             configureFilter(metric:'Metric1', level:'package', function:'average', sort:sort)
             def seriesData = filter.buildSeriesData(resultsNode, metricSet)
-            assertSeriesData(seriesData, [DirA:1112, DirB:1113, DirC:1114])
+            assertSeriesData(seriesData, ['org.gmetrics.DirA':1112, 'org.gmetrics.DirB':1113, 'org.gmetrics.DirC':1114])
         }
     }
 
@@ -248,9 +248,9 @@ class SingleSeriesCriteriaFilterTest extends AbstractTestCase {
         // Metric1=1000-1999 Metric2=2000-2999; package=x1xx class=x2xx method=x3xx; total=xx0x average=xx1x
         resultsNode = packageResultsNode([metricResults:[metric1Result(average:1111, total:1101)]],
         [
-            DirA: packageResultsNode([path:'DirA', metricResults:[metric1Result(average:1112, total:1102)]],
+            DirA: packageResultsNode([path:'org.gmetrics.DirA', metricResults:[metric1Result(average:1112, total:1102)]],
             [
-                DirB: packageResultsNode([path:'DirB', metricResults:[metric1Result(average:1113)]]),
+                DirB: packageResultsNode([path:'org.gmetrics.DirB', metricResults:[metric1Result(average:1113)]]),
                 ClassA1: classResultsNode([metricResults:[metric1Result(total:1201.99), metric2Result(average:2211)]],
                 [
                     MethodA1a: methodResultsNode(metricResults:[metric1Result(total:1301, average:1311)]),
@@ -263,8 +263,8 @@ class SingleSeriesCriteriaFilterTest extends AbstractTestCase {
                     MethodA3a: methodResultsNode(metricResults:[metric1Result(average:1313)]),
                 ])
             ]),
-            DirC: packageResultsNode(path:'DirC', metricResults:[metric1Result(average:1114), metric2Result(average:2114)]),
-            DirD: packageResultsNode(path:'DirD', metricResults:[metric1Result(total:1105), metric2Result(total:2105)])
+            DirC: packageResultsNode(path:'org.gmetrics.DirC', metricResults:[metric1Result(average:1114), metric2Result(average:2114)]),
+            DirD: packageResultsNode(path:'org.gmetrics.DirD', metricResults:[metric1Result(total:1105), metric2Result(total:2105)])
         ])
     }
 
