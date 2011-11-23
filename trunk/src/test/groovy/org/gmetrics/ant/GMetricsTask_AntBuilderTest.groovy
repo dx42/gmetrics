@@ -67,7 +67,7 @@ class GMetricsTask_AntBuilderTest extends AbstractTestCase {
                 option(name:'title', value:SERIES_TITLE)
                 option(name:'outputFile', value:SERIES_HTML_REPORT_FILE)
                 option(name:'metric', value:'MethodLineCount')
-                option(name:'level', value:'method')
+                option(name:'level', value:'package')
                 option(name:'function', value:'total')
                 option(name:'sort', value:'descending')
                 option(name:'maxResults', value:'20')

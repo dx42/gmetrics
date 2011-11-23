@@ -88,9 +88,9 @@ class SingleSeriesHtmlReportWriterTest extends AbstractReportWriterTestCase {
 
         def resultsNode = packageResultsNode([:],
         [
-            'src/test/groovy': packageResultsNode(metricResults:[metric1Result(total:123)]),
-            'src/main/groovy': packageResultsNode(metricResults:[metric1Result(total:789)]),
-            'src/main/resources': packageResultsNode(metricResults:[metric1Result(total:992)]),
+            'src/test/groovy': packageResultsNode(path:'src/test/groovy', metricResults:[metric1Result(total:123)]),
+            'src/main/groovy': packageResultsNode(path:'src/main/groovy', metricResults:[metric1Result(total:789)]),
+            'src/main/resources': packageResultsNode(path:'src/main/resources', metricResults:[metric1Result(total:992)]),
         ])
 
         configureReportWriter(metric: 'Metric1', level: 'package', function: 'total')
@@ -107,9 +107,9 @@ class SingleSeriesHtmlReportWriterTest extends AbstractReportWriterTestCase {
 
         def resultsNode = packageResultsNode([:],
         [
-            'src/test/groovy': packageResultsNode(metricResults:[metric1Result(total:123)]),
-            'src/main/groovy': packageResultsNode(metricResults:[metric1Result(total:789)]),
-            'src/main/resources': packageResultsNode(metricResults:[metric1Result(total:992)]),
+            'src/test/groovy': packageResultsNode(path:'src/test/groovy', metricResults:[metric1Result(total:123)]),
+            'src/main/groovy': packageResultsNode(path:'src/main/groovy', metricResults:[metric1Result(total:789)]),
+            'src/main/resources': packageResultsNode(path:'src/main/resources', metricResults:[metric1Result(total:992)]),
         ])
 
         configureReportWriter(metric: 'Metric1', level: 'package', function: 'total', maxResults:'2')
@@ -125,9 +125,9 @@ class SingleSeriesHtmlReportWriterTest extends AbstractReportWriterTestCase {
 
         def resultsNode = packageResultsNode([:],
         [
-            'src/test/groovy': packageResultsNode(metricResults:[metric1Result(total:123)]),
-            'src/main/groovy': packageResultsNode(metricResults:[metric1Result(total:789)]),
-            'src/main/resources': packageResultsNode(metricResults:[metric1Result(total:992)]),
+            'src/test/groovy': packageResultsNode(path:'src/test/groovy', metricResults:[metric1Result(total:123)]),
+            'src/main/groovy': packageResultsNode(path:'src/main/groovy', metricResults:[metric1Result(total:789)]),
+            'src/main/resources': packageResultsNode(path:'src/main/resources', metricResults:[metric1Result(total:992)]),
         ])
 
         configureReportWriter(metric: 'Metric1', level: 'package', function: 'total', greaterThan:'500', lessThan:'800.50')
