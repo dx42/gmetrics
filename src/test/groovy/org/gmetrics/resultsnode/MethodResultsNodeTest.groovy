@@ -24,16 +24,24 @@ import org.gmetrics.metric.StubMetric
  * Tests for MethodResultsNode
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class MethodResultsNodeTest extends AbstractTestCase {
 
+    private static final NAME = 'name123'
     private static final METRIC = new StubMetric()
     private static final METRIC_RESULT1 = new NumberMetricResult(METRIC, MetricLevel.METHOD, 1)
     private static final METRIC_RESULT2 = new NumberMetricResult(METRIC, MetricLevel.METHOD, 2)
     private static final METRIC_RESULT3 = new NumberMetricResult(METRIC, MetricLevel.METHOD, 3)
 
     private methodResultsNode
+
+    void testImplementsResultsNode() {
+        assert methodResultsNode instanceof ResultsNode
+    }
+
+    void testNameAssignedFromConstructor() {
+        assert methodResultsNode.name == NAME
+    }
 
     void testThatMetricLevelIsMethodLevel() {
         assert methodResultsNode.level == MetricLevel.METHOD
@@ -84,7 +92,7 @@ class MethodResultsNodeTest extends AbstractTestCase {
 
     void setUp() {
         super.setUp()
-        methodResultsNode = new MethodResultsNode()
+        methodResultsNode = new MethodResultsNode(NAME)
     }
 
 }

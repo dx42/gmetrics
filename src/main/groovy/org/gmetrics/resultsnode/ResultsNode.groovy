@@ -26,6 +26,7 @@ import org.gmetrics.result.MetricResult;
  */
 interface ResultsNode {
 
+    String getName()
     MetricLevel getLevel()
     boolean containsClassResults()
     List<MetricResult> getMetricResults()

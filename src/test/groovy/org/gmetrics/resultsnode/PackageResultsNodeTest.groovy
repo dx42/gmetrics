@@ -25,10 +25,11 @@ import org.gmetrics.metric.linecount.MethodLineCountMetric
  * Tests for PackageResultsNode
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class PackageResultsNodeTest extends AbstractTestCase {
 
+    private static final NAME = 'name123'
+    private static final PATH = 'path123'
     private static final METRIC = new MethodLineCountMetric()
     private static final MR1 = new NumberMetricResult(METRIC, MetricLevel.CLASS, 23)
     private static final MR2 = new NumberMetricResult(METRIC, MetricLevel.CLASS, 99)
@@ -37,6 +38,20 @@ class PackageResultsNodeTest extends AbstractTestCase {
     private packageResultsNode
     private emptyResultsNode, classResultsNode
     private resultsNode1, resultsNode2, packageResultsNode2
+
+    void testImplementsResultsNode() {
+        assert packageResultsNode instanceof ResultsNode
+    }
+
+    void testNameAssignedFromConstructor() {
+        assert packageResultsNode.name == NAME
+    }
+
+    void testNameAndPathAssignedFromConstructor() {
+        def newResultsNode = new PackageResultsNode(NAME, PATH)
+        assert newResultsNode.name == NAME
+        assert newResultsNode.path == PATH
+    }
 
     void testThatMetricLevelIsPackageLevel() {
         assert packageResultsNode.level == MetricLevel.PACKAGE
@@ -168,11 +183,11 @@ class PackageResultsNodeTest extends AbstractTestCase {
 
     void setUp() {
         super.setUp()
-        packageResultsNode = new PackageResultsNode()
+        packageResultsNode = new PackageResultsNode(NAME)
         emptyResultsNode = new StubResultsNode()
         resultsNode1 = new StubResultsNode(metricResults:[MR1])
         resultsNode2 = new StubResultsNode(metricResults:[MR2])
         classResultsNode = new StubResultsNode(metricResults:[MR1], containsClassResults:true)
-        packageResultsNode2 = new PackageResultsNode()
+        packageResultsNode2 = new PackageResultsNode(NAME)
     }
 }

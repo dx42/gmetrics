@@ -41,6 +41,7 @@ ruleset {
         VariableName {
             regex = /[a-z][a-zA-Z0-9_]*/
         }
+        FactoryMethodName(enabled:false)
     }
     ruleset('rulesets/size.xml') {
         AbcComplexity(enabled:false)

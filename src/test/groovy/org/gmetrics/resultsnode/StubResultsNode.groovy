@@ -28,6 +28,7 @@ import org.gmetrics.metric.Metric
 @SuppressWarnings('ConfusingMethodName')
 class StubResultsNode implements ResultsNode {
 
+    String name
     MetricLevel level = MetricLevel.CLASS
     boolean containsClassResults = false
     List metricResults = []

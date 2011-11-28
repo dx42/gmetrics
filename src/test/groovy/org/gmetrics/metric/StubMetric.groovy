@@ -26,6 +26,7 @@ import org.gmetrics.result.MetricResult
  * @author Chris Mair
  * @version $Revision$ - $Date$
  */
+@SuppressWarnings('UnusedMethodParameter')
 class StubMetric implements Metric {
 
     boolean enabled = true

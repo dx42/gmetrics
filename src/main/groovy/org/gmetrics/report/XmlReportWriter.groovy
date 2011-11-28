@@ -81,14 +81,14 @@ class XmlReportWriter extends AbstractReportWriter {
     }
 
     private buildPackageElements(resultsNode) {
-        return buildElement(resultsNode, null)
+        return buildElement(resultsNode)
     }
 
-    private buildElement(ResultsNode resultsNode, String name) {
+    private buildElement(ResultsNode resultsNode) {
         switch(resultsNode.level) {
             case MetricLevel.PACKAGE: return buildPackageElement(resultsNode)
-            case MetricLevel.CLASS: return buildChildElement('Class', resultsNode, name)
-            case MetricLevel.METHOD: return buildChildElement('Method', resultsNode, name)
+            case MetricLevel.CLASS: return buildChildElement('Class', resultsNode)
+            case MetricLevel.METHOD: return buildChildElement('Method', resultsNode)
         }
     }
 
@@ -100,26 +100,26 @@ class XmlReportWriter extends AbstractReportWriter {
                 out << buildMetricElements(resultsNode.metricResults, resultsNode.level)
                 resultsNode.children.each { childName, childResultsNode ->
                     if (!isPackage(childResultsNode)) {
-                        out << buildElement(childResultsNode, childName)
+                        out << buildElement(childResultsNode)
                     }
                 }
 
             }
             resultsNode.children.each { childName, childResultsNode ->
                 if (isPackage(childResultsNode)) {
-                    out << buildElement(childResultsNode, childName)
+                    out << buildElement(childResultsNode)
                 }
             }
         }
     }
 
     // Build element for Class or Method
-    private buildChildElement(String typeName, resultsNode, String name) {
+    private buildChildElement(String typeName, resultsNode) {
         return {
-            "$typeName"([name:name]) {
+            "$typeName"([name:resultsNode.name]) {
                 out << buildMetricElements(resultsNode.metricResults, resultsNode.level)
                 resultsNode.children.each { childName, childResultsNode ->
-                    out << buildElement(childResultsNode, childName)
+                    out << buildElement(childResultsNode)
                 }
             }
         }

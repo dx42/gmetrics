@@ -19,6 +19,7 @@ import org.gmetrics.metric.MetricLevel
 import org.gmetrics.result.MetricResult
 import org.gmetrics.metric.Metric
 import org.gmetrics.result.ClassMetricResult
+import org.gmetrics.result.MethodKey
 
 /**
  * Represents a node in the hierarchy of metric result nodes
@@ -28,9 +29,14 @@ import org.gmetrics.result.ClassMetricResult
  */
 class ClassResultsNode implements ResultsNode {
 
+    final String name
     final MetricLevel level = MetricLevel.CLASS
     final Map<String, ResultsNode> children = [:]
     final List<MetricResult> metricResults = []
+
+    ClassResultsNode(String name) {
+        this.name = name
+    }
 
     boolean containsClassResults() {
         return true
@@ -56,11 +62,11 @@ class ClassResultsNode implements ResultsNode {
         return "ClassResultsNode[$level: metricResults=$metricResults, children=$children]"
     }
 
-    private void addMethodMetricResult(String methodName, MetricResult metricResult) {
-        if (children[methodName] == null) {
-            children[methodName] = new MethodResultsNode()
+    private void addMethodMetricResult(MethodKey methodKey, MetricResult metricResult) {
+        if (children[methodKey] == null) {
+            children[methodKey] = new MethodResultsNode(methodKey.methodName)
         }
-        children[methodName].addMetricResult(metricResult)
+        children[methodKey].addMetricResult(metricResult)
     }
 
 }

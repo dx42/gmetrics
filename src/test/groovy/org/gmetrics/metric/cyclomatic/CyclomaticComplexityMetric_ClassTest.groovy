@@ -53,18 +53,18 @@ class CyclomaticComplexityMetric_ClassTest extends AbstractMetricTestCase {
         final SOURCE = """
             println 123     // this is a script; will generate main() and run() methods
         """
-        assertApplyToClass(SOURCE, 1, 1, [run:1])
+        assertApplyToClass(SOURCE, 1, 1, [(RUN_METHOD):1])
     }
 
     void testApplyToClass_ResultsForClassWithOneMethod() {
         final SOURCE = """
             class MyClass {
-                def a() {
+                String a() {
                     if (ready) { }
                 }
             }
         """
-        assertApplyToClass(SOURCE, 2, 2, [a:2])
+        assertApplyToClass(SOURCE, 2, 2, ['String a()':2])
     }
 
     void testApplyToClass_ResultsForClassWithSeveralMethodsAndClosureFields() {
@@ -78,7 +78,7 @@ class CyclomaticComplexityMetric_ClassTest extends AbstractMetricTestCase {
                     if (ready || started) { }
                     else { }
                 }
-                def c() {                   // 5
+                String c() {                   // 5
                     switch(x) {
                         case 1: break
                         case 3: break
@@ -96,7 +96,7 @@ class CyclomaticComplexityMetric_ClassTest extends AbstractMetricTestCase {
 
             }
         """
-        assertApplyToClass(SOURCE, 14, scale(14/5), [(CONSTRUCTOR_NAME):3, b:3, c:5, d:1, e:2])
+        assertApplyToClass(SOURCE, 14, scale(14/5), [(DEFAULT_CONSTRUCTOR):3, b:3, 'String c()':5, d:1, e:2])
     }
 
     void testApplyToClass_ResultsForClassWithOneClosureField() {
@@ -116,7 +116,7 @@ class CyclomaticComplexityMetric_ClassTest extends AbstractMetricTestCase {
                 if (x == 23) return 99 else return 0
             }
         """
-        assertApplyToClass(SOURCE, 2, 2, [run:2])
+        assertApplyToClass(SOURCE, 2, 2, [(RUN_METHOD):2])
     }
 
     void testApplyToPackage_ResultsForNoChildren() {

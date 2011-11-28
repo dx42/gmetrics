@@ -16,6 +16,7 @@
 package org.gmetrics.metric.abc
 
 import org.gmetrics.metric.MetricLevel
+import org.gmetrics.result.MethodKey
 
 /**
  * Tests for AbcMetric calculation of class-level metrics
@@ -52,16 +53,16 @@ class AbcMetric_ClassTest extends AbstractAbcMetricTest {
         final SOURCE = """
             println 123     // this is a script; will generate main() and run() methods
         """
-        assertApplyToClass(SOURCE, [0, 1, 0], [0,1,0], [run:[0, 1, 0]])
+        assertApplyToClass(SOURCE, [0, 1, 0], [0,1,0], ['java.lang.Object run()':[0, 1, 0]])
     }
 
     void testApplyToClass_ResultsForClassWithOneMethod() {
         final SOURCE = """
-            def a() {
+            String a() {
                 def x = 1               // A=1
             }
         """
-        assertApplyToClass(SOURCE, [1, 0, 0], [1,0,0], [a:[1, 0, 0]])
+        assertApplyToClass(SOURCE, [1, 0, 0], [1,0,0], ['String a()':[1, 0, 0]])
     }
 
     void testApplyToClass_ResultsForClassWithSeveralMethods() {
@@ -70,12 +71,12 @@ class AbcMetric_ClassTest extends AbstractAbcMetricTest {
                 def MyClass() {
                     def x = 1; y = x            // A=2
                 }
-                def b() {
+                String b() {
                     new SomeClass(99)           // B=1
                     new SomeClass().run()       // B=2
                     x++                         // A=1
                 }
-                def c() {
+                String c() {
                     switch(x) {
                         case 1: break           // C=1
                         case 3: break           // C=1
@@ -84,7 +85,7 @@ class AbcMetric_ClassTest extends AbstractAbcMetricTest {
                 }
             }
         """
-        assertApplyToClass(SOURCE, [3,3,6], [1,1,2], [(CONSTRUCTOR_NAME):[2,0,0], b:[1,3,0], c:[0,0,6]])
+        assertApplyToClass(SOURCE, [3,3,6], [1,1,2], [(DEFAULT_CONSTRUCTOR):[2,0,0], 'String b()':[1,3,0], 'String c()':[0,0,6]])
     }
 
     void testApplyToClass_ResultsForScript_RunMethod() {
@@ -93,7 +94,7 @@ class AbcMetric_ClassTest extends AbstractAbcMetricTest {
                 def x = 1
             }
         """
-        assertApplyToClass(SOURCE, [2, 0, 0], [2,0,0], [run:[2, 0, 0]])
+        assertApplyToClass(SOURCE, [2, 0, 0], [2,0,0], [(RUN_METHOD):[2, 0, 0]])
     }
 
     void testApplyToClass_ResultsForClassWithOneClosureField() {
@@ -124,7 +125,7 @@ class AbcMetric_ClassTest extends AbstractAbcMetricTest {
         def results = applyToClass(SOURCE)
         def methodResults = results.methodMetricResults
         log("methodResults=$methodResults")
-        assertEqualSets(methodResults.keySet(), ['a', 'b', 'c']) 
+        assertEqualSets(methodResults.keySet().methodName, ['a', 'b', 'c'])
     }
 
     protected void assertApplyToClass(String source, classTotalValue, classAverageValue, Map methodValues) {
@@ -141,9 +142,12 @@ class AbcMetric_ClassTest extends AbstractAbcMetricTest {
 
         def methodNames = methodValues?.keySet()
         methodNames.each { methodName ->
-            def methodValue = methodMetricResults[methodName].abcVector
+            def methodKey = new MethodKey(methodName)
+            def methodResult = methodMetricResults[methodKey]
+            assert methodResult, "Method named [$methodName] does not exist"
+            def methodValue = methodResult.abcVector
             AbcTestUtil.assertEquals(methodValue, methodValues[methodName])
-            assert methodMetricResults[methodName].metricLevel == MetricLevel.METHOD
+            assert methodResult.metricLevel == MetricLevel.METHOD
         }
     }
 

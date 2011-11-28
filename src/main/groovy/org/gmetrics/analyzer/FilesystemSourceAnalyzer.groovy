@@ -23,6 +23,7 @@ import org.gmetrics.metricset.MetricSet
 import org.gmetrics.resultsnode.PackageResultsNode
 import org.codehaus.groovy.ast.ClassNode
 import org.gmetrics.resultsnode.ResultsNode
+import org.gmetrics.util.PathUtil
 
 /**
  * SourceAnalyzer implementation that recursively processes files from the file system.
@@ -88,7 +89,8 @@ class FilesystemSourceAnalyzer implements SourceAnalyzer {
     }
 
     private PackageResultsNode processDirectory(dirFile, String dir, MetricSet metricSet) {
-        def dirResults = new PackageResultsNode()   // TODO set dir name?
+        String name = PathUtil.getName(dir)
+        def dirResults = new PackageResultsNode(name)
         dirFile.eachFile {file ->
             def dirPrefix = dir ? dir + SEP : dir
             def filePath = dirPrefix + file.name
@@ -121,7 +123,7 @@ class FilesystemSourceAnalyzer implements SourceAnalyzer {
     }
 
     private ClassResultsNode applyMetricsToClass(ClassNode classNode, MetricSet metricSet, SourceCode sourceCode) {
-        def classResultsNode = new ClassResultsNode()
+        def classResultsNode = new ClassResultsNode(classNode.name)
         metricSet.metrics.each { metric ->
             def classMetricResult = metric.applyToClass(classNode, sourceCode)
             classResultsNode.addClassMetricResult(classMetricResult)

@@ -56,6 +56,7 @@ class AggregateNumberMetricResult implements MetricResult {
         "AggregateNumberMetricResult[count=$count, $functionValues}]"
     }
 
+    @SuppressWarnings('UnusedMethodParameter')
     protected void calculateFunctions(Metric metric, Collection<MetricResult> children) {
         def sum = children.inject(0) { value, child -> value + child['total'] }
         count = children.inject(0) { value, child -> value + child.count }

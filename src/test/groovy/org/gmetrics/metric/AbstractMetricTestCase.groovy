@@ -20,6 +20,7 @@ import org.gmetrics.source.SourceString
 import org.codehaus.groovy.ast.expr.ClosureExpression
 import org.gmetrics.result.MetricResult
 import org.gmetrics.result.NumberMetricResult
+import org.gmetrics.result.MethodKey
 
 /**
  * Abstract superclass for metric test classes.
@@ -33,7 +34,9 @@ abstract class AbstractMetricTestCase extends AbstractTestCase {
 
     private static final METRIC = [getFunctions:{ ['total', 'average'] }] as Metric
     protected static final CONSTRUCTOR_NAME = '<init>'
-    
+    protected static final DEFAULT_CONSTRUCTOR = 'void <init>()'
+    protected static final RUN_METHOD = 'java.lang.Object run()'
+
     protected metric
     protected sourceCode
 
@@ -110,7 +113,8 @@ abstract class AbstractMetricTestCase extends AbstractTestCase {
 
         def methodNames = methodValues?.keySet()
         methodNames.each { methodName ->
-            def metricResults = methodMetricResults[methodName]
+            def methodKey = new MethodKey(methodName)
+            def metricResults = methodMetricResults[methodKey]
             assert metricResults, "No MetricResults exist for method named [$methodName]"
             assert metricResults.metricLevel == MetricLevel.METHOD
             def methodValue = metricResults['total']

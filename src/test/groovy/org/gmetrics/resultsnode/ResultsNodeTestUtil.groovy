@@ -17,6 +17,7 @@ package org.gmetrics.resultsnode
 
 import org.gmetrics.result.MetricResult
 import org.gmetrics.metric.MetricLevel
+import org.gmetrics.result.MethodKey
 
 /**
  * Utility methods related to ResultsNode objects, for testing.
@@ -27,13 +28,19 @@ import org.gmetrics.metric.MetricLevel
 class ResultsNodeTestUtil {
     static void assertResultsNodeStructure(ResultsNode resultsNode, Map results, String name=null) {
         assertMetricResultList(resultsNode.metricResults, results.metricResults, name)
-        assertEqualsOrBothFalse(resultsNode.children?.keySet(), results.children?.keySet())
-        resultsNode.children.each { childName, child ->
+//        assertEqualsOrBothFalse(resultsNode.children?.keySet(), results.children?.keySet())
+        assertEqualsOrBothFalse(childNames(resultsNode.children?.keySet()), results.children?.keySet())
+        resultsNode.children.each { childKey, child ->
+            def childName = childKey instanceof MethodKey ? childKey.methodName : childKey
             assertResultsNodeStructure(child, results.children[childName], name)
         }
     }
 
-    static void print(ResultsNode resultsNode, String name='', int indent=0) {
+    private static childNames(children) {
+        return children.collect { child -> child instanceof MethodKey ? child.methodName : child  } as Set
+    }
+
+    static void print(ResultsNode resultsNode, Object name='', int indent=0) {
         def path = resultsNode.level == MetricLevel.PACKAGE ? "path=[${resultsNode.path}]" : ''
         println '  '*indent + "(${resultsNode.level}) ${name}: $path ${resultsNode.metricResults}"
         resultsNode.children.each { childName, childNode -> print(childNode, childName, indent+1) }
