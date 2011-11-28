@@ -23,9 +23,9 @@ package org.gmetrics.result
  */
 class ClassMetricResult {
     MetricResult classMetricResult
-    Map<String,MetricResult> methodMetricResults = [:]
+    Map<MethodKey,MetricResult> methodMetricResults = [:]
 
-    ClassMetricResult(MetricResult metricResult, Map<String,MetricResult> methodMetricResults=null) {
+    ClassMetricResult(MetricResult metricResult, Map<MethodKey,MetricResult> methodMetricResults=null) {
         this.classMetricResult = metricResult
         this.methodMetricResults = methodMetricResults
     }

@@ -30,6 +30,7 @@ import org.gmetrics.analyzer.SourceAnalyzer
 import org.gmetrics.metric.linecount.ClassLineCountMetric
 import org.gmetrics.metric.linecount.MethodLineCountMetric
 import org.gmetrics.metric.MetricLevel
+import org.gmetrics.result.MethodKey
 
 /**
  * Tests for AntFileSetSourceAnalyzer
@@ -98,7 +99,8 @@ class AntFileSetSourceAnalyzerTest extends AbstractSourceAnalyzer_IntegrationTes
         def resultsNode = analyzer.analyze(metricSet)
         log("resultsNode=$resultsNode")
         assert resultsNode.metricResults[0]['total'] == 3
-        assert resultsNode.children.config.children.doConfig
+        def methodKey = new MethodKey('java.lang.Object doConfig()')
+        assert resultsNode.children.config.children[methodKey]
     }
 
     void testAnalyze_ScriptClass_ReturnsNoResultsForClassMetricThatIgnoresSyntheticClasses() {
@@ -177,10 +179,10 @@ class AntFileSetSourceAnalyzerTest extends AbstractSourceAnalyzer_IntegrationTes
     }
 
     void testFindResultsNodeForPath() {
-        def p1 = new PackageResultsNode(path:'p1')
-        def p2 = new PackageResultsNode(path:'p2')
-        def p3 = new PackageResultsNode(path:'p3')
-        def p4 = new PackageResultsNode(path:'p4')
+        def p1 = new PackageResultsNode('a', 'p1')
+        def p2 = new PackageResultsNode('a', 'p2')
+        def p3 = new PackageResultsNode('a', 'p3')
+        def p4 = new PackageResultsNode('a', 'p4')
         analyzer.rootResultsNode.addChild('a', p1)
         analyzer.rootResultsNode.addChild('b', p2)
         p1.addChild('c', p3)
@@ -193,8 +195,8 @@ class AntFileSetSourceAnalyzerTest extends AbstractSourceAnalyzer_IntegrationTes
     }
 
     void testFindOrAddResultsNodeForPath() {
-        def p1 = new PackageResultsNode(path:'p1')
-        def p2 = new PackageResultsNode(path:'p1/p2')   // TODO: BRITTLE. Implicit dependency between path and (child) name
+        def p1 = new PackageResultsNode('a', 'p1')
+        def p2 = new PackageResultsNode('a', 'p1/p2')   // TODO: BRITTLE. Implicit dependency between path and (child) name
         analyzer.rootResultsNode.addChild('p1', p1)
         p1.addChild('p2', p2)
 

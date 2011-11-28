@@ -20,18 +20,27 @@ import org.gmetrics.metric.MetricLevel
 import org.gmetrics.result.NumberMetricResult
 import org.gmetrics.metric.StubMetric
 import org.gmetrics.result.ClassMetricResult
+import org.gmetrics.result.MethodKey
 
 /**
  * Tests for ClassResultsNode
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class ClassResultsNodeTest extends AbstractTestCase {
 
+    private static final NAME = 'name123'
     private static final METRIC = new StubMetric()
     private classResultsNode
     private classResult1, classResult2, classResult3
+
+    void testImplementsResultsNode() {
+        assert classResultsNode instanceof ResultsNode
+    }
+
+    void testNameAssignedFromConstructor() {
+        assert classResultsNode.name == NAME
+    }
 
     void testThatMetricLevelIsClassLevel() {
         assert classResultsNode.level == MetricLevel.CLASS
@@ -69,10 +78,11 @@ class ClassResultsNodeTest extends AbstractTestCase {
         def children = classResultsNode.getChildren()
         log(children)
         assert children.every { k, v -> v instanceof MethodResultsNode }
-        assert children.keySet() == ['a', 'b', 'c'] as Set
-        assert children['a'].metricResults.collect { it['total'] } == [20, 30]
-        assert children['b'].metricResults.collect { it['total'] } == [20, 30]
-        assert children['c'].metricResults.collect { it['total'] } == [30]
+        assert children.keySet().methodName as Set == ['a', 'b', 'c'] as Set
+        assert children.values().name as Set == ['a', 'b', 'c'] as Set
+        assert children[new MethodKey('a')].metricResults.collect { it['total'] } == [20, 30]
+        assert children[new MethodKey('b')].metricResults.collect { it['total'] } == [20, 30]
+        assert children[new MethodKey('c')].metricResults.collect { it['total'] } == [30]
     }
 
     void test_getMetricResult_NullMetricThrowsException() {
@@ -96,10 +106,13 @@ class ClassResultsNodeTest extends AbstractTestCase {
 
     void setUp() {
         super.setUp()
-        classResultsNode = new ClassResultsNode()
+        classResultsNode = new ClassResultsNode(NAME)
         classResult1 = new ClassMetricResult(m(1), [:])
-        classResult2 = new ClassMetricResult(m(2), [a:m(20), b:m(20)])
-        classResult3 = new ClassMetricResult(m(3), [a:m(30), b:m(30), c:m(30)])
+        def methodKey1 = new MethodKey('a')
+        def methodKey2 = new MethodKey('b')
+        def methodKey3 = new MethodKey('c')
+        classResult2 = new ClassMetricResult(m(2), [(methodKey1):m(20), (methodKey2):m(20)])
+        classResult3 = new ClassMetricResult(m(3), [(methodKey1):m(30), (methodKey2):m(30), (methodKey3):m(30)])
     }
 
     private NumberMetricResult m(int number) {

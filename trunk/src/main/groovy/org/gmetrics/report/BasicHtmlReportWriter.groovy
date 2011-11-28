@@ -132,7 +132,7 @@ class BasicHtmlReportWriter extends AbstractReportWriter {
                         }
                     }
                 }
-                out << buildResultsTableRowRecursively(resultsNode, metricResultColumns, null)
+                out << buildResultsTableRowRecursively(resultsNode, metricResultColumns)
             }
         }
     }
@@ -142,15 +142,15 @@ class BasicHtmlReportWriter extends AbstractReportWriter {
         return getResourceBundleString(resourceKey, "$metricName ($metricProperty)")
     }
 
-    private buildResultsTableRowRecursively(ResultsNode resultsNode, List metricResultColumns, String name) {
+    private buildResultsTableRowRecursively(ResultsNode resultsNode, List metricResultColumns) {
         return {
             def level = resultsNode.level
             def rowCssClass = level.name
             tr(class:rowCssClass) {
                 def prefix = prefixForResultsNodeLevel(resultsNode)
-                def nodeName = level == MetricLevel.PACKAGE ? resultsNode.path : name
+                def nodeName = level == MetricLevel.PACKAGE ? resultsNode.path : resultsNode.name
                 def pathName = nodeName ?: ROOT_PACKAGE_NAME
-                def cssClass = name ? 'name' : 'allPackages'
+                def cssClass = resultsNode.name ? 'name' : 'allPackages'
 
                 td(class:"${level.name}Indent") {
                     span(prefix, class:'rowTypePrefix')
@@ -177,7 +177,7 @@ class BasicHtmlReportWriter extends AbstractReportWriter {
         return {
             resultsNode.children.each { childName, childNode ->
                 if (childNode.level == metricLevel) {
-                    out << buildResultsTableRowRecursively(childNode, metricResultColumns, childName)
+                    out << buildResultsTableRowRecursively(childNode, metricResultColumns)
                 }
             }
         }

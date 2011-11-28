@@ -60,7 +60,17 @@ class MethodLineCountMetric_ClassTest extends AbstractMetricTestCase {
                 def x = 1
             }
         """
-        assertApplyToClass(SOURCE, 3, 3, [a:3])
+        assertApplyToClass(SOURCE, 3, 3, ['java.lang.Object a()':3])
+    }
+
+    void testApplyToClass_ResultsForClassWithOverriddenMethods() {
+        final SOURCE = """
+            String a() { null }
+            String a(int count) {
+                return count as String
+            }
+        """
+        assertApplyToClass(SOURCE, 4, 2, ['String a()':1, 'String a(int)':3])
     }
 
     void testApplyToClass_ResultsForClassWithSeveralMethodsAndClosureFields() {
@@ -88,7 +98,7 @@ class MethodLineCountMetric_ClassTest extends AbstractMetricTestCase {
                     println 'ok' }
             }
         """
-        assertApplyToClass(SOURCE, 19, scale(19/5), [(CONSTRUCTOR_NAME):3, b:5, c:8, d:1, e:2])
+        assertApplyToClass(SOURCE, 19, scale(19/5), [(DEFAULT_CONSTRUCTOR):3, b:5, 'java.lang.Object c()':8, d:1, e:2])
     }
 
     void testApplyToClass_ResultsForClassWithOneClosureField() {

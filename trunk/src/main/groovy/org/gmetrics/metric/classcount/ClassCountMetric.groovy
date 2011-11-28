@@ -33,6 +33,7 @@ class ClassCountMetric extends AbstractMetric {
     final String name = 'ClassCount'
     final MetricLevel baseLevel = MetricLevel.PACKAGE
 
+    @SuppressWarnings('UnusedMethodParameter')
     protected ClassMetricResult calculateForClass(ClassNode classNode, SourceCode sourceCode) {
         def metricResult = new NumberMetricResult(this, MetricLevel.CLASS, 1, classNode.lineNumber)
         return new ClassMetricResult(metricResult)

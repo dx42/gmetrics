@@ -22,6 +22,7 @@ import org.gmetrics.source.SourceCode
 import org.gmetrics.util.AstUtil
 import org.gmetrics.result.ClassMetricResult
 import org.gmetrics.result.MetricResult
+import org.gmetrics.result.MethodKey
 
 /**
  * Abstract superclass for method-based metrics.
@@ -37,7 +38,7 @@ abstract class AbstractMethodMetric extends AbstractMetric {
     abstract MetricResult calculate(ClosureExpression closureExpression, SourceCode sourceCode)
 
     protected ClassMetricResult calculateForClass(ClassNode classNode, SourceCode sourceCode) {
-        def childMetricResults = [:]
+        Map<MethodKey, MetricResult> childMetricResults = [:]
 
         if (isNotAnInterface(classNode)) {
             addMethodsToMetricResults(sourceCode, classNode, childMetricResults)
@@ -57,7 +58,9 @@ abstract class AbstractMethodMetric extends AbstractMetric {
         def closureFields = classNode.fields.findAll {fieldNode -> AstUtil.isClosureField(fieldNode) }
         closureFields.each {fieldNode ->
             def fieldResult = calculate(fieldNode.initialExpression, sourceCode)
-            childMetricResults[fieldNode.name] = fieldResult
+            def methodKey = new MethodKey(fieldNode.name)
+            childMetricResults[methodKey] = fieldResult
+//            childMetricResults[fieldNode.name] = fieldResult
         }
     }
 
@@ -67,8 +70,11 @@ abstract class AbstractMethodMetric extends AbstractMetric {
         methodsPlusConstructors.each {methodNode ->
             def methodResult = calculate(methodNode, sourceCode)
             if (methodResult) {
-                childMetricResults[methodNode.name] = methodResult
+//                childMetricResults[methodNode.name] = methodResult
+                def methodKey = new MethodKey(methodNode)
+                childMetricResults[methodKey] = methodResult
             }
         }
     }
 }
+

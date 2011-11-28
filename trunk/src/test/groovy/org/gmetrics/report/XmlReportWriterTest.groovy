@@ -108,10 +108,10 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
         final XML = XML_DECLARATION + GMETRICS_ROOT + REPORT_TIMESTAMP + PROJECT + PACKAGE_SUMMARY_2 + PACKAGES + METRIC_DESCRIPTIONS_2 + GMETRICS_END_TAG
         def rootNode = packageResultsNode([metricResults:[metric1Result(10), metric2Result(20)]],
         [
-            org: packageResultsNode([path:'org', metricResults:[metric1Result(11), metric2Result(21)]],
+            org: packageResultsNode([name:'org', path:'org', metricResults:[metric1Result(11), metric2Result(21)]],
             [
-                MyDao: classResultsNode(metricResults:[metric1Result(101), metric2Result(201)]),
-                MyController: classResultsNode(metricResults:[metric1Result(102), metric2Result(202)])
+                MyDao: classResultsNode(name:'MyDao', metricResults:[metric1Result(101), metric2Result(201)]),
+                MyController: classResultsNode(name:'MyController', metricResults:[metric1Result(102), metric2Result(202)])
             ])
         ])
         metric2.baseLevel = MetricLevel.PACKAGE
@@ -149,10 +149,10 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
         final XML = XML_DECLARATION + GMETRICS_ROOT + REPORT_TIMESTAMP + PROJECT + PACKAGE_SUMMARY_2 + PACKAGES + METRIC_DESCRIPTIONS_2 + GMETRICS_END_TAG
         def rootNode = packageResultsNode([metricResults:[metric1Result(10), metric2Result(20)]],
         [
-            org: packageResultsNode([path:'org', metricResults:[metric1Result(11), metric2Result(21)]],
+            org: packageResultsNode([name:'org', path:'org', metricResults:[metric1Result(11), metric2Result(21)]],
             [
-                MyDao: classResultsNode(metricResults:[metric1Result(101)]),
-                MyController: classResultsNode(metricResults:[metric1Result(102)])
+                MyDao: classResultsNode(name:'MyDao', metricResults:[metric1Result(101)]),
+                MyController: classResultsNode(name:'MyController', metricResults:[metric1Result(102)])
             ])
         ])
         assertReportXml(rootNode, XML)
@@ -180,10 +180,10 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
         final XML = XML_DECLARATION + GMETRICS_ROOT + REPORT_TIMESTAMP + PROJECT + PACKAGE_SUMMARY + PACKAGES + METRIC_DESCRIPTIONS_2 + GMETRICS_END_TAG
         def rootNode = packageResultsNode([metricResults:[metric1Result(10), metric2Result(20)]],
         [
-            org: packageResultsNode([path:'org', metricResults:[metric1Result(11), metric2Result(21)]],
+            org: packageResultsNode([name:'org', path:'org', metricResults:[metric1Result(11), metric2Result(21)]],
             [
-                MyDao: classResultsNode(metricResults:[metric1Result(101)]),
-                MyController: classResultsNode(metricResults:[metric1Result(102)])
+                MyDao: classResultsNode(name:'MyDao', metricResults:[metric1Result(101)]),
+                MyController: classResultsNode(name:'MyController', metricResults:[metric1Result(102)])
             ])
         ])
         metric1.functions = ['minimum', 'maximum']
@@ -220,18 +220,18 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
         final XML = XML_DECLARATION + GMETRICS_ROOT + REPORT_TIMESTAMP + PROJECT + PACKAGE_SUMMARY_2 + PACKAGES + METRIC_DESCRIPTIONS_2 + GMETRICS_END_TAG
         def rootNode = packageResultsNode([metricResults:[metric1Result(10), metric2Result(20)]],
             [
-            org: packageResultsNode([path:'test', metricResults:[metric1Result(11), metric2Result(21), metric3Result(99)]],
+            org: packageResultsNode([name:'org', path:'test', metricResults:[metric1Result(11), metric2Result(21), metric3Result(99)]],
                 [
-                    MyDao: classResultsNode(metricResults:[metric1Result(101)],
+                    MyDao: classResultsNode(name:'MyDao', metricResults:[metric1Result(101)],
                         [
-                            process: methodResultsNode(metricResults:[metric1Result(1001)])
+                            process: methodResultsNode(name:'process', metricResults:[metric1Result(1001)])
                         ]),
-                    MyController: classResultsNode(metricResults:[metric1Result(102)],
+                    MyController: classResultsNode(name:'MyController', metricResults:[metric1Result(102)],
                         [
-                            initialize: methodResultsNode(metricResults:[metric1Result(1002)]),
-                            cleanup: methodResultsNode(metricResults:[metric1Result(1003)])
+                            initialize: methodResultsNode(name:'initialize', metricResults:[metric1Result(1002)]),
+                            cleanup: methodResultsNode(name:'cleanup', metricResults:[metric1Result(1003)])
                         ]),
-                        'test/unit': packageResultsNode(path:'test/unit', metricResults:[metric1Result(31), metric2Result(32)])
+                        'test/unit': packageResultsNode(name:'unit', path:'test/unit', metricResults:[metric1Result(31), metric2Result(32)])
                 ])
             ]
         )
@@ -260,14 +260,14 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
         final XML = XML_DECLARATION + GMETRICS_ROOT + REPORT_TIMESTAMP + PROJECT + PACKAGE_SUMMARY_1 + PACKAGES + METRIC_DESCRIPTIONS_2 + GMETRICS_END_TAG
         def rootNode = packageResultsNode([metricResults:[metric1Result(10), metric2Result(20)]],
         [
-            org: packageResultsNode([path:'org', metricResults:[metric1Result(11), metric2Result(21)]],
+            org: packageResultsNode([name:'org', path:'org', metricResults:[metric1Result(11), metric2Result(21)]],
             [
-                MyDao: classResultsNode(metricResults:[metric1Result(101), metric2Result(201)]),
-                MyController: classResultsNode(metricResults:[metric1Result(102), metric2Result(202)],
+                MyDao: classResultsNode(name:'MyDao', metricResults:[metric1Result(101), metric2Result(201)]),
+                MyController: classResultsNode(name:'MyController', metricResults:[metric1Result(102), metric2Result(202)],
                     [
-                        process: methodResultsNode(metricResults:[metric1Result(1002), metric2Result(2002)])
+                        process: methodResultsNode(name:'process', metricResults:[metric1Result(1002), metric2Result(2002)])
                     ]),
-                'subdir': packageResultsNode(path:'subdir', metricResults:[metric1Result(301), metric2Result(302)])
+                'subdir': packageResultsNode(name:'subdir', path:'subdir', metricResults:[metric1Result(301), metric2Result(302)])
             ])
         ])
         reportWriter.setLevels('Metric1=package,method; Metric2=class')

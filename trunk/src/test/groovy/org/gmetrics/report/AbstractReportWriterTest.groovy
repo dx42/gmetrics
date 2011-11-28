@@ -142,6 +142,7 @@ class AbstractReportWriterTest extends AbstractTestCase {
 class TestAbstractReportWriter extends AbstractReportWriter {
     static defaultOutputFile = 'TestReportWriter.txt'
 
+    @SuppressWarnings('UnusedMethodParameter')
     void writeReport(Writer writer, ResultsNode resultsNode, AnalysisContext analysisContext) {
         writer.write('abc')
         writer.flush()        

@@ -26,8 +26,14 @@ import org.gmetrics.metric.Metric
  * @version $Revision$ - $Date$
  */
 class MethodResultsNode implements ResultsNode {
+
+    final String name
     final MetricLevel level = MetricLevel.METHOD
     final List<MetricResult> metricResults = []
+
+    MethodResultsNode(String name) {
+        this.name = name
+    }
 
     boolean containsClassResults() {
         return false

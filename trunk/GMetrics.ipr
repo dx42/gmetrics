@@ -339,15 +339,15 @@
         <root url="jar://$M2_REPO$/org/codehaus/groovy/groovy-all/1.7.5/groovy-all-1.7.5-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.codenarc:CodeNarc:0.15">
+    <library name="Maven: org.codenarc:CodeNarc:0.16">
       <CLASSES>
-        <root url="jar://$M2_REPO$/org/codenarc/CodeNarc/0.15/CodeNarc-0.15.jar!/" />
+        <root url="jar://$M2_REPO$/org/codenarc/CodeNarc/0.16/CodeNarc-0.16.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$M2_REPO$/org/codenarc/CodeNarc/0.15/CodeNarc-0.15-javadoc.jar!/" />
+        <root url="jar://$M2_REPO$/org/codenarc/CodeNarc/0.16/CodeNarc-0.16-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$M2_REPO$/org/codenarc/CodeNarc/0.15/CodeNarc-0.15-sources.jar!/" />
+        <root url="jar://$M2_REPO$/org/codenarc/CodeNarc/0.16/CodeNarc-0.16-sources.jar!/" />
       </SOURCES>
     </library>
   </component>
