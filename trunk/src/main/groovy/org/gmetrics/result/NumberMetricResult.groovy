@@ -30,6 +30,7 @@ class NumberMetricResult implements MetricResult {
     final MetricLevel metricLevel
     final number
     final Integer lineNumber
+    final int count = 1
 
     NumberMetricResult(Metric metric, MetricLevel metricLevel, number, Integer lineNumber=null) {
         assert metric
@@ -39,10 +40,6 @@ class NumberMetricResult implements MetricResult {
         this.metricLevel = metricLevel
         this.number = number
         this.lineNumber = lineNumber
-    }
-
-    int getCount() {
-        return 1
     }
 
     Object getAt(String name) {

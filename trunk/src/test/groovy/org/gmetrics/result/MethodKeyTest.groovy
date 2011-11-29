@@ -26,6 +26,7 @@ import org.codehaus.groovy.control.SourceUnit
  *
  * @author Chris Mair
  */
+@SuppressWarnings('ExplicitCallToEqualsMethod')
 class MethodKeyTest extends AbstractTestCase {
 
     void testMethodName() {
