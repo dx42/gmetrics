@@ -32,6 +32,7 @@ class AbcMetricResult implements MetricResult {
     final Metric metric
     final MetricLevel metricLevel
     final Integer lineNumber
+    final int count = 1
     private magnitude
 
     AbcMetricResult(Metric metric, MetricLevel metricLevel, AbcVector abcVector, Integer lineNumber=null) {
@@ -42,10 +43,6 @@ class AbcMetricResult implements MetricResult {
         this.metric = metric
         this.magnitude = abcVector.magnitude
         this.lineNumber = lineNumber
-    }
-
-    int getCount() {
-        return 1
     }
 
     Object getAt(String name) {

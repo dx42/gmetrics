@@ -27,6 +27,7 @@ ruleset {
             doNotApplyToClassNames = 'GMetricsTask'
         }
     }
+    ruleset('rulesets/groovyism.xml')
     ruleset('rulesets/imports.xml')
     ruleset('rulesets/junit.xml') {
         JUnitStyleAssertions(enabled:false)
