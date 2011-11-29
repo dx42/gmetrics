@@ -33,9 +33,9 @@ import org.codehaus.groovy.ast.expr.PropertyExpression
  * @see CyclomaticComplexityMetric
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class CyclomaticComplexityAstVisitor extends AbstractAstVisitor {
+
     private static final BOOLEAN_LOGIC_OPERATIONS = ['&&', '||']
     Integer complexity = 1
 
@@ -68,7 +68,7 @@ class CyclomaticComplexityAstVisitor extends AbstractAstVisitor {
         super.visitSwitch(statement)
     }
 
-    public void visitCatchStatement(CatchStatement statement) {
+    void visitCatchStatement(CatchStatement statement) {
         complexity++
         super.visitCatchStatement(statement)
     }

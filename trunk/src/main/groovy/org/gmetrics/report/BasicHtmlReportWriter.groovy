@@ -30,7 +30,6 @@ import org.gmetrics.util.GMetricsVersion
  * within the passed-in MetricSet.
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 @Mixin(MetricsCriteriaFilter)
 @Mixin(LevelsCriteriaFilter)
@@ -57,7 +56,7 @@ class BasicHtmlReportWriter extends AbstractReportWriter {
         def metricResultColumns = buildMetricResultColumns(analysisContext.metricSet)
 
         def builder = new StreamingMarkupBuilder()
-        def html = builder.bind() {
+        def html = builder.bind {
             html {
                 out << buildHeaderSection()
                 out << buildBodySection(resultsNode, metricResultColumns, analysisContext)
@@ -70,7 +69,7 @@ class BasicHtmlReportWriter extends AbstractReportWriter {
     // Internal Helper Methods
     //--------------------------------------------------------------------------
 
-    private def buildMetricResultColumns(MetricSet metricSet) {
+    private buildMetricResultColumns(MetricSet metricSet) {
         def metricResultColumns = []
         metricSet.getMetrics().each {metric ->
             metric.functions.each { functionName ->
@@ -122,7 +121,7 @@ class BasicHtmlReportWriter extends AbstractReportWriter {
     private buildResultsTable(ResultsNode resultsNode, List metricResultColumns) {
         return {
             h2(getResourceBundleString('basicHtmlReport.metricResults.title'))
-            table() {
+            table {
                 tr(class:'tableHeader') {
                     th(getResourceBundleString('basicHtmlReport.metricResults.nameHeading'))
                     metricResultColumns.each { columnDef ->

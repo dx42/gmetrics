@@ -24,7 +24,6 @@ import org.gmetrics.test.AbstractTestCase
  * Tests for GMetricsTask that use the Groovy AntBuilder.
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class GMetricsTask_AntBuilderTest extends AbstractTestCase {
 
@@ -35,7 +34,6 @@ class GMetricsTask_AntBuilderTest extends AbstractTestCase {
     private static final ALL_HTML_REPORT_FILE = 'AllMetricsAntBuilderTestReport.html'
     private static final ALL_XML_REPORT_FILE = 'AllMetricsAntBuilderTestReport.xml'
     private static final ALL_METRICSET_FILE = 'AllMetricSet.txt'
-//    private static final ALL_METRICSET_FILE = 'metricsets/AllMetricSet.txt'
 
     private static final SERIES_HTML_REPORT_WRITER = 'org.gmetrics.report.SingleSeriesHtmlReportWriter'
     private static final SERIES_HTML_REPORT_FILE = 'AntBuilderTestSingleSeriesHtmlReport.html'
@@ -47,7 +45,7 @@ class GMetricsTask_AntBuilderTest extends AbstractTestCase {
     private ant
 
     void testAntTask_Execute_UsingDefaultMetricSet() {
-        ant.gmetrics() {
+        ant.gmetrics {
            fileset(dir:'src/main/groovy') {
                include(name:"**/*.groovy")
            }

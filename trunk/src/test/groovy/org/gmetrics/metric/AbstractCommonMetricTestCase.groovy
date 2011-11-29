@@ -21,7 +21,6 @@ package org.gmetrics.metric
  * Subclasses must define a property named 'metricClass' that specifies the Metric class under test.
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 abstract class AbstractCommonMetricTestCase extends AbstractMetricTestCase {
     private static final SOURCE = '''
