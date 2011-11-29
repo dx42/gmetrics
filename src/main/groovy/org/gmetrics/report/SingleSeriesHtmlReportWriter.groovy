@@ -51,7 +51,6 @@ import org.gmetrics.util.GMetricsVersion
  * with a smaller value are returned. A value of <code>null</code> or empty means no threshold.
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 @Mixin(SingleSeriesCriteriaFilter)
 class SingleSeriesHtmlReportWriter extends AbstractReportWriter {
@@ -76,7 +75,7 @@ class SingleSeriesHtmlReportWriter extends AbstractReportWriter {
         def seriesData = buildSeriesData(resultsNode, analysisContext.metricSet)
 
         def builder = new StreamingMarkupBuilder()
-        def html = builder.bind() {
+        def html = builder.bind {
             html {
                 out << buildHeaderSection()
                 out << buildBodySection(seriesData)
@@ -128,7 +127,7 @@ class SingleSeriesHtmlReportWriter extends AbstractReportWriter {
 
     private buildResultsTable(List<SeriesValue> seriesData) {
         return {
-            table() {
+            table {
                 tr(class:'tableHeader') {
                     th(getSeriesValueNameHeading())
                     th(getMetricResultColumnHeading(metric, function))

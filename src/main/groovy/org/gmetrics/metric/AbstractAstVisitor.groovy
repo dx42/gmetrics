@@ -25,7 +25,6 @@ import org.codehaus.groovy.ast.MethodNode
  * Abstract superclass for Groovy AST Visitors
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 abstract class AbstractAstVisitor extends ClassCodeVisitorSupport implements AstVisitor {
     public static final MAX_SOURCE_LINE_LENGTH = 60
@@ -43,10 +42,8 @@ abstract class AbstractAstVisitor extends ClassCodeVisitorSupport implements Ast
         if(visited.contains(expression)) {
             return false
         }
-        else {
-            visited << expression
-            return true
-        }
+        visited << expression
+        return true
     }
 
     /**

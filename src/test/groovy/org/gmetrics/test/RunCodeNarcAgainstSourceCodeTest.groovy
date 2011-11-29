@@ -27,7 +27,7 @@ class RunCodeNarcAgainstSourceCodeTest extends org.gmetrics.test.AbstractTestCas
     private static final RULESET_FILES = 'codenarc/CodeNarcRuleSet.groovy'
 
     void testRunCodeNarc() {
-        def ant = new groovy.util.AntBuilder()
+        def ant = new AntBuilder()
 
         ant.taskdef(name:'codenarc', classname:'org.codenarc.ant.CodeNarcTask')
 

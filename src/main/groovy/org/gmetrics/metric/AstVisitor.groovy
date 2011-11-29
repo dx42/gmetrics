@@ -22,7 +22,6 @@ import org.gmetrics.source.SourceCode
  * Interface for Groovy AST Visitors
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 interface AstVisitor extends GroovyClassVisitor {
 
@@ -30,6 +29,6 @@ interface AstVisitor extends GroovyClassVisitor {
      * Set the SourceCode associated with this visitor
      * @param sourceCode - the SourceCode
      */
-    public void setSourceCode(SourceCode sourceCode)
+    void setSourceCode(SourceCode sourceCode)
 
 }

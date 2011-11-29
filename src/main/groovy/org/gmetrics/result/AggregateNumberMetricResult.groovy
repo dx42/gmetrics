@@ -89,9 +89,7 @@ class AggregateNumberMetricResult implements MetricResult {
             def result = sum / count
             return result.setScale(scale, BigDecimal.ROUND_HALF_UP)
         }
-        else {
-            return 0
-        }
+        return 0
     }
 
     private boolean includesFunction(String functionName) {

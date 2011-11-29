@@ -13,16 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.gmetrics.resultsnode;
+package org.gmetrics.resultsnode
 
 import org.gmetrics.metric.*
-import org.gmetrics.result.MetricResult;
+import org.gmetrics.result.MetricResult
 
 /**
  * Represents the interface for a single node in the hierarchical network of results nodes
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 interface ResultsNode {
 

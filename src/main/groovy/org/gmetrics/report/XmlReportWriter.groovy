@@ -29,7 +29,6 @@ import org.gmetrics.util.GMetricsVersion
  * and the metric descriptions for each Metric within the passed-in MetricSet.
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 @Mixin(MetricsCriteriaFilter)
 @Mixin(LevelsCriteriaFilter)
@@ -156,7 +155,7 @@ class XmlReportWriter extends AbstractReportWriter {
         def metrics = metricSet.metrics.findAll { metric -> includesMetric(metric) }
         def sortedMetrics = metrics.toList().sort { metric -> metric.name }
         return {
-            Metrics() {
+            Metrics {
                 sortedMetrics.each { Metric metric ->
                     def description = getDescriptionForMetric(metric)
                     Metric(name:metric.name) {

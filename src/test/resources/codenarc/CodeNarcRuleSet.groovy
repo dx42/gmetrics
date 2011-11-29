@@ -56,6 +56,13 @@ ruleset {
         }
 
     }
+    ruleset('rulesets/unnecessary.xml') {
+        UnnecessaryCollectCall(enabled:false)
+        UnnecessaryGetter(enabled:false)
+        UnnecessaryGString(enabled:false)
+        UnnecessaryReturnKeyword(enabled:false)
+        UnnecessarySubstring(enabled:false)
+    }
     ruleset('rulesets/unused.xml')
 
 }
