@@ -34,6 +34,7 @@ class StubResultsNode implements ResultsNode {
     List metricResults = []
     Map children = [:]
     String path
+    String signature
 
     boolean containsClassResults() {
         return containsClassResults

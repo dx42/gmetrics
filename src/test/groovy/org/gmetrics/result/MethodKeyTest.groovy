@@ -32,12 +32,14 @@ class MethodKeyTest extends AbstractTestCase {
     void testMethodName() {
         def methodKey = new MethodKey('abc')
         assert methodKey.methodName == 'abc'
+        assert methodKey.signature == null
     }
 
     void testMethodNode() {
         def methodNode = buildMethodNodes()[0]
         def methodKey = new MethodKey(methodNode)
         assert methodKey.methodName == 'myMethod'
+        assert methodKey.signature == 'int myMethod(String, long)'
     }
 
     @SuppressWarnings('ComparisonWithSelf')

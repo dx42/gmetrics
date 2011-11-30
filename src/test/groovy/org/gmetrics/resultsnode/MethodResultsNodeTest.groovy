@@ -28,12 +28,13 @@ import org.gmetrics.metric.StubMetric
 class MethodResultsNodeTest extends AbstractTestCase {
 
     private static final NAME = 'name123'
+    private static final SIGNATURE = 'signature123'
     private static final METRIC = new StubMetric()
     private static final METRIC_RESULT1 = new NumberMetricResult(METRIC, MetricLevel.METHOD, 1)
     private static final METRIC_RESULT2 = new NumberMetricResult(METRIC, MetricLevel.METHOD, 2)
     private static final METRIC_RESULT3 = new NumberMetricResult(METRIC, MetricLevel.METHOD, 3)
 
-    private methodResultsNode
+    private methodResultsNode = new MethodResultsNode(NAME)
 
     void testImplementsResultsNode() {
         assert methodResultsNode instanceof ResultsNode
@@ -41,6 +42,12 @@ class MethodResultsNodeTest extends AbstractTestCase {
 
     void testNameAssignedFromConstructor() {
         assert methodResultsNode.name == NAME
+    }
+
+    void testNameAndSignatureAssignedFromConstructor() {
+        def node = new MethodResultsNode(NAME, SIGNATURE)
+        assert node.name == NAME
+        assert node.signature == SIGNATURE
     }
 
     void testThatMetricLevelIsMethodLevel() {
@@ -88,11 +95,6 @@ class MethodResultsNodeTest extends AbstractTestCase {
 
     void test_getMetricResult_ReturnsNullIfNoMatchingMetricResultIsFound() {
         assert methodResultsNode.getMetricResult(METRIC) == null
-    }
-
-    void setUp() {
-        super.setUp()
-        methodResultsNode = new MethodResultsNode(NAME)
     }
 
 }

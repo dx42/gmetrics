@@ -64,7 +64,7 @@ class ClassResultsNode implements ResultsNode {
 
     private void addMethodMetricResult(MethodKey methodKey, MetricResult metricResult) {
         if (children[methodKey] == null) {
-            children[methodKey] = new MethodResultsNode(methodKey.methodName)
+            children[methodKey] = new MethodResultsNode(methodKey.methodName, methodKey.signature)
         }
         children[methodKey].addMetricResult(metricResult)
     }

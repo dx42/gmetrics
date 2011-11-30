@@ -23,16 +23,21 @@ import org.gmetrics.metric.Metric
  * Represents a method result node in the hierarchy of metric result nodes
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class MethodResultsNode implements ResultsNode {
 
     final String name
+    final String signature
     final MetricLevel level = MetricLevel.METHOD
     final List<MetricResult> metricResults = []
 
     MethodResultsNode(String name) {
         this.name = name
+    }
+
+    MethodResultsNode(String name, String signature) {
+        this.name = name
+        this.signature = signature
     }
 
     boolean containsClassResults() {
