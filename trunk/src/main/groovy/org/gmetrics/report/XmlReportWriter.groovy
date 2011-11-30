@@ -86,8 +86,8 @@ class XmlReportWriter extends AbstractReportWriter {
     private buildElement(ResultsNode resultsNode) {
         switch(resultsNode.level) {
             case MetricLevel.PACKAGE: return buildPackageElement(resultsNode)
-            case MetricLevel.CLASS: return buildChildElement('Class', resultsNode)
-            case MetricLevel.METHOD: return buildChildElement('Method', resultsNode)
+            case MetricLevel.CLASS: return buildClassElement(resultsNode)
+            case MetricLevel.METHOD: return buildMethodElement(resultsNode)
         }
     }
 
@@ -112,10 +112,20 @@ class XmlReportWriter extends AbstractReportWriter {
         }
     }
 
-    // Build element for Class or Method
-    private buildChildElement(String typeName, resultsNode) {
+    private buildClassElement(resultsNode) {
         return {
-            "$typeName"([name:resultsNode.name]) {
+            Class([name:resultsNode.name]) {
+                out << buildMetricElements(resultsNode.metricResults, resultsNode.level)
+                resultsNode.children.each { childName, childResultsNode ->
+                    out << buildElement(childResultsNode)
+                }
+            }
+        }
+    }
+
+    private buildMethodElement(resultsNode) {
+        return {
+            Method([name:resultsNode.name, signature:resultsNode.signature]) {
                 out << buildMetricElements(resultsNode.metricResults, resultsNode.level)
                 resultsNode.children.each { childName, childResultsNode ->
                     out << buildElement(childResultsNode)

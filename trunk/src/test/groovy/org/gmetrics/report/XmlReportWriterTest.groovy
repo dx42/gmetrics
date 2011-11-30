@@ -198,16 +198,16 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
                 <MetricResult name='Metric2' total='21' average='21'/>
                 <Class name='MyDao'>
                     <MetricResult name='Metric1' total='101' average='101'/>
-                    <Method name='process'>
+                    <Method name='process' signature='void process()'>
                         <MetricResult name='Metric1' total='1001' average='1001'/>
                     </Method>
                 </Class>
                 <Class name='MyController'>
                     <MetricResult name='Metric1' total='102' average='102'/>
-                    <Method name='initialize'>
+                    <Method name='initialize' signature='boolean initialize(int)'>
                         <MetricResult name='Metric1' total='1002' average='1002'/>
                     </Method>
-                    <Method name='cleanup'>
+                    <Method name='cleanup' signature='void cleanup()'>
                         <MetricResult name='Metric1' total='1003' average='1003'/>
                     </Method>
                 </Class>
@@ -224,12 +224,12 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
                 [
                     MyDao: classResultsNode(name:'MyDao', metricResults:[metric1Result(101)],
                         [
-                            process: methodResultsNode(name:'process', metricResults:[metric1Result(1001)])
+                            process: methodResultsNode(name:'process', signature:'void process()', metricResults:[metric1Result(1001)])
                         ]),
                     MyController: classResultsNode(name:'MyController', metricResults:[metric1Result(102)],
                         [
-                            initialize: methodResultsNode(name:'initialize', metricResults:[metric1Result(1002)]),
-                            cleanup: methodResultsNode(name:'cleanup', metricResults:[metric1Result(1003)])
+                            initialize: methodResultsNode(name:'initialize', signature:'boolean initialize(int)', metricResults:[metric1Result(1002)]),
+                            cleanup: methodResultsNode(name:'cleanup', signature:'void cleanup()', metricResults:[metric1Result(1003)])
                         ]),
                         'test/unit': packageResultsNode(name:'unit', path:'test/unit', metricResults:[metric1Result(31), metric2Result(32)])
                 ])
@@ -248,7 +248,7 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
                 </Class>
                 <Class name='MyController'>
                     <MetricResult name='Metric2' average='202'/>
-                    <Method name='process'>
+                    <Method name='process' signature='void process()'>
                         <MetricResult name='Metric1' total='1002' average='1002'/>
                     </Method>
                 </Class>
@@ -265,7 +265,7 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
                 MyDao: classResultsNode(name:'MyDao', metricResults:[metric1Result(101), metric2Result(201)]),
                 MyController: classResultsNode(name:'MyController', metricResults:[metric1Result(102), metric2Result(202)],
                     [
-                        process: methodResultsNode(name:'process', metricResults:[metric1Result(1002), metric2Result(2002)])
+                        process: methodResultsNode(name:'process', signature:'void process()', metricResults:[metric1Result(1002), metric2Result(2002)])
                     ]),
                 'subdir': packageResultsNode(name:'subdir', path:'subdir', metricResults:[metric1Result(301), metric2Result(302)])
             ])

@@ -26,6 +26,7 @@ import org.codehaus.groovy.ast.MethodNode
 class MethodKey {
 
     final methodName
+    final signature
     private final comparableString
 
     MethodKey(String methodName) {
@@ -37,6 +38,7 @@ class MethodKey {
     MethodKey(MethodNode methodNode) {
         assert methodNode
         this.methodName = methodNode.name
+        this.signature = methodNode.typeDescriptor
         this.comparableString = methodNode.typeDescriptor
     }
 
