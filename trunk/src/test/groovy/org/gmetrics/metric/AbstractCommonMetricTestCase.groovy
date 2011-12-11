@@ -40,7 +40,7 @@ abstract class AbstractCommonMetricTestCase extends AbstractMetricTestCase {
 
     void testEnabledFalse_ReturnsNullFor_ApplyToPackage() {
         metric.enabled = false
-        assert metric.applyToPackage([]) == null
+        assert metric.applyToPackage(null, []) == null
     }
 
     void testEnabledFalse_ReturnsNullFor_ApplyToClass() {

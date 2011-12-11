@@ -24,7 +24,6 @@ import org.gmetrics.result.MetricResult
  * Stub implementation of the Metric interface, for testing.
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 @SuppressWarnings('UnusedMethodParameter')
 class StubMetric implements Metric {
@@ -34,6 +33,7 @@ class StubMetric implements Metric {
     MetricLevel baseLevel = MetricLevel.METHOD
     ClassMetricResult classMetricResult
     MetricResult packageMetricResult
+    String packageName
     String otherProperty
     List<String> functions = ['total', 'average']
 
@@ -41,7 +41,8 @@ class StubMetric implements Metric {
         return classMetricResult
     }
 
-    MetricResult applyToPackage(Collection childMetricResults) {
+    MetricResult applyToPackage(String packageName, Collection childMetricResults) {
+        this.packageName = packageName
         return packageMetricResult
     }
 

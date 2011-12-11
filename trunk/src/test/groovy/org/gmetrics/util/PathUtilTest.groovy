@@ -53,4 +53,16 @@ class PathUtilTest extends AbstractTestCase {
         assert PathUtil.getParent('abc\\def\\ghi') == 'abc/def'
     }
 
+    void testToPackageName() {
+        assert PathUtil.toPackageName(null) == null
+        assert PathUtil.toPackageName('') == null
+        assert PathUtil.toPackageName('abc') == 'abc'
+        assert PathUtil.toPackageName('/abc') == 'abc'
+        assert PathUtil.toPackageName('abc/def') == 'abc.def'
+        assert PathUtil.toPackageName('abc/def/') == 'abc.def'
+        assert PathUtil.toPackageName('/abc/def') == 'abc.def'
+        assert PathUtil.toPackageName('\\abc\\def') == 'abc.def'
+        assert PathUtil.toPackageName('abc\\def\\ghi') == 'abc.def.ghi'
+    }
+
 }

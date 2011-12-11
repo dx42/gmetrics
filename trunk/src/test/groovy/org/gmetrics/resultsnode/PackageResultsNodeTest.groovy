@@ -35,6 +35,7 @@ class PackageResultsNodeTest extends AbstractTestCase {
     private static final MR2 = new NumberMetricResult(METRIC, MetricLevel.CLASS, 99)
     private static final TOTAL = 23 + 99
     private static final AVG = TOTAL / 2
+
     private packageResultsNode
     private emptyResultsNode, classResultsNode
     private resultsNode1, resultsNode2, packageResultsNode2
@@ -121,6 +122,12 @@ class PackageResultsNodeTest extends AbstractTestCase {
         assert packageResultsNode.metricResults == [metricResult]
     }
 
+    void test_applyMetric_AddsPackageResultsForPackageName() {
+        def metric = new StubMetric()
+        packageResultsNode.applyMetric(metric)
+        assert metric.packageName == PATH
+    }
+
     void test_applyMetric_AddsNothingIfMetricReturnsNullForThePackage() {
         def metric = new StubMetric()
         metric.packageMetricResult = null
@@ -183,7 +190,7 @@ class PackageResultsNodeTest extends AbstractTestCase {
 
     void setUp() {
         super.setUp()
-        packageResultsNode = new PackageResultsNode(NAME)
+        packageResultsNode = new PackageResultsNode(NAME, PATH)
         emptyResultsNode = new StubResultsNode()
         resultsNode1 = new StubResultsNode(metricResults:[MR1])
         resultsNode2 = new StubResultsNode(metricResults:[MR2])
