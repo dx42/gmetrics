@@ -36,14 +36,15 @@ abstract class AbstractMetric implements Metric {
 
     protected abstract ClassMetricResult calculateForClass(ClassNode classNode, SourceCode sourceCode)
 
-    MetricResult applyToPackage(Collection<MetricResult> childMetricResults) {
+    MetricResult applyToPackage(String packageName, Collection<MetricResult> childMetricResults) {
         if (!enabled) {
             return null
         }
-        return calculateForPackage(childMetricResults)
+        return calculateForPackage(packageName, childMetricResults)
     }
 
-    protected MetricResult calculateForPackage(Collection<MetricResult> childMetricResults) {
+    @SuppressWarnings('UnusedMethodParameter')
+    protected MetricResult calculateForPackage(String packageName, Collection<MetricResult> childMetricResults) {
         return createAggregateMetricResult(MetricLevel.PACKAGE, childMetricResults)
     }
 
@@ -55,7 +56,7 @@ abstract class AbstractMetric implements Metric {
     }
 
     protected boolean isNotAnInterface(ClassNode classNode) {
-        return !(classNode.modifiers & ClassNode.ACC_INTERFACE)
+        return !classNode.isInterface()
     }
 
     protected MetricResult createAggregateMetricResult(MetricLevel metricLevel, Collection<MetricResult> childMetricResults, ASTNode node=null) {

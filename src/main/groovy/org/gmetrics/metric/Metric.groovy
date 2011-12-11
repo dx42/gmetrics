@@ -34,7 +34,7 @@ interface Metric {
 
     ClassMetricResult applyToClass(ClassNode classNode, SourceCode sourceCode)
     
-    MetricResult applyToPackage(Collection<MetricResult> childMetricResults)
+    MetricResult applyToPackage(String packageName, Collection<MetricResult> childMetricResults)
 
     List<String> getFunctions()
 

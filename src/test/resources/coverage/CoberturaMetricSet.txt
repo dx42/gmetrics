@@ -1,0 +1,10 @@
+// MetricSet for testing the Cobertura coverage metrics
+
+metricset {
+
+    metric(org.gmetrics.metric.coverage.CoberturaLineCoverageMetric) {
+        coberturaFile = 'target/site/cobertura/coverage.xml'
+        functions = ['total']
+    }
+
+}

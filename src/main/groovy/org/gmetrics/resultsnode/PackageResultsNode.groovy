@@ -78,7 +78,7 @@ class PackageResultsNode implements ResultsNode {
                 childMetricResultsForMetric << metricResult
             }
         }
-        def packageMetricResult = metric.applyToPackage(childMetricResultsForMetric)
+        def packageMetricResult = metric.applyToPackage(path, childMetricResultsForMetric)
         if (packageMetricResult) {
             metricResults << packageMetricResult
         }

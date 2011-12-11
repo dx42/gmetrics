@@ -123,9 +123,13 @@ abstract class AbstractMetricTestCase extends AbstractTestCase {
     }
 
     protected void assertApplyToPackage(Collection childMetricResults, classTotalValue, classAverageValue) {
-        def metricResult = metric.applyToPackage(childMetricResults)
-        assert metricResult['total'] == classTotalValue
-        assert metricResult['average'] == classAverageValue
+        assertApplyToPackage(null, childMetricResults, classTotalValue, classAverageValue)
+    }
+
+    protected void assertApplyToPackage(String packageName, Collection childMetricResults, totalValue, averageValue) {
+        def metricResult = metric.applyToPackage(packageName, childMetricResults)
+        assert metricResult['total'] == totalValue
+        assert metricResult['average'] == averageValue
     }
 
     protected void assertMetricForMetricResult(MetricResult metricResult) {

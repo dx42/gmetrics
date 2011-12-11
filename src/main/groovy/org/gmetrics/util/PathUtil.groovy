@@ -21,7 +21,6 @@ package org.gmetrics.util
  * This is an internal class and its API is subject to change.
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class PathUtil {
 
@@ -47,6 +46,20 @@ class PathUtil {
 
     static String normalize(String path) {
         return path ? path.replaceAll('\\\\', SEP) : path
+    }
+
+    static String toPackageName(String filePath) {
+        if (!filePath) {
+            return null
+        }
+        def normalizedPath = normalize(filePath).trim()
+        if (normalizedPath[0] == SEP) {
+            normalizedPath = normalizedPath[1..-1]
+        }
+        if (normalizedPath[-1] == SEP) {
+            normalizedPath = normalizedPath[0..-2]
+        }
+        return normalizedPath.replace(SEP, '.')
     }
 
     /**
