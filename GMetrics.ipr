@@ -91,7 +91,11 @@
     <option name="myDefaultNotNull" value="org.jetbrains.annotations.NotNull" />
     <option name="myNullables">
       <value>
-        <list size="0" />
+        <list size="3">
+          <item index="0" class="java.lang.String" itemvalue="org.jetbrains.annotations.Nullable" />
+          <item index="1" class="java.lang.String" itemvalue="javax.annotation.Nullable" />
+          <item index="2" class="java.lang.String" itemvalue="edu.umd.cs.findbugs.annotations.Nullable" />
+        </list>
       </value>
     </option>
     <option name="myNotNulls">
@@ -233,12 +237,14 @@
       <words>
         <w>blog</w>
         <w>cabe</w>
+        <w>cobertura</w>
         <w>configurer</w>
         <w>cyclomatic</w>
         <w>filesystem</w>
         <w>gmetrics</w>
         <w>javadocs</w>
         <w>metricset</w>
+        <w>slurper</w>
         <w>superclass</w>
         <w>wildcards</w>
       </words>
@@ -284,15 +290,15 @@
   </component>
   <component name="WebServicesPlugin" addRequiredLibraries="true" />
   <component name="libraryTable">
-    <library name="Maven: junit:junit:3.8.1">
+    <library name="Maven: junit:junit:3.8.2">
       <CLASSES>
-        <root url="jar://$M2_REPO$/junit/junit/3.8.1/junit-3.8.1.jar!/" />
+        <root url="jar://$M2_REPO$/junit/junit/3.8.2/junit-3.8.2.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$M2_REPO$/junit/junit/3.8.1/junit-3.8.1-javadoc.jar!/" />
+        <root url="jar://$M2_REPO$/junit/junit/3.8.2/junit-3.8.2-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$M2_REPO$/junit/junit/3.8.1/junit-3.8.1-sources.jar!/" />
+        <root url="jar://$M2_REPO$/junit/junit/3.8.2/junit-3.8.2-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: log4j:log4j:1.2.13">
