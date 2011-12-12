@@ -56,8 +56,15 @@ class CoberturaSignatureParser {
         if (!parameterString) {
             return []
         }
-        return parameterString.tokenize(',').collect { type ->
-            classNameNoPackage(type.trim())
+        return parameterString.tokenize(',').collect { rawType ->
+            def type = rawType.trim()
+            if (type.startsWith('[')) {
+                def arrayTypeCode = type.substring(1)
+                PRIMITIVES[arrayTypeCode] + '[]'
+            }
+            else {
+                classNameNoPackage(type)
+            }
         }
     }
 
@@ -79,22 +86,31 @@ class CoberturaSignatureParser {
     private static List parseParameterTypes(String parameterString) {
         def parameters = []
         def typeName = null
+        boolean withinArray = false
         parameterString.each { c ->
             if (typeName != null) {
                 if (c == ';') {
-                    parameters << PathUtil.getName(typeName.toString())
+                    def suffix = withinArray ? '[]' : ''
+                    parameters << PathUtil.getName(typeName.toString()) + suffix
                     typeName = null
+                    withinArray = false
                 }
                 else {
                     typeName.append(c)
                 }
             }
             else {
+                if (c == '[') {
+                    withinArray = true
+                }
+
                 if (c == 'L') {
                     typeName = new StringBuilder()
                 }
                 else if (c in PRIMITIVE_CODES) {
-                    parameters << PRIMITIVES[c]
+                    def suffix = withinArray ? '[]' : ''
+                    parameters << PRIMITIVES[c] + suffix
+                    withinArray = false
                 }
             }
         }

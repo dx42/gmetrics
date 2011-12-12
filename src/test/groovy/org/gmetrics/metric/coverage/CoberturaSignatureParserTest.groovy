@@ -25,8 +25,6 @@ import org.codehaus.groovy.ast.builder.AstBuilder
  */
 class CoberturaSignatureParserTest extends AbstractTestCase {
 
-    // TODO Methods with other primitive parameter types: int, long, boolean, char, float, double
-
     void testMatchesCoberturaMethod_MethodNode_Match() {
         final SOURCE = '''
             class MyClass {
@@ -64,6 +62,15 @@ class CoberturaSignatureParserTest extends AbstractTestCase {
         assert CoberturaSignatureParser.matchesCoberturaMethod('m', 'void m(int, String, long, boolean)', 'm', '(ILjava/lang/String;JZ)V')
     }
 
+    void testMatchesCoberturaMethod_Arrays() {
+        assert CoberturaSignatureParser.matchesCoberturaMethod('m', 'void m(int[])', 'm', '([I)V')
+        assert CoberturaSignatureParser.matchesCoberturaMethod('m', 'void m([I)', 'm', '([I)V')
+        assert CoberturaSignatureParser.matchesCoberturaMethod('m', 'void m(String[])', 'm', '([Ljava/lang/String;)V')
+        assert CoberturaSignatureParser.matchesCoberturaMethod('m', 'int m(int[], String[], long[], boolean[], int[])', 'm', '([I[Ljava/lang/String;[J[Z[I)I')
+        assert CoberturaSignatureParser.matchesCoberturaMethod('m', 'int m([I, String[], [J, [Z, [I)', 'm', '([I[Ljava/lang/String;[J[Z[I)I')
+        assert CoberturaSignatureParser.matchesCoberturaMethod('m', 'int m(int[], String, int)', 'm', '([ILjava/lang/String;I)')
+    }
+
     void testMatchesCoberturaMethod_NoMatch() {
         assert !CoberturaSignatureParser.matchesCoberturaMethod('m', 'void m()', 'm', '(Ljava/lang/String;)V')
         assert !CoberturaSignatureParser.matchesCoberturaMethod('m', 'void m()', 'other', '()V')
@@ -78,6 +85,13 @@ class CoberturaSignatureParserTest extends AbstractTestCase {
         assert CoberturaSignatureParser.parseSignatureParameterTypes('void m(String)') == ['String']
         assert CoberturaSignatureParser.parseSignatureParameterTypes('void m(String, String)') == ['String', 'String']
         assert CoberturaSignatureParser.parseSignatureParameterTypes('def m(java.lang.Object)') == ['Object']
+    }
+
+    void testParseSignatureParameterTypes_Arrays() {
+        assert CoberturaSignatureParser.parseSignatureParameterTypes('void m([I)') == ['int[]']
+        assert CoberturaSignatureParser.parseSignatureParameterTypes('void m([J)') == ['long[]']
+        assert CoberturaSignatureParser.parseSignatureParameterTypes('void m(String[])') == ['String[]']
+        assert CoberturaSignatureParser.parseSignatureParameterTypes('def m([I, String[], [J, [Z)') == ['int[]', 'String[]', 'long[]', 'boolean[]']
     }
 
     // TODO byte=B, short=S, array=[

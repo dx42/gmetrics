@@ -70,7 +70,6 @@ abstract class AbstractMethodMetric extends AbstractMetric {
         methodsPlusConstructors.each {methodNode ->
             def methodResult = calculate(methodNode, sourceCode)
             if (methodResult) {
-//                childMetricResults[methodNode.name] = methodResult
                 def methodKey = new MethodKey(methodNode)
                 childMetricResults[methodKey] = methodResult
             }

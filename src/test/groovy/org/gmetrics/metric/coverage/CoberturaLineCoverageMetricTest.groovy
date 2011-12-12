@@ -34,9 +34,7 @@ class CoberturaLineCoverageMetricTest extends AbstractMetricTestCase {
     // Tests
     //------------------------------------------------------------------------------------
 
-    // TODO Synthetic methods?
-    // TODO Overloaded methods
-    // TODO Methods with other primitive parameter types: int, long, boolean, char, float, double
+    // TODO Figure out way to test synthetic methods (has to be a method in the class AND in the Cobertura file)
     // TODO Class containing inner classes and also closures
 
     void testBaseLevelIsMethod() {
