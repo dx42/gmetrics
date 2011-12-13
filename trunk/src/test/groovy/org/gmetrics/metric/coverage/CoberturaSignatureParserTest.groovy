@@ -94,15 +94,18 @@ class CoberturaSignatureParserTest extends AbstractTestCase {
         assert CoberturaSignatureParser.parseSignatureParameterTypes('def m([I, String[], [J, [Z)') == ['int[]', 'String[]', 'long[]', 'boolean[]']
     }
 
-    // TODO byte=B, short=S, array=[
-
     void testParseCoberturaSignatureParameterTypes() {
         assert CoberturaSignatureParser.parseCoberturaSignatureParameterTypes('()Ljava/lang/String;') == []
         assert CoberturaSignatureParser.parseCoberturaSignatureParameterTypes('(IJZ)V') == ['int', 'long', 'boolean']
+        assert CoberturaSignatureParser.parseCoberturaSignatureParameterTypes('(BS)V') == ['byte', 'short']
         assert CoberturaSignatureParser.parseCoberturaSignatureParameterTypes('(Ljava/lang/String;)V') == ['String']
         assert CoberturaSignatureParser.parseCoberturaSignatureParameterTypes('(Ljava/lang/Object;)Ljava/lang/Object;') == ['Object']
         assert CoberturaSignatureParser.parseCoberturaSignatureParameterTypes('(Ljava/lang/String;Lgroovy/lang/Closure;)Ljava/util/Map;') == ['String', 'Closure']
         assert CoberturaSignatureParser.parseCoberturaSignatureParameterTypes('(ILjava/lang/String;JZ)V') == ['int', 'String', 'long', 'boolean']
     }
 
+    void testParseCoberturaSignatureParameterTypes_Arrays() {
+        assert CoberturaSignatureParser.parseCoberturaSignatureParameterTypes('([IJ[Z)V') == ['int[]', 'long', 'boolean[]']
+        assert CoberturaSignatureParser.parseCoberturaSignatureParameterTypes('([Ljava/lang/String;)V') == ['String[]']
+    }
 }
