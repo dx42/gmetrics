@@ -49,7 +49,11 @@ class CoberturaSignatureParser {
         return matchesCoberturaMethod(methodNode.name, methodNode.typeDescriptor, coberturaName, coberturaSignature)
     }
 
-    protected static List<String> parseSignatureParameterTypes(String signature) {
+    //------------------------------------------------------------------------------------
+    // Helper Methods
+    //------------------------------------------------------------------------------------
+
+    private static List<String> parseSignatureParameterTypes(String signature) {
         final REGEX = /.*\((.*)\).*/
         def parameterMatcher = signature =~ REGEX
         def parameterString = parameterMatcher[0][1]
@@ -83,38 +87,73 @@ class CoberturaSignatureParser {
     }
 
 
+    private static class ParseContext {
+        final parameters = []
+        private typeName = null
+        private withinArray = false
+
+        void startFullyQualifiedTypeName() {
+            typeName = new StringBuilder()
+        }
+
+        boolean withinFullyQualifiedTypeName() {
+            return typeName != null
+        }
+
+        void appendToFullyQualifiedTypeName(String c) {
+            typeName.append(c)
+        }
+
+        void terminateFullyQualifiedTypeName() {
+            def suffix = withinArray ? '[]' : ''
+            parameters << PathUtil.getName(typeName.toString()) + suffix
+            typeName = null
+            withinArray = false
+        }
+
+        void startNewArrayType() {
+            withinArray = true
+        }
+
+        void processPrimitiveTypeCode(String c) {
+            def suffix = withinArray ? '[]' : ''
+            parameters << PRIMITIVES[c] + suffix
+            withinArray = false
+        }
+    }
+
     private static List parseParameterTypes(String parameterString) {
-        def parameters = []
-        def typeName = null
-        boolean withinArray = false
+        def parseContext = new ParseContext()
         parameterString.each { c ->
-            if (typeName != null) {
-                if (c == ';') {
-                    def suffix = withinArray ? '[]' : ''
-                    parameters << PathUtil.getName(typeName.toString()) + suffix
-                    typeName = null
-                    withinArray = false
-                }
-                else {
-                    typeName.append(c)
-                }
+            if (parseContext.withinFullyQualifiedTypeName()) {
+                processCharacterWithinFullyQualifiedTypeName(c, parseContext)
             }
             else {
-                if (c == '[') {
-                    withinArray = true
-                }
-
-                if (c == 'L') {
-                    typeName = new StringBuilder()
-                }
-                else if (c in PRIMITIVE_CODES) {
-                    def suffix = withinArray ? '[]' : ''
-                    parameters << PRIMITIVES[c] + suffix
-                    withinArray = false
-                }
+                processStandaloneCharacter(c, parseContext)
             }
         }
-        return parameters
+        return parseContext.parameters
+    }
+
+    private static void processStandaloneCharacter(String c, ParseContext parseContext) {
+        if (c == '[') {
+            parseContext.startNewArrayType()
+        }
+        else if (c == 'L') {
+            parseContext.startFullyQualifiedTypeName()
+        }
+        else if (c in PRIMITIVE_CODES) {
+            parseContext.processPrimitiveTypeCode(c)
+        }
+    }
+
+    private static void processCharacterWithinFullyQualifiedTypeName(String c, ParseContext parseContext) {
+        if (c == ';') {
+            parseContext.terminateFullyQualifiedTypeName()
+        }
+        else {
+            parseContext.appendToFullyQualifiedTypeName(c)
+        }
     }
 
     private static String classNameNoPackage(String name) {
