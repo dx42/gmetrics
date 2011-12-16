@@ -28,7 +28,11 @@ class CoberturaLineCoverageMetricTest extends AbstractMetricTestCase {
 
     static metricClass = CoberturaLineCoverageMetric
 
-    private static final COBERTURA_FILE = 'src/test/resources/coverage/Cobertura-example-small.xml'
+    private static final COBERTURA_XML_FILENAME = 'Cobertura-example-small.xml'
+    private static final COBERTURA_XML_RELATIVE_PATH = 'src/test/resources/coverage/' + COBERTURA_XML_FILENAME
+    private static final COBERTURA_XML_RELATIVE_TO_CLASSPATH = 'coverage/' + COBERTURA_XML_FILENAME
+    private static final COBERTURA_XML_FILE_PREFIX = 'file:' + COBERTURA_XML_RELATIVE_PATH
+    private static final COBERTURA_XML_CLASSPATH_PREFIX = 'classpath:' + COBERTURA_XML_RELATIVE_TO_CLASSPATH
 
     //------------------------------------------------------------------------------------
     // Tests
@@ -145,13 +149,24 @@ class CoberturaLineCoverageMetricTest extends AbstractMetricTestCase {
         metric.applyToPackage('no.such.package', null) == null
     }
 
+    // Test loading file using resource syntax
+
+    void testLoadCoberturaFile_ClassPathResource() {
+        metric.coberturaFile = COBERTURA_XML_CLASSPATH_PREFIX
+        assertApplyToPackage('com.example.service.clientmapping', null, 0.85, 0.85)
+    }
+
+    void testLoadCoberturaFile_FileResource() {
+        metric.coberturaFile = COBERTURA_XML_FILE_PREFIX
+        assertApplyToPackage('com.example.service.clientmapping', null, 0.85, 0.85)
+    }
+
     //------------------------------------------------------------------------------------
     // Set up and helper methods
     //------------------------------------------------------------------------------------
 
     void setUp() {
         super.setUp()
-        metric.coberturaFile = COBERTURA_FILE
+        metric.coberturaFile = COBERTURA_XML_RELATIVE_TO_CLASSPATH
     }
-
 }
