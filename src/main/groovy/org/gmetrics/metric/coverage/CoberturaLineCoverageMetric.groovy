@@ -27,6 +27,8 @@ import org.gmetrics.result.MetricResult
 import org.apache.log4j.Logger
 import org.gmetrics.util.PathUtil
 import org.codehaus.groovy.ast.MethodNode
+import org.gmetrics.util.io.ResourceFactory
+import org.gmetrics.util.io.DefaultResourceFactory
 
 /**
  * Metric for test code coverage by line (line-rate) from a Cobertura XML file.
@@ -37,6 +39,7 @@ class CoberturaLineCoverageMetric extends AbstractMetric {
 
     private static final LOG = Logger.getLogger(CoberturaLineCoverageMetric)
 
+    private ResourceFactory resourceFactory = new DefaultResourceFactory()
     final String name = 'CoberturaLineCoverage'
     final MetricLevel baseLevel = MetricLevel.METHOD
     String coberturaFile
@@ -117,8 +120,9 @@ class CoberturaLineCoverageMetric extends AbstractMetric {
         synchronized(xmlLock) {
             if (xml == null) {
                 LOG.info("Loading Cobertura XML file [$coberturaFile]")
+                def inputStream = resourceFactory.getResource(coberturaFile).inputStream
                 def xmlSlurper = new XmlSlurper()
-                xml = xmlSlurper.parse(new File(coberturaFile))
+                xml = xmlSlurper.parse(inputStream)
             }
         }
         return xml

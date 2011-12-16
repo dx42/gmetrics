@@ -3,7 +3,7 @@
 metricset {
 
     metric(org.gmetrics.metric.coverage.CoberturaLineCoverageMetric) {
-        coberturaFile = 'target/site/cobertura/coverage.xml'
+        coberturaFile = 'coverage/GMetrics/coverage.xml'
         functions = ['total']
     }
 
