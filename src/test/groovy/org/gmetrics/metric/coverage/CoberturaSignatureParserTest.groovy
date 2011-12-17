@@ -108,4 +108,16 @@ class CoberturaSignatureParserTest extends AbstractTestCase {
         assert CoberturaSignatureParser.parseCoberturaSignatureParameterTypes('([IJ[Z)V') == ['int[]', 'long', 'boolean[]']
         assert CoberturaSignatureParser.parseCoberturaSignatureParameterTypes('([Ljava/lang/String;)V') == ['String[]']
     }
+
+    void testNumberOfParameters() {
+        assert CoberturaSignatureParser.numberOfParameters('()Ljava/lang/String;') == 0
+        assert CoberturaSignatureParser.numberOfParameters('(IJZ)V') == 3
+        assert CoberturaSignatureParser.numberOfParameters('(BS)V') == 2
+        assert CoberturaSignatureParser.numberOfParameters('(Ljava/lang/String;)V') == 1
+        assert CoberturaSignatureParser.numberOfParameters('(Ljava/lang/Object;)Ljava/lang/Object;') == 1
+        assert CoberturaSignatureParser.numberOfParameters('(Ljava/lang/String;Lgroovy/lang/Closure;)Ljava/util/Map;') == 2
+        assert CoberturaSignatureParser.numberOfParameters('(ILjava/lang/String;JZ)V') == 4
+    }
+
+
 }

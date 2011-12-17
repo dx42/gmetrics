@@ -49,14 +49,16 @@ class CoberturaSignatureParser {
         return matchesCoberturaMethod(methodNode.name, methodNode.typeDescriptor, coberturaName, coberturaSignature)
     }
 
+    static int numberOfParameters(String coberturaSignature) {
+        return parseCoberturaSignatureParameterTypes(coberturaSignature).size()
+    }
+
     //------------------------------------------------------------------------------------
     // Helper Methods
     //------------------------------------------------------------------------------------
 
     private static List<String> parseSignatureParameterTypes(String signature) {
-        final REGEX = /.*\((.*)\).*/
-        def parameterMatcher = signature =~ REGEX
-        def parameterString = parameterMatcher[0][1]
+        def parameterString = extractParameters(signature)
         if (!parameterString) {
             return []
         }
