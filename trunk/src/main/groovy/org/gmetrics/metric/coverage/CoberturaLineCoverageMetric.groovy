@@ -109,10 +109,20 @@ class CoberturaLineCoverageMetric extends AbstractMetric {
     }
 
     private findMatchingMethodElement(MethodNode methodNode, GPathResult classXmlElement) {
-        def matchingMethodElement = classXmlElement.methods.method.find {
+        def numParameters = methodNode.parameters.size()
+        def methodName = methodNode.name
+        def matchingMethodElements = classXmlElement.methods.method.findAll {
+            def xmlNumParameters = CoberturaSignatureParser.numberOfParameters(it.@signature.text())
+            methodName == it.@name.text() && numParameters == xmlNumParameters
+        }
+
+        if (matchingMethodElements.size() == 1) {
+            return matchingMethodElements[0]
+        }
+
+        return matchingMethodElements.find {
             CoberturaSignatureParser.matchesCoberturaMethod(methodNode, it.@name.text(), it.@signature.text())
         }
-        return matchingMethodElement
     }
 
     private GPathResult getCoberturaXml() {
