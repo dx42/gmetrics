@@ -132,6 +132,10 @@ abstract class AbstractMetricTestCase extends AbstractTestCase {
         assert metricResult['average'] == averageValue
     }
 
+    protected void assertApplyToPackage(String packageName, value) {
+        assertApplyToPackage(packageName, null, value, value)
+    }
+
     protected void assertMetricForMetricResult(MetricResult metricResult) {
         assert metricResult.metric == metric
     }
