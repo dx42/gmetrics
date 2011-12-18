@@ -39,10 +39,11 @@ class CoberturaLineCoverageMetric extends AbstractMetric {
 
     private static final LOG = Logger.getLogger(CoberturaLineCoverageMetric)
 
-    private ResourceFactory resourceFactory = new DefaultResourceFactory()
     final String name = 'CoberturaLineCoverage'
     final MetricLevel baseLevel = MetricLevel.METHOD
     String coberturaFile
+
+    private ResourceFactory resourceFactory = new DefaultResourceFactory()
     private Object xmlLock = new Object()
     private xml
 
@@ -68,6 +69,10 @@ class CoberturaLineCoverageMetric extends AbstractMetric {
 
     @Override
     protected MetricResult calculateForPackage(String packagePath, Collection<MetricResult> childMetricResults) {
+        if (packagePath == null) {
+            return getOverallPackageMetricValue()
+        }
+
         def packageName = PathUtil.toPackageName(packagePath)
         def coverage = getCoberturaXml()
         def matchingPackageElement = coverage.packages.package.find { it.@name == packageName }
@@ -76,6 +81,12 @@ class CoberturaLineCoverageMetric extends AbstractMetric {
             return null
         }
         def lineRate = parseLineRate(matchingPackageElement)
+        return new NumberMetricResult(this, MetricLevel.PACKAGE, lineRate)
+    }
+
+    private MetricResult getOverallPackageMetricValue() {
+        def coverage = getCoberturaXml()
+        def lineRate = parseLineRate(coverage)
         return new NumberMetricResult(this, MetricLevel.PACKAGE, lineRate)
     }
 
@@ -126,9 +137,9 @@ class CoberturaLineCoverageMetric extends AbstractMetric {
     }
 
     private GPathResult getCoberturaXml() {
-        assert coberturaFile
         synchronized(xmlLock) {
             if (xml == null) {
+                assert coberturaFile
                 LOG.info("Loading Cobertura XML file [$coberturaFile]")
                 def inputStream = resourceFactory.getResource(coberturaFile).inputStream
                 def xmlSlurper = new XmlSlurper()
