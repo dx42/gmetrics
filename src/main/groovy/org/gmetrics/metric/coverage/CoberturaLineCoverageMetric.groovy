@@ -54,9 +54,7 @@ class CoberturaLineCoverageMetric extends AbstractMetric {
         }
 
         def className = classNode.name
-        def coverage = getCoberturaXml()
-
-        def matchingClassElement = coverage.packages.package.classes.class.find { it.@name == className }
+        def matchingClassElement = findMatchingClassElement(className)
         if (matchingClassElement.isEmpty()) {
             LOG.warn("No coverage information found for class [$className]")
             return null
@@ -84,15 +82,52 @@ class CoberturaLineCoverageMetric extends AbstractMetric {
         return new NumberMetricResult(this, MetricLevel.PACKAGE, lineRate)
     }
 
+    //------------------------------------------------------------------------------------
+    // Helper Methods
+    //------------------------------------------------------------------------------------
+
+    protected Ratio getLineCoverageRatioForClass(String className) {
+        def matchingClassElement = findMatchingClassElement(className)
+        def overallClassRatio = getLineCoverageRatioForSingleClass(matchingClassElement)
+
+        def innerClasses = findInnerClasses(className)
+        innerClasses.each { innerClassElement ->
+            overallClassRatio += getLineCoverageRatioForSingleClass(innerClassElement)
+        }
+        return overallClassRatio
+    }
+
+    private Ratio getLineCoverageRatioForSingleClass(matchingClassElement) {
+        if (matchingClassElement.isEmpty()) {
+            return null
+        }
+        def methodLines = matchingClassElement.methods.method.lines.line
+        def standaloneLines = matchingClassElement.lines.line
+
+        return getLinesCoverageRatio(methodLines) + getLinesCoverageRatio(standaloneLines)
+    }
+
+    private Ratio getLinesCoverageRatio(linesElements) {
+        def numLines = linesElements.size()
+        def numLinesCovered = linesElements.findAll { line -> line.@hits != '0' }.size()
+        return new Ratio(numLinesCovered, numLines)
+    }
+
+    private findInnerClasses(String className) {
+        def coverage = getCoberturaXml()
+        return coverage.packages.package.classes.class.findAll { it.@name.text().startsWith(className + '$_') }
+    }
+
+    private findMatchingClassElement(String className) {
+        def coverage = getCoberturaXml()
+        return coverage.packages.package.classes.class.find { it.@name == className }
+    }
+
     private MetricResult getOverallPackageMetricValue() {
         def coverage = getCoberturaXml()
         def lineRate = parseLineRate(coverage)
         return new NumberMetricResult(this, MetricLevel.PACKAGE, lineRate)
     }
-
-    //------------------------------------------------------------------------------------
-    // Helper Methods
-    //------------------------------------------------------------------------------------
 
     private BigDecimal parseLineRate(GPathResult node) {
         def lineRateStr = node.@'line-rate'.text()

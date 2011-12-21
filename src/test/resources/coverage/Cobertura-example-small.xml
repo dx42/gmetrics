@@ -29,7 +29,7 @@
 									</conditions>
 								</line>
 								<line number="29" hits="2" branch="false"/>
-								<line number="31" hits="5" branch="false"/>
+								<line number="31" hits="0" branch="false"/>
 							</lines>
 						</method>
 						<method name="toString" signature="()Ljava/lang/String;" line-rate="1.0" branch-rate="1.0">
@@ -49,7 +49,7 @@
 						<line number="29" hits="2" branch="false"/>
 						<line number="31" hits="5" branch="false"/>
 						<line number="36" hits="6" branch="false"/>
-						<line number="40" hits="4" branch="false"/>
+						<line number="40" hits="0" branch="false"/>
 					</lines>
 				</class>
 				<class name="com.example.model.Channel$_parse_closure1" filename="com/example/model/Channel.groovy" line-rate="1.0" branch-rate="1.0" complexity="0.0">
@@ -304,6 +304,21 @@
 						<line number="25" hits="343" branch="false"/>
 					</lines>
 				</class>
+                <class name="com.example.service.clientmapping.EmailPreference" filename="com/example/service/clientmapping/EmailPreference.groovy" line-rate="0.66" branch-rate="0.61" complexity="0.0">
+                    <methods>
+                        <method name="toString" signature="()Ljava/lang/String;" line-rate="0.99" branch-rate="1.0">
+                            <lines>
+                                <line number="26" hits="1538" branch="false"/>
+                                <line number="27" hits="1538" branch="false"/>
+                            </lines>
+                        </method>
+                    </methods>
+                    <lines>
+                        <line number="26" hits="1538" branch="false"/>
+                        <line number="27" hits="1538" branch="false"/>
+                    </lines>
+                </class>
+
                 <class name="com.example.service.clientmapping.MyException" filename="com/example/service/clientmapping/MyException.java" line-rate="0.66" branch-rate="1.0" complexity="1.0">
                     <methods>
                         <method name="&lt;init&gt;" signature="(Ljava/lang/String;)V" line-rate="0.3" branch-rate="0.35">

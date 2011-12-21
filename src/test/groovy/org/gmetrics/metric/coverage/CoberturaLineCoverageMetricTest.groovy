@@ -33,13 +33,11 @@ class CoberturaLineCoverageMetricTest extends AbstractMetricTestCase {
     private static final COBERTURA_XML_RELATIVE_TO_CLASSPATH = 'coverage/' + COBERTURA_XML_FILENAME
     private static final COBERTURA_XML_FILE_PREFIX = 'file:' + COBERTURA_XML_RELATIVE_PATH
     private static final COBERTURA_XML_CLASSPATH_PREFIX = 'classpath:' + COBERTURA_XML_RELATIVE_TO_CLASSPATH
+    private static final CHANNEL_VALUE = 14 / 16 as BigDecimal
 
     //------------------------------------------------------------------------------------
     // Tests
     //------------------------------------------------------------------------------------
-
-    // TODO Figure out way to test synthetic methods (has to be a method in the class AND in the Cobertura file)
-    // TODO Class containing inner classes and also closures
 
     void testBaseLevelIsMethod() {
         assert metric.baseLevel == MetricLevel.METHOD
@@ -52,6 +50,8 @@ class CoberturaLineCoverageMetricTest extends AbstractMetricTestCase {
     void testImplementsMetricInterface() {
         assert metric instanceof Metric
     }
+
+    // Tests for applyToClass()
 
     void testApplyToClass_ReturnNullForInterface() {
         final SOURCE = """
@@ -165,6 +165,25 @@ class CoberturaLineCoverageMetricTest extends AbstractMetricTestCase {
         assertApplyToPackage('com.example.service.clientmapping', null, 0.85, 0.85)
     }
 
+    // Tests for getLineCoverageRatioForClass
+
+    void testGetLineCoverageRatioForClass() {
+        assertRatio(metric.getLineCoverageRatioForClass('com.example.service.clientmapping.MyException'), 16, 24)
+    }
+
+    void testGetLineCoverageRatioForClass_ClassContainingClosures() {
+        assertRatio(metric.getLineCoverageRatioForClass('com.example.model.Channel'), 14, 16)
+    }
+
+    void testGetLineCoverageRatioForClass_EmptyClass() {
+        assertRatio(metric.getLineCoverageRatioForClass('com.example.service.clientmapping.ClientMappingDao'), 0, 0)
+    }
+
+    void testGetLineCoverageRatioForClass_NoSuchClass_ReturnsNull() {
+        assert metric.getLineCoverageRatioForClass('NoSuchClass') == null
+    }
+
+
     //------------------------------------------------------------------------------------
     // Set up and helper methods
     //------------------------------------------------------------------------------------
@@ -172,5 +191,10 @@ class CoberturaLineCoverageMetricTest extends AbstractMetricTestCase {
     void setUp() {
         super.setUp()
         metric.coberturaFile = COBERTURA_XML_RELATIVE_TO_CLASSPATH
+    }
+
+    private void assertRatio(Ratio ratio, int numerator, int denominator) {
+        assert ratio.numerator == numerator
+        assert ratio.denominator == denominator
     }
 }
