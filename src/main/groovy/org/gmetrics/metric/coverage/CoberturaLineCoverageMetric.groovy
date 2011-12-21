@@ -38,6 +38,8 @@ import org.gmetrics.util.io.DefaultResourceFactory
 class CoberturaLineCoverageMetric extends AbstractMetric {
 
     private static final LOG = Logger.getLogger(CoberturaLineCoverageMetric)
+    private static final int SCALE = 2
+    private static final int ROUNDING_MODE = BigDecimal.ROUND_HALF_UP
 
     final String name = 'CoberturaLineCoverage'
     final MetricLevel baseLevel = MetricLevel.METHOD
@@ -60,15 +62,11 @@ class CoberturaLineCoverageMetric extends AbstractMetric {
             return null
         }
 
-        def metricResult
-        if (hasInnerClasses(className)) {
-            def lineRate = getLineCoverageRatioForClass(className) as BigDecimal
-            metricResult = new NumberMetricResult(this, MetricLevel.CLASS, lineRate, classNode.lineNumber)
-        }
-        else {
-            def lineRate = parseLineRate(matchingClassElement)
-            metricResult = new NumberMetricResult(this, MetricLevel.CLASS, lineRate, classNode.lineNumber)
-        }
+        def lineRate = hasInnerClasses(className) ?
+            getCoverageForClass(className) :
+            parseLineRate(matchingClassElement)
+
+        def metricResult = new NumberMetricResult(this, MetricLevel.CLASS, lineRate, classNode.lineNumber)
         Map methodResults = buildMethodResults(classNode, matchingClassElement)
         return new ClassMetricResult(metricResult, methodResults)
     }
@@ -93,6 +91,12 @@ class CoberturaLineCoverageMetric extends AbstractMetric {
     //------------------------------------------------------------------------------------
     // Helper Methods
     //------------------------------------------------------------------------------------
+
+    private BigDecimal getCoverageForClass(String className) {
+        def ratio = getLineCoverageRatioForClass(className)
+        def bd = ratio as BigDecimal
+        return bd.setScale(SCALE, ROUNDING_MODE)
+    }
 
     protected Ratio getLineCoverageRatioForClass(String className) {
         def matchingClassElement = findMatchingClassElement(className)
@@ -143,7 +147,8 @@ class CoberturaLineCoverageMetric extends AbstractMetric {
 
     private BigDecimal parseLineRate(GPathResult node) {
         def lineRateStr = node.@'line-rate'.text()
-        return lineRateStr as BigDecimal
+        def lineRate = lineRateStr as BigDecimal
+        return lineRate.setScale(SCALE, ROUNDING_MODE)
     }
 
     private Map buildMethodResults(ClassNode classNode, GPathResult classXmlElement) {

@@ -33,7 +33,7 @@ class CoberturaLineCoverageMetricTest extends AbstractMetricTestCase {
     private static final COBERTURA_XML_RELATIVE_TO_CLASSPATH = 'coverage/' + COBERTURA_XML_FILENAME
     private static final COBERTURA_XML_FILE_PREFIX = 'file:' + COBERTURA_XML_RELATIVE_PATH
     private static final COBERTURA_XML_CLASSPATH_PREFIX = 'classpath:' + COBERTURA_XML_RELATIVE_TO_CLASSPATH
-    private static final CHANNEL_VALUE = 14 / 16 as BigDecimal
+    private static final CHANNEL_VALUE = (14 / 16 as BigDecimal).setScale(2, BigDecimal.ROUND_HALF_UP)
     private static final EMAIL_VALUE = 0.66
 
     //------------------------------------------------------------------------------------
@@ -162,7 +162,7 @@ class CoberturaLineCoverageMetricTest extends AbstractMetricTestCase {
     }
 
     void testApplyToPackage_NullPath_ReturnsOverallValue() {
-        assertApplyToPackage(null, 0.945)
+        assertApplyToPackage(null, 0.95)
     }
 
     void testApplyToPackage_NoCoverageInformation() {
