@@ -59,8 +59,16 @@ class CoberturaLineCoverageMetric extends AbstractMetric {
             LOG.warn("No coverage information found for class [$className]")
             return null
         }
-        def lineRate = parseLineRate(matchingClassElement)
-        def metricResult = new NumberMetricResult(this, MetricLevel.CLASS, lineRate, classNode.lineNumber)
+
+        def metricResult
+        if (hasInnerClasses(className)) {
+            def lineRate = getLineCoverageRatioForClass(className) as BigDecimal
+            metricResult = new NumberMetricResult(this, MetricLevel.CLASS, lineRate, classNode.lineNumber)
+        }
+        else {
+            def lineRate = parseLineRate(matchingClassElement)
+            metricResult = new NumberMetricResult(this, MetricLevel.CLASS, lineRate, classNode.lineNumber)
+        }
         Map methodResults = buildMethodResults(classNode, matchingClassElement)
         return new ClassMetricResult(metricResult, methodResults)
     }
@@ -116,6 +124,10 @@ class CoberturaLineCoverageMetric extends AbstractMetric {
     private findInnerClasses(String className) {
         def coverage = getCoberturaXml()
         return coverage.packages.package.classes.class.findAll { it.@name.text().startsWith(className + '$_') }
+    }
+
+    private boolean hasInnerClasses(String className) {
+        return !findInnerClasses(className).isEmpty()
     }
 
     private findMatchingClassElement(String className) {

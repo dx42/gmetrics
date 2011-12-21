@@ -34,6 +34,7 @@ class CoberturaLineCoverageMetricTest extends AbstractMetricTestCase {
     private static final COBERTURA_XML_FILE_PREFIX = 'file:' + COBERTURA_XML_RELATIVE_PATH
     private static final COBERTURA_XML_CLASSPATH_PREFIX = 'classpath:' + COBERTURA_XML_RELATIVE_TO_CLASSPATH
     private static final CHANNEL_VALUE = 14 / 16 as BigDecimal
+    private static final EMAIL_VALUE = 0.66
 
     //------------------------------------------------------------------------------------
     // Tests
@@ -63,55 +64,55 @@ class CoberturaLineCoverageMetricTest extends AbstractMetricTestCase {
 
     void testApplyToClass_ClassWithNoMethods() {
         final SOURCE = """
-            package com.example.model
-            class Channel { }
+            package com.example.service
+            class Email { }
         """
-        assertApplyToClass(SOURCE, 0.8, 0.8)
+        assertApplyToClass(SOURCE, EMAIL_VALUE)
     }
 
     void testApplyToClass_ClassWithOneMethod() {
         final SOURCE = """
-            package com.example.model
-            class Channel {
-                String getId() { }
+            package com.example.service
+            class Email {
+                String toString() { }
             }
         """
-        assertApplyToClass(SOURCE, 0.8, 0.8, ['String getId()':1.0])
+        assertApplyToClass(SOURCE, EMAIL_VALUE, EMAIL_VALUE, ['String toString()':0.99])
     }
 
     void testApplyToClass_ClassWithMethodThatHasNoCoverageInformation() {
         final SOURCE = """
-            package com.example.model
-            class Channel {
+            package com.example.service
+            class Email {
                 int unknown() { }
             }
         """
-        assertApplyToClass(SOURCE, 0.8, 0.8)
+        assertApplyToClass(SOURCE, EMAIL_VALUE)
     }
 
     void testApplyToClass_IgnoresAbstractMethods() {
         final SOURCE = """
-            package com.example.model
-            class Channel {
+            package com.example.service
+            class Email {
                 abstract String getId()
             }
         """
-        assertApplyToClass(SOURCE, 0.8, 0.8)
+        assertApplyToClass(SOURCE, EMAIL_VALUE)
     }
 
     void testApplyToClass_Constructor() {
         final SOURCE = """
-            package com.example.model
-            class Channel {
-                Channel(String name, int id, String id) { }
+            package com.example.service
+            class Context {
+                Context(Collection stuff) { }
             }
         """
-        assertApplyToClass(SOURCE, 0.8, 0.8, ['void <init>(String, int, String)':0.9])
+        assertApplyToClass(SOURCE, 0.11, 0.11, ['void <init>(Collection)':0.22])
     }
 
     void testApplyToClass_OverloadedConstructor() {
         final SOURCE = """
-            package com.example.service.clientmapping
+            package com.example.service
             class MyException {
                 MyException(String name) { }
                 MyException(String name, String id) { }
@@ -127,6 +128,21 @@ class CoberturaLineCoverageMetricTest extends AbstractMetricTestCase {
         ])
     }
 
+    void testApplyToClass_ContainsInnerClasses() {
+        final SOURCE = """
+            package com.example.model
+            class Channel {
+                Channel(String name, int count, String code) { }
+                static Channel parse(String text) { }
+                String getId() { }
+            }
+        """
+        assertApplyToClass(SOURCE, CHANNEL_VALUE, CHANNEL_VALUE, [
+            'void <init>(String, int, String)':0.9,
+            'Channel parse(String)':1.0,
+            'String getId()':1.0])
+    }
+
     void testApplyToClass_CoberturaFileNotSet_ThrowsException() {
         final SOURCE = 'class Channel { }'
         metric.coberturaFile = null
@@ -138,11 +154,11 @@ class CoberturaLineCoverageMetricTest extends AbstractMetricTestCase {
     // Tests for applyToPackage()
 
     void testApplyToPackage() {
-        assertApplyToPackage('com.example.service.clientmapping', null, 0.85, 0.85)
+        assertApplyToPackage('com.example.service', null, 0.85, 0.85)
     }
 
     void testApplyToPackage_PackagePath() {
-        assertApplyToPackage('com/example/service/clientmapping', null, 0.85, 0.85)
+        assertApplyToPackage('com/example/service', null, 0.85, 0.85)
     }
 
     void testApplyToPackage_NullPath_ReturnsOverallValue() {
@@ -157,18 +173,18 @@ class CoberturaLineCoverageMetricTest extends AbstractMetricTestCase {
 
     void testLoadCoberturaFile_ClassPathResource() {
         metric.coberturaFile = COBERTURA_XML_CLASSPATH_PREFIX
-        assertApplyToPackage('com.example.service.clientmapping', null, 0.85, 0.85)
+        assertApplyToPackage('com.example.service', null, 0.85, 0.85)
     }
 
     void testLoadCoberturaFile_FileResource() {
         metric.coberturaFile = COBERTURA_XML_FILE_PREFIX
-        assertApplyToPackage('com.example.service.clientmapping', null, 0.85, 0.85)
+        assertApplyToPackage('com.example.service', null, 0.85, 0.85)
     }
 
     // Tests for getLineCoverageRatioForClass
 
     void testGetLineCoverageRatioForClass() {
-        assertRatio(metric.getLineCoverageRatioForClass('com.example.service.clientmapping.MyException'), 16, 24)
+        assertRatio(metric.getLineCoverageRatioForClass('com.example.service.MyException'), 16, 24)
     }
 
     void testGetLineCoverageRatioForClass_ClassContainingClosures() {
@@ -176,7 +192,7 @@ class CoberturaLineCoverageMetricTest extends AbstractMetricTestCase {
     }
 
     void testGetLineCoverageRatioForClass_EmptyClass() {
-        assertRatio(metric.getLineCoverageRatioForClass('com.example.service.clientmapping.ClientMappingDao'), 0, 0)
+        assertRatio(metric.getLineCoverageRatioForClass('com.example.service.ClientMappingDao'), 0, 0)
     }
 
     void testGetLineCoverageRatioForClass_NoSuchClass_ReturnsNull() {
