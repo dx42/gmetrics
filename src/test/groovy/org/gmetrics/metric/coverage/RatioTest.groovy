@@ -47,6 +47,15 @@ class RatioTest extends AbstractTestCase {
         assert new Ratio(0, 8) as BigDecimal == 0.0
     }
 
+    void testToBigDecimal() {
+        assert new Ratio(6, 8).toBigDecimal(2, BigDecimal.ROUND_HALF_UP) == 0.75
+        assert new Ratio(6, 8).toBigDecimal(1, BigDecimal.ROUND_HALF_UP) == 0.8
+        assert new Ratio(745, 1000).toBigDecimal(2, BigDecimal.ROUND_HALF_DOWN) == 0.74
+        assert new Ratio(1, 5).toBigDecimal(1, BigDecimal.ROUND_HALF_UP) == 0.2
+        assert new Ratio(5, 5).toBigDecimal(3, BigDecimal.ROUND_UNNECESSARY) == 1.000
+        assert new Ratio(0, 8).toBigDecimal(3, BigDecimal.ROUND_HALF_DOWN) == 0.0
+    }
+
     void testAsType_OtherThanBigDecimal_ThrowsException() {
         shouldFail { new Ratio(6, 8) as Integer }
     }
