@@ -35,6 +35,11 @@ class Ratio {
         new Ratio(numerator + ratio.numerator, denominator + ratio.denominator)
     }
 
+    BigDecimal toBigDecimal(int scale, int roundingMode) {
+        def bd = new BigDecimal(numerator) / new BigDecimal(denominator)
+        return bd.setScale(scale, roundingMode)
+    }
+
     Object asType(Class theClass) {
         assert theClass == BigDecimal
         return new BigDecimal(numerator) / new BigDecimal(denominator)

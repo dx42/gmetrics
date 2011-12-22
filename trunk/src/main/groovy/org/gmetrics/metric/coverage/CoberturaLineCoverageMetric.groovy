@@ -15,88 +15,25 @@
  */
 package org.gmetrics.metric.coverage
 
-import org.gmetrics.metric.MetricLevel
-import org.gmetrics.metric.AbstractMetric
-import org.gmetrics.result.ClassMetricResult
-import org.codehaus.groovy.ast.ClassNode
-import org.gmetrics.source.SourceCode
-import org.gmetrics.result.NumberMetricResult
-import org.gmetrics.result.MethodKey
-import groovy.util.slurpersupport.GPathResult
-import org.gmetrics.result.MetricResult
-import org.apache.log4j.Logger
-import org.gmetrics.util.PathUtil
-import org.codehaus.groovy.ast.MethodNode
-import org.gmetrics.util.io.ResourceFactory
-import org.gmetrics.util.io.DefaultResourceFactory
-
 /**
  * Metric for test code coverage by line (line-rate) from a Cobertura XML file.
  *
  * @author Chris Mair
  */
-class CoberturaLineCoverageMetric extends AbstractMetric {
-
-    private static final LOG = Logger.getLogger(CoberturaLineCoverageMetric)
-    private static final int SCALE = 2
-    private static final int ROUNDING_MODE = BigDecimal.ROUND_HALF_UP
+class CoberturaLineCoverageMetric extends AbstractCoberturaCoverageMetric {
 
     final String name = 'CoberturaLineCoverage'
-    final MetricLevel baseLevel = MetricLevel.METHOD
-    String coberturaFile
-
-    private ResourceFactory resourceFactory = new DefaultResourceFactory()
-    private Object xmlLock = new Object()
-    private xml
+    final String attributeName = 'line-rate'
 
     @Override
-    protected ClassMetricResult calculateForClass(ClassNode classNode, SourceCode sourceCode) {
-        if (classNode.isInterface()) {
-            return null
-        }
-
-        def className = classNode.name
-        def matchingClassElement = findMatchingClassElement(className)
-        if (matchingClassElement.isEmpty()) {
-            LOG.warn("No coverage information found for class [$className]")
-            return null
-        }
-
-        def lineRate = hasInnerClasses(className) ?
-            getCoverageForClass(className) :
-            parseLineRate(matchingClassElement)
-
-        def metricResult = new NumberMetricResult(this, MetricLevel.CLASS, lineRate, classNode.lineNumber)
-        Map methodResults = buildMethodResults(classNode, matchingClassElement)
-        return new ClassMetricResult(metricResult, methodResults)
-    }
-
-    @Override
-    protected MetricResult calculateForPackage(String packagePath, Collection<MetricResult> childMetricResults) {
-        if (packagePath == null) {
-            return getOverallPackageMetricValue()
-        }
-
-        def packageName = PathUtil.toPackageName(packagePath)
-        def coverage = getCoberturaXml()
-        def matchingPackageElement = coverage.packages.package.find { it.@name == packageName }
-        if (matchingPackageElement.isEmpty()) {
-            LOG.warn("No coverage information found for package [$packageName]")
-            return null
-        }
-        def lineRate = parseLineRate(matchingPackageElement)
-        return new NumberMetricResult(this, MetricLevel.PACKAGE, lineRate)
+    protected BigDecimal calculateCoverageForClassAndInnerClasses(String className) {
+        def ratio = getLineCoverageRatioForClass(className)
+        return ratio.toBigDecimal(SCALE, ROUNDING_MODE)
     }
 
     //------------------------------------------------------------------------------------
     // Helper Methods
     //------------------------------------------------------------------------------------
-
-    private BigDecimal getCoverageForClass(String className) {
-        def ratio = getLineCoverageRatioForClass(className)
-        def bd = ratio as BigDecimal
-        return bd.setScale(SCALE, ROUNDING_MODE)
-    }
 
     protected Ratio getLineCoverageRatioForClass(String className) {
         def matchingClassElement = findMatchingClassElement(className)
@@ -125,79 +62,4 @@ class CoberturaLineCoverageMetric extends AbstractMetric {
         return new Ratio(numLinesCovered, numLines)
     }
 
-    private findInnerClasses(String className) {
-        def coverage = getCoberturaXml()
-        return coverage.packages.package.classes.class.findAll { it.@name.text().startsWith(className + '$_') }
-    }
-
-    private boolean hasInnerClasses(String className) {
-        return !findInnerClasses(className).isEmpty()
-    }
-
-    private findMatchingClassElement(String className) {
-        def coverage = getCoberturaXml()
-        return coverage.packages.package.classes.class.find { it.@name == className }
-    }
-
-    private MetricResult getOverallPackageMetricValue() {
-        def coverage = getCoberturaXml()
-        def lineRate = parseLineRate(coverage)
-        return new NumberMetricResult(this, MetricLevel.PACKAGE, lineRate)
-    }
-
-    private BigDecimal parseLineRate(GPathResult node) {
-        def lineRateStr = node.@'line-rate'.text()
-        def lineRate = lineRateStr as BigDecimal
-        return lineRate.setScale(SCALE, ROUNDING_MODE)
-    }
-
-    private Map buildMethodResults(ClassNode classNode, GPathResult classXmlElement) {
-        Map<MethodKey, MetricResult> childMetricResults = [:]
-
-        def methodsPlusConstructors = classNode.getMethods() + classNode.getDeclaredConstructors()
-        def validMethods = methodsPlusConstructors.findAll { methodNode -> !methodNode.isAbstract() && !methodNode.isSynthetic() }
-        validMethods.each { methodNode ->
-            def matchingMethodElement = findMatchingMethodElement(methodNode, classXmlElement)
-            if (!matchingMethodElement.isEmpty()) {
-                def lineRate = parseLineRate(matchingMethodElement)
-                def methodResult = new NumberMetricResult(this, MetricLevel.METHOD, lineRate, classNode.lineNumber)
-                def methodKey = new MethodKey(methodNode)
-                childMetricResults[methodKey] = methodResult
-            }
-            else {
-                LOG.warn("No coverage information found for method [${classNode.name}.${methodNode.name}]")
-            }
-        }
-        return childMetricResults
-    }
-
-    private findMatchingMethodElement(MethodNode methodNode, GPathResult classXmlElement) {
-        def numParameters = methodNode.parameters.size()
-        def methodName = methodNode.name
-        def matchingMethodElements = classXmlElement.methods.method.findAll {
-            def xmlNumParameters = CoberturaSignatureParser.numberOfParameters(it.@signature.text())
-            methodName == it.@name.text() && numParameters == xmlNumParameters
-        }
-
-        if (matchingMethodElements.size() == 1) {
-            return matchingMethodElements[0]
-        }
-
-        return matchingMethodElements.find {
-            CoberturaSignatureParser.matchesCoberturaMethod(methodNode, it.@name.text(), it.@signature.text())
-        }
-    }
-
-    private GPathResult getCoberturaXml() {
-        synchronized(xmlLock) {
-            if (xml == null) {
-                assert coberturaFile
-                LOG.info("Loading Cobertura XML file [$coberturaFile]")
-                def inputStream = resourceFactory.getResource(coberturaFile).inputStream
-                def xmlSlurper = new XmlSlurper()
-                xml = xmlSlurper.parse(inputStream)
-            }
-        }
-        return xml
-    }
 }
