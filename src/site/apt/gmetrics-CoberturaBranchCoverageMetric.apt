@@ -1,0 +1,48 @@
+		--------------------------------------------------
+			GMetrics - CoberturaBranchCoverage Metric
+		--------------------------------------------------
+
+CoberturaBranchCoverage Metric
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ Metric that measures the code coverage of branches (conditionals) based on a
+ {{{http://cobertura.sourceforge.net/}Cobertura}} coverage XML file.
+
+ Implemented by the <<<org.gmetrics.metric.coverage.CoberturaBranchCoverage>>> class.
+
+
+* Metric Properties
+~~~~~~~~~~~~~~~~~~~
+
+  The following properties can be configured for this metric within a <MetricSet>. See
+  {{{./gmetrics-creating-metricset.html}Creating a MetricSet}} for information on the syntax of
+  setting a metric property.
+
+*-----------------+--------------------------------------------------------------------+------------------------+
+| <<Property>>    | <<Description>>                                                    | <<Default Value>>      |
+*-----------------+--------------------------------------------------------------------+------------------------+
+| enabled         | This <<<boolean>>> property controls whether the metric is         | <<<true>>>             |
+|                 | <enabled>. If set to <<<false>>>, then the metric is not included  |                        |
+|                 | as part of the results or the output reports.                      |                        |
+*-----------------+--------------------------------------------------------------------+------------------------+
+| functions       | This <<<List\<String\>>>> property contains the names of the functions| <<<["total","average"]>>>|
+|                 | to be calculated at the <class> and <package> levels and           |                        |
+|                 | (potentially) included within the report(s). Valid values are:     |                        |
+|                 |    - "total"                                                       |                        |
+|                 |    - "average"                                                     |                        |
+|                 |    - "minimum"                                                     |                        |
+|                 |    - "maximum"                                                     |                        |
+*-----------------+--------------------------------------------------------------------+------------------------+
+| coberturaFile   | The path to the <<Cobertura>> XML file. By default, the path is    | <<<N/A>>>              |
+|                 | relative to the classpath. But the path may be optionally prefixed |                        |
+|                 | by any of the valid java.net.URL prefixes, such as "file:" (to load|                        |
+|                 | from a relative or absolute path on the filesystem), or "http:".   |                        |
+|                 | This property is REQUIRED.                                         |                        |
+*-----------------+--------------------------------------------------------------------+------------------------+
+
+
+* References
+~~~~~~~~~~~~
+
+ * {{{http://cobertura.sourceforge.net/}Cobertura}} -- <Cobertura is a free Java tool that calculates the percentage
+ of code accessed by tests. It can be used to identify which parts of your Java program are lacking test coverage.>

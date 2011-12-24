@@ -133,10 +133,17 @@ class GMetricsTask_AntBuilderTest extends AbstractTestCase {
     }
 
     private void generateAllMetricsFile(File allMetricSetFile) {
+        final COBERTURA_FILE = '"coverage/GMetrics/coverage.xml"'
+        def specialProperties = [
+            CoberturaBranchCoverage: "(coberturaFile: $COBERTURA_FILE)",
+            CoberturaLineCoverage: "(coberturaFile: $COBERTURA_FILE)"
+        ]
+
         allMetricSetFile.withWriter { w ->
             w.println 'metricset {'
             MetricRegistryHolder.metricRegistry.allMetricNames.each { metricName ->
-                w.println metricName
+                def props = specialProperties[metricName] ?: ''
+                w.println metricName + props
             }
             w.println '}'
         }

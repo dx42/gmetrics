@@ -23,6 +23,8 @@ import org.gmetrics.metric.linecount.ClassLineCountMetric
 import org.gmetrics.metric.fieldcount.FieldCountMetric
 import org.gmetrics.metric.classcount.ClassCountMetric
 import org.gmetrics.metric.cyclomatic.CyclomaticComplexityMetric
+import org.gmetrics.metric.coverage.CoberturaBranchCoverageMetric
+import org.gmetrics.metric.coverage.CoberturaLineCoverageMetric
 
 /**
  * Default implementation of MetricRegistry
@@ -33,12 +35,14 @@ class DefaultMetricRegistry implements MetricRegistry {
 
     private static final METRIC_CLASSES = [
         AbcMetric,
-        CyclomaticComplexityMetric,
+        CoberturaBranchCoverageMetric,
+        CoberturaLineCoverageMetric,
         ClassCountMetric,
-        FieldCountMetric,
         ClassLineCountMetric,
-        MethodLineCountMetric,
+        CyclomaticComplexityMetric,
+        FieldCountMetric,
         MethodCountMetric,
+        MethodLineCountMetric
     ]
     private static final METRIC_MAP = buildMetricClassMap()
 

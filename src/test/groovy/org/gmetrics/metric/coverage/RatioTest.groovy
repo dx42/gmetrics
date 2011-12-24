@@ -60,6 +60,10 @@ class RatioTest extends AbstractTestCase {
         assert new Ratio(0, 8).toBigDecimal(3, BigDecimal.ROUND_HALF_DOWN) == 0.0
     }
 
+    void testToBigDecimal_DivideByZero() {
+        assert new Ratio(6, 0).toBigDecimal(2, BigDecimal.ROUND_HALF_UP) == 0.0
+    }
+
     void testAsType_OtherThanBigDecimal_ThrowsException() {
         shouldFail { new Ratio(6, 8) as Integer }
     }
