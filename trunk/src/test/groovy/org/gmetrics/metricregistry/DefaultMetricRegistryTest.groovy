@@ -23,6 +23,8 @@ import org.gmetrics.metric.linecount.ClassLineCountMetric
 import org.gmetrics.metric.linecount.MethodLineCountMetric
 import org.gmetrics.metric.methodcount.MethodCountMetric
 import org.gmetrics.metric.cyclomatic.CyclomaticComplexityMetric
+import org.gmetrics.metric.coverage.CoberturaLineCoverageMetric
+import org.gmetrics.metric.coverage.CoberturaBranchCoverageMetric
 
 /**
  * Tests for DefaultMetricRegistry
@@ -39,6 +41,8 @@ class DefaultMetricRegistryTest extends AbstractTestCase {
 
     void testRetrieveMetricClassesByName() {
         assert registry.getMetricClass('ABC') == AbcMetric
+        assert registry.getMetricClass('CoberturaBranchCoverage') == CoberturaBranchCoverageMetric
+        assert registry.getMetricClass('CoberturaLineCoverage') == CoberturaLineCoverageMetric
         assert registry.getMetricClass('CyclomaticComplexity') ==  CyclomaticComplexityMetric
         assert registry.getMetricClass('ClassCount') == ClassCountMetric
         assert registry.getMetricClass('FieldCount') == FieldCountMetric

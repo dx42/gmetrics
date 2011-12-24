@@ -1,9 +1,16 @@
 // MetricSet for testing the Cobertura coverage metrics
 
+final COBERTURA_FILE = 'coverage/GMetrics/coverage.xml'
+
 metricset {
 
+    metric(org.gmetrics.metric.coverage.CoberturaBranchCoverageMetric) {
+        coberturaFile = COBERTURA_FILE
+        functions = ['total']
+    }
+
     metric(org.gmetrics.metric.coverage.CoberturaLineCoverageMetric) {
-        coberturaFile = 'coverage/GMetrics/coverage.xml'
+        coberturaFile = COBERTURA_FILE
         functions = ['total']
     }
 

@@ -18,6 +18,8 @@ package org.gmetrics.metric.coverage
 /**
  * Metric for test code coverage by line (line-rate) from a Cobertura XML file.
  *
+ * @see "http://cobertura.sourceforge.net/"
+ *
  * @author Chris Mair
  */
 class CoberturaLineCoverageMetric extends AbstractCoberturaCoverageMetric {

@@ -38,7 +38,7 @@ class Ratio {
     }
 
     BigDecimal toBigDecimal(int scale, int roundingMode) {
-        def bd = new BigDecimal(numerator) / new BigDecimal(denominator)
+        def bd = denominator == 0 ? BigDecimal.ZERO : new BigDecimal(numerator) / new BigDecimal(denominator)
         return bd.setScale(scale, roundingMode)
     }
 
