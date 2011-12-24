@@ -22,6 +22,8 @@
  */
 class Ratio {
 
+    public static final ZERO = new Ratio(0,0)
+
     final int numerator
     final int denominator
 

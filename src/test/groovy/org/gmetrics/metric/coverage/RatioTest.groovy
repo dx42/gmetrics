@@ -29,6 +29,10 @@ class RatioTest extends AbstractTestCase {
         assertRatio(ratio, 6, 7)
     }
 
+    void testZERO() {
+        assertRatio(Ratio.ZERO, 0, 0)
+    }
+
     void testPlus() {
         def ratio = new Ratio(6, 7)
         def sumRatio = ratio + new Ratio(5, 20)
