@@ -16,24 +16,23 @@
 package org.gmetrics.metric.coverage
 
 /**
- * Tests for CoberturaLineCoverageMetric
+ * Tests for CoberturaBranchCoverageMetric
  *
  * @author Chris Mair
  */
-class CoberturaLineCoverageMetricTest extends AbstractCoberturaMetricTestCase {
+class CoberturaBranchCoverageMetricTest extends AbstractCoberturaMetricTestCase {
 
-    static metricClass = CoberturaLineCoverageMetric
+    static metricClass = CoberturaBranchCoverageMetric
 
-    private static final CHANNEL_VALUE = (14 / 16 as BigDecimal).setScale(2, BigDecimal.ROUND_HALF_UP)
-    private static final EMAIL_VALUE = 0.66
-    private static final SERVICE_PACKAGE_VALUE = 0.85
+    private static final EMAIL_VALUE = 0.61
+    private static final SERVICE_PACKAGE_VALUE = 0.65
 
     //------------------------------------------------------------------------------------
     // Tests
     //------------------------------------------------------------------------------------
 
     void testHasProperName() {
-        assert metric.name == 'CoberturaLineCoverage'
+        assert metric.name == 'CoberturaBranchCoverage'
     }
 
     // Tests for applyToClass()
@@ -53,7 +52,7 @@ class CoberturaLineCoverageMetricTest extends AbstractCoberturaMetricTestCase {
                 String toString() { }
             }
         """
-        assertApplyToClass(SOURCE, EMAIL_VALUE, EMAIL_VALUE, ['String toString()':0.99])
+        assertApplyToClass(SOURCE, EMAIL_VALUE, EMAIL_VALUE, ['String toString()':0.91])
     }
 
     void testApplyToClass_ClassWithMethodThatHasNoCoverageInformation() {
@@ -83,7 +82,7 @@ class CoberturaLineCoverageMetricTest extends AbstractCoberturaMetricTestCase {
                 Context(Collection stuff) { }
             }
         """
-        assertApplyToClass(SOURCE, 0.11, 0.11, ['void <init>(Collection)':0.22])
+        assertApplyToClass(SOURCE, 0.31, 0.31, ['void <init>(Collection)':0.32])
     }
 
     void testApplyToClass_OverloadedConstructor() {
@@ -96,27 +95,27 @@ class CoberturaLineCoverageMetricTest extends AbstractCoberturaMetricTestCase {
                 MyException(Throwable cause) { }
             }
         """
-        assertApplyToClass(SOURCE, 0.66, 0.66, [
-            'void <init>(String)':0.3,
-            'void <init>(String, String)':0.4,
-            'void <init>(String, Throwable)':0.5,
-            'void <init>(Throwable)':0.6,
+        assertApplyToClass(SOURCE, 0.61, 0.61, [
+            'void <init>(String)':0.35,
+            'void <init>(String, String)':0.45,
+            'void <init>(String, Throwable)':0.55,
+            'void <init>(Throwable)':0.65,
         ])
     }
 
     void testApplyToClass_ContainsInnerClasses() {
         final SOURCE = """
-            package com.example.model
-            class Channel {
-                Channel(String name, int count, String code) { }
-                static Channel parse(String text) { }
-                String getId() { }
+            package com.example.service
+            class GenericLookupService {
+                Map buildReverseLookupMap(Map map) { }
+                Map get() { }
+                Object getAllEnabledClients() { }
             }
         """
-        assertApplyToClass(SOURCE, CHANNEL_VALUE, CHANNEL_VALUE, [
-            'void <init>(String, int, String)':0.9,
-            'Channel parse(String)':1.0,
-            'String getId()':1.0])
+        assertApplyToClass(SOURCE, 0.92, 0.92, [
+            'Map buildReverseLookupMap(Map)':1.00,
+            'Map get()':1.00,
+            'Object getAllEnabledClients()':1.00])
     }
 
     // Tests for applyToPackage()
@@ -130,7 +129,7 @@ class CoberturaLineCoverageMetricTest extends AbstractCoberturaMetricTestCase {
     }
 
     void testApplyToPackage_NullPath_ReturnsOverallValue() {
-        assertApplyToPackage(null, 0.95)
+        assertApplyToPackage(null, 0.79)
     }
 
     // Test loading file using resource syntax
@@ -145,22 +144,22 @@ class CoberturaLineCoverageMetricTest extends AbstractCoberturaMetricTestCase {
         assertApplyToPackage('com.example.service', SERVICE_PACKAGE_VALUE)
     }
 
-    // Tests for getLineCoverageRatioForClass
+    // Tests for getBranchCoverageRatioForClass
 
-    void testGetLineCoverageRatioForClass() {
-        assertRatio(metric.getLineCoverageRatioForClass('com.example.service.MyException'), 16, 24)
+    void testGetBranchCoverageRatioForClass() {
+        assertRatio(metric.getBranchCoverageRatioForClass('com.example.service.Email'), 2, 6)
     }
 
-    void testGetLineCoverageRatioForClass_ClassContainingClosures() {
-        assertRatio(metric.getLineCoverageRatioForClass('com.example.model.Channel'), 14, 16)
+    void testGetBranchCoverageRatioForClass_ClassContainingClosures() {
+        assertRatio(metric.getBranchCoverageRatioForClass('com.example.service.GenericLookupService'), 11, 12)
     }
 
-    void testGetLineCoverageRatioForClass_EmptyClass() {
-        assertRatio(metric.getLineCoverageRatioForClass('com.example.service.ClientMappingDao'), 0, 0)
+    void testGetBranchCoverageRatioForClass_EmptyClass() {
+        assertRatio(metric.getBranchCoverageRatioForClass('com.example.service.ClientMappingDao'), 0, 0)
     }
 
-    void testGetLineCoverageRatioForClass_NoSuchClass_ReturnsNull() {
-        assert metric.getLineCoverageRatioForClass('NoSuchClass') == null
+    void testGetBranchCoverageRatioForClass_NoSuchClass_ReturnsNull() {
+        assert metric.getBranchCoverageRatioForClass('NoSuchClass') == null
     }
 
 }
