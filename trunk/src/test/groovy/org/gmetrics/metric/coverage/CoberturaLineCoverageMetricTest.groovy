@@ -145,22 +145,22 @@ class CoberturaLineCoverageMetricTest extends AbstractCoberturaMetricTestCase {
         assertApplyToPackage('com.example.service', SERVICE_PACKAGE_VALUE)
     }
 
-    // Tests for getLineCoverageRatioForClass
+    // Tests for getCoverageRatioForClass
 
-    void testGetLineCoverageRatioForClass() {
-        assertRatio(metric.getLineCoverageRatioForClass('com.example.service.MyException'), 16, 24)
+    void testGetCoverageRatioForClass() {
+        assertRatio(metric.getCoverageRatioForClass('com.example.service.MyException'), 16, 24)
     }
 
-    void testGetLineCoverageRatioForClass_ClassContainingClosures() {
-        assertRatio(metric.getLineCoverageRatioForClass('com.example.model.Channel'), 14, 16)
+    void testGetCoverageRatioForClass_ClassContainingClosures() {
+        assertRatio(metric.getCoverageRatioForClass('com.example.model.Channel'), 14, 16)
     }
 
-    void testGetLineCoverageRatioForClass_EmptyClass() {
-        assertRatio(metric.getLineCoverageRatioForClass('com.example.service.ClientMappingDao'), 0, 0)
+    void testGetCoverageRatioForClass_EmptyClass() {
+        assertRatio(metric.getCoverageRatioForClass('com.example.service.ClientMappingDao'), 0, 0)
     }
 
-    void testGetLineCoverageRatioForClass_NoSuchClass_ReturnsNull() {
-        assert metric.getLineCoverageRatioForClass('NoSuchClass') == null
+    void testGetCoverageRatioForClass_NoSuchClass_ReturnsNull() {
+        assert metric.getCoverageRatioForClass('NoSuchClass') == null
     }
 
 }

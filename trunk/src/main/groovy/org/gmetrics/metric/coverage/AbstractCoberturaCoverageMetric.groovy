@@ -60,9 +60,10 @@ abstract class AbstractCoberturaCoverageMetric extends AbstractMetric {
     protected abstract String getAttributeName()
 
     /**
-     * @return the calculated coverage value for the named class AND any of its inner classes
+     * @return the calculated coverage ratio for the Cobertura XML class element
      */
-    protected abstract BigDecimal calculateCoverageForClassAndInnerClasses(String className)
+    protected abstract Ratio getCoverageRatioForSingleClass(matchingClassElement)
+//    protected abstract Ratio getCoverageRatioForClass(String className)
 
     //------------------------------------------------------------------------------------
     // API and Template methods
@@ -110,6 +111,22 @@ abstract class AbstractCoberturaCoverageMetric extends AbstractMetric {
     //------------------------------------------------------------------------------------
     // Helper Methods
     //------------------------------------------------------------------------------------
+
+    protected Ratio getCoverageRatioForClass(String className) {
+        def matchingClassElement = findMatchingClassElement(className)
+        def overallClassRatio = getCoverageRatioForSingleClass(matchingClassElement)
+
+        def innerClasses = findInnerClasses(className)
+        innerClasses.each { innerClassElement ->
+            overallClassRatio += getCoverageRatioForSingleClass(innerClassElement)
+        }
+        return overallClassRatio
+    }
+
+    private BigDecimal calculateCoverageForClassAndInnerClasses(String className) {
+        def ratio = getCoverageRatioForClass(className)
+        return ratio.toBigDecimal(SCALE, ROUNDING_MODE)
+    }
 
     private MetricResult getOverallPackageMetricValue() {
         def coverage = getCoberturaXml()

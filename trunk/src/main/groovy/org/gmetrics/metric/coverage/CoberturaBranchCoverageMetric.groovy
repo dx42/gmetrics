@@ -26,34 +26,18 @@ class CoberturaBranchCoverageMetric extends AbstractCoberturaCoverageMetric {
     final String attributeName = 'branch-rate'
 
     @Override
-    protected BigDecimal calculateCoverageForClassAndInnerClasses(String className) {
-        def ratio = getBranchCoverageRatioForClass(className)
-        return ratio.toBigDecimal(SCALE, ROUNDING_MODE)
-    }
-
-    //------------------------------------------------------------------------------------
-    // Helper Methods
-    //------------------------------------------------------------------------------------
-
-    protected Ratio getBranchCoverageRatioForClass(String className) {
-        def matchingClassElement = findMatchingClassElement(className)
-        def overallClassRatio = getBranchCoverageRatioForSingleClass(matchingClassElement)
-
-        def innerClasses = findInnerClasses(className)
-        innerClasses.each { innerClassElement ->
-            overallClassRatio += getBranchCoverageRatioForSingleClass(innerClassElement)
-        }
-        return overallClassRatio
-    }
-
-    private Ratio getBranchCoverageRatioForSingleClass(matchingClassElement) {
+    protected Ratio getCoverageRatioForSingleClass(matchingClassElement) {
         if (matchingClassElement.isEmpty()) {
             return null
         }
-        def methodLines = matchingClassElement.methods.method.lines.line.findAll { line -> line.@branch == 'true' }
-        def standaloneLines = matchingClassElement.lines.line.findAll { line -> line.@branch == 'true' }
+        def methodLines = findLineElementsWithBranches(matchingClassElement.methods.method.lines.line)
+        def standaloneLines = findLineElementsWithBranches(matchingClassElement.lines.line)
 
         return getBranchCoverageRatio(methodLines) + getBranchCoverageRatio(standaloneLines)
+    }
+
+    private findLineElementsWithBranches(lines) {
+        lines.findAll { line -> line.@branch == 'true' }
     }
 
     private Ratio getBranchCoverageRatio(linesElements) {
