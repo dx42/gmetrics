@@ -26,27 +26,7 @@ class CoberturaLineCoverageMetric extends AbstractCoberturaCoverageMetric {
     final String attributeName = 'line-rate'
 
     @Override
-    protected BigDecimal calculateCoverageForClassAndInnerClasses(String className) {
-        def ratio = getLineCoverageRatioForClass(className)
-        return ratio.toBigDecimal(SCALE, ROUNDING_MODE)
-    }
-
-    //------------------------------------------------------------------------------------
-    // Helper Methods
-    //------------------------------------------------------------------------------------
-
-    protected Ratio getLineCoverageRatioForClass(String className) {
-        def matchingClassElement = findMatchingClassElement(className)
-        def overallClassRatio = getLineCoverageRatioForSingleClass(matchingClassElement)
-
-        def innerClasses = findInnerClasses(className)
-        innerClasses.each { innerClassElement ->
-            overallClassRatio += getLineCoverageRatioForSingleClass(innerClassElement)
-        }
-        return overallClassRatio
-    }
-
-    private Ratio getLineCoverageRatioForSingleClass(matchingClassElement) {
+    protected Ratio getCoverageRatioForSingleClass(matchingClassElement) {
         if (matchingClassElement.isEmpty()) {
             return null
         }

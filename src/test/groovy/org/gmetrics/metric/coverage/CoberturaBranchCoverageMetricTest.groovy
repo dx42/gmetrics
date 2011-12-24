@@ -144,22 +144,22 @@ class CoberturaBranchCoverageMetricTest extends AbstractCoberturaMetricTestCase 
         assertApplyToPackage('com.example.service', SERVICE_PACKAGE_VALUE)
     }
 
-    // Tests for getBranchCoverageRatioForClass
+    // Tests for getCoverageRatioForClass
 
-    void testGetBranchCoverageRatioForClass() {
-        assertRatio(metric.getBranchCoverageRatioForClass('com.example.service.Email'), 2, 6)
+    void testGetCoverageRatioForClass() {
+        assertRatio(metric.getCoverageRatioForClass('com.example.service.Email'), 2, 6)
     }
 
-    void testGetBranchCoverageRatioForClass_ClassContainingClosures() {
-        assertRatio(metric.getBranchCoverageRatioForClass('com.example.service.GenericLookupService'), 11, 12)
+    void testGetCoverageRatioForClass_ClassContainingClosures() {
+        assertRatio(metric.getCoverageRatioForClass('com.example.service.GenericLookupService'), 11, 12)
     }
 
-    void testGetBranchCoverageRatioForClass_EmptyClass() {
-        assertRatio(metric.getBranchCoverageRatioForClass('com.example.service.ClientMappingDao'), 0, 0)
+    void testGetCoverageRatioForClass_EmptyClass() {
+        assertRatio(metric.getCoverageRatioForClass('com.example.service.ClientMappingDao'), 0, 0)
     }
 
-    void testGetBranchCoverageRatioForClass_NoSuchClass_ReturnsNull() {
-        assert metric.getBranchCoverageRatioForClass('NoSuchClass') == null
+    void testGetCoverageRatioForClass_NoSuchClass_ReturnsNull() {
+        assert metric.getCoverageRatioForClass('NoSuchClass') == null
     }
 
 }
