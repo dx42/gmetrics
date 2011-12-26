@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 the original author or authors.
+ * Copyright 2011 the original author or authors.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,11 +25,11 @@ import org.gmetrics.metricregistry.MetricRegistry
  * Tests for MetricSetBuilder
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class MetricSetBuilderTest extends AbstractTestCase {
 
     private metricSetBuilder
+    private newMetric
 
     void testMetricset_NullFilename() {
         log(metricSetBuilder)
@@ -101,17 +101,19 @@ class MetricSetBuilderTest extends AbstractTestCase {
 
     void testMetric_Class_Map() {
         metricSetBuilder.metricset {
-            metric(AbcMetric, [enabled:false])
+            newMetric = metric(AbcMetric, [enabled:false])
         }
         assertMetricNames('ABC')
         assert !findMetric('ABC').enabled
+        assert newMetric instanceof AbcMetric
     }
 
     void testMetric_Class_NoClosure() {
         metricSetBuilder.metricset {
-            metric AbcMetric
+            newMetric = metric(AbcMetric)
         }
         assertMetricNames('ABC')
+        assert newMetric instanceof AbcMetric
     }
 
     void testMetric_Class_NoClosure_NullMetricClass() {
@@ -135,7 +137,7 @@ class MetricSetBuilderTest extends AbstractTestCase {
             metric(StubMetric) {
                 name = 'xxx'
             }
-            metric(StubMetric) {
+            newMetric = metric(StubMetric) {
                 name = 'yyyy'
                 otherProperty = '1234'
             }
@@ -143,6 +145,7 @@ class MetricSetBuilderTest extends AbstractTestCase {
         }
         assertMetricNames('xxx', 'yyyy')
         assert findMetric('yyyy').otherProperty == '1234'
+        assert newMetric.name == 'yyyy'
     }
 
     void testMetric_Class_Closure_NullRuleClass() {
@@ -167,34 +170,38 @@ class MetricSetBuilderTest extends AbstractTestCase {
 
     void testMetric_MetricName_EmptyParentheses() {
         metricSetBuilder.metricset {
-            ABC()
+            newMetric = ABC()
         }
         assertMetricNames('ABC')
+        assert newMetric instanceof AbcMetric
     }
 
     void testMetric_MetricName_ParenthesesWithMap() {
         metricSetBuilder.metricset {
-            ABC([enabled:false])
+            newMetric = ABC([enabled:false])
         }
         assertMetricNames('ABC')
         assert !findMetric('ABC').enabled
+        assert newMetric instanceof AbcMetric
     }
 
     void testMetric_MetricName_NoParenthesesWithClosure() {
         metricSetBuilder.metricset {
-            ABC {
+            newMetric = ABC {
                 enabled = false
             }
         }
         assertMetricNames('ABC')
         assert !findMetric('ABC').enabled
+        assert newMetric instanceof AbcMetric
     }
 
     void testMetric_MetricName_NoParenthesesOrClosure() {
         metricSetBuilder.metricset {
-            ABC
+            newMetric = ABC
         }
         assertMetricNames('ABC')
+        assert newMetric instanceof AbcMetric
     }
 
     void testMetric_MetricName_NoSuchMetricName() {

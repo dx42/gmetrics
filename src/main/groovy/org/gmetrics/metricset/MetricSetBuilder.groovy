@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 the original author or authors.
+ * Copyright 2011 the original author or authors.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,11 +26,11 @@ import org.gmetrics.metricregistry.MetricRegistryHolder
  * <ul>
  *   <li><code>metricset</code> - to load a MetricSet file. The path specifies a Groovy file.</li>
  *   <li><code>metric</code> - to load a single Metric; specify the Metric class</li>
+ *   <li><i>The name of a predefined Metric</i> - to load a single Metric</li>
  *   <li><code>description</code> - description of the MetricSet (optional)</li>
  * </ul>
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class MetricSetBuilder {
 
@@ -63,35 +63,38 @@ class TopLevelDelegate {
         allMetricSet.addMetricSet(metricSetConfigurer.metricSet)
     }
 
-    void metric(Class metricClass) {
+    Metric metric(Class metricClass) {
         assertClassImplementsMetricInterface(metricClass)
         Metric metric = metricClass.newInstance()
         allMetricSet.addMetric(metric)
+        return metric
     }
 
-    void metric(Class metricClass, Map properties) {
+    Metric metric(Class metricClass, Map properties) {
         assertClassImplementsMetricInterface(metricClass)
         Metric metric = metricClass.newInstance()
         properties.each { key, value -> metric[key] = value }
         allMetricSet.addMetric(metric)
+        return metric
     }
 
-    void metric(Class metricClass, Closure closure) {
+    Metric metric(Class metricClass, Closure closure) {
         assertClassImplementsMetricInterface(metricClass)
         Metric metric = metricClass.newInstance()
         closure.delegate = metric
         closure.resolveStrategy = Closure.DELEGATE_FIRST
         closure.call()
         allMetricSet.addMetric(metric)
+        return metric
     }
 
-    def propertyMissing(String name) {
+    Metric propertyMissing(String name) {
         def metricClass = MetricRegistryHolder.metricRegistry?.getMetricClass(name)
         assert metricClass, "No such metric named [$name]"
         metric(metricClass)
     }
 
-    def methodMissing(String name, args) {
+    Metric methodMissing(String name, args) {
         def metricClass = MetricRegistryHolder.metricRegistry?.getMetricClass(name)
         assert metricClass, "No such metric named [$name]"
         if (args.size() > 0) {
