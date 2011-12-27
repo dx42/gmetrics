@@ -23,6 +23,9 @@ package org.gmetrics.metric
  * @author Chris Mair
  */
 abstract class AbstractCommonMetricTestCase extends AbstractMetricTestCase {
+
+    static doesMetricTreatClosuresAsMethods = true
+
     private static final SOURCE = '''
         class MyClass {
             int myValue
@@ -74,7 +77,12 @@ abstract class AbstractCommonMetricTestCase extends AbstractMetricTestCase {
                 }
             """
             def metricResult = metric.calculate(findFirstField(SOURCE).initialExpression, sourceCode)
-            assertEquals 3, metricResult.lineNumber
+            if (getProperty('doesMetricTreatClosuresAsMethods')) {
+                assertEquals 3, metricResult.lineNumber
+            }
+            else {
+                assert metricResult == null
+            }
         }
         else {
             log("Skipping $name()")

@@ -1,0 +1,25 @@
+// MetricSet for testing CrapMetric
+
+final COBERTURA_FILE = 'coverage/GMetrics/coverage.xml'
+
+metricset {
+
+    def coberturaMetric = metric(org.gmetrics.metric.coverage.CoberturaLineCoverageMetric) {
+        coberturaFile = COBERTURA_FILE
+        functions = ['total']
+    }
+
+    println "Inside MetricSet: coberturaMetric=$coberturaMetric"
+
+    metric(org.gmetrics.metric.crap.CrapMetric) {
+        number = 97
+        functions = ['total']
+        coverageMetric = coberturaMetric
+
+//      coverageMetric = metric(org.gmetrics.metric.coverage.CoberturaLineCoverageMetric) {
+//            coberturaFile = COBERTURA_FILE
+//            functions = ['total']
+//      }
+    }
+
+}
