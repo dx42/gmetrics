@@ -29,11 +29,11 @@ class CrapMetric_MetricSetTest extends AbstractTestCase {
         def metricSet = new GroovyDslMetricSet('crap/CrapMetricSet.txt')
         log metricSet.metrics
         def crapMetric = metricSet.metrics.find { it instanceof CrapMetric }
-        log "number=" + crapMetric.number
         log "crapMetric=" + crapMetric
-        log "coverageMetric=" + crapMetric.coverageMetric
 
-        // TODO Verify metric config
+        assert metricSet.metrics.size() == 3
+        assert crapMetric.coverageMetric.functions == ['total']
+        assert crapMetric.complexityMetric.functions == ['total']
     }
 
 }

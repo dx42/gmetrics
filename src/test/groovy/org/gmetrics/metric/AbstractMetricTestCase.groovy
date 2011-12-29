@@ -75,6 +75,10 @@ abstract class AbstractMetricTestCase extends AbstractTestCase {
         return calculate(findFirstMethod(source))
     }
 
+    protected void assertCalculateForMethodReturnsNull(String source) {
+        assert metric.calculate(findFirstMethod(source), sourceCode) == null
+    }
+
     protected findSyntheticMethod(String source) {
         def classNode = parseClass(source)
         return classNode.methods.find { it.lineNumber < 0 && it.name != 'run'}
