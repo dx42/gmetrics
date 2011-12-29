@@ -140,6 +140,18 @@ abstract class AbstractCoberturaCoverageMetric extends AbstractMetric {
         return lineRate.setScale(SCALE, ROUNDING_MODE)
     }
 
+    @Override
+    MetricResult calculate(MethodNode methodNode, SourceCode sourceCode) {
+        def className = methodNode.declaringClass.name
+        def classXmlElement = findMatchingClassElement(className)
+        def matchingMethodElement = findMatchingMethodElement(methodNode, classXmlElement)
+        if (!matchingMethodElement.isEmpty()) {
+            def lineRate = parseCoverageRate(matchingMethodElement)
+            return new NumberMetricResult(this, MetricLevel.METHOD, lineRate, methodNode.lineNumber)
+        }
+        return null
+    }
+
     private Map buildMethodResults(ClassNode classNode, GPathResult classXmlElement) {
         Map<MethodKey, MetricResult> childMetricResults = [:]
 

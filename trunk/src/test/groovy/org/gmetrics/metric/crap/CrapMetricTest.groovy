@@ -18,6 +18,7 @@
 import org.gmetrics.metric.AbstractMetricTestCase
 import org.gmetrics.metric.cyclomatic.CyclomaticComplexityMetric
 import org.gmetrics.result.StubMetricResult
+import org.gmetrics.result.MetricResult
 
 /**
  * Tests for CrapMetric
@@ -33,16 +34,16 @@ class CrapMetricTest extends AbstractMetricTestCase {
     private static final DEFAULT_COMPLEXITY = 10
     private static final DEFAULT_CRAP = 22.50
 
-    private coverageValue = DEFAULT_COVERAGE
-    private complexityValue = DEFAULT_COMPLEXITY
-
-    // TODO Verify MetricResult lineNumber
+    private coverageMetricResult = metricResult(DEFAULT_COVERAGE)
+    private complexityMetricResult = metricResult(DEFAULT_COMPLEXITY)
+//    private coverageValue = DEFAULT_COVERAGE
+//    private complexityValue = DEFAULT_COMPLEXITY
 
     @Override
     void setUp() {
         super.setUp()
-        metric.coverageMetric = [calculate:{ methodNode, sourceCode -> new StubMetricResult(total:coverageValue) }]
-        metric.complexityMetric = [calculate:{ methodNode, sourceCode -> new StubMetricResult(total:complexityValue) }]
+        metric.coverageMetric = [calculate:{ methodNode, sourceCode -> coverageMetricResult }]
+        metric.complexityMetric = [calculate:{ methodNode, sourceCode -> complexityMetricResult }]
     }
 
     void testMetricName() {
@@ -68,9 +69,19 @@ class CrapMetricTest extends AbstractMetricTestCase {
     }
 
     void testCalculate_Valid_Values2() {
-        complexityValue = 5.0
-        coverageValue = 0.00
+        complexityMetricResult = metricResult(5.0)
+        coverageMetricResult = metricResult(0.00)
         assert calculateForMethod(SOURCE) == 30.0
+    }
+
+    void testCalculate_ComplexityNotAvailable_ReturnsNull() {
+        complexityMetricResult = null
+        assertCalculateForMethodReturnsNull(SOURCE)
+    }
+
+    void testCalculate_CoverageNotAvailable_ReturnsNull() {
+        coverageMetricResult = null
+        assertCalculateForMethodReturnsNull(SOURCE)
     }
 
     void testCalculate_ReturnsNullForAbstractMethodDeclaration() {
@@ -121,6 +132,14 @@ class CrapMetricTest extends AbstractMetricTestCase {
         assert metric.calculateCrapScore(30.00, 0.00) == 930.00
         assert metric.calculateCrapScore(30.00, 0.50) == 142.50
         assert metric.calculateCrapScore(30.00, 1.00) == 30.00
+    }
+
+    //------------------------------------------------------------------------------------
+    // Helper Methods
+    //------------------------------------------------------------------------------------
+
+    private static MetricResult metricResult(BigDecimal value) {
+        return new StubMetricResult(total:value)
     }
 
 }

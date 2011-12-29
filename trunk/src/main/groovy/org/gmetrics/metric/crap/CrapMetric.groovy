@@ -35,7 +35,6 @@ class CrapMetric extends AbstractMethodMetric {
 
     final String name = 'CRAP'
 
-    int number
     Object coverageMetric // TODO type as Metric
     Object complexityMetric = new CyclomaticComplexityMetric()   // TODO type as Metric
 
@@ -54,8 +53,16 @@ class CrapMetric extends AbstractMethodMetric {
         }
 
         def complexityResult = complexityMetric.calculate(methodNode, sourceCode)
+        if (complexityResult == null) {
+            return null
+        }
         def complexityValue = complexityResult['total']
-        def coverageValue = coverageMetric.calculate(methodNode, sourceCode)['total']
+
+        def coverageResult = coverageMetric.calculate(methodNode, sourceCode)
+        if (coverageResult == null) {
+            return null
+        }
+        def coverageValue = coverageResult['total']
         def crap = calculateCrapScore(complexityValue, coverageValue)
 
         return new NumberMetricResult(this, MetricLevel.METHOD, crap, methodNode.lineNumber)

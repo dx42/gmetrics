@@ -9,13 +9,12 @@ metricset {
         functions = ['total']
     }
 
-    println "Inside MetricSet: coberturaMetric=$coberturaMetric"
-
     metric(org.gmetrics.metric.crap.CrapMetric) {
-        number = 97
         functions = ['total']
         coverageMetric = coberturaMetric
+        complexityMetric = CyclomaticComplexity(functions:['total'])
 
+//      ALTERNATE SYNTAX
 //      coverageMetric = metric(org.gmetrics.metric.coverage.CoberturaLineCoverageMetric) {
 //            coberturaFile = COBERTURA_FILE
 //            functions = ['total']

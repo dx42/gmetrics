@@ -35,6 +35,48 @@ class CoberturaBranchCoverageMetricTest extends AbstractCoberturaMetricTestCase 
         assert metric.name == 'CoberturaBranchCoverage'
     }
 
+    // Tests for calculate()
+
+    void testCalculate() {
+        final SOURCE = """
+            package com.example.service
+            class Email {
+                String toString() { }
+            }
+        """
+        assert calculateForMethod(SOURCE) == 0.91
+    }
+
+    void testCalculate_MethodThatHasNoCoverageInformation() {
+        final SOURCE = """
+            package com.example.service
+            class Email {
+                int unknown() { }
+            }
+        """
+        assertCalculateForMethodReturnsNull(SOURCE)
+    }
+
+    void testCalculate_ReturnsNullForAbstractMethodDeclaration() {
+        final SOURCE = """
+            package com.example.service
+            class Email {
+                abstract String getId()
+            }
+        """
+        assertCalculateForMethodReturnsNull(SOURCE)
+    }
+
+    void testCalculate_Constructor() {
+        final SOURCE = """
+            package com.example.service
+            class Context {
+                Context(Collection stuff) { }
+            }
+        """
+        assert calculateForConstructor(SOURCE) == 0.32
+    }
+
     // Tests for applyToClass()
 
     void testApplyToClass_ClassWithNoMethods() {
