@@ -209,11 +209,20 @@ abstract class AbstractCoberturaCoverageMetric extends AbstractMetric {
                 assert coberturaFile
                 LOG.info("Loading Cobertura XML file [$coberturaFile]")
                 def inputStream = resourceFactory.getResource(coberturaFile).inputStream
-                def xmlSlurper = new XmlSlurper()
+                def xmlSlurper = createNonValidatingXmlSlurper()
                 xml = xmlSlurper.parse(inputStream)
             }
         }
         return xml
+    }
+
+    private XmlSlurper createNonValidatingXmlSlurper() {
+        def xmlSlurper = new XmlSlurper()
+
+        // Do not try to validate using the DTD, which may refer to an unavailable URI
+        xmlSlurper.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false)
+
+        return xmlSlurper
     }
 
 }
