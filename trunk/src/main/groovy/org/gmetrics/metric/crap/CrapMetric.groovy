@@ -33,6 +33,8 @@ import org.gmetrics.source.SourceCode
  */
 class CrapMetric extends AbstractMethodMetric {
 
+    private static final int ROUNDING_MODE = BigDecimal.ROUND_HALF_UP
+
     final String name = 'CRAP'
 
     Object coverageMetric // TODO type as Metric
@@ -85,7 +87,8 @@ class CrapMetric extends AbstractMethodMetric {
      * See http://www.artima.com/weblogs/viewpost.jsp?thread=210575
      */
     protected BigDecimal calculateCrapScore(BigDecimal complexity, BigDecimal coverage) {
-        return (complexity * complexity) * ((1.0 - coverage) ** 3) + complexity
+        def result = (complexity * complexity) * ((1.0 - coverage) ** 3) + complexity
+        return result.setScale(2, ROUNDING_MODE)
     }
 
 }

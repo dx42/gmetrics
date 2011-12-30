@@ -121,10 +121,10 @@ class CrapMetricTest extends AbstractMetricTestCase {
         assert metric.calculateCrapScore(1.00, 0.00) == 2.00
         assert metric.calculateCrapScore(1.00, 1.00) == 1.00
         assert metric.calculateCrapScore(5.00, 0.00) == 30.00
-        assert metric.calculateCrapScore(5.00, 0.50) == 8.125
+        assert metric.calculateCrapScore(5.00, 0.50) == 8.13       // round to scale=2
         assert metric.calculateCrapScore(5.00, 1.00) == 5.00
         assert metric.calculateCrapScore(10.00, 0.00) == 110.00
-        assert metric.calculateCrapScore(10.00, 0.25) == 52.1875
+        assert metric.calculateCrapScore(10.00, 0.25) == 52.19   // round to scale=2
         assert metric.calculateCrapScore(10.00, 0.50) == 22.50
         assert metric.calculateCrapScore(10.00, 1.00) == 10.00
         assert metric.calculateCrapScore(20.00, 0.00) == 420.00
