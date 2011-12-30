@@ -36,7 +36,8 @@ class GMetricsTask_AntBuilderTest extends AbstractTestCase {
     private static final ALL_METRICSET_FILE = 'AllMetricSet.txt'
 
     private static final SERIES_HTML_REPORT_WRITER = 'org.gmetrics.report.SingleSeriesHtmlReportWriter'
-    private static final SERIES_HTML_REPORT_FILE = 'AntBuilderTestSingleSeriesHtmlReport.html'
+    private static final SERIES_HTML_METHOD_REPORT_FILE = 'AntBuilderTestSingleSeriesMethodHtmlReport.html'
+    private static final SERIES_HTML_PACKAGE_REPORT_FILE = 'AntBuilderTestSingleSeriesPackageHtmlReport.html'
     private static final SERIES_TITLE = 'Methods With Highest Line Count'
 
     private static final XML_REPORT_WRITER = 'org.gmetrics.report.XmlReportWriter'
@@ -63,9 +64,18 @@ class GMetricsTask_AntBuilderTest extends AbstractTestCase {
            }
             report(type:SERIES_HTML_REPORT_WRITER){
                 option(name:'title', value:SERIES_TITLE)
-                option(name:'outputFile', value:SERIES_HTML_REPORT_FILE)
+                option(name:'outputFile', value:SERIES_HTML_PACKAGE_REPORT_FILE)
                 option(name:'metric', value:'MethodLineCount')
                 option(name:'level', value:'package')
+                option(name:'function', value:'total')
+                option(name:'sort', value:'descending')
+                option(name:'maxResults', value:'20')
+            }
+            report(type:SERIES_HTML_REPORT_WRITER){
+                option(name:'title', value:SERIES_TITLE)
+                option(name:'outputFile', value:SERIES_HTML_METHOD_REPORT_FILE)
+                option(name:'metric', value:'MethodLineCount')
+                option(name:'level', value:'method')
                 option(name:'function', value:'total')
                 option(name:'sort', value:'descending')
                 option(name:'maxResults', value:'20')
@@ -78,7 +88,8 @@ class GMetricsTask_AntBuilderTest extends AbstractTestCase {
         def xmlMetricNames = (defaultMetricNames - 'CyclomaticComplexity').sort()
         verifyReportFile(XML_REPORT_FILE, [TITLE, 'org/gmetrics', 'Description'] + xmlMetricNames)
 
-        verifyReportFile(SERIES_HTML_REPORT_FILE, [SERIES_TITLE, 'Method'])
+        verifyReportFile(SERIES_HTML_PACKAGE_REPORT_FILE, [SERIES_TITLE, 'Method'])
+        verifyReportFile(SERIES_HTML_METHOD_REPORT_FILE, [SERIES_TITLE, 'Method'])
     }
 
     void testAntTask_Execute_AllMetrics() {

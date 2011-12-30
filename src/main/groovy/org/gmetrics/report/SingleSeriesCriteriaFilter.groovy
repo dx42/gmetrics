@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 the original author or authors.
+ * Copyright 2011 the original author or authors.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,7 +50,6 @@ import org.gmetrics.metric.Metric
  * with a smaller value are returned. A value of <code>null</code> or empty means no threshold.
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class SingleSeriesCriteriaFilter {
 
@@ -96,7 +95,7 @@ class SingleSeriesCriteriaFilter {
         String fullChildName
         switch (childResultsNode.level) {
             case MetricLevel.METHOD:
-                fullChildName = "${parentName}.${childName}"
+                fullChildName = "${parentName}#${childResultsNode.name}"
                 break
             case MetricLevel.PACKAGE:
                 fullChildName = childResultsNode.path

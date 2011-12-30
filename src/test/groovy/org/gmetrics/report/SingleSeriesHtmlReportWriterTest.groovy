@@ -69,8 +69,8 @@ class SingleSeriesHtmlReportWriterTest extends AbstractReportWriterTestCase {
         [
             Class1: classResultsNode([:],
             [
-                    method1: methodResultsNode(metricResults:[metric1Result(total:123)]),
-                    method2: methodResultsNode(metricResults:[metric1Result(total:789)]),
+                    method1: methodResultsNode(name:'method1', metricResults:[metric1Result(total:123)]),
+                    method2: methodResultsNode(name:'method2',metricResults:[metric1Result(total:789)]),
             ])
         ])
 
