@@ -31,6 +31,7 @@ abstract class AbstractCoberturaMetricTestCase extends AbstractMetricTestCase {
     protected static final COBERTURA_XML_RELATIVE_TO_CLASSPATH = 'coverage/' + COBERTURA_XML_FILENAME
     protected static final COBERTURA_XML_FILE_PREFIX = 'file:' + COBERTURA_XML_RELATIVE_PATH
     protected static final COBERTURA_XML_CLASSPATH_PREFIX = 'classpath:' + COBERTURA_XML_RELATIVE_TO_CLASSPATH
+    protected static final COBERTURA_XML_BAD_DTD= 'coverage/Cobertura-bad-dtd.xml'
 
     //------------------------------------------------------------------------------------
     // Common Tests
@@ -43,6 +44,14 @@ abstract class AbstractCoberturaMetricTestCase extends AbstractMetricTestCase {
     void testImplementsMetricInterface() {
         assert metric instanceof Metric
     }
+
+
+    void testCanLoadCoberturaFileWithDTDSpecifyingUnreachableURI() {
+        metric.coberturaFile = COBERTURA_XML_BAD_DTD
+        metric.applyToPackage('whatever', null) == null
+    }
+
+
 
     // Tests for applyToClass()
 

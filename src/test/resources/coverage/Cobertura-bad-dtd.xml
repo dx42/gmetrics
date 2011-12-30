@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!DOCTYPE coverage SYSTEM "http://does.not.exist/xml/coverageXX-04.dtd">
+
+<coverage line-rate="0.945" branch-rate="0.785" lines-covered="2506" lines-valid="2651" branches-covered="873" branches-valid="1112" complexity="1.631578947368421" version="1.9.4.1" timestamp="1321536573337">
+	<sources>
+		<source>MyProject/src/main/groovy</source>
+	</sources>
+	<packages>
+		<package name="com.example" line-rate="1.0" branch-rate="1.0" complexity="0.0">
+        </package>
+	</packages>
+</coverage>
