@@ -74,6 +74,15 @@ class AggregateNumberMetricResultTest extends AbstractTestCase {
         assert aggregateNumberMetricResult.count == 0
     }
 
+    void testFunctionValuesForChildrenNullChildFunctionValues() {
+        def children = [new StubMetricResult(metric:METRIC, metricLevel:MetricLevel.METHOD)]
+        aggregateNumberMetricResult = new AggregateNumberMetricResult(METRIC, MetricLevel.METHOD, children)
+        assert aggregateNumberMetricResult['average'] == 0
+        assert aggregateNumberMetricResult['total'] == 0
+        assert aggregateNumberMetricResult['minimum'] == null
+        assert aggregateNumberMetricResult['maximum'] == null
+    }
+
     // Tests for a single child
 
     void testFunctionValuesForASingleMetricAreAllThatMetricValue() {
