@@ -58,7 +58,9 @@ class AggregateNumberMetricResult implements MetricResult {
 
     @SuppressWarnings('UnusedMethodParameter')
     protected void calculateFunctions(Metric metric, Collection<MetricResult> children) {
-        def sum = children.inject(0) { value, child -> value + child['total'] }
+        def sum = children.inject(0) { value, child ->
+            return child['total'] ? value + child['total'] : value
+        }
         count = children.inject(0) { value, child -> value + child.count }
         if (includesFunction('total')) {
             functionValues['total'] = sum

@@ -36,8 +36,6 @@ class CrapMetricTest extends AbstractMetricTestCase {
 
     private coverageMetricResult = metricResult(DEFAULT_COVERAGE)
     private complexityMetricResult = metricResult(DEFAULT_COMPLEXITY)
-//    private coverageValue = DEFAULT_COVERAGE
-//    private complexityValue = DEFAULT_COMPLEXITY
 
     @Override
     void setUp() {
@@ -111,6 +109,17 @@ class CrapMetricTest extends AbstractMetricTestCase {
             }
         """
         assert calculateForConstructor(SOURCE) == DEFAULT_CRAP
+    }
+
+    // Tests for applyToClass()
+
+    void testApplyToClass_OnlyClosureFields_ReturnsNull() {
+        final SOURCE = """
+            class MyClass {
+                def closure = { }
+            }
+        """
+        assert applyToClass(SOURCE) == null
     }
 
     // Tests for calculateCrapScore()
