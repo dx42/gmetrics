@@ -21,7 +21,6 @@ import org.gmetrics.metric.AbstractMetricTestCase
  * Tests for MethodLinesOfCodeMetric - calculate lines of code for methods
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class MethodLineCountMetric_MethodTest extends AbstractMetricTestCase {
     static metricClass = MethodLineCountMetric
@@ -51,8 +50,7 @@ class MethodLineCountMetric_MethodTest extends AbstractMetricTestCase {
                 abstract void doSomething()
             }
         """
-        def methodNode = findFirstMethod(SOURCE)
-        assert metric.calculate(methodNode, sourceCode) == null
+        assertCalculateForMethodReturnsNull(SOURCE)
     }
 
     void testCalculate_ReturnsNullForSyntheticMethod() {

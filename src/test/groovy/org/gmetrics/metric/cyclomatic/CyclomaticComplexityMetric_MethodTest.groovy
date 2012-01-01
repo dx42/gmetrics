@@ -21,9 +21,9 @@ import org.gmetrics.metric.AbstractMetricTestCase
  * Tests for CyclomaticComplexityMetric - for methods
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class CyclomaticComplexityMetric_MethodTest extends AbstractMetricTestCase {
+
     static metricClass = CyclomaticComplexityMetric
 
     void testCalculate_ReturnsOne_ForEmptyMethod() {
@@ -39,8 +39,7 @@ class CyclomaticComplexityMetric_MethodTest extends AbstractMetricTestCase {
                 abstract void doSomething()
             }
         """
-        def methodNode = findFirstMethod(SOURCE)
-        assert metric.calculate(methodNode, sourceCode) == null
+        assertCalculateForMethodReturnsNull(SOURCE)
     }
 
     void testCalculate_ReturnsNullForSyntheticMethod() {

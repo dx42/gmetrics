@@ -88,8 +88,7 @@ class CrapMetricTest extends AbstractMetricTestCase {
                 abstract void doSomething()
             }
         """
-        def methodNode = findFirstMethod(SOURCE)
-        assert metric.calculate(methodNode, sourceCode) == null
+        assertCalculateForMethodReturnsNull(SOURCE)
     }
 
     void testCalculate_ReturnsNullForSyntheticMethod() {
