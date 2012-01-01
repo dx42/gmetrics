@@ -19,7 +19,6 @@ package org.gmetrics.metric.abc
  * Tests for AbcMetric - calculate ABC complexity for methods
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class AbcMetric_MethodTest extends AbstractAbcMetricTest {
     static metricClass = AbcMetric
@@ -30,8 +29,7 @@ class AbcMetric_MethodTest extends AbstractAbcMetricTest {
                 abstract void doSomething()
             }
         """
-        def methodNode = findFirstMethod(SOURCE)
-        assert metric.calculate(methodNode, sourceCode) == null
+        assertCalculateForMethodReturnsNull(SOURCE)
     }
 
     void testCalculate_ReturnsNullForSyntheticMethod() {
