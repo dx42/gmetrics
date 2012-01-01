@@ -67,7 +67,8 @@ class CrapMetric extends AbstractMethodMetric {
         def coverageValue = coverageResult['total']
         def crap = calculateCrapScore(complexityValue, coverageValue)
 
-        return new NumberMetricResult(this, MetricLevel.METHOD, crap, methodNode.lineNumber)
+//        return new NumberMetricResult(this, MetricLevel.METHOD, crap, methodNode.lineNumber)
+        return crap == null ? null : new NumberMetricResult(this, MetricLevel.METHOD, crap, methodNode.lineNumber)
     }
 
     //------------------------------------------------------------------------------------
@@ -87,6 +88,10 @@ class CrapMetric extends AbstractMethodMetric {
      * See http://www.artima.com/weblogs/viewpost.jsp?thread=210575
      */
     protected BigDecimal calculateCrapScore(BigDecimal complexity, BigDecimal coverage) {
+        if (complexity == null || coverage == null) {
+            return null
+        }
+
         def result = (complexity * complexity) * ((1.0 - coverage) ** 3) + complexity
         return result.setScale(2, ROUNDING_MODE)
     }
