@@ -72,6 +72,11 @@ class CrapMetricTest extends AbstractMetricTestCase {
         assert calculateForMethod(SOURCE) == 30.0
     }
 
+    void testCalculate_ComplexityIsNull() {
+        complexityMetricResult = new StubMetricResult(total:null)
+        assertCalculateForMethodReturnsNull(SOURCE)
+    }
+
     void testCalculate_ComplexityNotAvailable_ReturnsNull() {
         complexityMetricResult = null
         assertCalculateForMethodReturnsNull(SOURCE)
@@ -140,14 +145,17 @@ class CrapMetricTest extends AbstractMetricTestCase {
         assert metric.calculateCrapScore(30.00, 0.00) == 930.00
         assert metric.calculateCrapScore(30.00, 0.50) == 142.50
         assert metric.calculateCrapScore(30.00, 1.00) == 30.00
+
+        assert metric.calculateCrapScore(0.0, null) == null
+        assert metric.calculateCrapScore(null, 0.0) == null
     }
 
     //------------------------------------------------------------------------------------
     // Helper Methods
     //------------------------------------------------------------------------------------
 
-    private static MetricResult metricResult(BigDecimal value) {
-        return new StubMetricResult(total:value)
-    }
+//    private static MetricResult stubMetricResult(BigDecimal value) {
+//        return new StubMetricResult(total:value)
+//    }
 
 }
