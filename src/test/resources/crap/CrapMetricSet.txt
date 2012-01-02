@@ -4,12 +4,12 @@ final COBERTURA_FILE = 'coverage/GMetrics/coverage.xml'
 
 metricset {
 
-    def coberturaMetric = metric(org.gmetrics.metric.coverage.CoberturaLineCoverageMetric) {
+    def coberturaMetric = CoberturaLineCoverage {
         coberturaFile = COBERTURA_FILE
         functions = ['total']
     }
 
-    metric(org.gmetrics.metric.crap.CrapMetric) {
+    CRAP {
         functions = ['total']
         coverageMetric = coberturaMetric
         complexityMetric = CyclomaticComplexity(functions:['total'])
