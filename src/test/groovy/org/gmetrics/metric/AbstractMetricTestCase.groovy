@@ -132,6 +132,7 @@ abstract class AbstractMetricTestCase extends AbstractTestCase {
 
     protected void assertApplyToPackage(String packageName, Collection childMetricResults, totalValue, averageValue) {
         def metricResult = metric.applyToPackage(packageName, childMetricResults)
+        assert metricResult, "No MetricResult for package [$packageName]"
         assert metricResult['total'] == totalValue
         assert metricResult['average'] == averageValue
     }

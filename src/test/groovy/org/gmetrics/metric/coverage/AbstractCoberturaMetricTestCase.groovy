@@ -34,6 +34,13 @@ abstract class AbstractCoberturaMetricTestCase extends AbstractMetricTestCase {
     protected static final COBERTURA_XML_BAD_DTD= 'coverage/Cobertura-bad-dtd.xml'
 
     //------------------------------------------------------------------------------------
+    // Abstract Methods
+    //------------------------------------------------------------------------------------
+
+    protected abstract BigDecimal getRootPackageValue()
+    protected abstract BigDecimal getServicePackageValue()
+
+    //------------------------------------------------------------------------------------
     // Common Tests
     //------------------------------------------------------------------------------------
 
@@ -50,8 +57,6 @@ abstract class AbstractCoberturaMetricTestCase extends AbstractMetricTestCase {
         metric.coberturaFile = COBERTURA_XML_BAD_DTD
         metric.applyToPackage('whatever', null) == null
     }
-
-
 
     // Tests for applyToClass()
 
@@ -73,8 +78,52 @@ abstract class AbstractCoberturaMetricTestCase extends AbstractMetricTestCase {
 
     // Tests for applyToPackage()
 
+    void testApplyToPackage() {
+        assertApplyToPackage('com.example.service', getServicePackageValue())
+    }
+
+    void testApplyToPackage_PackagePath() {
+        assertApplyToPackage('com/example/service', getServicePackageValue())
+    }
+
+    void testApplyToPackage_NullPath_ReturnsOverallValue() {
+        assertApplyToPackage(null, getRootPackageValue())
+    }
+
+    void testApplyToPackage_SinglePrefix_MatchesPackageNamePrefixes() {
+        metric.packageNamePrefixes = 'src/main/java'
+        assertApplyToPackage('src/main/java/com.example.service', getServicePackageValue())
+    }
+
+    void testApplyToPackage_MultiplePrefixes_MatchesPackageNamePrefixes() {
+        metric.packageNamePrefixes = 'src/main/java,other'
+        assertApplyToPackage('other/com/example/service', getServicePackageValue())
+    }
+
+    void testApplyToPackage_PrefixHasTrailingSeparator_MatchesPackageNamePrefixes() {
+        metric.packageNamePrefixes = 'other/'
+        assertApplyToPackage('other/com.example.service', getServicePackageValue())
+    }
+
+    void testApplyToPackage_DoesNotMatchPackageNamePrefixes() {
+        metric.packageNamePrefixes = 'src/other'
+        assert metric.applyToPackage('src/main/java/com.example.service', null) == null
+    }
+
     void testApplyToPackage_NoCoverageInformation() {
-        metric.applyToPackage('no.such.package', null) == null
+        assert metric.applyToPackage('no.such.package', null) == null
+    }
+
+    // Test loading file using resource syntax
+
+    void testLoadCoberturaFile_ClassPathResource() {
+        metric.coberturaFile = COBERTURA_XML_CLASSPATH_PREFIX
+        assertApplyToPackage('com.example.service', getServicePackageValue())
+    }
+
+    void testLoadCoberturaFile_FileResource() {
+        metric.coberturaFile = COBERTURA_XML_FILE_PREFIX
+        assertApplyToPackage('com.example.service', getServicePackageValue())
     }
 
     //------------------------------------------------------------------------------------

@@ -28,6 +28,10 @@ class CoberturaLineCoverageMetricTest extends AbstractCoberturaMetricTestCase {
     private static final EMAIL_VALUE = 0.66
     private static final SERVICE_PACKAGE_VALUE = 0.85
 
+    // Implement abstract method using Groovy Properties
+    BigDecimal rootPackageValue = 0.95
+    BigDecimal servicePackageValue = SERVICE_PACKAGE_VALUE
+
     //------------------------------------------------------------------------------------
     // Tests
     //------------------------------------------------------------------------------------
@@ -159,32 +163,6 @@ class CoberturaLineCoverageMetricTest extends AbstractCoberturaMetricTestCase {
             'void <init>(String, int, String)':0.9,
             'Channel parse(String)':1.0,
             'String getId()':1.0])
-    }
-
-    // Tests for applyToPackage()
-
-    void testApplyToPackage() {
-        assertApplyToPackage('com.example.service', SERVICE_PACKAGE_VALUE)
-    }
-
-    void testApplyToPackage_PackagePath() {
-        assertApplyToPackage('com/example/service', SERVICE_PACKAGE_VALUE)
-    }
-
-    void testApplyToPackage_NullPath_ReturnsOverallValue() {
-        assertApplyToPackage(null, 0.95)
-    }
-
-    // Test loading file using resource syntax
-
-    void testLoadCoberturaFile_ClassPathResource() {
-        metric.coberturaFile = COBERTURA_XML_CLASSPATH_PREFIX
-        assertApplyToPackage('com.example.service', SERVICE_PACKAGE_VALUE)
-    }
-
-    void testLoadCoberturaFile_FileResource() {
-        metric.coberturaFile = COBERTURA_XML_FILE_PREFIX
-        assertApplyToPackage('com.example.service', SERVICE_PACKAGE_VALUE)
     }
 
     // Tests for getCoverageRatioForClass

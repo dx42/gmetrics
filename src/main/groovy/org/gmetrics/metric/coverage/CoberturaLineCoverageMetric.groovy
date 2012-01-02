@@ -15,10 +15,6 @@
  */
 package org.gmetrics.metric.coverage
 
-import org.gmetrics.result.MetricResult
-import org.codehaus.groovy.ast.MethodNode
-import org.gmetrics.source.SourceCode
-
 /**
  * Metric for test code coverage by line (line-rate) from a Cobertura XML file.
  *
@@ -30,11 +26,6 @@ class CoberturaLineCoverageMetric extends AbstractCoberturaCoverageMetric {
 
     final String name = 'CoberturaLineCoverage'
     final String attributeName = 'line-rate'
-
-//    MetricResult calculate(MethodNode methodNode, SourceCode sourceCode) {
-//        return null
-//    }
-
 
     @Override
     protected Ratio getCoverageRatioForSingleClass(matchingClassElement) {
