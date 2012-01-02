@@ -15,7 +15,7 @@
  */
 package org.gmetrics.metric.linecount
 
-import org.gmetrics.metric.AbstractCommonMetricTestCase
+import org.gmetrics.metric.AbstractCommonMethodMetricTestCase
 
 /**
  * Tests for MethodLineCountMetric - common tests
@@ -23,7 +23,7 @@ import org.gmetrics.metric.AbstractCommonMetricTestCase
  * @author Chris Mair
  * @version $Revision$ - $Date$
  */
-class MethodLineCountMetric_CommonTest extends AbstractCommonMetricTestCase {
+class MethodLineCountMetric_CommonTest extends AbstractCommonMethodMetricTestCase {
     static metricClass = MethodLineCountMetric
 
 }

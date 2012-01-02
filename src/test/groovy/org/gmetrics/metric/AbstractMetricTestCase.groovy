@@ -28,7 +28,6 @@ import org.gmetrics.result.MethodKey
  * Subclasses must define a property named 'metricClass' that specifies the Metric class under test.
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 abstract class AbstractMetricTestCase extends AbstractTestCase {
 

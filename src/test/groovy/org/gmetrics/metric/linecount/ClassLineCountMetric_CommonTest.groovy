@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 the original author or authors.
+ * Copyright 2011 the original author or authors.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,9 +21,8 @@ import org.gmetrics.metric.AbstractCommonMetricTestCase
  * Tests for ClassLineCountMetric - common tests
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class ClassLineCountMetric_CommonTest extends AbstractCommonMetricTestCase {
-    static metricClass = ClassLineCountMetric
 
+    static metricClass = ClassLineCountMetric
 }
