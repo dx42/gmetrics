@@ -18,7 +18,6 @@
 import org.gmetrics.metric.AbstractMetricTestCase
 import org.gmetrics.metric.cyclomatic.CyclomaticComplexityMetric
 import org.gmetrics.result.StubMetricResult
-import org.gmetrics.result.MetricResult
 
 /**
  * Tests for CrapMetric
@@ -149,13 +148,5 @@ class CrapMetricTest extends AbstractMetricTestCase {
         assert metric.calculateCrapScore(0.0, null) == null
         assert metric.calculateCrapScore(null, 0.0) == null
     }
-
-    //------------------------------------------------------------------------------------
-    // Helper Methods
-    //------------------------------------------------------------------------------------
-
-//    private static MetricResult stubMetricResult(BigDecimal value) {
-//        return new StubMetricResult(total:value)
-//    }
 
 }

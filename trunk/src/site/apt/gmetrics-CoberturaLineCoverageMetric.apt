@@ -8,7 +8,7 @@ CoberturaLineCoverage Metric
  Metric that measures the code coverage of source lines based on a
  {{{http://cobertura.sourceforge.net/}Cobertura}} coverage XML file.
 
- Implemented by the <<<org.gmetrics.metric.coverage.CoberturaLineCoverage>>> class.
+ Implemented by the <<<org.gmetrics.metric.coverage.CoberturaLineCoverageMetric>>> class.
 
 
 * Metric Properties

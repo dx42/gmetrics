@@ -67,7 +67,6 @@ class CrapMetric extends AbstractMethodMetric {
         def coverageValue = coverageResult['total']
         def crap = calculateCrapScore(complexityValue, coverageValue)
 
-//        return new NumberMetricResult(this, MetricLevel.METHOD, crap, methodNode.lineNumber)
         return crap == null ? null : new NumberMetricResult(this, MetricLevel.METHOD, crap, methodNode.lineNumber)
     }
 

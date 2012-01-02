@@ -8,7 +8,7 @@ CoberturaBranchCoverage Metric
  Metric that measures the code coverage of branches (conditionals) based on a
  {{{http://cobertura.sourceforge.net/}Cobertura}} coverage XML file.
 
- Implemented by the <<<org.gmetrics.metric.coverage.CoberturaBranchCoverage>>> class.
+ Implemented by the <<<org.gmetrics.metric.coverage.CoberturaBranchCoverageMetric>>> class.
 
 
 * Metric Properties
