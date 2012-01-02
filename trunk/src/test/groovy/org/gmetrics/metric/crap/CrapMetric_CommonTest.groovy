@@ -15,15 +15,15 @@
  */
 package org.gmetrics.metric.crap
 
-import org.gmetrics.metric.AbstractCommonMetricTestCase
 import org.gmetrics.result.StubMetricResult
+import org.gmetrics.metric.AbstractCommonMethodMetricTestCase
 
 /**
  * Tests for CrapMetric - common tests
  *
  * @author Chris Mair
  */
-class CrapMetric_CommonTest extends AbstractCommonMetricTestCase {
+class CrapMetric_CommonTest extends AbstractCommonMethodMetricTestCase {
 
     static metricClass = CrapMetric
     static doesMetricTreatClosuresAsMethods = false
