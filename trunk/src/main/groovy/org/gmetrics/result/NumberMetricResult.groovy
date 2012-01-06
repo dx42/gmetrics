@@ -19,42 +19,43 @@ import org.gmetrics.metric.Metric
 import org.gmetrics.metric.MetricLevel
 
 /**
- * A MetricResult for numbers (integers, BigDecimals, etc.), that returns the same, single value for
+ * A MetricResult for numbers (integers, BigDecimals, etc.), that has separate values for
  * total, average, minimum and maximum. An instance of this class is immutable.
  *
  * @author Chris Mair
  */
-class SingleNumberMetricResult implements MetricResult {
+class NumberMetricResult implements MetricResult {
 
     final Metric metric
     final MetricLevel metricLevel
     final number
     final Integer lineNumber
     final int count = 1
+    final Map<String,Number> values
 
     /**
      * Construct a new instance
      * @param metric - the Metric to which this result applies
      * @param metricLevel - the metric level for this result
-     * @param number - the single value to use for total, average, minimum, and maximum
+     * @param values - the Map of values by function name; should include entries for total,average,minimum,maximum as appropriate
      * @param lineNumber - the line number for the source element (AST) that triggered this metric result; may be null
      */
-    SingleNumberMetricResult(Metric metric, MetricLevel metricLevel, number, Integer lineNumber=null) {
+    NumberMetricResult(Metric metric, MetricLevel metricLevel, Map<String,Object> values, Integer lineNumber=null) {
         assert metric
         assert metricLevel
-        assert number != null
+        assert values != null
         this.metric = metric
         this.metricLevel = metricLevel
-        this.number = number
+        this.values = values
         this.lineNumber = lineNumber
     }
 
     Object getAt(String name) {
-        return name in metric.functions ? number : null
+        return name in metric.functions ? values[name] : null
     }
 
     String toString() {
-        "SingleNumberMetricResult[metric=${metric.name}, $number]"
+        "NumberMetricResult[metric=${metric.name}, $values]"
     }
 
 }
