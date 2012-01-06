@@ -39,6 +39,15 @@ class AggregateNumberMetricResult implements MetricResult {
     private count
     private final functionValues = [:]
 
+    /**
+     * Construct a new instance
+     * @param metric - the Metric to which this result applies
+     * @param metricLevel - the metric level for this result
+     * @param children - the optional collection of results from children
+     * @param lineNumber - the line number for the source element (AST) that triggered this metric result; may be null
+     * @param predefinedValues - the optional Map of functionName:resultValue to specify override values
+     *          for the specified functions; may be null or empty to specify no predefined values
+     */
     AggregateNumberMetricResult(
                 Metric metric,
                 MetricLevel metricLevel,

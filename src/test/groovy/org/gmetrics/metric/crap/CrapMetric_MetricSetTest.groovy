@@ -32,7 +32,7 @@ class CrapMetric_MetricSetTest extends AbstractTestCase {
         log "crapMetric=" + crapMetric
 
         assert metricSet.metrics.size() == 3
-        assert crapMetric.coverageMetric.functions == ['total']
+        assert crapMetric.coverageMetric.functions == ['total', 'average']
         assert crapMetric.complexityMetric.functions == ['total']
     }
 

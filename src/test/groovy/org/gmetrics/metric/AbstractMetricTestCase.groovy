@@ -108,8 +108,8 @@ abstract class AbstractMetricTestCase extends AbstractTestCase {
         def results = applyToClass(source)
         def classMetricResult = results.classMetricResult
         assert classMetricResult.metricLevel == MetricLevel.CLASS
-        assertEquals(classAverageValue, classMetricResult['average'])
-        assertEquals(classTotalValue, classMetricResult['total'])
+        assertEquals('average', classAverageValue, classMetricResult['average'])
+        assertEquals('total', classTotalValue, classMetricResult['total'])
 
         def methodMetricResults = results.methodMetricResults
         assertBothAreFalseOrElseNeitherIs(methodValues, methodMetricResults) 

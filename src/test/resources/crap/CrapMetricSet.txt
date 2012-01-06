@@ -6,11 +6,11 @@ metricset {
 
     def coberturaMetric = CoberturaLineCoverage {
         coberturaFile = COBERTURA_FILE
-        functions = ['total']
+        functions = ['total', 'average']
     }
 
     CRAP {
-        functions = ['total']
+        functions = ['total', 'average', 'maximum']
         coverageMetric = coberturaMetric
         complexityMetric = CyclomaticComplexity(functions:['total'])
 
