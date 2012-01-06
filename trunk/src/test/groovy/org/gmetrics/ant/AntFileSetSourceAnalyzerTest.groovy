@@ -19,7 +19,7 @@ import org.apache.tools.ant.types.FileSet
 import org.apache.tools.ant.Project
 import org.gmetrics.metricset.ListMetricSet
 import org.gmetrics.metric.StubMetric
-import org.gmetrics.result.NumberMetricResult
+import org.gmetrics.result.SingleNumberMetricResult
 import org.gmetrics.result.ClassMetricResult
 import org.gmetrics.resultsnode.ResultsNodeTestUtil
 import org.gmetrics.resultsnode.PackageResultsNode
@@ -36,7 +36,6 @@ import org.gmetrics.result.MethodKey
  * Tests for AntFileSetSourceAnalyzer
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class AntFileSetSourceAnalyzerTest extends AbstractSourceAnalyzer_IntegrationTest {
 
@@ -60,11 +59,11 @@ class AntFileSetSourceAnalyzerTest extends AbstractSourceAnalyzer_IntegrationTes
     void setUp() {
         super.setUp()
         metric1 = new StubMetric()
-        metricResult1 = new NumberMetricResult(metric1, MetricLevel.METHOD, 11)
+        metricResult1 = new SingleNumberMetricResult(metric1, MetricLevel.METHOD, 11)
         metric1.packageMetricResult = metricResult1
         metric1.classMetricResult = new ClassMetricResult(metricResult1, [:])
         metric2 = new StubMetric()
-        metricResult2 = new NumberMetricResult(metric2, MetricLevel.METHOD, 22)
+        metricResult2 = new SingleNumberMetricResult(metric2, MetricLevel.METHOD, 22)
         metric2.packageMetricResult = metricResult2
         metric2.classMetricResult = new ClassMetricResult(metricResult2, [:])
 

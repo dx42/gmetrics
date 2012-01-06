@@ -19,9 +19,10 @@ import org.codehaus.groovy.ast.ClassNode
 import org.gmetrics.metric.AbstractMetric
 import org.gmetrics.metric.MetricLevel
 import org.gmetrics.result.ClassMetricResult
-import org.gmetrics.result.NumberMetricResult
+
 import org.gmetrics.source.SourceCode
 import org.gmetrics.util.AstUtil
+import org.gmetrics.result.SingleNumberMetricResult
 
 /**
  * Metric for counting the number of methods within classes and interfaces.
@@ -39,7 +40,7 @@ class FieldCountMetric extends AbstractMetric {
             return null
         }
         visitor.visitClass(classNode)
-        def metricResult = new NumberMetricResult(this, MetricLevel.CLASS, visitor.numberOfFields, classNode.lineNumber)
+        def metricResult = new SingleNumberMetricResult(this, MetricLevel.CLASS, visitor.numberOfFields, classNode.lineNumber)
         return new ClassMetricResult(metricResult)
     }
 

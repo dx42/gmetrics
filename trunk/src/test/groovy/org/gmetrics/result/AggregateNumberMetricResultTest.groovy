@@ -205,7 +205,7 @@ class AggregateNumberMetricResultTest extends AbstractTestCase {
     }
 
     private void initializeOneChildMetricResult(value, Map predefinedValues=null) {
-        def children = [new NumberMetricResult(METRIC, MetricLevel.METHOD, value)]
+        def children = [new SingleNumberMetricResult(METRIC, MetricLevel.METHOD, value)]
         aggregateNumberMetricResult = new AggregateNumberMetricResult(METRIC, MetricLevel.METHOD, children, LINE_NUM, predefinedValues)
     }
 
@@ -218,7 +218,7 @@ class AggregateNumberMetricResultTest extends AbstractTestCase {
     }
 
     private void initializeThreeChildMetricResults(x, y, z) {
-        def children = [new NumberMetricResult(METRIC, MetricLevel.METHOD, x),new NumberMetricResult(METRIC, MetricLevel.METHOD, y), new NumberMetricResult(METRIC, MetricLevel.METHOD, z)]
+        def children = [new SingleNumberMetricResult(METRIC, MetricLevel.METHOD, x),new SingleNumberMetricResult(METRIC, MetricLevel.METHOD, y), new SingleNumberMetricResult(METRIC, MetricLevel.METHOD, z)]
         aggregateNumberMetricResult = new AggregateNumberMetricResult(METRIC, MetricLevel.METHOD, children, LINE_NUM)
     }
 

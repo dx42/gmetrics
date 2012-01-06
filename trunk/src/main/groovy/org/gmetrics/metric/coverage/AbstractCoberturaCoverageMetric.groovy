@@ -22,7 +22,7 @@ import org.gmetrics.util.io.DefaultResourceFactory
 import groovy.util.slurpersupport.GPathResult
 import org.apache.log4j.Logger
 import org.codehaus.groovy.ast.MethodNode
-import org.gmetrics.result.NumberMetricResult
+import org.gmetrics.result.SingleNumberMetricResult
 import org.gmetrics.result.MetricResult
 import org.codehaus.groovy.ast.ClassNode
 import org.gmetrics.result.MethodKey
@@ -109,7 +109,7 @@ abstract class AbstractCoberturaCoverageMetric extends AbstractMetric {
             return null
         }
         def lineRate = parseCoverageRate(matchingPackageElement)
-        return new NumberMetricResult(this, MetricLevel.PACKAGE, lineRate)
+        return new SingleNumberMetricResult(this, MetricLevel.PACKAGE, lineRate)
     }
 
     @Override
@@ -119,7 +119,7 @@ abstract class AbstractCoberturaCoverageMetric extends AbstractMetric {
         def matchingMethodElement = findMethodElement(methodNode, classXmlElement)
         if (!matchingMethodElement.isEmpty()) {
             def lineRate = parseCoverageRate(matchingMethodElement)
-            return new NumberMetricResult(this, MetricLevel.METHOD, lineRate, methodNode.lineNumber)
+            return new SingleNumberMetricResult(this, MetricLevel.METHOD, lineRate, methodNode.lineNumber)
         }
         return null
     }
@@ -147,7 +147,7 @@ abstract class AbstractCoberturaCoverageMetric extends AbstractMetric {
     private MetricResult getOverallPackageMetricValue() {
         def coverage = getCoberturaXml()
         def lineRate = parseCoverageRate(coverage)
-        return new NumberMetricResult(this, MetricLevel.PACKAGE, lineRate)
+        return new SingleNumberMetricResult(this, MetricLevel.PACKAGE, lineRate)
     }
 
     protected BigDecimal parseCoverageRate(GPathResult node) {
@@ -165,7 +165,7 @@ abstract class AbstractCoberturaCoverageMetric extends AbstractMetric {
             def matchingMethodElement = findMethodElement(methodNode, classXmlElement)
             if (!matchingMethodElement.isEmpty()) {
                 def lineRate = parseCoverageRate(matchingMethodElement)
-                def methodResult = new NumberMetricResult(this, MetricLevel.METHOD, lineRate, classNode.lineNumber)
+                def methodResult = new SingleNumberMetricResult(this, MetricLevel.METHOD, lineRate, classNode.lineNumber)
                 def methodKey = new MethodKey(methodNode)
                 childMetricResults[methodKey] = methodResult
             }

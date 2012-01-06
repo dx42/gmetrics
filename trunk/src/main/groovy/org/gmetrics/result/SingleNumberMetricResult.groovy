@@ -19,12 +19,12 @@ import org.gmetrics.metric.Metric
 import org.gmetrics.metric.MetricLevel
 
 /**
- * A MetricResult for numbers (integers, BigDecimals, etc.)
+ * A MetricResult for numbers (integers, BigDecimals, etc.), that returns the same, single value for
+ * total, average, minimum and maximum.
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
-class NumberMetricResult implements MetricResult {
+class SingleNumberMetricResult implements MetricResult {
 
     final Metric metric
     final MetricLevel metricLevel
@@ -32,7 +32,7 @@ class NumberMetricResult implements MetricResult {
     final Integer lineNumber
     final int count = 1
 
-    NumberMetricResult(Metric metric, MetricLevel metricLevel, number, Integer lineNumber=null) {
+    SingleNumberMetricResult(Metric metric, MetricLevel metricLevel, number, Integer lineNumber=null) {
         assert metric
         assert metricLevel
         assert number != null
@@ -47,7 +47,7 @@ class NumberMetricResult implements MetricResult {
     }
 
     String toString() {
-        "NumberMetricResult[metric=${metric.name}, $number]"
+        "SingleNumberMetricResult[metric=${metric.name}, $number]"
     }
 
 }

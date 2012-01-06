@@ -19,7 +19,7 @@ import org.codehaus.groovy.ast.ClassNode
 import org.gmetrics.metric.AbstractMetric
 import org.gmetrics.metric.MetricLevel
 import org.gmetrics.result.ClassMetricResult
-import org.gmetrics.result.NumberMetricResult
+import org.gmetrics.result.SingleNumberMetricResult
 import org.gmetrics.source.SourceCode
 import org.gmetrics.result.MetricResult
 
@@ -35,14 +35,14 @@ class ClassCountMetric extends AbstractMetric {
 
     @SuppressWarnings('UnusedMethodParameter')
     protected ClassMetricResult calculateForClass(ClassNode classNode, SourceCode sourceCode) {
-        def metricResult = new NumberMetricResult(this, MetricLevel.CLASS, 1, classNode.lineNumber)
+        def metricResult = new SingleNumberMetricResult(this, MetricLevel.CLASS, 1, classNode.lineNumber)
         return new ClassMetricResult(metricResult)
     }
 
     @SuppressWarnings('UnusedMethodParameter')
     protected MetricResult calculateForPackage(String packageName, Collection<MetricResult> childMetricResults) {
         def numClasses = childMetricResults.inject(0) { sum, result -> result.metricLevel == MetricLevel.CLASS ? sum+1 : sum }
-        return new NumberMetricResult(this, MetricLevel.PACKAGE, numClasses)
+        return new SingleNumberMetricResult(this, MetricLevel.PACKAGE, numClasses)
     }
 
 }
