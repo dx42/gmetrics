@@ -15,12 +15,12 @@
 								<line number="40" hits="4" branch="false"/>
 							</lines>
 						</method>
-						<method name="getId" signature="()Ljava/lang/String;" line-rate="1.0" branch-rate="1.0">
+						<method name="getId" signature="()Ljava/lang/String;" line-rate="0.8" branch-rate="1.0">
 							<lines>
 								<line number="17" hits="97" branch="false"/>
 							</lines>
 						</method>
-						<method name="parse" signature="(Ljava/lang/String;)Lcom/example/model/Channel;" line-rate="1.0" branch-rate="1.0">
+						<method name="parse" signature="(Ljava/lang/String;)Lcom/example/model/Channel;" line-rate="0.7" branch-rate="1.0">
 							<lines>
 								<line number="27" hits="7" branch="false"/>
 								<line number="28" hits="7" branch="true" condition-coverage="100% (2/2)">
@@ -95,14 +95,14 @@
 								<line number="31" hits="1" branch="false"/>
 							</lines>
 						</method>
-						<method name="buildReverseLookupMap" signature="(Ljava/util/Map;)Ljava/util/Map;" line-rate="1.0" branch-rate="1.0">
+						<method name="buildReverseLookupMap" signature="(Ljava/util/Map;)Ljava/util/Map;" line-rate="1.0" branch-rate="0.8">
 							<lines>
 								<line number="70" hits="4" branch="false"/>
 								<line number="71" hits="4" branch="false"/>
 								<line number="79" hits="4" branch="false"/>
 							</lines>
 						</method>
-						<method name="get" signature="()Ljava/util/Map;" line-rate="1.0" branch-rate="1.0">
+						<method name="get" signature="()Ljava/util/Map;" line-rate="1.0" branch-rate="0.5">
 							<lines>
 								<line number="44" hits="5" branch="true" condition-coverage="100% (2/2)">
 									<conditions>
@@ -113,7 +113,7 @@
 								<line number="46" hits="4" branch="false"/>
 							</lines>
 						</method>
-						<method name="getAllEnabledClients" signature="()Ljava/lang/Object;" line-rate="1.0" branch-rate="1.0">
+						<method name="getAllEnabledClients" signature="()Ljava/lang/Object;" line-rate="1.0" branch-rate="0.5">
 							<lines>
 								<line number="83" hits="4" branch="true" condition-coverage="100% (2/2)">
 									<conditions>

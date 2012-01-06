@@ -87,7 +87,7 @@ class CoberturaBranchCoverageMetricTest extends AbstractCoberturaMetricTestCase 
             package com.example.service
             class Email { }
         """
-        assertApplyToClass(SOURCE, EMAIL_VALUE)
+        assertApplyToClass(SOURCE, EMAIL_VALUE, 0)
     }
 
     void testApplyToClass_ClassWithOneMethod() {
@@ -97,7 +97,8 @@ class CoberturaBranchCoverageMetricTest extends AbstractCoberturaMetricTestCase 
                 String toString() { }
             }
         """
-        assertApplyToClass(SOURCE, EMAIL_VALUE, EMAIL_VALUE, ['String toString()':0.91])
+        // TODO support setting scale -- average=0.91
+        assertApplyToClass(SOURCE, EMAIL_VALUE, 0.9, ['String toString()':0.91])
     }
 
     void testApplyToClass_ClassWithMethodThatHasNoCoverageInformation() {
@@ -107,7 +108,7 @@ class CoberturaBranchCoverageMetricTest extends AbstractCoberturaMetricTestCase 
                 int unknown() { }
             }
         """
-        assertApplyToClass(SOURCE, EMAIL_VALUE)
+        assertApplyToClass(SOURCE, EMAIL_VALUE, 0)
     }
 
     void testApplyToClass_IgnoresAbstractMethods() {
@@ -117,7 +118,7 @@ class CoberturaBranchCoverageMetricTest extends AbstractCoberturaMetricTestCase 
                 abstract String getId()
             }
         """
-        assertApplyToClass(SOURCE, EMAIL_VALUE)
+        assertApplyToClass(SOURCE, EMAIL_VALUE, 0)
     }
 
     void testApplyToClass_Constructor() {
@@ -127,7 +128,7 @@ class CoberturaBranchCoverageMetricTest extends AbstractCoberturaMetricTestCase 
                 Context(Collection stuff) { }
             }
         """
-        assertApplyToClass(SOURCE, 0.31, 0.31, ['void <init>(Collection)':0.32])
+        assertApplyToClass(SOURCE, 0.31, 0.3, ['void <init>(Collection)':0.32])
     }
 
     void testApplyToClass_OverloadedConstructor() {
@@ -140,7 +141,7 @@ class CoberturaBranchCoverageMetricTest extends AbstractCoberturaMetricTestCase 
                 MyException(Throwable cause) { }
             }
         """
-        assertApplyToClass(SOURCE, 0.61, 0.61, [
+        assertApplyToClass(SOURCE, 0.61, 0.5, [
             'void <init>(String)':0.35,
             'void <init>(String, String)':0.45,
             'void <init>(String, Throwable)':0.55,
@@ -157,10 +158,10 @@ class CoberturaBranchCoverageMetricTest extends AbstractCoberturaMetricTestCase 
                 Object getAllEnabledClients() { }
             }
         """
-        assertApplyToClass(SOURCE, 0.92, 0.92, [
-            'Map buildReverseLookupMap(Map)':1.00,
-            'Map get()':1.00,
-            'Object getAllEnabledClients()':1.00])
+        assertApplyToClass(SOURCE, 0.92, 0.6, [
+            'Map buildReverseLookupMap(Map)':0.8,
+            'Map get()':0.5,
+            'Object getAllEnabledClients()':0.5])
     }
 
     // Tests for getCoverageRatioForClass

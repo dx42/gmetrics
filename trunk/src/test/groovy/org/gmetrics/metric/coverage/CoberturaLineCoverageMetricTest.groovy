@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 the original author or authors.
+ * Copyright 2012 the original author or authors.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -89,7 +89,7 @@ class CoberturaLineCoverageMetricTest extends AbstractCoberturaMetricTestCase {
             package com.example.service
             class Email { }
         """
-        assertApplyToClass(SOURCE, EMAIL_VALUE)
+        assertApplyToClass(SOURCE, EMAIL_VALUE, 0)
     }
 
     void testApplyToClass_ClassWithOneMethod() {
@@ -99,7 +99,7 @@ class CoberturaLineCoverageMetricTest extends AbstractCoberturaMetricTestCase {
                 String toString() { }
             }
         """
-        assertApplyToClass(SOURCE, EMAIL_VALUE, EMAIL_VALUE, ['String toString()':0.99])
+        assertApplyToClass(SOURCE, EMAIL_VALUE, 1.0, ['String toString()':0.99])
     }
 
     void testApplyToClass_ClassWithMethodThatHasNoCoverageInformation() {
@@ -109,7 +109,7 @@ class CoberturaLineCoverageMetricTest extends AbstractCoberturaMetricTestCase {
                 int unknown() { }
             }
         """
-        assertApplyToClass(SOURCE, EMAIL_VALUE)
+        assertApplyToClass(SOURCE, EMAIL_VALUE, 0)
     }
 
     void testApplyToClass_IgnoresAbstractMethods() {
@@ -119,7 +119,7 @@ class CoberturaLineCoverageMetricTest extends AbstractCoberturaMetricTestCase {
                 abstract String getId()
             }
         """
-        assertApplyToClass(SOURCE, EMAIL_VALUE)
+        assertApplyToClass(SOURCE, EMAIL_VALUE, 0)
     }
 
     void testApplyToClass_Constructor() {
@@ -129,7 +129,7 @@ class CoberturaLineCoverageMetricTest extends AbstractCoberturaMetricTestCase {
                 Context(Collection stuff) { }
             }
         """
-        assertApplyToClass(SOURCE, 0.11, 0.11, ['void <init>(Collection)':0.22])
+        assertApplyToClass(SOURCE, 0.11, 0.2, ['void <init>(Collection)':0.22])
     }
 
     void testApplyToClass_OverloadedConstructor() {
@@ -142,7 +142,7 @@ class CoberturaLineCoverageMetricTest extends AbstractCoberturaMetricTestCase {
                 MyException(Throwable cause) { }
             }
         """
-        assertApplyToClass(SOURCE, 0.66, 0.66, [
+        assertApplyToClass(SOURCE, 0.66, 0.5, [
             'void <init>(String)':0.3,
             'void <init>(String, String)':0.4,
             'void <init>(String, Throwable)':0.5,
@@ -159,10 +159,10 @@ class CoberturaLineCoverageMetricTest extends AbstractCoberturaMetricTestCase {
                 String getId() { }
             }
         """
-        assertApplyToClass(SOURCE, CHANNEL_VALUE, CHANNEL_VALUE, [
+        assertApplyToClass(SOURCE, CHANNEL_VALUE, 0.8, [
             'void <init>(String, int, String)':0.9,
-            'Channel parse(String)':1.0,
-            'String getId()':1.0])
+            'Channel parse(String)':0.7,
+            'String getId()':0.8])
     }
 
     // Tests for getCoverageRatioForClass
