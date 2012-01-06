@@ -15,7 +15,7 @@
 */
 package org.gmetrics.report
 
-import org.gmetrics.result.NumberMetricResult
+import org.gmetrics.result.SingleNumberMetricResult
 import org.gmetrics.resultsnode.StubResultsNode
 import org.gmetrics.test.AbstractTestCase
 import org.gmetrics.analyzer.AnalysisContext
@@ -32,7 +32,6 @@ import org.gmetrics.metric.MetricLevel
  * and define a property named "reportFilename".
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 abstract class AbstractReportWriterTestCase extends AbstractTestCase {
 
@@ -136,15 +135,15 @@ abstract class AbstractReportWriterTestCase extends AbstractTestCase {
     }
 
     protected metric1Result(value, MetricLevel metricLevel = MetricLevel.METHOD) {
-        new NumberMetricResult(metric1, metricLevel, value)
+        new SingleNumberMetricResult(metric1, metricLevel, value)
     }
 
     protected metric2Result(value) {
-        new NumberMetricResult(metric2, MetricLevel.METHOD, value)
+        new SingleNumberMetricResult(metric2, MetricLevel.METHOD, value)
     }
 
     protected metric3Result(value) {
-        new NumberMetricResult(metric3, MetricLevel.METHOD, value)
+        new SingleNumberMetricResult(metric3, MetricLevel.METHOD, value)
     }
 
     protected void writeOutToFile(String text, boolean writeToFile) {

@@ -17,7 +17,7 @@ package org.gmetrics.resultsnode
 
 import org.gmetrics.test.AbstractTestCase
 import org.gmetrics.metric.MetricLevel
-import org.gmetrics.result.NumberMetricResult
+import org.gmetrics.result.SingleNumberMetricResult
 import org.gmetrics.metric.StubMetric
 import org.gmetrics.metric.linecount.MethodLineCountMetric
 
@@ -31,8 +31,8 @@ class PackageResultsNodeTest extends AbstractTestCase {
     private static final NAME = 'name123'
     private static final PATH = 'path123'
     private static final METRIC = new MethodLineCountMetric()
-    private static final MR1 = new NumberMetricResult(METRIC, MetricLevel.CLASS, 23)
-    private static final MR2 = new NumberMetricResult(METRIC, MetricLevel.CLASS, 99)
+    private static final MR1 = new SingleNumberMetricResult(METRIC, MetricLevel.CLASS, 23)
+    private static final MR2 = new SingleNumberMetricResult(METRIC, MetricLevel.CLASS, 99)
     private static final TOTAL = 23 + 99
     private static final AVG = TOTAL / 2
 
@@ -116,7 +116,7 @@ class PackageResultsNodeTest extends AbstractTestCase {
     void test_applyMetric_AddsToMetricResults() {
         def metric = new StubMetric()
         packageResultsNode.addChildIfNotEmpty('a', resultsNode1)
-        def metricResult = new NumberMetricResult(metric, MetricLevel.CLASS, 23)
+        def metricResult = new SingleNumberMetricResult(metric, MetricLevel.CLASS, 23)
         metric.packageMetricResult = metricResult
         packageResultsNode.applyMetric(metric)
         assert packageResultsNode.metricResults == [metricResult]
@@ -157,12 +157,12 @@ class PackageResultsNodeTest extends AbstractTestCase {
 
     void test_getMetricResult_ReturnsCorrectMetricResult() {
         def metric1 = new StubMetric()
-        final METRIC_RESULT = new NumberMetricResult(metric1, MetricLevel.METHOD, 11)
+        final METRIC_RESULT = new SingleNumberMetricResult(metric1, MetricLevel.METHOD, 11)
         metric1.packageMetricResult = METRIC_RESULT
         def metric2 = new StubMetric()
-        metric2.packageMetricResult = new NumberMetricResult(metric2, MetricLevel.METHOD, 22)
+        metric2.packageMetricResult = new SingleNumberMetricResult(metric2, MetricLevel.METHOD, 22)
         def metric3 = new StubMetric()
-        metric3.packageMetricResult = new NumberMetricResult(metric3, MetricLevel.METHOD, 33)
+        metric3.packageMetricResult = new SingleNumberMetricResult(metric3, MetricLevel.METHOD, 33)
         packageResultsNode.applyMetric(metric2)
         packageResultsNode.applyMetric(metric1)
         packageResultsNode.applyMetric(metric3)

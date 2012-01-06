@@ -7545,7 +7545,7 @@
 					<lines>
 					</lines>
 				</class>
-				<class name="org.gmetrics.result.NumberMetricResult" filename="org/gmetrics/result/NumberMetricResult.groovy" line-rate="1.0" branch-rate="1.0" complexity="0.0">
+				<class name="org.gmetrics.result.SingleNumberMetricResult" filename="org/gmetrics/result/NumberMetricResult.groovy" line-rate="1.0" branch-rate="1.0" complexity="0.0">
 					<methods>
 						<method name="&lt;init&gt;" signature="(Lorg/gmetrics/metric/Metric;Lorg/gmetrics/metric/MetricLevel;Ljava/lang/Object;Ljava/lang/Integer;)V" line-rate="1.0" branch-rate="1.0">
 							<lines>

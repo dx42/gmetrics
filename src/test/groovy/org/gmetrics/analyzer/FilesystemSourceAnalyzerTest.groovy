@@ -19,7 +19,7 @@ import org.gmetrics.test.AbstractTestCase
 import org.gmetrics.metricset.ListMetricSet
 import org.gmetrics.metric.Metric
 import org.gmetrics.metric.StubMetric
-import org.gmetrics.result.NumberMetricResult
+import org.gmetrics.result.SingleNumberMetricResult
 import org.gmetrics.source.SourceString
 import org.gmetrics.result.ClassMetricResult
 import org.gmetrics.resultsnode.ResultsNodeTestUtil
@@ -29,7 +29,6 @@ import org.gmetrics.metric.MetricLevel
  * Tests for FilesystemSourceAnalyzer.
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class FilesystemSourceAnalyzerTest extends AbstractTestCase {
 
@@ -47,11 +46,11 @@ class FilesystemSourceAnalyzerTest extends AbstractTestCase {
         analyzer = new FilesystemSourceAnalyzer(baseDirectory:BASE_DIR)
 
         metric1 = new StubMetric()
-        metricResult1 = new NumberMetricResult(metric1, MetricLevel.METHOD, 11)
+        metricResult1 = new SingleNumberMetricResult(metric1, MetricLevel.METHOD, 11)
         metric1.packageMetricResult = metricResult1
         metric1.classMetricResult = new ClassMetricResult(metricResult1, [:])
         metric2 = new StubMetric()
-        metricResult2 = new NumberMetricResult(metric2, MetricLevel.METHOD, 22)
+        metricResult2 = new SingleNumberMetricResult(metric2, MetricLevel.METHOD, 22)
         metric2.packageMetricResult = metricResult2
         metric2.classMetricResult = new ClassMetricResult(metricResult2, [:])
         metricSet = createMetricSet(metric1)

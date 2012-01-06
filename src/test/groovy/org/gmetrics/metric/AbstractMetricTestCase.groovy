@@ -19,8 +19,9 @@ import org.gmetrics.test.AbstractTestCase
 import org.gmetrics.source.SourceString
 import org.codehaus.groovy.ast.expr.ClosureExpression
 import org.gmetrics.result.MetricResult
-import org.gmetrics.result.NumberMetricResult
+
 import org.gmetrics.result.MethodKey
+import org.gmetrics.result.SingleNumberMetricResult
 
 /**
  * Abstract superclass for metric test classes.
@@ -145,15 +146,15 @@ abstract class AbstractMetricTestCase extends AbstractTestCase {
     }
 
     protected MetricResult metricResult(number) {
-        new NumberMetricResult(METRIC, MetricLevel.METHOD, number)
+        new SingleNumberMetricResult(METRIC, MetricLevel.METHOD, number)
     }
 
     protected MetricResult metricResultForClass(number) {
-        new NumberMetricResult(METRIC, MetricLevel.CLASS, number)
+        new SingleNumberMetricResult(METRIC, MetricLevel.CLASS, number)
     }
 
     protected MetricResult metricResultForPackage(number) {
-        new NumberMetricResult(METRIC, MetricLevel.PACKAGE, number)
+        new SingleNumberMetricResult(METRIC, MetricLevel.PACKAGE, number)
     }
 
     protected findFirstField(String source) {

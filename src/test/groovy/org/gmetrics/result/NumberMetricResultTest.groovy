@@ -23,78 +23,77 @@ import org.gmetrics.metric.MetricLevel
  * Tests for NumberMetricResult
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class NumberMetricResultTest extends AbstractTestCase {
     private static final DEFAULT_FUNCTIONS = ['total', 'average', 'minimum', 'maximum']
     private static final METRIC = [getName:{'TestMetric'}, getFunctions:{ DEFAULT_FUNCTIONS }] as Metric
 
     void testPassingNullMetricIntoConstructorThrowsException() {
-        shouldFailWithMessageContaining('metric') { new NumberMetricResult(null, MetricLevel.METHOD, 1) }
+        shouldFailWithMessageContaining('metric') { new SingleNumberMetricResult(null, MetricLevel.METHOD, 1) }
     }
 
     void testPassingNullMetricLevelIntoConstructorThrowsException() {
-        shouldFailWithMessageContaining('metricLevel') { new NumberMetricResult(METRIC, null, 1) }
+        shouldFailWithMessageContaining('metricLevel') { new SingleNumberMetricResult(METRIC, null, 1) }
     }
 
     void testPassingNullValueIntoConstructorThrowsException() {
-        shouldFailWithMessageContaining('number') { new NumberMetricResult(METRIC, MetricLevel.METHOD, null) }
+        shouldFailWithMessageContaining('number') { new SingleNumberMetricResult(METRIC, MetricLevel.METHOD, null) }
     }
 
     void testGetMetricIsSameMetricValuePassedIntoConstructor() {
-        def result = new NumberMetricResult(METRIC, MetricLevel.METHOD, 23)
+        def result = new SingleNumberMetricResult(METRIC, MetricLevel.METHOD, 23)
         assert result.getMetric() == METRIC
     }
 
     void testGetMetricLevelIsSameMetricValuePassedIntoConstructor() {
-        def result = new NumberMetricResult(METRIC, MetricLevel.METHOD, 23)
+        def result = new SingleNumberMetricResult(METRIC, MetricLevel.METHOD, 23)
         assert result.getMetricLevel() == MetricLevel.METHOD
     }
 
     void testGetLineNumberIsSameValuePassedIntoConstructor() {
-        def result = new NumberMetricResult(METRIC, MetricLevel.METHOD, 23, 67)
+        def result = new SingleNumberMetricResult(METRIC, MetricLevel.METHOD, 23, 67)
         assert result.getLineNumber() == 67
     }
 
     void testGetTotalValueIsSameIntegerValuePassedIntoConstructor() {
-        def result = new NumberMetricResult(METRIC, MetricLevel.METHOD, 23)
+        def result = new SingleNumberMetricResult(METRIC, MetricLevel.METHOD, 23)
         assert result['total'] == 23
     }
 
     void testGetTotalValueIsSameBigDecimalValuePassedIntoConstructor() {
-        def result = new NumberMetricResult(METRIC, MetricLevel.METHOD, 0.23456)
+        def result = new SingleNumberMetricResult(METRIC, MetricLevel.METHOD, 0.23456)
         assert result['total'] == 0.23456
     }
 
     void testGetAverageValueIsSameIntegerValuePassedIntoConstructor() {
-        def result = new NumberMetricResult(METRIC, MetricLevel.METHOD, 23)
+        def result = new SingleNumberMetricResult(METRIC, MetricLevel.METHOD, 23)
         assert result['average'] == 23
     }
 
     void testGetMinimumValueIsSameIntegerValuePassedIntoConstructor() {
-        def result = new NumberMetricResult(METRIC, MetricLevel.METHOD, 23)
+        def result = new SingleNumberMetricResult(METRIC, MetricLevel.METHOD, 23)
         assert result['minimum'] == 23
     }
 
     void testGetMaximumValueIsSameIntegerValuePassedIntoConstructor() {
-        def result = new NumberMetricResult(METRIC, MetricLevel.METHOD, 23)
+        def result = new SingleNumberMetricResult(METRIC, MetricLevel.METHOD, 23)
         assert result['maximum'] == 23
     }
 
     void testGetCountIsOneForSingleValue() {
-        def result = new NumberMetricResult(METRIC, MetricLevel.METHOD, 0.23456)
+        def result = new SingleNumberMetricResult(METRIC, MetricLevel.METHOD, 0.23456)
         assert result.getCount() == 1
     }
 
     void testGetValueForUnknownFunctionIsNull() {
-        def result = new NumberMetricResult(METRIC, MetricLevel.METHOD, 0.23456)
+        def result = new SingleNumberMetricResult(METRIC, MetricLevel.METHOD, 0.23456)
         assert result['xxx'] == null
     }
 
     void testUsesFunctionNamesFromMetric() {
         final FUNCTION_NAMES = ['average', 'maximum']
         def metric = [getName:{'TestMetric'}, getFunctions:{ FUNCTION_NAMES }] as Metric
-        def result = new NumberMetricResult(metric, MetricLevel.METHOD, 1)
+        def result = new SingleNumberMetricResult(metric, MetricLevel.METHOD, 1)
         assert result['average'] != null
         assert result['maximum'] != null
         assert result['total'] == null

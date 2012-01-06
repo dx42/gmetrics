@@ -17,7 +17,7 @@ package org.gmetrics.resultsnode
 
 import org.gmetrics.test.AbstractTestCase
 import org.gmetrics.metric.MetricLevel
-import org.gmetrics.result.NumberMetricResult
+import org.gmetrics.result.SingleNumberMetricResult
 import org.gmetrics.metric.StubMetric
 import org.gmetrics.result.ClassMetricResult
 import org.gmetrics.result.MethodKey
@@ -90,12 +90,12 @@ class ClassResultsNodeTest extends AbstractTestCase {
     }
 
     void test_getMetricResult_ReturnsCorrectMetricResult() {
-        final METRIC_RESULT = new NumberMetricResult(METRIC, MetricLevel.METHOD, 11)
+        final METRIC_RESULT = new SingleNumberMetricResult(METRIC, MetricLevel.METHOD, 11)
         def metric2 = new StubMetric()
         def metric3 = new StubMetric()
-        classResultsNode.addClassMetricResult(new ClassMetricResult(new NumberMetricResult(metric2, MetricLevel.METHOD, 22), [:]))
+        classResultsNode.addClassMetricResult(new ClassMetricResult(new SingleNumberMetricResult(metric2, MetricLevel.METHOD, 22), [:]))
         classResultsNode.addClassMetricResult(new ClassMetricResult(METRIC_RESULT, [:]))
-        classResultsNode.addClassMetricResult(new ClassMetricResult(new NumberMetricResult(metric3, MetricLevel.METHOD, 33), [:]))
+        classResultsNode.addClassMetricResult(new ClassMetricResult(new SingleNumberMetricResult(metric3, MetricLevel.METHOD, 33), [:]))
 
         assert classResultsNode.getMetricResult(METRIC) == METRIC_RESULT
     }
@@ -115,8 +115,8 @@ class ClassResultsNodeTest extends AbstractTestCase {
         classResult3 = new ClassMetricResult(m(3), [(methodKey1):m(30), (methodKey2):m(30), (methodKey3):m(30)])
     }
 
-    private NumberMetricResult m(int number) {
-        return new NumberMetricResult(METRIC, MetricLevel.METHOD, number)
+    private SingleNumberMetricResult m(int number) {
+        return new SingleNumberMetricResult(METRIC, MetricLevel.METHOD, number)
     }
 
 }
