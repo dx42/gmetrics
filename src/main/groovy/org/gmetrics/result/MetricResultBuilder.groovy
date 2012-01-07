@@ -27,24 +27,13 @@ import org.gmetrics.metric.MetricLevel
  */
 class MetricResultBuilder {
 
+    Metric metric
+    MetricLevel metricLevel
     int scale = 1
-    final Metric metric
-    final MetricLevel metricLevel
 
     /**
-     * Construct a new instance
-     * @param metric - the Metric to which this result applies
-     * @param metricLevel - the metric level for this result
-     */
-    MetricResultBuilder(Metric metric, MetricLevel metricLevel) {
-        assert metric
-        assert metricLevel
-        this.metric = metric
-        this.metricLevel = metricLevel
-    }
-
-    /**
-     * Calculate the aggregate metric results for the specified child metric results.
+     * Calculate the aggregate metric results for the specified child metric results. The metric and
+     * metricLevel properties of this object must be set before calling this method.
      *
      * @param children - the optional collection of results from children
      * @param lineNumber - the line number for the source element (AST) that triggered this metric result; may be null
@@ -57,7 +46,10 @@ class MetricResultBuilder {
             Integer lineNumber,
             Map<String,Object> overrideValues=null) {
 
+        assert metric
+        assert metricLevel
         assert children != null
+
         def count = calculateCount(children)
         Map<String,Number> functionValues = calculateFunctions(children, count, overrideValues)
         return new NumberMetricResult(metric, metricLevel, functionValues, lineNumber, count)
