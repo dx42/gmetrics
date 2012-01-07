@@ -30,7 +30,7 @@ class NumberMetricResult implements MetricResult {
     final MetricLevel metricLevel
     final number
     final Integer lineNumber
-    final int count = 1
+    final int count
     final Map<String,Number> values
 
     /**
@@ -40,7 +40,7 @@ class NumberMetricResult implements MetricResult {
      * @param values - the Map of values by function name; should include entries for total,average,minimum,maximum as appropriate
      * @param lineNumber - the line number for the source element (AST) that triggered this metric result; may be null
      */
-    NumberMetricResult(Metric metric, MetricLevel metricLevel, Map<String,Object> values, Integer lineNumber=null) {
+    NumberMetricResult(Metric metric, MetricLevel metricLevel, Map<String,Object> values, Integer lineNumber=null, int count=1) {
         assert metric
         assert metricLevel
         assert values != null
@@ -48,6 +48,7 @@ class NumberMetricResult implements MetricResult {
         this.metricLevel = metricLevel
         this.values = values
         this.lineNumber = lineNumber
+        this.count = count
     }
 
     Object getAt(String name) {
