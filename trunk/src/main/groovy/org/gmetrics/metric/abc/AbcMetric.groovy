@@ -77,6 +77,7 @@ class AbcMetric extends AbstractMethodMetric {
         return new AbcMetricResult(this, MetricLevel.METHOD, abcVector, closureExpression.lineNumber)
     }
 
+    @Override
     protected MetricResult createAggregateMetricResult(MetricLevel metricLevel, Collection childMetricResults, ASTNode node) {
         new AggregateAbcMetricResult(this, metricLevel, childMetricResults, node?.lineNumber)
     }
