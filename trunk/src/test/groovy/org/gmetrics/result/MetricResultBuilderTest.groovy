@@ -15,6 +15,8 @@
  */
 package org.gmetrics.result
 
+import static FunctionNames.*
+
 import org.gmetrics.metric.Metric
 import org.gmetrics.metric.MetricLevel
 import org.gmetrics.test.AbstractTestCase
@@ -26,31 +28,25 @@ import org.gmetrics.test.AbstractTestCase
  */
 class MetricResultBuilderTest extends AbstractTestCase {
 
-    private static final DEFAULT_FUNCTIONS = ['total', 'average', 'minimum', 'maximum']
+    private static final DEFAULT_FUNCTIONS = [TOTAL, AVERAGE, MINIMUM, MAXIMUM]
     private static final METRIC = [getName:{'TestMetric'}, getFunctions:{ DEFAULT_FUNCTIONS }] as Metric
     private static final BD = [0.23, 5.01, 3.67]
     private static final LINE_NUM = 67
 
-    private metricResultBuilder = new MetricResultBuilder(METRIC, MetricLevel.METHOD)
+    private metricResultBuilder = new MetricResultBuilder(metric:METRIC, metricLevel:MetricLevel.METHOD)
 
-    void testConstructorThrowsExceptionForNullMetricParameter() {
-        shouldFailWithMessageContaining('metric') { new MetricResultBuilder(null, MetricLevel.METHOD) }
+    void testCreateAggregateMetricResult_ThrowsExceptionForNullMetric() {
+        def builder = new MetricResultBuilder(metricLevel:MetricLevel.METHOD)
+        shouldFailWithMessageContaining('metric') { builder.createAggregateMetricResult([], null) }
     }
 
-    void testConstructorThrowsExceptionForNullMetricLevelParameter() {
-        shouldFailWithMessageContaining('metricLevel') { new MetricResultBuilder(METRIC, null) }
+    void testCreateAggregateMetricResult_ThrowsExceptionForNullMetricLevel() {
+        def builder = new MetricResultBuilder(metric:METRIC)
+        shouldFailWithMessageContaining('metricLevel') { builder.createAggregateMetricResult([], null) }
     }
 
     void testCreateAggregateMetricResult_ThrowsExceptionForNullChildrenParameter() {
         shouldFailWithMessageContaining('children') { metricResultBuilder.createAggregateMetricResult(null, null) }
-    }
-
-    void testConstructorSetsMetricProperly() {
-        assert metricResultBuilder.metric == METRIC
-    }
-
-    void testConstructorSetsMetricLevelProperly() {
-        assert metricResultBuilder.metricLevel == MetricLevel.METHOD
     }
 
     void testGetLineNumberIsSameValuePassedIntoCreateAggregateMetricResult() {
@@ -61,84 +57,73 @@ class MetricResultBuilderTest extends AbstractTestCase {
     // Tests for no children
 
     void testFunctionValuesForNoChildrenAreAllZero() {
-//        initializeNoChildMetricResults()
-        def result = metricResultBuilder.createAggregateMetricResult([], null)
-        assert result['average'] == 0
-        assert result['total'] == 0
-        assert result['minimum'] == 0
-        assert result['maximum'] == 0
+        def result = noChildMetricResult()
+        assertMetricResultFunctionValues(result, [average:0, total:0, minimum:0, maximum:0])
     }
 
     void testCountForNoChildrenIsZero() {
-//        initializeNoChildMetricResults()
-        def result = metricResultBuilder.createAggregateMetricResult([], null)
+        def result = noChildMetricResult()
         assert result.count == 0
     }
 
     void testFunctionValuesForChildrenNullChildFunctionValues() {
         def children = [new StubMetricResult(metric:METRIC, metricLevel:MetricLevel.METHOD)]
         def result = metricResultBuilder.createAggregateMetricResult(children, null)
-        assert result['average'] == 0
-        assert result['total'] == 0
-        assert result['minimum'] == null
-        assert result['maximum'] == null
+        assertMetricResultFunctionValues(result, [average:0, total:0])
     }
 
     // Tests for a single child
 
     void testFunctionValuesForASingleMetricAreAllThatMetricValue() {
         def result = oneChildMetricResult(99.5)
-        assert result['average'] == 99.5
-        assert result['total'] == 99.5
-        assert result['minimum'] == 99.5
-        assert result['maximum'] == 99.5
+        assertMetricResultFunctionValues(result, [average:99.5, total:99.5, minimum:99.5, maximum:99.5])
     }
 
     // Tests for several children
 
     void testAverageValueForSeveralIntegerMetricsIsTheAverageOfTheMetricValues() {
-        def result = threeIntegerChildMetricResults()
-        assert result['average'] == scale(25 / 3)
+        def result = threeIntegerChildMetricResult()
+        assert result[AVERAGE] == scale(25 / 3)
     }
 
     void testTotalValueForSeveralIntegerMetricsIsTheSumOfTheMetricValues() {
-        def result = threeIntegerChildMetricResults()
-        assert result['total'] == 25
+        def result = threeIntegerChildMetricResult()
+        assert result[TOTAL] == 25
     }
 
     void testMinimumValueForSeveralIntegerMetrics() {
-        def result = threeIntegerChildMetricResults()
-        assert result['minimum'] == 1
+        def result = threeIntegerChildMetricResult()
+        assert result[MINIMUM] == 1
     }
 
     void testMaximumValueForSeveralIntegerMetrics() {
-        def result = threeIntegerChildMetricResults()
-        assert result['maximum'] == 21
+        def result = threeIntegerChildMetricResult()
+        assert result[MAXIMUM] == 21
     }
 
     void testTotalValueForSeveralBigDecimalMetricsIsTheSumOfTheMetricValues() {
-        def result = threeBigDecimalChildMetricResults()
-        assert result['total'] == BD[0] + BD[1] + BD[2]
+        def result = threeBigDecimalChildMetricResult()
+        assert result[TOTAL] == BD[0] + BD[1] + BD[2]
     }
 
     void testAverageValueForSeveralBigDecimalMetricsIsTheAverageOfTheMetricValues() {
-        def result = threeBigDecimalChildMetricResults()
+        def result = threeBigDecimalChildMetricResult()
         def sum = (BD[0] + BD[1] + BD[2])
-        assert result['average'] == scale(sum / 3)
+        assert result[AVERAGE] == scale(sum / 3)
     }
 
     void testMinimumValueForSeveralBigDecimalMetrics() {
-        def result = threeBigDecimalChildMetricResults()
-        assert result['minimum'] == BD.min()
+        def result = threeBigDecimalChildMetricResult()
+        assert result[MINIMUM] == BD.min()
     }
 
     void testMaximumValueForSeveralBigDecimalMetrics() {
-        def result = threeBigDecimalChildMetricResults()
-        assert result['maximum'] == BD.max()
+        def result = threeBigDecimalChildMetricResult()
+        assert result[MAXIMUM] == BD.max()
     }
 
     void testCorrectCountForSeveralChildResults() {
-        def result = threeIntegerChildMetricResults()
+        def result = threeIntegerChildMetricResult()
         assert result.count == 3
     }
 
@@ -152,18 +137,12 @@ class MetricResultBuilderTest extends AbstractTestCase {
 
     void testPredefinedValues_OnlyUsesPredefinedValueThatWasSpecified() {
         def result = oneChildMetricResult(99.5, [total:66])
-        assert result['average'] == 99.5
-        assert result['total'] == 66
-        assert result['minimum'] == 99.5
-        assert result['maximum'] == 99.5
+        assertMetricResultFunctionValues(result, [average:99.5, total:66, minimum:99.5, maximum:99.5])
     }
 
     void testPredefinedValues_UsesAllPredefinedValues() {
         def result = oneChildMetricResult(99.5, [total:66, average:55, minimum:44, maximum:88])
-        assert result['average'] == 55
-        assert result['total'] == 66
-        assert result['minimum'] == 44
-        assert result['maximum'] == 88
+        assertMetricResultFunctionValues(result, [average:55, total:66, minimum:44, maximum:88])
     }
 
     // Other tests
@@ -171,7 +150,7 @@ class MetricResultBuilderTest extends AbstractTestCase {
     void testDefaultScaleIsAppliedToAverageValue() {
         def children = [new StubMetricResult(count:3, total:10)]
         def result = metricResultBuilder.createAggregateMetricResult(children, null)
-        assert result['average'] == scale(10/3)
+        assert result[AVERAGE] == scale(10/3)
     }
 
     void testGetAt_NoSuchFunctionName_ReturnsNull() {
@@ -179,48 +158,52 @@ class MetricResultBuilderTest extends AbstractTestCase {
         assert result['xxx'] == null
     }
 
-//    void testConfiguredScaleIsAppliedToAverageValue() {
-//        def children = [new StubMetricResult(count:3, total:10)]
-//        metricResultBuilder = new AggregateNumberMetricResult(METRIC, children)
-//        metricResultBuilder.scale = 3
-//        assert result['average'] == scale(10/3, 3)
-//    }
+    void testConfiguredScaleIsAppliedToAverageValue() {
+        def children = [new StubMetricResult(count:3, total:10)]
+        def builder = new MetricResultBuilder(metric:METRIC, metricLevel:MetricLevel.METHOD, scale:3)
+        def result = builder.createAggregateMetricResult(children, null)
+        assert result[AVERAGE] == scale(10/3, 3)
+    }
 
     void testUsesFunctionNamesFromMetric() {
-        final FUNCTION_NAMES = ['average', 'maximum']
+        final FUNCTION_NAMES = [AVERAGE, MAXIMUM]
         def metric = [getName:{'TestMetric'}, getFunctions:{ FUNCTION_NAMES }] as Metric
-        metricResultBuilder = new MetricResultBuilder(metric, MetricLevel.METHOD)
+        metricResultBuilder = new MetricResultBuilder(metric:metric, metricLevel:MetricLevel.METHOD)
         def result = metricResultBuilder.createAggregateMetricResult([], LINE_NUM)
-        assert result['average'] != null
-        assert result['maximum'] != null
-        assert result['total'] == null
-        assert result['minimum'] == null
+        assertMetricResultFunctionValues(result, [average:0, total:null, minimum:null, maximum:0])
     }
 
     //--------------------------------------------------------------------------
     // Helper Methods
     //--------------------------------------------------------------------------
 
-//    private void initializeNoChildMetricResults() {
-//        metricResultBuilder = new MetricResultBuilder(METRIC, MetricLevel.METHOD, [], LINE_NUM)
-//    }
+    private MetricResult noChildMetricResult() {
+        return metricResultBuilder.createAggregateMetricResult([], null)
+    }
 
     private MetricResult oneChildMetricResult(value, Map predefinedValues=null) {
         def children = [new SingleNumberMetricResult(METRIC, MetricLevel.METHOD, value)]
         return metricResultBuilder.createAggregateMetricResult(children, LINE_NUM, predefinedValues)
     }
 
-    private MetricResult threeIntegerChildMetricResults() {
-        threeChildMetricResults(21, 1, 3)
+    private MetricResult threeIntegerChildMetricResult() {
+        threeChildMetricResult(21, 1, 3)
     }
 
-    private MetricResult threeBigDecimalChildMetricResults() {
-        threeChildMetricResults(BD[0], BD[1], BD[2])
+    private MetricResult threeBigDecimalChildMetricResult() {
+        threeChildMetricResult(BD[0], BD[1], BD[2])
     }
 
-    private MetricResult threeChildMetricResults(x, y, z) {
+    private MetricResult threeChildMetricResult(x, y, z) {
         def children = [new SingleNumberMetricResult(METRIC, MetricLevel.METHOD, x),new SingleNumberMetricResult(METRIC, MetricLevel.METHOD, y), new SingleNumberMetricResult(METRIC, MetricLevel.METHOD, z)]
         return metricResultBuilder.createAggregateMetricResult(children, LINE_NUM)
+    }
+
+    private void assertMetricResultFunctionValues(MetricResult metricResult, Map<String,Number> functionValues) {
+        assert metricResult[AVERAGE] == functionValues[AVERAGE]
+        assert metricResult[TOTAL] == functionValues[TOTAL]
+        assert metricResult[MINIMUM] == functionValues[MINIMUM]
+        assert metricResult[MAXIMUM] == functionValues[MAXIMUM]
     }
 
 }
