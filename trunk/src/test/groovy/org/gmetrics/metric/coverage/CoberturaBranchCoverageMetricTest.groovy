@@ -97,8 +97,7 @@ class CoberturaBranchCoverageMetricTest extends AbstractCoberturaMetricTestCase 
                 String toString() { }
             }
         """
-        // TODO support setting scale -- average=0.91
-        assertApplyToClass(SOURCE, EMAIL_VALUE, 0.9, ['String toString()':0.91])
+        assertApplyToClass(SOURCE, EMAIL_VALUE, 0.91, ['String toString()':0.91])
     }
 
     void testApplyToClass_ClassWithMethodThatHasNoCoverageInformation() {
@@ -128,7 +127,7 @@ class CoberturaBranchCoverageMetricTest extends AbstractCoberturaMetricTestCase 
                 Context(Collection stuff) { }
             }
         """
-        assertApplyToClass(SOURCE, 0.31, 0.3, ['void <init>(Collection)':0.32])
+        assertApplyToClass(SOURCE, 0.31, 0.32, ['void <init>(Collection)':0.32])
     }
 
     void testApplyToClass_OverloadedConstructor() {

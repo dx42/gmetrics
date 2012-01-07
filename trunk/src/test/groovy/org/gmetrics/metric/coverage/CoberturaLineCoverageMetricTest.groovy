@@ -99,7 +99,7 @@ class CoberturaLineCoverageMetricTest extends AbstractCoberturaMetricTestCase {
                 String toString() { }
             }
         """
-        assertApplyToClass(SOURCE, EMAIL_VALUE, 1.0, ['String toString()':0.99])
+        assertApplyToClass(SOURCE, EMAIL_VALUE, 0.99, ['String toString()':0.99])
     }
 
     void testApplyToClass_ClassWithMethodThatHasNoCoverageInformation() {
@@ -129,7 +129,7 @@ class CoberturaLineCoverageMetricTest extends AbstractCoberturaMetricTestCase {
                 Context(Collection stuff) { }
             }
         """
-        assertApplyToClass(SOURCE, 0.11, 0.2, ['void <init>(Collection)':0.22])
+        assertApplyToClass(SOURCE, 0.11, 0.22, ['void <init>(Collection)':0.22])
     }
 
     void testApplyToClass_OverloadedConstructor() {
@@ -142,7 +142,7 @@ class CoberturaLineCoverageMetricTest extends AbstractCoberturaMetricTestCase {
                 MyException(Throwable cause) { }
             }
         """
-        assertApplyToClass(SOURCE, 0.66, 0.5, [
+        assertApplyToClass(SOURCE, 0.66, 0.45, [
             'void <init>(String)':0.3,
             'void <init>(String, String)':0.4,
             'void <init>(String, Throwable)':0.5,
