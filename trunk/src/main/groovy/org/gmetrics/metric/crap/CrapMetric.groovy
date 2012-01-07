@@ -92,7 +92,7 @@ class CrapMetric extends AbstractMethodMetric {
         }
 
         def result = (complexity * complexity) * ((1.0 - coverage) ** 3) + complexity
-        return result.setScale(2, ROUNDING_MODE)
+        return result.setScale(1, ROUNDING_MODE)
     }
 
 }

@@ -130,20 +130,20 @@ class CrapMetricTest extends AbstractMetricTestCase {
     void testCalculateCrapScore() {
         assert metric.calculateCrapScore(0.0, 0.0) == 0
         assert metric.calculateCrapScore(1.0, 0.0) == 2.0
-        assert metric.calculateCrapScore(1.00, 0.00) == 2.00
-        assert metric.calculateCrapScore(1.00, 1.00) == 1.00
-        assert metric.calculateCrapScore(5.00, 0.00) == 30.00
-        assert metric.calculateCrapScore(5.00, 0.50) == 8.13       // round to scale=2
-        assert metric.calculateCrapScore(5.00, 1.00) == 5.00
-        assert metric.calculateCrapScore(10.00, 0.00) == 110.00
-        assert metric.calculateCrapScore(10.00, 0.25) == 52.19   // round to scale=2
-        assert metric.calculateCrapScore(10.00, 0.50) == 22.50
-        assert metric.calculateCrapScore(10.00, 1.00) == 10.00
-        assert metric.calculateCrapScore(20.00, 0.00) == 420.00
-        assert metric.calculateCrapScore(20.00, 0.50) == 70.00
-        assert metric.calculateCrapScore(30.00, 0.00) == 930.00
-        assert metric.calculateCrapScore(30.00, 0.50) == 142.50
-        assert metric.calculateCrapScore(30.00, 1.00) == 30.00
+        assert metric.calculateCrapScore(1.00, 0.00) == 2.0
+        assert metric.calculateCrapScore(1.00, 1.00) == 1.0
+        assert metric.calculateCrapScore(5.00, 0.00) == 30.0
+        assert metric.calculateCrapScore(5.00, 0.50) == 8.1      // round to scale=1
+        assert metric.calculateCrapScore(5.00, 1.00) == 5.0
+        assert metric.calculateCrapScore(10.00, 0.00) == 110.0
+        assert metric.calculateCrapScore(10.00, 0.25) == 52.2   // round to scale=1
+        assert metric.calculateCrapScore(10.00, 0.50) == 22.5
+        assert metric.calculateCrapScore(10.00, 1.00) == 10.0
+        assert metric.calculateCrapScore(20.00, 0.00) == 420.0
+        assert metric.calculateCrapScore(20.00, 0.50) == 70.0
+        assert metric.calculateCrapScore(30.00, 0.00) == 930.0
+        assert metric.calculateCrapScore(30.00, 0.50) == 142.5
+        assert metric.calculateCrapScore(30.00, 1.00) == 30.0
 
         assert metric.calculateCrapScore(0.0, null) == null
         assert metric.calculateCrapScore(null, 0.0) == null
