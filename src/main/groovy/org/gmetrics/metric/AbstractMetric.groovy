@@ -60,7 +60,8 @@ abstract class AbstractMetric implements Metric {
     }
 
     protected MetricResult createAggregateMetricResult(MetricLevel metricLevel, Collection<MetricResult> childMetricResults, ASTNode node=null) {
-        new AggregateNumberMetricResult(this, metricLevel, childMetricResults, node?.lineNumber)
+        def metricResultBuilder = new MetricResultBuilder(metric:this, metricLevel:metricLevel)
+        return metricResultBuilder.createAggregateMetricResult(childMetricResults, node?.lineNumber)
     }
 
 }

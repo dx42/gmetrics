@@ -29,7 +29,7 @@ import org.gmetrics.result.MethodKey
 import org.gmetrics.util.PathUtil
 import org.gmetrics.result.ClassMetricResult
 import org.gmetrics.source.SourceCode
-import org.gmetrics.result.AggregateNumberMetricResult
+import org.gmetrics.result.MetricResultBuilder
 
 /**
  * Abstract superclass for metrics that provide test code coverage from a Cobertura XML file.
@@ -51,6 +51,8 @@ abstract class AbstractCoberturaCoverageMetric extends AbstractMetric {
 
     private ResourceFactory resourceFactory = new DefaultResourceFactory()
     private Object xmlLock = new Object()
+    private classMetricResultBuilder = new MetricResultBuilder(metric:this, metricLevel:MetricLevel.CLASS)
+
     private xml
 
     //------------------------------------------------------------------------------------
@@ -89,7 +91,7 @@ abstract class AbstractCoberturaCoverageMetric extends AbstractMetric {
             parseCoverageRate(matchingClassElement)
 
         Map methodResults = buildMethodResults(classNode, matchingClassElement)
-        def classLevelMetricResult = new AggregateNumberMetricResult(this, MetricLevel.CLASS, methodResults.values(), classNode.lineNumber, [total:lineRate])
+        def classLevelMetricResult = classMetricResultBuilder.createAggregateMetricResult(methodResults.values(), classNode.lineNumber, [total:lineRate])
         return new ClassMetricResult(classLevelMetricResult, methodResults)
     }
 
