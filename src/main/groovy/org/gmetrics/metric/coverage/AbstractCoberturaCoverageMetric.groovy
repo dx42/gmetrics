@@ -51,7 +51,7 @@ abstract class AbstractCoberturaCoverageMetric extends AbstractMetric {
 
     private ResourceFactory resourceFactory = new DefaultResourceFactory()
     private Object xmlLock = new Object()
-    private classMetricResultBuilder = new MetricResultBuilder(metric:this, metricLevel:MetricLevel.CLASS)
+    private classMetricResultBuilder = new MetricResultBuilder(metric:this, metricLevel:MetricLevel.CLASS, scale:2)
 
     private xml
 
