@@ -57,6 +57,11 @@ class NumberMetricResultTest extends AbstractTestCase {
         assert result.getLineNumber() == 67
     }
 
+    void testGetCountIsSameValuePassedIntoConstructor() {
+        def result = new NumberMetricResult(METRIC, MetricLevel.METHOD, VALUES, null, 5)
+        assert result.getCount() == 5
+    }
+
     void testGetAt_SameValuesPassedIntoConstructor() {
         def result = new NumberMetricResult(METRIC, MetricLevel.METHOD, [total:2, average:3, maximum:4, minimum:5])
         assert result['total'] == 2
@@ -81,7 +86,7 @@ class NumberMetricResultTest extends AbstractTestCase {
         assert result['minimum'] == null
     }
 
-    void testGetCountIsOne() {
+    void testGetCount_DefaultsToOne() {
         def result = new NumberMetricResult(METRIC, MetricLevel.METHOD, VALUES)
         assert result.getCount() == 1
     }

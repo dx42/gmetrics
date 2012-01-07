@@ -181,9 +181,9 @@ class AggregateNumberMetricResultTest extends AbstractTestCase {
 
 //    void testConfiguredScaleIsAppliedToAverageValue() {
 //        def children = [new StubMetricResult(count:3, total:10)]
-//        aggregateNumberMetricResult = new AggregateNumberMetricResult(METRIC, children)
-//        aggregateNumberMetricResult.scale = 3
-//        assert aggregateNumberMetricResult['average'] == scale(10/3, 3)
+//        metricResultBuilder = new AggregateNumberMetricResult(METRIC, children)
+//        metricResultBuilder.scale = 3
+//        assert metricResultBuilder['average'] == scale(10/3, 3)
 //    }
 
     void testUsesFunctionNamesFromMetric() {
