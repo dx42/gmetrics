@@ -9,6 +9,8 @@ CRAP Metric
   score. It is designed to analyze and predict the amount of effort, pain, and time required to maintain an existing
   body of code.
 
+  A method with a <<CRAP score>> over <<30>> is considered <CRAPpy> (i.e., <unacceptable>, <offensive>, etc.). [2]
+
  Implemented by the <<<org.gmetrics.metric.crap.CrapMetric>>> class.
 
 
@@ -80,10 +82,11 @@ CRAP Metric
       CRAP {
           functions = ['total']
           coverageMetric = coberturaMetric
-          complexityMetric = CyclomaticComplexity(functions:['total'])
     }
   }
 +----------------------------------------------------------------------------------------
+
+  Note setting the <coverageMetric> field is required.
 
 
 * References
