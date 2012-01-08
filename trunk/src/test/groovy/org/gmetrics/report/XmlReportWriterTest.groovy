@@ -22,7 +22,6 @@ import org.gmetrics.metric.MetricLevel
  * Tests for XmlReportWriter
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class XmlReportWriterTest extends AbstractReportWriterTestCase {
 
@@ -287,6 +286,7 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
             'Metric2.average':'M2.average',
         ]
         reportWriter.initializeResourceBundle = { reportWriter.resourceBundle = [getString:{key -> localizedMessages[key] ?: 'NOT FOUND'}] }
+        reportWriter.initializeResourceBundle()
     }
 
     protected ReportWriter createReportWriter() {
