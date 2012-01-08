@@ -23,7 +23,6 @@ import java.text.DateFormat
  * Tests for SingleSeriesHtmlReportWriter
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class SingleSeriesHtmlReportWriterTest extends AbstractReportWriterTestCase {
 
@@ -191,6 +190,7 @@ class SingleSeriesHtmlReportWriterTest extends AbstractReportWriterTestCase {
             'Metric1.average':'M1.average',
         ]
         reportWriter.initializeResourceBundle = { reportWriter.resourceBundle = [getString:{key -> localizedMessages[key] ?: 'NOT FOUND'}] }
+        reportWriter.initializeResourceBundle()
     }
 
     protected ReportWriter createReportWriter() {

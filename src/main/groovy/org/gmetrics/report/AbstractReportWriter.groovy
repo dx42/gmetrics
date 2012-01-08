@@ -26,7 +26,6 @@ import org.gmetrics.analyzer.AnalysisContext
  * and define a <code>defaultOutputFile</code> property.
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 abstract class AbstractReportWriter implements ReportWriter {
 
@@ -50,6 +49,8 @@ abstract class AbstractReportWriter implements ReportWriter {
     abstract void writeReport(Writer writer, ResultsNode resultsNode, AnalysisContext analysisContext)
 
     void writeReport(ResultsNode resultsNode, AnalysisContext analysisContext) {
+        initializeResourceBundle()
+
         if (isWriteToStandardOut()) {
             writeReportToStandardOut(resultsNode, analysisContext)
         }

@@ -25,7 +25,6 @@ import org.gmetrics.metric.MetricLevel
  * Tests for BasicHtmlReportWriter
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class BasicHtmlReportWriterTest extends AbstractReportWriterTestCase {
 
@@ -256,6 +255,7 @@ class BasicHtmlReportWriterTest extends AbstractReportWriterTestCase {
             'Metric3.average':'M3.average',
         ]
         reportWriter.initializeResourceBundle = { reportWriter.resourceBundle = [getString:{key -> localizedMessages[key] ?: 'NOT FOUND'}] }
+        reportWriter.initializeResourceBundle()
     }
 
     protected ReportWriter createReportWriter() {

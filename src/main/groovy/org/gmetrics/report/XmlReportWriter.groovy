@@ -39,13 +39,13 @@ class XmlReportWriter extends AbstractReportWriter {
     static defaultOutputFile = DEFAULT_OUTPUT_FILE
     String title
 
-    void writeReport(Writer writer, ResultsNode resultsNode, AnalysisContext analysisContext) {
+    @Override
+    protected void writeReport(Writer writer, ResultsNode resultsNode, AnalysisContext analysisContext) {
         assert resultsNode
         assert analysisContext
         assert analysisContext.metricSet
         assert writer
 
-        initializeResourceBundle()
         def builder = new StreamingMarkupBuilder()
         def xml = builder.bind {
             mkp.xmlDeclaration()

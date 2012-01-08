@@ -65,13 +65,13 @@ class SingleSeriesHtmlReportWriter extends AbstractReportWriter {
     String title = DEFAULT_TITLE
     String subtitle
 
-    void writeReport(Writer writer, ResultsNode resultsNode, AnalysisContext analysisContext) {
+    @Override
+    protected void writeReport(Writer writer, ResultsNode resultsNode, AnalysisContext analysisContext) {
         assert resultsNode
         assert analysisContext
         assert analysisContext.metricSet
         assert writer
 
-        initializeResourceBundle()
         def seriesData = buildSeriesData(resultsNode, analysisContext.metricSet)
 
         def builder = new StreamingMarkupBuilder()

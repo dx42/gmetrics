@@ -45,13 +45,13 @@ class BasicHtmlReportWriter extends AbstractReportWriter {
     String title
     private String notApplicable
 
-    void writeReport(Writer writer, ResultsNode resultsNode, AnalysisContext analysisContext) {
+    @Override
+    protected void writeReport(Writer writer, ResultsNode resultsNode, AnalysisContext analysisContext) {
         assert resultsNode
         assert analysisContext
         assert analysisContext.metricSet
         assert writer
 
-        initializeResourceBundle()
         notApplicable = getResourceBundleString('basicHtmlReport.metricResults.notApplicable')
         def metricResultColumns = buildMetricResultColumns(analysisContext.metricSet)
 
