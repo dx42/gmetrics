@@ -42,8 +42,6 @@ class XmlReportWriter extends AbstractReportWriter {
     @Override
     protected void writeReport(Writer writer, ResultsNode resultsNode, AnalysisContext analysisContext) {
         assert resultsNode
-        assert analysisContext
-        assert analysisContext.metricSet
         assert writer
 
         def builder = new StreamingMarkupBuilder()

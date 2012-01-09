@@ -241,6 +241,7 @@
         <w>configurer</w>
         <w>cyclomatic</w>
         <w>filesystem</w>
+        <w>formatters</w>
         <w>gmetrics</w>
         <w>javadocs</w>
         <w>metricset</w>

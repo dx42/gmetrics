@@ -254,8 +254,7 @@ class BasicHtmlReportWriterTest extends AbstractReportWriterTestCase {
             'Metric3.total':'M3.total',
             'Metric3.average':'M3.average',
         ]
-        reportWriter.initializeResourceBundle = { reportWriter.resourceBundle = [getString:{key -> localizedMessages[key] ?: 'NOT FOUND'}] }
-        reportWriter.initializeResourceBundle()
+        reportWriter.resourceBundle = [getString:{ key -> localizedMessages[key] }]
     }
 
     protected ReportWriter createReportWriter() {

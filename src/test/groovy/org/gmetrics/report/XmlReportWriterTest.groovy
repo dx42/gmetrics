@@ -285,8 +285,7 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
             'Metric2.total':'M2.total',
             'Metric2.average':'M2.average',
         ]
-        reportWriter.initializeResourceBundle = { reportWriter.resourceBundle = [getString:{key -> localizedMessages[key] ?: 'NOT FOUND'}] }
-        reportWriter.initializeResourceBundle()
+        reportWriter.resourceBundle = [getString:{ key -> localizedMessages[key] }]
     }
 
     protected ReportWriter createReportWriter() {

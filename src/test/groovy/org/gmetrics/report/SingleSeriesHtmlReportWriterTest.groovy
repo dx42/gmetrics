@@ -189,8 +189,7 @@ class SingleSeriesHtmlReportWriterTest extends AbstractReportWriterTestCase {
             'Metric1.total':'M1.total',
             'Metric1.average':'M1.average',
         ]
-        reportWriter.initializeResourceBundle = { reportWriter.resourceBundle = [getString:{key -> localizedMessages[key] ?: 'NOT FOUND'}] }
-        reportWriter.initializeResourceBundle()
+        reportWriter.resourceBundle = [getString:{ key -> localizedMessages[key] }]
     }
 
     protected ReportWriter createReportWriter() {
