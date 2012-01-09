@@ -159,8 +159,7 @@ class BasicHtmlReportWriter extends AbstractReportWriter {
                     if (includesMetric(metric)) {
                         def includeMetricResults = includesLevel(metric, level) && level >= metric.getBaseLevel()
                         def metricResult = includeMetricResults ? resultsNode.getMetricResult(metric) : null
-                        def value = metricResult ? metricResult[columnDef.property] : notApplicable
-                        def formattedValue = formatMetricResultValue(metric.name, value)
+                        def formattedValue = metricResult ? formatMetricResultValue(metric.name, metricResult[columnDef.property]) : notApplicable
                         td(formattedValue, class:'metricValue')
                     }
                 }
