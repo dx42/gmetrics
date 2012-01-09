@@ -160,7 +160,8 @@ class BasicHtmlReportWriter extends AbstractReportWriter {
                         def includeMetricResults = includesLevel(metric, level) && level >= metric.getBaseLevel()
                         def metricResult = includeMetricResults ? resultsNode.getMetricResult(metric) : null
                         def value = metricResult ? metricResult[columnDef.property] : notApplicable
-                        td(value, class:'metricValue')
+                        def formattedValue = formatMetricResultValue(metric.name, value)
+                        td(formattedValue, class:'metricValue')
                     }
                 }
             }

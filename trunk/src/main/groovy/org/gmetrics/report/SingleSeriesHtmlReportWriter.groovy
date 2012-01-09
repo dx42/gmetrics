@@ -148,10 +148,11 @@ class SingleSeriesHtmlReportWriter extends AbstractReportWriter {
     }
 
     private buildSeriesValueRow(SeriesValue seriesValue) {
+        def formattedValue = formatMetricResultValue(metric, seriesValue.value)
         return {
             tr {
                 td(seriesValue.name, class:'seriesDataName')
-                td(seriesValue.value, class:'seriesDataValue')
+                td(formattedValue, class:'seriesDataValue')
             }
         }
     }

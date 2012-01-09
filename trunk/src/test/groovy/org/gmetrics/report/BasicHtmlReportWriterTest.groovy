@@ -44,7 +44,7 @@ class BasicHtmlReportWriterTest extends AbstractReportWriterTestCase {
     static reportFilename = "GMetricsReport.html"
     private localizedMessages
 
-    void testThatDefaultOutputFile_IsGmetricsReportHtml() {
+    void testThatDefaultOutputFile_IsGMetricsReportHtml() {
         assert reportWriter.defaultOutputFile == 'GMetricsReport.html'
     }
 
@@ -229,6 +229,23 @@ class BasicHtmlReportWriterTest extends AbstractReportWriterTestCase {
         def resultsNode = new StubResultsNode(metricResults:[metric1Result(10), metric2Result(20)], level:MetricLevel.CLASS)
         assertReportContents(resultsNode, CONTENTS)
     }
+
+    void testWriteReport_FormatsValuesUsingConfiguredFormatter() {
+        final CONTENTS = [
+                HTML_TAG,
+                ALL_PACKAGES, '65%', '65%', 20, 20,
+                metric1.name, metricDescription(metric1),
+                metric2.name, metricDescription(metric2),
+                BOTTOM_LINK]
+        localizedMessages[metric1.name + '.formatter'] = 'org.gmetrics.formatter.PercentageFormatter'
+        def resultsNode = new StubResultsNode(metricResults:[metric1Result(0.65), metric2Result(20)])
+        reportWriter.initializeFormatters(metricSet2)
+        assertReportContents(resultsNode, CONTENTS)
+    }
+
+    //------------------------------------------------------------------------------------
+    // Setup and Helper Methods
+    //------------------------------------------------------------------------------------
 
     void setUp() {
         super.setUp()

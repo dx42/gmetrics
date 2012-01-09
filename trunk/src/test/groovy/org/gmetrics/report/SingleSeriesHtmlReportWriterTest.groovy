@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 the original author or authors.
+ * Copyright 2012 the original author or authors.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,6 +41,7 @@ class SingleSeriesHtmlReportWriterTest extends AbstractReportWriterTestCase {
     static reportFilename = "GMetricsSingleSeriesReport.html"
 
     private emptyResultsNode = packageResultsNode(path:'test')
+    private localizedMessages
 
     void testWriteReport_SingleClass() {
         final CONTENTS = STANDARD_CONTENTS + [
@@ -149,6 +150,19 @@ class SingleSeriesHtmlReportWriterTest extends AbstractReportWriterTestCase {
         assertReportContents(resultsNode, CONTENTS, NOT_EXPECTED_CONTENTS)
     }
 
+    void testWriteReport_FormatsValuesUsingConfiguredFormatter() {
+        final CONTENTS = ['65%']
+        def resultsNode = packageResultsNode([:],
+        [
+            Class1: classResultsNode(metricResults:[metric1Result(average:0.65)])
+        ])
+
+        configureReportWriter(metric: 'Metric1', level: 'class', function: 'average')
+        localizedMessages[metric1.name + '.formatter'] = 'org.gmetrics.formatter.PercentageFormatter'
+        reportWriter.initializeFormatters(metricSet1)
+        assertReportContents(resultsNode, CONTENTS)
+    }
+
     void testWriteReport_NullOrEmptyLevel_ThrowsException() {
         reportWriter.metric = 'Metric1'
         reportWriter.function = 'average'
@@ -176,12 +190,15 @@ class SingleSeriesHtmlReportWriterTest extends AbstractReportWriterTestCase {
         shouldFailWithMessageContaining('function') { reportWriter.writeReport(emptyResultsNode, analysisContext) }
     }
 
+    //------------------------------------------------------------------------------------
+    // Setup and Helper Methods
+    //------------------------------------------------------------------------------------
 
     void setUp() {
         super.setUp()
         analysisContext = new AnalysisContext(metricSet:metricSet1)
 
-        def localizedMessages = [
+        localizedMessages = [
             'singleSeriesHtmlReport.reportTimestamp.label': TIMESTAMP_LABEL,
             'singleSeriesHtmlReport.packageHeading': PACKAGE_HEADING,
             'singleSeriesHtmlReport.classHeading': CLASS_HEADING,

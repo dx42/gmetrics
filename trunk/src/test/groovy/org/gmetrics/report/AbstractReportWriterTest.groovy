@@ -88,12 +88,10 @@ class AbstractReportWriterTest extends AbstractTestCase {
 
     void testWriteReport_InitializesFormatters() {
         def localizedMessages = [ (METRIC_NAME+'.formatter'): 'org.gmetrics.formatter.PercentageFormatter' ]
-//        reportWriter.resourceBundle = [getString:{key -> localizedMessages[key]}]
         reportWriter.initializeResourceBundle = { reportWriter.resourceBundle = [getString:{ key -> localizedMessages[key] }] }
-//        reportWriter.initializeFormatters(new ListMetricSet([METRIC]))
         reportWriter.writeToStandardOut = true
         reportWriter.writeReport(RESULTS_NODE, ANALYSIS_CONTEXT)
-        assert reportWriter.formatters[METRIC]
+        assert reportWriter.formatters[METRIC.name]
     }
 
     // Tests for initializeResourceBundle()
@@ -138,7 +136,7 @@ class AbstractReportWriterTest extends AbstractTestCase {
     // Tests for formatMetricResultValue()
 
     void testFormatMetricResultValue_NoFormatterConfiguredForMetric_ReturnsValueToString() {
-        assert reportWriter.formatMetricResultValue(METRIC, 0.65) == '0.65'
+        assert reportWriter.formatMetricResultValue(METRIC.name, 0.65) == '0.65'
     }
 
     void testFormatMetricResultValue_FormatterConfiguredForMetric_FormatsValue() {
@@ -146,7 +144,7 @@ class AbstractReportWriterTest extends AbstractTestCase {
         reportWriter.resourceBundle = [getString:{key -> localizedMessages[key]}]
         reportWriter.initializeFormatters(METRIC_SET)
 
-        assert reportWriter.formatMetricResultValue(METRIC, 0.65) == '65%'
+        assert reportWriter.formatMetricResultValue(METRIC.name, 0.65) == '65%'
     }
 
     // Tests for getFormattedTimestamp()

@@ -120,12 +120,12 @@ abstract class AbstractReportWriter implements ReportWriter {
         metricSet.metrics.each { metric ->
             def lookupKey = metric.name + '.formatter'
             def formatterSpec = getResourceBundleStringOrNull(lookupKey)
-            formatters[metric] = formatterSpec ? formatterFactory.getFormatter(formatterSpec) : null
+            formatters[metric.name] = formatterSpec ? formatterFactory.getFormatter(formatterSpec) : null
         }
     }
 
-    protected String formatMetricResultValue(Metric metric, Object value) {
-        def formatter = formatters[metric]
+    protected String formatMetricResultValue(String metricName, Object value) {
+        def formatter = formatters[metricName]
         return formatter ? formatter.format(value) : value
     }
 
