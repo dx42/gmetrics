@@ -68,8 +68,6 @@ class SingleSeriesHtmlReportWriter extends AbstractReportWriter {
     @Override
     protected void writeReport(Writer writer, ResultsNode resultsNode, AnalysisContext analysisContext) {
         assert resultsNode
-        assert analysisContext
-        assert analysisContext.metricSet
         assert writer
 
         def seriesData = buildSeriesData(resultsNode, analysisContext.metricSet)

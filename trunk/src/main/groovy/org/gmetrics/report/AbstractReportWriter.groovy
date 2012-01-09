@@ -18,6 +18,10 @@ package org.gmetrics.report
 import org.apache.log4j.Logger
 import org.gmetrics.resultsnode.ResultsNode
 import org.gmetrics.analyzer.AnalysisContext
+import org.gmetrics.metric.Metric
+import org.gmetrics.formatter.FormatterFactory
+import org.gmetrics.formatter.Formatter
+import org.gmetrics.metricset.MetricSet
 
 /**
  * Abstract superclass for ReportWriter implementation classes.
@@ -41,6 +45,8 @@ abstract class AbstractReportWriter implements ReportWriter {
 
     protected customMessagesBundleName = CUSTOM_MESSAGES_BUNDLE
     protected resourceBundle
+    protected Map<Metric,Formatter> formatters = [:]
+    protected formatterFactory = new FormatterFactory()
 
     // Allow tests to override these
     protected initializeResourceBundle = { initializeDefaultResourceBundle() }
@@ -49,7 +55,11 @@ abstract class AbstractReportWriter implements ReportWriter {
     abstract void writeReport(Writer writer, ResultsNode resultsNode, AnalysisContext analysisContext)
 
     void writeReport(ResultsNode resultsNode, AnalysisContext analysisContext) {
+        assert analysisContext
+        assert analysisContext.metricSet
+
         initializeResourceBundle()
+        initializeFormatters(analysisContext.metricSet)
 
         if (isWriteToStandardOut()) {
             writeReportToStandardOut(resultsNode, analysisContext)
@@ -94,6 +104,29 @@ abstract class AbstractReportWriter implements ReportWriter {
             LOG.warn("No string found for resourceKey=[$resourceKey]")
         }
         return string
+    }
+
+    @SuppressWarnings('ReturnNullFromCatchBlock')
+    protected String getResourceBundleStringOrNull(String resourceKey) {
+        try {
+            return resourceBundle.getString(resourceKey)
+        }
+        catch (MissingResourceException e) {
+            return null
+        }
+    }
+
+    protected void initializeFormatters(MetricSet metricSet) {
+        metricSet.metrics.each { metric ->
+            def lookupKey = metric.name + '.formatter'
+            def formatterSpec = getResourceBundleStringOrNull(lookupKey)
+            formatters[metric] = formatterSpec ? formatterFactory.getFormatter(formatterSpec) : null
+        }
+    }
+
+    protected String formatMetricResultValue(Metric metric, Object value) {
+        def formatter = formatters[metric]
+        return formatter ? formatter.format(value) : value
     }
 
     protected String getFormattedTimestamp() {
