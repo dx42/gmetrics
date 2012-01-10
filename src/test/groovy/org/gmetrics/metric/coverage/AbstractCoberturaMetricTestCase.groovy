@@ -100,6 +100,11 @@ abstract class AbstractCoberturaMetricTestCase extends AbstractMetricTestCase {
         assertApplyToPackage('other/com/example/service', getServicePackageValue())
     }
 
+    void testApplyToPackage_AllowsWhitespaceAroundPackageNamePrefixes() {
+        metric.packageNamePrefixes = 'src/main/java, other '
+        assertApplyToPackage('other/com/example/service', getServicePackageValue())
+    }
+
     void testApplyToPackage_PrefixHasTrailingSeparator_MatchesPackageNamePrefixes() {
         metric.packageNamePrefixes = 'other/'
         assertApplyToPackage('other/com.example.service', getServicePackageValue())

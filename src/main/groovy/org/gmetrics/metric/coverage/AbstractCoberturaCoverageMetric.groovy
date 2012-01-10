@@ -213,7 +213,8 @@ abstract class AbstractCoberturaCoverageMetric extends AbstractMetric {
         def prefixes = packageNamePrefixes.tokenize(',')
         def matchingPackageElement
         prefixes.find { String prefix ->
-            matchingPackageElement = findPackageWithPrefix(packagePath, prefix, matchingPackageElement)
+            def trimmedPrefix = prefix.trim()
+            matchingPackageElement = findPackageWithPrefix(packagePath, trimmedPrefix, matchingPackageElement)
         }
         return matchingPackageElement
     }
