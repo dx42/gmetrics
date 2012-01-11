@@ -30,6 +30,7 @@ import org.codehaus.groovy.ast.expr.ListExpression
 import org.codehaus.groovy.ast.expr.ArrayExpression
 import org.codehaus.groovy.ast.FieldNode
 import org.codehaus.groovy.ast.expr.ClosureExpression
+import org.codehaus.groovy.ast.MethodNode
 
 /**
  * Contains static utility methods related to Groovy AST.
@@ -37,9 +38,12 @@ import org.codehaus.groovy.ast.expr.ClosureExpression
  * This is an internal class and its API is subject to change.
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class AstUtil {
+
+    static boolean isEmptyMethod(MethodNode methodNode) {
+        isEmptyBlock(methodNode.code)
+    }
 
     /**
      * Return true only if the specified FieldNode has an initial expression that is a Closure

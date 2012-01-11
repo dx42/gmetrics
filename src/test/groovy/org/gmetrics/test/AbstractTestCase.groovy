@@ -18,6 +18,8 @@ package org.gmetrics.test
 import org.gmetrics.resultsnode.ResultsNode
 import org.gmetrics.resultsnode.StubResultsNode
 import org.gmetrics.metric.MetricLevel
+import org.apache.log4j.Logger
+import org.apache.log4j.spi.LoggingEvent
 
 /**
  * Abstract superclass for tests 
@@ -109,6 +111,19 @@ abstract class AbstractTestCase extends GroovyTestCase {
         return out.toString()
     }
     
+    protected List<LoggingEvent> captureLog4JMessages(Closure closure) {
+        def inMemoryAppender = new InMemoryAppender()
+        def logger = Logger.rootLogger
+        logger.addAppender(inMemoryAppender)
+        try {
+            closure()
+        }
+        finally {
+            logger.removeAppender(inMemoryAppender)
+        }
+        return inMemoryAppender.getLoggingEvents()
+    }
+
     protected BigDecimal scale(number, int scale=1) {
         return number.setScale(scale, BigDecimal.ROUND_HALF_UP)
     }
