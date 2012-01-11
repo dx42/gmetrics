@@ -58,6 +58,32 @@ abstract class AbstractCoberturaMetricTestCase extends AbstractMetricTestCase {
         metric.applyToPackage('whatever', null) == null
     }
 
+    // Tests for calculate()
+
+    void testCalculate_NonEmptyMethodThatHasNoCoverageInformation_LogsWarning() {
+        final SOURCE = """
+            package com.example.service
+            class Email {
+                int unknown() {
+                    println 'email'
+                }
+            }
+        """
+        def log4jMessages = captureLog4JMessages { metric.calculate(findFirstMethod(SOURCE), sourceCode) }
+        assert log4jMessages.find { logEvent -> logEvent.message.contains('unknown') }
+    }
+
+    void testCalculate_EmptyMethodThatHasNoCoverageInformation_DoesNotLogWarning() {
+        final SOURCE = """
+            package com.example.service
+            class Email {
+                int unknown() { }
+            }
+        """
+        def log4jMessages = captureLog4JMessages { metric.calculate(findFirstMethod(SOURCE), sourceCode) }
+        assert !log4jMessages.find { logEvent -> logEvent.message.contains('unknown') }
+    }
+
     // Tests for applyToClass()
 
     void testApplyToClass_ReturnNullForInterface() {
@@ -74,6 +100,17 @@ abstract class AbstractCoberturaMetricTestCase extends AbstractMetricTestCase {
         shouldFailWithMessageContaining('coberturaFile') {
             applyToClass(SOURCE)
         }
+    }
+
+    void testApplyToClass_Enum_DoesNotLogWarningForMissingImplicitConstructorCoverageInformation() {
+        final SOURCE = """
+            package com.example.service
+            enum Email {
+                ONE, TWO, THREE
+            }
+        """
+        def log4jMessages = captureLog4JMessages { applyToClass(SOURCE) }
+        assert !log4jMessages.find { logEvent -> logEvent.message.contains('<init>') }
     }
 
     // Tests for applyToPackage()

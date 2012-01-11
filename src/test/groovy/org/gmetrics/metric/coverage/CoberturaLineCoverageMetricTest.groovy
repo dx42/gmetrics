@@ -62,31 +62,6 @@ class CoberturaLineCoverageMetricTest extends AbstractCoberturaMetricTestCase {
         assertCalculateForMethodReturnsNull(SOURCE)
     }
 
-    void testCalculate_NonEmptyMethodThatHasNoCoverageInformation_LogsWarning() {
-        final SOURCE = """
-            package com.example.service
-            class Email {
-                int unknown() {
-                    println 'email'
-                }
-            }
-        """
-        def log4jMessages = captureLog4JMessages { metric.calculate(findFirstMethod(SOURCE), sourceCode) }
-        assert log4jMessages.find { logEvent -> logEvent.message.contains('unknown') }
-    }
-
-
-    void testCalculate_EmptyMethodThatHasNoCoverageInformation_DoesNotLogWarning() {
-        final SOURCE = """
-            package com.example.service
-            class Email {
-                int unknown() { }
-            }
-        """
-        def log4jMessages = captureLog4JMessages { metric.calculate(findFirstMethod(SOURCE), sourceCode) }
-        assert !log4jMessages.find { logEvent -> logEvent.message.contains('unknown') }
-    }
-
     void testCalculate_ReturnsNullForAbstractMethodDeclaration() {
         final SOURCE = """
             package com.example.service

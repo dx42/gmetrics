@@ -158,7 +158,9 @@ abstract class AbstractCoberturaCoverageMetric extends AbstractMetric {
         Map<MethodKey, MetricResult> childMetricResults = [:]
 
         def methodsPlusConstructors = classNode.getMethods() + classNode.getDeclaredConstructors()
-        def validMethods = methodsPlusConstructors.findAll { methodNode -> !methodNode.isAbstract() && !methodNode.isSynthetic() }
+        def validMethods = methodsPlusConstructors.findAll { methodNode ->
+            !methodNode.isAbstract() && !AstUtil.isFromGeneratedSourceCode(methodNode)
+        }
         validMethods.each { methodNode ->
             def metricResult = calculateMethodResult(methodNode, classXmlElement)
             if (metricResult) {
