@@ -35,7 +35,6 @@ import org.codehaus.groovy.ast.ClassNode
  * Tests for AstUtil
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class AstUtilTest extends AbstractTestCase {
     static final SOURCE = '''
@@ -62,30 +61,35 @@ class AstUtilTest extends AbstractTestCase {
     private visitor
 
     void testIsFromGeneratedSourceCode() {
-        assert !AstUtil.isFromGeneratedSourceCode(methodNamed('print'))
+        assert !AstUtil.isFromGeneratedSourceCode(methodCallNamed('print'))
+    }
+
+    void testIsEmptyMethod() {
+        assert AstUtil.isEmptyMethod(methodNamed('setUp'))
+        assert !AstUtil.isEmptyMethod(methodNamed('otherMethod'))
     }
 
     void testGetMethodArguments_ConstructorWithinEnum() {
-        def methodCall = methodNamed('methodCallWithinEnum')
+        def methodCall = methodCallNamed('methodCallWithinEnum')
         def args = AstUtil.getMethodArguments(methodCall)
         assert args.size() == 3
     }
 
     void testGetMethodArguments_NoArgument() {
-        def methodCall = methodNamed('print')
+        def methodCall = methodCallNamed('print')
         def args = AstUtil.getMethodArguments(methodCall)
         assert args.size() == 0
     }
 
     void testGetMethodArguments_SingleArgument() {
-        def methodCall = methodNamed('stringMethodName')
+        def methodCall = methodCallNamed('stringMethodName')
         def args = AstUtil.getMethodArguments(methodCall)
         assert args.size() == 1
         assert args[0].value == 123
     }
 
     void testGetMethodArguments_NamedArguments() {
-        def methodCall = methodNamed('delete')
+        def methodCall = methodCallNamed('delete')
         def args = AstUtil.getMethodArguments(methodCall)
         assert args[0].mapEntryExpressions.keyExpression.value == ['dir', 'failonerror']
     }
@@ -126,7 +130,7 @@ class AstUtilTest extends AbstractTestCase {
     }
 
     void testIsMethodCall_StringLiteralMethodName() {
-        def methodCall = methodNamed('stringMethodName')
+        def methodCall = methodCallNamed('stringMethodName')
         assert AstUtil.isMethodCall(methodCall, 'this', 'stringMethodName', 1)
         assert !AstUtil.isMethodCall(methodCall, 'this', 'stringMethodName', 2)
         assert AstUtil.isMethodCall(methodCall, 'this', 'stringMethodName')
@@ -145,7 +149,7 @@ class AstUtilTest extends AbstractTestCase {
     }
 
     void testIsMethodNamed() {
-        def methodCall = methodNamed('print')
+        def methodCall = methodCallNamed('print')
         assert AstUtil.isMethodNamed(methodCall, 'print')
         assert !AstUtil.isMethodNamed(methodCall, 'other')
     }
@@ -242,7 +246,7 @@ class AstUtilTest extends AbstractTestCase {
         }
     }
 
-    private MethodCallExpression methodNamed(String name) {
+    private MethodCallExpression methodCallNamed(String name) {
         def methodCall = visitor.methodCallExpressions.find { mc ->
             if (mc.method instanceof GStringExpression) {
                 return mc.text.startsWith(name)
@@ -250,6 +254,10 @@ class AstUtilTest extends AbstractTestCase {
             mc.method.value == name
         }
         return methodCall
+    }
+
+    private MethodNode methodNamed(String name) {
+        visitor.methodNodes[name]
     }
 }
 
@@ -269,14 +277,12 @@ class AstUtilTestVisitor extends ClassCodeVisitorSupport {
 
     @Override
     void visitMethod(MethodNode methodNode) {
-        LOG.info("visitMethod name=${methodNode.name}")
         methodNodes[methodNode.name] = methodNode
         super.visitMethod(methodNode)
     }
 
     @Override
     void visitStatement(Statement statement) {
-        LOG.info("visitStatement text=${statement.text}")
         this.statements << statement
         super.visitStatement(statement)
     }
@@ -284,8 +290,6 @@ class AstUtilTestVisitor extends ClassCodeVisitorSupport {
     @Override
     void visitMethodCallExpression(MethodCallExpression methodCallExpression) {
         this.methodCallExpressions << methodCallExpression
-        def args = AstUtil.getMethodArguments(methodCallExpression)
-        LOG.info("visitMethodCallExpression object=${methodCallExpression.objectExpression} args=$args")
         super.visitMethodCallExpression(methodCallExpression)
     }
 

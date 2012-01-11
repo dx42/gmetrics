@@ -30,6 +30,7 @@ import org.gmetrics.util.PathUtil
 import org.gmetrics.result.ClassMetricResult
 import org.gmetrics.source.SourceCode
 import org.gmetrics.result.MetricResultBuilder
+import org.gmetrics.util.AstUtil
 
 /**
  * Abstract superclass for metrics that provide test code coverage from a Cobertura XML file.
@@ -118,12 +119,7 @@ abstract class AbstractCoberturaCoverageMetric extends AbstractMetric {
     MetricResult calculate(MethodNode methodNode, SourceCode sourceCode) {
         def className = methodNode.declaringClass.name
         def classXmlElement = findClassElement(className)
-        def matchingMethodElement = findMethodElement(methodNode, classXmlElement)
-        if (!matchingMethodElement.isEmpty()) {
-            def lineRate = parseCoverageRate(matchingMethodElement)
-            return new SingleNumberMetricResult(this, MetricLevel.METHOD, lineRate, methodNode.lineNumber)
-        }
-        return null
+        return calculateMethodResult(methodNode, classXmlElement)
     }
 
     //------------------------------------------------------------------------------------
@@ -164,18 +160,30 @@ abstract class AbstractCoberturaCoverageMetric extends AbstractMetric {
         def methodsPlusConstructors = classNode.getMethods() + classNode.getDeclaredConstructors()
         def validMethods = methodsPlusConstructors.findAll { methodNode -> !methodNode.isAbstract() && !methodNode.isSynthetic() }
         validMethods.each { methodNode ->
-            def matchingMethodElement = findMethodElement(methodNode, classXmlElement)
-            if (!matchingMethodElement.isEmpty()) {
-                def lineRate = parseCoverageRate(matchingMethodElement)
-                def methodResult = new SingleNumberMetricResult(this, MetricLevel.METHOD, lineRate, classNode.lineNumber)
+            def metricResult = calculateMethodResult(methodNode, classXmlElement)
+            if (metricResult) {
                 def methodKey = new MethodKey(methodNode)
-                childMetricResults[methodKey] = methodResult
-            }
-            else {
-                LOG.warn("No coverage information found for method [${classNode.name}.${methodNode.name}]")
+                childMetricResults[methodKey] = metricResult
             }
         }
         return childMetricResults
+    }
+
+    protected SingleNumberMetricResult calculateMethodResult(MethodNode methodNode, GPathResult classXmlElement) {
+        def matchingMethodElement = findMethodElement(methodNode, classXmlElement)
+        if (!matchingMethodElement.isEmpty()) {
+            def lineRate = parseCoverageRate(matchingMethodElement)
+            return new SingleNumberMetricResult(this, MetricLevel.METHOD, lineRate, methodNode.lineNumber)
+        }
+        logMissingMethodCoverageInformation(methodNode)
+        return null
+    }
+
+    private void logMissingMethodCoverageInformation(MethodNode methodNode) {
+        if (!AstUtil.isEmptyMethod(methodNode)) {
+            def className = methodNode.declaringClass.name
+            LOG.warn("No coverage information found for method [${className}.${methodNode.name}]")
+        }
     }
 
     protected GPathResult findInnerClasses(String className) {
