@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 the original author or authors.
+ * Copyright 2012 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -108,7 +108,9 @@ abstract class AbstractCoberturaCoverageMetric extends AbstractMetric {
             matchingPackageElement = findPackageElementMatchingPrefix(packagePath)
         }
         if (matchingPackageElement == null || matchingPackageElement.isEmpty()) {
-            LOG.warn("No coverage information found for package [$packageName]")
+            if (containsClasses(childMetricResults)) {
+                LOG.warn("No coverage information found for package [$packageName]")
+            }
             return null
         }
         def lineRate = parseCoverageRate(matchingPackageElement)
@@ -241,6 +243,10 @@ abstract class AbstractCoberturaCoverageMetric extends AbstractMetric {
     protected GPathResult findPackageElement(String packageName) {
         def coverage = getCoberturaXml()
         return coverage.packages.package.find { it.@name == packageName }
+    }
+
+    private boolean containsClasses(Collection<MetricResult> childMetricResults) {
+        childMetricResults.find { metricResult -> metricResult.metricLevel == MetricLevel.CLASS }
     }
 
     protected GPathResult getCoberturaXml() {
