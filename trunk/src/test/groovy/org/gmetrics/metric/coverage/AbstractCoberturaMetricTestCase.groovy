@@ -18,6 +18,7 @@ package org.gmetrics.metric.coverage
 import org.gmetrics.metric.AbstractMetricTestCase
 import org.gmetrics.metric.Metric
 import org.gmetrics.metric.MetricLevel
+import org.gmetrics.result.StubMetricResult
 
 /**
  * Abstract superclass for Cobertura Metric test classes
@@ -32,6 +33,8 @@ abstract class AbstractCoberturaMetricTestCase extends AbstractMetricTestCase {
     protected static final COBERTURA_XML_FILE_PREFIX = 'file:' + COBERTURA_XML_RELATIVE_PATH
     protected static final COBERTURA_XML_CLASSPATH_PREFIX = 'classpath:' + COBERTURA_XML_RELATIVE_TO_CLASSPATH
     protected static final COBERTURA_XML_BAD_DTD= 'coverage/Cobertura-bad-dtd.xml'
+    protected static final CLASS_METRIC_RESULT = new StubMetricResult(metricLevel:MetricLevel.CLASS)
+    protected static final PACKAGE_METRIC_RESULT = new StubMetricResult(metricLevel:MetricLevel.PACKAGE)
 
     //------------------------------------------------------------------------------------
     // Abstract Methods
@@ -150,6 +153,18 @@ abstract class AbstractCoberturaMetricTestCase extends AbstractMetricTestCase {
     void testApplyToPackage_DoesNotMatchPackageNamePrefixes() {
         metric.packageNamePrefixes = 'src/other'
         assert metric.applyToPackage('src/main/java/com.example.service', null) == null
+    }
+
+    void testApplyToPackage_NoCoverageInformation_ForPackageWithNoClasses_DoesNotLogWarning() {
+        def children = [PACKAGE_METRIC_RESULT]
+        def log4jMessages = captureLog4JMessages { metric.applyToPackage('com.example', children) }
+        assert !log4jMessages.find { logEvent -> logEvent.message.contains('com.example') }
+    }
+
+    void testApplyToPackage_NoCoverageInformation_ForPackageWithClasses_LogsWarning() {
+        def children = [PACKAGE_METRIC_RESULT, CLASS_METRIC_RESULT]
+        def log4jMessages = captureLog4JMessages { metric.applyToPackage('com.example', children) }
+        assert log4jMessages.find { logEvent -> logEvent.message.contains('com.example') }
     }
 
     void testApplyToPackage_NoCoverageInformation() {
