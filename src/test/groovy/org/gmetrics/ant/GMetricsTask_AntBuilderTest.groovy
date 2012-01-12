@@ -148,7 +148,7 @@ class GMetricsTask_AntBuilderTest extends AbstractTestCase {
         def specialProperties = [
             CoberturaBranchCoverage: "(coberturaFile: $COBERTURA_FILE)",
             CoberturaLineCoverage: "(coberturaFile: $COBERTURA_FILE)",
-            CRAP: "(coverageMetric:CoberturaLineCoverage(coberturaFile: $COBERTURA_FILE))"
+            CRAP: "{ coverageMetric = CoberturaLineCoverage(coberturaFile: $COBERTURA_FILE)}"
         ]
 
         allMetricSetFile.withWriter { w ->

@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 the original author or authors.
+ * Copyright 2012 the original author or authors.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,6 +48,7 @@ class MetricSetBuilder {
 
 class TopLevelDelegate {
     private allMetricSet = new CompositeMetricSet()
+    private nestedLevel = 0
 
     void metricset(String path) {
         def metricSet = new GroovyDslMetricSet(path)
@@ -59,23 +60,23 @@ class TopLevelDelegate {
         def metricSetConfigurer = new MetricSetDelegate(metricSet)
         closure.delegate = metricSetConfigurer
         closure.setResolveStrategy(Closure.DELEGATE_FIRST)
+        nestedLevel++
         closure.call()
+        nestedLevel--
         allMetricSet.addMetricSet(metricSetConfigurer.metricSet)
     }
 
     Metric metric(Class metricClass) {
         assertClassImplementsMetricInterface(metricClass)
         Metric metric = metricClass.newInstance()
-        allMetricSet.addMetric(metric)
-        return metric
+        return addMetric(metric)
     }
 
     Metric metric(Class metricClass, Map properties) {
         assertClassImplementsMetricInterface(metricClass)
         Metric metric = metricClass.newInstance()
         properties.each { key, value -> metric[key] = value }
-        allMetricSet.addMetric(metric)
-        return metric
+        return addMetric(metric)
     }
 
     Metric metric(Class metricClass, Closure closure) {
@@ -83,9 +84,10 @@ class TopLevelDelegate {
         Metric metric = metricClass.newInstance()
         closure.delegate = metric
         closure.resolveStrategy = Closure.DELEGATE_FIRST
+        nestedLevel++
         closure.call()
-        allMetricSet.addMetric(metric)
-        return metric
+        nestedLevel--
+        return addMetric(metric)
     }
 
     Metric propertyMissing(String name) {
@@ -117,6 +119,17 @@ class TopLevelDelegate {
     private void assertClassImplementsMetricInterface(Class metricClass) {
         assert metricClass
         assert Metric.isAssignableFrom(metricClass), "The metric class [${metricClass.name}] does not implement the org.gmetrics.metric.Metric interface"
+    }
+
+    private Metric addMetric(Metric metric) {
+        if (isNotWithinAnotherMetricDefinition()) {
+            allMetricSet.addMetric(metric)
+        }
+        return metric
+    }
+
+    private boolean isNotWithinAnotherMetricDefinition() {
+        return nestedLevel == 0
     }
 }
 

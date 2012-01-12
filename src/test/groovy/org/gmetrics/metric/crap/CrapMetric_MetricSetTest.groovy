@@ -31,7 +31,7 @@ class CrapMetric_MetricSetTest extends AbstractTestCase {
         def crapMetric = metricSet.metrics.find { it instanceof CrapMetric }
         log "crapMetric=" + crapMetric
 
-        assert metricSet.metrics.size() == 3
+        assert metricSet.metrics.size() == 2
         assert crapMetric.coverageMetric.functions == ['total', 'average']
         assert crapMetric.complexityMetric.functions == ['total']
     }
