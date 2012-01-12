@@ -88,6 +88,37 @@ CRAP Metric
 
   Note setting the <coverageMetric> field is required.
 
+  The <<CRAP>> metric is a special <composite> metric -- it uses other metrics to calculate complexity
+  and code coverage. In the example above, the <<CoberturaLineCoverage>> metric is also included within
+  the <MetricSet> being defined. Alternatively, if you define the <<CoberturaLineCoverage>> metric <within>
+  the <<CRAP>> metric definition, then the <<CoberturaLineCoverage>> metric is not included within the
+  <MetricSet>, as in the example below.
+
++----------------------------------------------------------------------------------------
+  final COBERTURA_FILE = 'coverage/GMetrics/coverage.xml'
+
+  metricset {
+
+      CRAP {
+          // CoberturaLineCoverage is not included in the MetricSet
+          coverageMetric = CoberturaLineCoverage {
+              coberturaFile = COBERTURA_FILE
+          }
+    }
+  }
++----------------------------------------------------------------------------------------
+
+  There is one annoying <known limitation> with that behavior. If you use the <Map> syntax, rather
+  than the <Closure> syntax, to define the outer metric, then inner metric is also included within the
+  <MetricSet>, as in the example below.
+
++----------------------------------------------------------------------------------------
+  metricset {
+      // Both CRAP and CoberturaLineCoverage metrics are included in the MetricSet
+      CRAP(coverageMetric:CoberturaLineCoverage(coberturaFile:'coverage/GMetrics/coverage.xml'))
+  }
++----------------------------------------------------------------------------------------
+
 
 * References
 ~~~~~~~~~~~~

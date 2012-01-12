@@ -20,6 +20,7 @@ import org.gmetrics.metric.abc.AbcMetric
 import org.gmetrics.metric.StubMetric
 import org.gmetrics.metricregistry.MetricRegistryHolder
 import org.gmetrics.metricregistry.MetricRegistry
+import org.gmetrics.metric.crap.CrapMetric
 
 /**
  * Tests for MetricSetBuilder
@@ -56,6 +57,17 @@ class MetricSetBuilderTest extends AbstractTestCase {
         }
         assertMetricNames('NewName', 'XXX')
         assertMetricProperties('NewName', [otherProperty:'888'])
+    }
+
+    void testMetricset_GroovyFile_NestedMetricDefinitionNotIncludedInMetricSet() {
+        metricSetBuilder.metricset {
+            metricset(MetricSetTestFiles.METRICSET1) {
+                Stub {
+                    otherProperty = ABC
+                }
+            }
+        }
+        assertMetricNames('Stub', 'XXX')
     }
 
     void testMetricset_GroovyFile_ConfigureMetricUsingMap_MetricNotFound() {
@@ -196,6 +208,62 @@ class MetricSetBuilderTest extends AbstractTestCase {
         assert newMetric instanceof AbcMetric
     }
 
+    void testMetric_NestedMetricDefinitionUsingMetric_NotIncludedInMetricSet() {
+        metricSetBuilder.metricset {
+            CRAP {
+                coverageMetric = metric(StubMetric)
+            }
+        }
+        assertMetricNames('CRAP')
+    }
+
+    void testMetric_NestedMetricDefinitionUsingMetricWithMap_NotIncludedInMetricSet() {
+        metricSetBuilder.metricset {
+            CRAP {
+                coverageMetric = metric(StubMetric, [name:'yyyy'])
+            }
+        }
+        assertMetricNames('CRAP')
+    }
+
+    void testMetric_NestedMetricDefinitionUsingMetricWithClosure_NotIncludedInMetricSet() {
+        metricSetBuilder.metricset {
+            CRAP {
+                coverageMetric = metric(StubMetric) {
+                    name = 'yyyy'
+                    otherProperty = '1234'
+                }
+            }
+        }
+        assertMetricNames('CRAP')
+    }
+
+    void testMetric_NestedMetricDefinition_AssignNestedMetricWithinMap_KnownLimitation() {
+        metricSetBuilder.metricset {
+            CRAP(coverageMetric:ABC)
+        }
+        // Known limitation *****
+        assertMetricNames('ABC', 'CRAP')
+    }
+
+    void testMetric_NestedMetricDefinitionUsingMetricNameWithClosure_NotIncludedInMetricSet() {
+        metricSetBuilder.metricset {
+            CRAP {
+                coverageMetric = ABC {
+                    enabled = false
+                }
+            }
+        }
+        assertMetricNames('CRAP')
+    }
+
+    void testMetric_NestedMetricDefinitionUsingMetricNameWithMap_IsIncludedInMetricSet() {
+        metricSetBuilder.metricset {
+            CRAP([coverageMetric: ABC(enabled:false)])
+        }
+        assertMetricNames('ABC', 'CRAP')
+    }
+
     void testMetric_MetricName_NoParenthesesOrClosure() {
         metricSetBuilder.metricset {
             newMetric = ABC
@@ -219,10 +287,15 @@ class MetricSetBuilderTest extends AbstractTestCase {
         }
     }
 
+    //------------------------------------------------------------------------------------
+    // Setup and helper methods
+    //------------------------------------------------------------------------------------
+
     void setUp() {
         super.setUp()
         metricSetBuilder = new MetricSetBuilder()
-        MetricRegistryHolder.metricRegistry = [getMetricClass:{ AbcMetric }] as MetricRegistry
+        final METRICS = [CRAP:CrapMetric, ABC:AbcMetric]
+        MetricRegistryHolder.metricRegistry = [getMetricClass:{ name -> METRICS[name] }] as MetricRegistry
     }
 
     private MetricSet getMetricSet() {
