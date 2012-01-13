@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 the original author or authors.
+ * Copyright 2012 the original author or authors.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,6 +31,7 @@ class MetricSetBuilderTest extends AbstractTestCase {
 
     private metricSetBuilder
     private newMetric
+    private originalMetricRegistry
 
     void testMetricset_NullFilename() {
         log(metricSetBuilder)
@@ -291,11 +292,19 @@ class MetricSetBuilderTest extends AbstractTestCase {
     // Setup and helper methods
     //------------------------------------------------------------------------------------
 
+    @Override
     void setUp() {
         super.setUp()
         metricSetBuilder = new MetricSetBuilder()
         final METRICS = [CRAP:CrapMetric, ABC:AbcMetric]
+        originalMetricRegistry = MetricRegistryHolder.metricRegistry
         MetricRegistryHolder.metricRegistry = [getMetricClass:{ name -> METRICS[name] }] as MetricRegistry
+    }
+
+    @Override
+    protected void tearDown() {
+        super.tearDown()
+        MetricRegistryHolder.metricRegistry = originalMetricRegistry
     }
 
     private MetricSet getMetricSet() {
