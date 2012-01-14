@@ -1,5 +1,5 @@
 /*
-* Copyright 2010 the original author or authors.
+* Copyright 2012 the original author or authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -28,11 +28,12 @@ import org.gmetrics.result.MethodKey
  * Abstract superclass for method-based metrics.
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 abstract class AbstractMethodMetric extends AbstractMetric {
 
     final MetricLevel baseLevel = MetricLevel.METHOD
+
+    boolean includeClosureFields = true
 
     abstract MetricResult calculate(MethodNode methodNode, SourceCode sourceCode)
     abstract MetricResult calculate(ClosureExpression closureExpression, SourceCode sourceCode)
@@ -55,6 +56,10 @@ abstract class AbstractMethodMetric extends AbstractMetric {
     }
 
     private void addClosureFieldsToMetricResults(SourceCode sourceCode, ClassNode classNode, Map childMetricResults) {
+        if (!includeClosureFields) {
+            return
+        }
+
         def closureFields = classNode.fields.findAll {fieldNode -> AstUtil.isClosureField(fieldNode) }
         closureFields.each {fieldNode ->
             def fieldResult = calculate(fieldNode.initialExpression, sourceCode)

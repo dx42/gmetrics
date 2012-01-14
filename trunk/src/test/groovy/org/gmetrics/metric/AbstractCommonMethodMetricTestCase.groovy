@@ -49,4 +49,16 @@ abstract class AbstractCommonMethodMetricTestCase extends AbstractCommonMetricTe
             assert metricResult == null
         }
     }
+
+    void testApplyToClass_IncludeClosureFieldsIsFalse_ReturnsNull() {
+        final SOURCE = """
+            class MyClass {
+                def myClosure = {
+                }
+            }
+        """
+        metric.includeClosureFields = false
+        assert applyToClass(SOURCE) == null
+    }
+
 }
