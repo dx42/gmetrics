@@ -16,7 +16,6 @@
  package org.gmetrics.metric.coverage
 
 import org.gmetrics.test.AbstractTestCase
-import org.codehaus.groovy.ast.builder.AstBuilder
 
 /**
  * Tests for CoberturaSignatureParser
@@ -24,21 +23,6 @@ import org.codehaus.groovy.ast.builder.AstBuilder
  * @author Chris Mair
  */
 class CoberturaSignatureParserTest extends AbstractTestCase {
-
-    void testMatchesCoberturaMethod_MethodNode_Match() {
-        final SOURCE = '''
-            class MyClass {
-                void m(String name) { }
-            }
-            '''
-        def nodes = new AstBuilder().buildFromString(SOURCE)
-        def methodNode = nodes[1].getDeclaredMethods('m')[0]
-
-        assert CoberturaSignatureParser.matchesCoberturaMethod(methodNode, 'm', '(Ljava/lang/String;)V')
-        assert !CoberturaSignatureParser.matchesCoberturaMethod(methodNode, 'other', '(Ljava/lang/String;)V')
-        assert !CoberturaSignatureParser.matchesCoberturaMethod(methodNode, 'm', '(Ljava/lang/Object;)V')
-        assert !CoberturaSignatureParser.matchesCoberturaMethod(methodNode, 'm', '()V')
-    }
 
     void testMatchesCoberturaMethod_Match() {
         assert CoberturaSignatureParser.matchesCoberturaMethod('m', 'void m(String)', 'm', '(Ljava/lang/String;)V')
