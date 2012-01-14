@@ -91,6 +91,11 @@ ABC Metric
 |                 |    - "minimum"                                                     |                        |
 |                 |    - "maximum"                                                     |                        |
 *-----------------+--------------------------------------------------------------------+------------------------+
+| includeClosureFields | This <<<boolean>>> property controls whether metric values are| <<<true>>>             |
+|                 | calculated for <Closure Fields> and treated as <methods>. A        |                        |
+|                 | <Closure Field> is a field that is initialized to a <Closure Expression>, |                 |
+|                 | e.g., <<<def myField = \{ println 12 \}>>>.                        |                        |
+*-----------------+--------------------------------------------------------------------+------------------------+
 
 
 * References
