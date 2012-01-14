@@ -16,7 +16,6 @@
  package org.gmetrics.metric.coverage
 
 import org.gmetrics.util.PathUtil
-import org.codehaus.groovy.ast.MethodNode
 
 /**
  * Provides utility methods to parse and compare Cobertura method signatures
@@ -43,10 +42,6 @@ class CoberturaSignatureParser {
         def astTypes = parseSignatureParameterTypes(signature)
         def coberturaTypes = parseCoberturaSignatureParameterTypes(coberturaSignature)
         return astTypes == coberturaTypes
-    }
-
-    static boolean matchesCoberturaMethod(MethodNode methodNode, String coberturaName, String coberturaSignature) {
-        return matchesCoberturaMethod(methodNode.name, methodNode.typeDescriptor, coberturaName, coberturaSignature)
     }
 
     static int numberOfParameters(String coberturaSignature) {

@@ -19,9 +19,9 @@ import org.codehaus.groovy.ast.ClassNode
 import org.gmetrics.metric.AbstractMetric
 import org.gmetrics.metric.MetricLevel
 import org.gmetrics.result.ClassMetricResult
+import org.gmetrics.result.MetricResult
 import org.gmetrics.result.SingleNumberMetricResult
 import org.gmetrics.source.SourceCode
-import org.gmetrics.result.MetricResult
 
 /**
  * Metric for counting the number of classes within each package.
