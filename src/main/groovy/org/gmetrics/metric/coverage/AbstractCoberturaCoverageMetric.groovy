@@ -29,13 +29,15 @@ import org.gmetrics.result.ClassMetricResult
 import org.gmetrics.source.SourceCode
 import org.gmetrics.result.MetricResultBuilder
 import org.gmetrics.util.AstUtil
+import org.gmetrics.metric.MethodMetric
+import org.codehaus.groovy.ast.expr.ClosureExpression
 
 /**
  * Abstract superclass for metrics that provide test code coverage from a Cobertura XML file.
  *
  * @author Chris Mair
  */
-abstract class AbstractCoberturaCoverageMetric extends AbstractMetric {
+abstract class AbstractCoberturaCoverageMetric extends AbstractMetric implements MethodMetric {
 
     protected static final int SCALE = 2
     protected static final int ROUNDING_MODE = BigDecimal.ROUND_HALF_UP
@@ -68,6 +70,19 @@ abstract class AbstractCoberturaCoverageMetric extends AbstractMetric {
     //------------------------------------------------------------------------------------
     // API and Template methods
     //------------------------------------------------------------------------------------
+
+    @Override
+    MetricResult applyToMethod(MethodNode methodNode, SourceCode sourceCode) {
+        if (!enabled) {
+            return null
+        }
+        return calculate(methodNode, sourceCode)
+    }
+
+    @Override
+    MetricResult applyToClosure(ClosureExpression closureExpression, SourceCode sourceCode) {
+        throw new UnsupportedOperationException("The [${getName()}] metric does not support Closures")
+    }
 
     @Override
     protected ClassMetricResult calculateForClass(ClassNode classNode, SourceCode sourceCode) {

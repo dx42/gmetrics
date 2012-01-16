@@ -26,6 +26,13 @@ class CyclomaticComplexityMetric_MethodTest extends AbstractMetricTestCase {
 
     static metricClass = CyclomaticComplexityMetric
 
+    void testApplyToMethod() {
+        final SOURCE = """
+            def myMethod() { }
+        """
+        assert applyToMethodValue(SOURCE) == 1
+    }
+
     void testCalculate_ReturnsOne_ForEmptyMethod() {
         final SOURCE = """
             def myMethod() { }

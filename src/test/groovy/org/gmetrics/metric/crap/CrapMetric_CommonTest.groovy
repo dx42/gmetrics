@@ -17,6 +17,7 @@ package org.gmetrics.metric.crap
 
 import org.gmetrics.result.StubMetricResult
 import org.gmetrics.metric.AbstractCommonMethodMetricTestCase
+import org.gmetrics.metric.MethodMetric
 
 /**
  * Tests for CrapMetric - common tests
@@ -31,7 +32,7 @@ class CrapMetric_CommonTest extends AbstractCommonMethodMetricTestCase {
     @Override
     void setUp() {
         super.setUp()
-        metric.coverageMetric = [calculate:{ methodNode, sourceCode -> new StubMetricResult(total:0.0) }]
+        metric.coverageMetric = [applyToMethod:{ methodNode, sourceCode -> new StubMetricResult(total:0.0) }] as MethodMetric
     }
 
 }

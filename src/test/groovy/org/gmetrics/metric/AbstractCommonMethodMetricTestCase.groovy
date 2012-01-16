@@ -24,7 +24,28 @@ package org.gmetrics.metric
  */
 abstract class AbstractCommonMethodMetricTestCase extends AbstractCommonMetricTestCase {
 
+    private static final SOURCE = '''
+        class MyClass {
+            def myClosure = { }
+            def myMethod() { }
+        }
+    '''
+
     static doesMetricTreatClosuresAsMethods = true
+
+    void testImplementsMethodMetricInterface() {
+        assert metric instanceof MethodMetric
+    }
+
+    void testApplyToMethod_EnabledIsFalse_ReturnsNull() {
+        metric.enabled = false
+        assert applyToMethod(SOURCE) == null
+    }
+
+    void testApplyToClosure_EnabledIsFalse_ReturnsNull() {
+        metric.enabled = false
+        assert applyToClosure(SOURCE) == null
+    }
 
     void testCalculate_Method_SetsLineNumber() {
         final SOURCE = """
@@ -35,12 +56,6 @@ abstract class AbstractCommonMethodMetricTestCase extends AbstractCommonMetricTe
     }
 
     void testCalculate_ClosureField_SetsLineNumber() {
-        final SOURCE = """
-            class MyClass {
-                def myClosure = {
-                }
-            }
-        """
         def metricResult = metric.calculate(findFirstField(SOURCE).initialExpression, sourceCode)
         if (getProperty('doesMetricTreatClosuresAsMethods')) {
             assertEquals 3, metricResult.lineNumber
@@ -53,8 +68,7 @@ abstract class AbstractCommonMethodMetricTestCase extends AbstractCommonMetricTe
     void testApplyToClass_IncludeClosureFieldsIsFalse_ReturnsNull() {
         final SOURCE = """
             class MyClass {
-                def myClosure = {
-                }
+                def myClosure = { }
             }
         """
         metric.includeClosureFields = false

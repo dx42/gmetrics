@@ -19,16 +19,25 @@ package org.gmetrics.metric.abc
  * Tests for AbcMetric for fields initialized to a Closure
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class AbcMetric_ClosureFieldTest extends AbstractAbcMetricTest {
+
     static metricClass = AbcMetric
+
+    void testApplyToClosure() {
+        final SOURCE = """
+            class MyClass {
+                def myClosure = { }
+            }
+        """
+        def result = applyToClosureValue(SOURCE)
+        AbcTestUtil.assertEquals(result, ZERO_VECTOR)
+    }
 
     void testCalculate_ZeroResultForEmptyClosure() {
         final SOURCE = """
             class MyClass {
-                def myClosure = {
-                }
+                def myClosure = { }
             }
         """
         assertCalculateForClosureField(SOURCE, ZERO_VECTOR)
