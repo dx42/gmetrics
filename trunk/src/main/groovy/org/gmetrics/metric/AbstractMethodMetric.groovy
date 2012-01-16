@@ -29,7 +29,7 @@ import org.gmetrics.result.MethodKey
  *
  * @author Chris Mair
  */
-abstract class AbstractMethodMetric extends AbstractMetric {
+abstract class AbstractMethodMetric extends AbstractMetric implements MethodMetric {
 
     final MetricLevel baseLevel = MetricLevel.METHOD
 
@@ -37,6 +37,22 @@ abstract class AbstractMethodMetric extends AbstractMetric {
 
     abstract MetricResult calculate(MethodNode methodNode, SourceCode sourceCode)
     abstract MetricResult calculate(ClosureExpression closureExpression, SourceCode sourceCode)
+
+    @Override
+    MetricResult applyToMethod(MethodNode methodNode, SourceCode sourceCode) {
+        if (!enabled) {
+            return null
+        }
+        return calculate(methodNode, sourceCode)
+    }
+
+    @Override
+    MetricResult applyToClosure(ClosureExpression closureExpression, SourceCode sourceCode) {
+        if (!enabled) {
+            return null
+        }
+        return calculate(closureExpression, sourceCode)
+    }
 
     protected ClassMetricResult calculateForClass(ClassNode classNode, SourceCode sourceCode) {
         Map<MethodKey, MetricResult> childMetricResults = [:]
@@ -82,4 +98,3 @@ abstract class AbstractMethodMetric extends AbstractMetric {
         }
     }
 }
-

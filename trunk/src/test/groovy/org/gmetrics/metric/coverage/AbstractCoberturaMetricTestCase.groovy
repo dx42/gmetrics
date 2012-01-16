@@ -19,6 +19,7 @@ import org.gmetrics.metric.AbstractMetricTestCase
 import org.gmetrics.metric.Metric
 import org.gmetrics.metric.MetricLevel
 import org.gmetrics.result.StubMetricResult
+import org.gmetrics.metric.MethodMetric
 
 /**
  * Abstract superclass for Cobertura Metric test classes
@@ -51,14 +52,26 @@ abstract class AbstractCoberturaMetricTestCase extends AbstractMetricTestCase {
         assert metric.baseLevel == MetricLevel.METHOD
     }
 
-    void testImplementsMetricInterface() {
-        assert metric instanceof Metric
+    void testImplementsMethodMetricInterface() {
+        assert metric instanceof MethodMetric
     }
 
 
     void testCanLoadCoberturaFileWithDTDSpecifyingUnreachableURI() {
         metric.coberturaFile = COBERTURA_XML_BAD_DTD
         metric.applyToPackage('whatever', null) == null
+    }
+
+    // Tests for applyToClosure()
+
+    void testApplyToClosure_ThrowsUnsupportedOperationException() {
+        final SOURCE = """
+            class MyClass {
+                def myClosure = { }
+            }
+        """
+        def closure = findFirstClosureExpression(SOURCE)
+        shouldFail(UnsupportedOperationException) { metric.applyToClosure(closure, sourceCode) }
     }
 
     // Tests for calculate()

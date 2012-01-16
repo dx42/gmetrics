@@ -25,6 +25,13 @@ import org.gmetrics.metric.AbstractMetricTestCase
 class MethodLineCountMetric_MethodTest extends AbstractMetricTestCase {
     static metricClass = MethodLineCountMetric
 
+    void testApplyToMethod() {
+        final SOURCE = """
+            def myMethod() { }
+        """
+        assert applyToMethodValue(SOURCE) == 1
+    }
+
     void testCalculate_CorrectSizeForSingleLineMethod() {
         final SOURCE = """
             def myMethod() { }

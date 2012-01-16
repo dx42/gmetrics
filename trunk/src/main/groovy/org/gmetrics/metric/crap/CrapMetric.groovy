@@ -23,6 +23,7 @@ import org.gmetrics.metric.cyclomatic.CyclomaticComplexityMetric
 import org.gmetrics.result.MetricResult
 import org.gmetrics.result.SingleNumberMetricResult
 import org.gmetrics.source.SourceCode
+import org.gmetrics.metric.MethodMetric
 
 /**
  * Metric to calculate the CRAP metric
@@ -37,8 +38,8 @@ class CrapMetric extends AbstractMethodMetric {
 
     final String name = 'CRAP'
 
-    Object coverageMetric // TODO type as Metric
-    Object complexityMetric = new CyclomaticComplexityMetric()   // TODO type as Metric
+    MethodMetric coverageMetric
+    MethodMetric complexityMetric = new CyclomaticComplexityMetric()
 
     @Override
     MetricResult calculate(ClosureExpression closureExpression, SourceCode sourceCode) {
@@ -54,13 +55,13 @@ class CrapMetric extends AbstractMethodMetric {
             return null
         }
 
-        def complexityResult = complexityMetric.calculate(methodNode, sourceCode)
+        def complexityResult = complexityMetric.applyToMethod(methodNode, sourceCode)
         if (complexityResult == null) {
             return null
         }
         def complexityValue = complexityResult['total']
 
-        def coverageResult = coverageMetric.calculate(methodNode, sourceCode)
+        def coverageResult = coverageMetric.applyToMethod(methodNode, sourceCode)
         if (coverageResult == null) {
             return null
         }

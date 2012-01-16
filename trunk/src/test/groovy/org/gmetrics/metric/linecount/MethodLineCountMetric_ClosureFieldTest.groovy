@@ -21,10 +21,19 @@ import org.gmetrics.metric.AbstractMetricTestCase
  * Tests for MethodLinesOfCodeMetric - calculate lines of code for closure fields
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class MethodLineCountMetric_ClosureFieldTest extends AbstractMetricTestCase {
+
     static metricClass = MethodLineCountMetric
+
+    void testApplyToClosure() {
+        final SOURCE = """
+            class MyClass {
+                def myClosure = { }
+            }
+        """
+        assert applyToClosureValue(SOURCE) == 1
+    }
 
     void testCalculate_CorrectSizeForSingleLineClosure() {
         final SOURCE = """

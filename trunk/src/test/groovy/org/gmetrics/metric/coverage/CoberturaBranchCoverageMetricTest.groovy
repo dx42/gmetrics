@@ -38,6 +38,29 @@ class CoberturaBranchCoverageMetricTest extends AbstractCoberturaMetricTestCase 
         assert metric.name == 'CoberturaBranchCoverage'
     }
 
+    // Tests for applyToMethod()
+
+    void testApplyToMethod_EnabledIsFalse_ReturnsNull() {
+        final SOURCE = """
+            package com.example.service
+            class Email {
+                String toString() { }
+            }
+        """
+        metric.enabled = false
+        assert applyToMethod(SOURCE) == null
+    }
+
+    void testApplyToMethod() {
+        final SOURCE = """
+            package com.example.service
+            class Email {
+                String toString() { }
+            }
+        """
+        assert applyToMethodValue(SOURCE) == 0.91
+    }
+
     // Tests for calculate()
 
     void testCalculate() {

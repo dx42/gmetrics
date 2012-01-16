@@ -18,6 +18,7 @@
 import org.gmetrics.metric.AbstractMetricTestCase
 import org.gmetrics.metric.cyclomatic.CyclomaticComplexityMetric
 import org.gmetrics.result.StubMetricResult
+import org.gmetrics.metric.MethodMetric
 
 /**
  * Tests for CrapMetric
@@ -39,8 +40,8 @@ class CrapMetricTest extends AbstractMetricTestCase {
     @Override
     void setUp() {
         super.setUp()
-        metric.coverageMetric = [calculate:{ methodNode, sourceCode -> coverageMetricResult }]
-        metric.complexityMetric = [calculate:{ methodNode, sourceCode -> complexityMetricResult }]
+        metric.coverageMetric = [applyToMethod:{ methodNode, sourceCode -> coverageMetricResult }] as MethodMetric
+        metric.complexityMetric = [applyToMethod:{ methodNode, sourceCode -> complexityMetricResult }] as MethodMetric
     }
 
     void testMetricName() {
@@ -59,6 +60,10 @@ class CrapMetricTest extends AbstractMetricTestCase {
     void testCalculate_ComplexityMetricNotSet_ThrowsException() {
         metric.complexityMetric = null
         shouldFailWithMessageContaining('complexityMetric') { assert calculateForMethod(SOURCE) }
+    }
+
+    void testApplyToMethod() {
+        assert applyToMethodValue(SOURCE) == DEFAULT_CRAP
     }
 
     void testCalculate_Valid_Values1() {

@@ -21,16 +21,24 @@ import org.gmetrics.metric.AbstractMetricTestCase
  * Tests for CyclomaticComplexityMetric - for closure fields
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class CyclomaticComplexityMetric_ClosureFieldTest extends AbstractMetricTestCase {
+
     static metricClass = CyclomaticComplexityMetric
+
+    void testApplyToClosure() {
+        final SOURCE = """
+            class MyClass {
+                def myClosure = { }
+            }
+        """
+        assert applyToClosureValue(SOURCE) == 1
+    }
 
     void testCalculate_ReturnsOne_ForEmptyClosureField() {
         final SOURCE = """
             class MyClass {
-                def myClosure = {
-                }
+                def myClosure = { }
             }
         """
         assert calculateForClosureField(SOURCE) == 1

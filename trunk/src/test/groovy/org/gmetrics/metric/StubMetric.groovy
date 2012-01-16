@@ -19,6 +19,8 @@ import org.gmetrics.result.ClassMetricResult
 import org.codehaus.groovy.ast.ClassNode
 import org.gmetrics.source.SourceCode
 import org.gmetrics.result.MetricResult
+import org.codehaus.groovy.ast.MethodNode
+import org.codehaus.groovy.ast.expr.ClosureExpression
 
 /**
  * Stub implementation of the Metric interface, for testing.
@@ -26,26 +28,41 @@ import org.gmetrics.result.MetricResult
  * @author Chris Mair
  */
 @SuppressWarnings('UnusedMethodParameter')
-class StubMetric implements Metric {
+class StubMetric implements MethodMetric {
 
     boolean enabled = true
     String name = 'Stub'
     MetricLevel baseLevel = MetricLevel.METHOD
     ClassMetricResult classMetricResult
     MetricResult packageMetricResult
+    MetricResult methodMetricResult
+    MetricResult closureMetricResult
     String packageName
     def otherProperty
     List<String> functions = ['total', 'average']
 
+    @Override
     ClassMetricResult applyToClass(ClassNode classNode, SourceCode sourceCode) {
         return classMetricResult
     }
 
+    @Override
     MetricResult applyToPackage(String packageName, Collection childMetricResults) {
         this.packageName = packageName
         return packageMetricResult
     }
 
+    @Override
+    MetricResult applyToMethod(MethodNode methodNode, SourceCode sourceCode) {
+        return methodMetricResult
+    }
+
+    @Override
+    MetricResult applyToClosure(ClosureExpression closureExpression, SourceCode sourceCode) {
+        return closureMetricResult
+    }
+
+    @Override
     String toString() {
         "StubMetric[name=$name, baseLevel=$baseLevel, otherProperty=$otherProperty]"
     }

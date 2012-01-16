@@ -46,6 +46,28 @@ abstract class AbstractMetricTestCase extends AbstractTestCase {
         metric = mClass.newInstance()
     }
 
+    protected applyToMethod(String source) {
+        return metric.applyToMethod(findFirstMethod(source), sourceCode)
+    }
+
+    protected applyToMethodValue(String source) {
+        def metricResult = metric.applyToMethod(findFirstMethod(source), sourceCode)
+        log("metricResult=$metricResult")
+        assertMetricForMetricResult(metricResult)
+        return valueFromMetricResult(metricResult)
+    }
+
+    protected applyToClosure(String source) {
+        return metric.applyToClosure(findFirstClosureExpression(source), sourceCode)
+    }
+
+    protected applyToClosureValue(String source) {
+        def metricResult = metric.applyToClosure(findFirstClosureExpression(source), sourceCode)
+        log("metricResult=$metricResult")
+        assertMetricForMetricResult(metricResult)
+        return valueFromMetricResult(metricResult)
+    }
+
     protected calculate(node) {
         def metricResult = metric.calculate(node, sourceCode)
         log("metricResult=$metricResult")
@@ -92,10 +114,14 @@ abstract class AbstractMetricTestCase extends AbstractTestCase {
     }
 
     protected calculateForClosureField(String source) {
+        return calculate(findFirstClosureExpression(source))
+    }
+
+    protected ClosureExpression findFirstClosureExpression(String source) {
         def fieldNode = findFirstField(source)
         assert fieldNode.initialExpression
         assert fieldNode.initialExpression instanceof ClosureExpression
-        return calculate(fieldNode.initialExpression)
+        return fieldNode.initialExpression
     }
 
     protected applyToClass(String source) {

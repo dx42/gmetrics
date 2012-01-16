@@ -21,7 +21,16 @@ package org.gmetrics.metric.abc
  * @author Chris Mair
  */
 class AbcMetric_MethodTest extends AbstractAbcMetricTest {
+
     static metricClass = AbcMetric
+
+    void testApplyToMethod() {
+        final SOURCE = """
+            def myMethod() { }
+        """
+        def result = applyToMethodValue(SOURCE)
+        AbcTestUtil.assertEquals(result, ZERO_VECTOR)
+    }
 
     void testCalculate_ReturnsNullForAbstractMethodDeclaration() {
         final SOURCE = """
