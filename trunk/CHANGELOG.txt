@@ -2,6 +2,37 @@ GMetrics Change Log
 -------------------------------------------------------------------------------
 http://www.gmetrics.org
 
+Changes in version 0.5 (Jan 2012)
+--------------------------------------
+NEW METRICS
+- New CoberturaBranchCoverageMetric. Branch coverage at method/class/package level. Requires a Cobertura "coverage.xml" file. (#3474462)
+- New CoberturaLineCoverageMetric. Line coverage at method/class/package level. Requires a Cobertura "coverage.xml" file. (#3474462)
+- New CrapMetric. Calculated the CRAP score for a method, based on its complexity and code coverage. Requires a Cobertura "coverage.xml" file. (#3192158.)
+
+NEW FEATURES
+- MetricSet DSL: Return value from each metric in the metric set; Allow storing metric in variable. #3465486.
+  This is useful for composite Metrics that require other metric values to calculate results (e.g. CrapMetric). If a metric is
+  defined within another metric definition (assigned to a field), do not include as a standalone metric in the metric set.
+
+INTEGRATION WITH OTHER TOOLS
+- If you use GMetric with CodeNarc, this release requires CodeNarc 0.16.
+
+FIXES AND ENHANCEMENTS
+- Method-level Metrics: Handle multiple overloaded methods. (#3439103). Use MethodKey class.
+- Fix: For SingleSeries package-level reports, show the full package name, not just the rightmost part of the package name. (#3439104).
+- Add includeClosureFields property to AbstractMethodMetric. Defaults to true.
+- Add String getSignature() method to MethodResultsNode and MethodKey. Add signature attribute to Method elements in XmlReportWriter. #3444707.
+
+FRAMEWORK/API CHANGES  (Potential breaking changes if you have implemented your own Metrics)
+- Change Metric and AbstractMetric to add packageName to applyToPackage(): applyToPackage(String packageName, Collection<MetricResult> childMetricResults). (Breaking Change). (#3465484)
+- Introduce new MethodMetric (extends Metric) interface: applyToMethod() and applyToClosure().
+- Create MethodKey class, with MethodKey(MethodNode) and MethodKey(String) constructors and String getMethodName() method, along with equals() and hashCode().
+- Introduce Formatter framework. Enable configuring Formatter for Metric within "gmetrics-base-messages.properties".
+- Reorganize MetricResult implementation classes; rename NumberMetricResult to SingleNumberMetricResult; Create new
+  NumberMetricResult: allows setting values for total, average, min, max.
+- AggregateNumberMetricResult: Add support for predefinedValues.
+
+
 Changes in version 0.4 (Oct 2011)
 --------------------------------------
 NEW FEATURES
