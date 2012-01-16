@@ -21,9 +21,9 @@
     <url>http://gmetrics.sourceforge.net/</url>
 
     <scm>
-        <connection>scm:svn:https://gmetrics.svn.sourceforge.net/svnroot/gmetrics/tags/GMetrics-0.4</connection>
-        <developerConnection>scm:svn:https://gmetrics.svn.sourceforge.net/svnroot/gmetrics/tags/GMetrics-0.4</developerConnection>
-        <url>https://gmetrics.svn.sourceforge.net/svnroot/gmetrics/tags/GMetrics-0.4</url>
+        <connection>scm:svn:https://gmetrics.svn.sourceforge.net/svnroot/gmetrics/tags/GMetrics-0.5</connection>
+        <developerConnection>scm:svn:https://gmetrics.svn.sourceforge.net/svnroot/gmetrics/tags/GMetrics-0.5</developerConnection>
+        <url>https://gmetrics.svn.sourceforge.net/svnroot/gmetrics/tags/GMetrics-0.5</url>
     </scm>
 
     <dependencies>
