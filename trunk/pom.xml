@@ -5,7 +5,7 @@
     <groupId>org.gmetrics</groupId>
     <artifactId>GMetrics</artifactId>
     <name>GMetrics</name>
-    <version>0.5</version>
+    <version>0.6-SNAPSHOT</version>
 
     <parent>
         <groupId>org.sonatype.oss</groupId>
