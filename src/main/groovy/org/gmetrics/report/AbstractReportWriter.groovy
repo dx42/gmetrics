@@ -52,7 +52,7 @@ abstract class AbstractReportWriter implements ReportWriter {
     protected initializeResourceBundle = { initializeDefaultResourceBundle() }
     protected getTimestamp = { new Date() }
 
-    abstract void writeReport(Writer writer, ResultsNode resultsNode, AnalysisContext analysisContext)
+    protected abstract void writeReport(Writer writer, ResultsNode resultsNode, AnalysisContext analysisContext)
 
     void writeReport(ResultsNode resultsNode, AnalysisContext analysisContext) {
         assert analysisContext
