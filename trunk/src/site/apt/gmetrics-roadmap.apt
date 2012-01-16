@@ -13,14 +13,3 @@ GMetrics - Road Map
 
   * More metrics
 
-  * Analyze source code within jar files or zip files.
-
-
-** Considering (Optional)
-~~~~~~~~~~~~~~~~~~~~~~~~~
-
-  * Create Maven plugin.
-
-  * Create Hudson plugin.
-
-

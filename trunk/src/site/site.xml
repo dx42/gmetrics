@@ -27,7 +27,6 @@
         <menu name="General">
             <item name="Home" href="/index.html"/>
             <item name="Downloads" href="http://sourceforge.net/projects/gmetrics/files/"/>
-            <item name="Road Map" href="/gmetrics-roadmap.html"/>
             <item name="Javadocs" href="/apidocs/index.html"/>
             <item name="SourceForge Project" href="http://sourceforge.net/projects/gmetrics"/>
         </menu>
