@@ -31,6 +31,7 @@ FRAMEWORK/API CHANGES  (Potential breaking changes if you have implemented your 
 - Reorganize MetricResult implementation classes; rename NumberMetricResult to SingleNumberMetricResult; Create new
   NumberMetricResult: allows setting values for total, average, min, max.
 - AggregateNumberMetricResult: Add support for predefinedValues.
+- Change writeReport(Writer writer, ResultsNode resultsNode, AnalysisContext analysisContext) to protected
 
 
 Changes in version 0.4 (Oct 2011)
