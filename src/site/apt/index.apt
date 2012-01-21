@@ -17,9 +17,17 @@ GMetrics
 
   * {{{./gmetrics-ABCMetric.html}ABC}} Size/Complexity. Also see the {{{http://c2.com/cgi/wiki?AbcMetric}C2 Wiki page}}.
 
+  * {{{./gmetrics-CoberturaLineCoverageMetric.html}Cobertura line coverage}} and {{{./gmetrics-CoberturaBranchCoverageMetric.html}Cobertura branch coverage}}
+
+  * {{{./gmetrics-CrapMetric.html}CRAP}} - (Change Risk Anti-Patterns) score
+
   * {{{./gmetrics-MethodLineCountMetric.html}Lines per method}}
 
   * {{{./gmetrics-ClassLineCountMetric.html}Lines per class}}
+
+  * {{{./gmetrics-ClassCountMetric.html}Number of classes per package}}
+
+  * {{{./gmetrics-FieldCountMetric.html}Number of field per class}}
 
   []
 
