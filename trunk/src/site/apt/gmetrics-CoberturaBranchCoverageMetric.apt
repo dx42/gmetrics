@@ -50,9 +50,19 @@ CoberturaBranchCoverage Metric
 *-----------------+--------------------------------------------------------------------+------------------------+
 
 
+* Known Limitations
+~~~~~~~~~~~~~~~~~~~~
+
+  This metric does not calculate coverage for <Closure Fields> (fields initialized to a <Closure Expression>),
+  unlike some other <method>-level metrics.
+
 
 * References
 ~~~~~~~~~~~~
 
  * {{{http://cobertura.sourceforge.net/}Cobertura}} -- <Cobertura is a free Java tool that calculates the percentage
  of code accessed by tests. It can be used to identify which parts of your Java program are lacking test coverage.>
+
+ * {{{http://cobertura.sourceforge.net/anttaskreference.html}Cobertura Ant Task Reference}}
+
+ * {{{http://mojo.codehaus.org/cobertura-maven-plugin/index.html}Cobertura Maven Plugin}}
