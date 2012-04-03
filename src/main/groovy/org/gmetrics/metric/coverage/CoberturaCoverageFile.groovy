@@ -37,6 +37,7 @@ class CoberturaCoverageFile {
     private xml
     private String attributeName
     private String packageNamePrefixes
+    private coberturaXmlFileLoadLock = new Object()
     private ResourceFactory resourceFactory = new DefaultResourceFactory()
 
     CoberturaCoverageFile(String coberturaFile, String attributeName, String packageNamePrefixes) {
@@ -123,6 +124,7 @@ class CoberturaCoverageFile {
     }
 
     protected GPathResult getCoberturaXml() {
+        synchronized(coberturaXmlFileLoadLock) {
             if (xml == null) {
                 assert coberturaFile
                 LOG.info("Loading Cobertura XML file [$coberturaFile]")
@@ -130,6 +132,7 @@ class CoberturaCoverageFile {
                 def xmlSlurper = createNonValidatingXmlSlurper()
                 xml = xmlSlurper.parse(inputStream)
             }
+        }
         return xml
     }
 
