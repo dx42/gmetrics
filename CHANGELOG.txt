@@ -2,6 +2,12 @@ GMetrics Change Log
 -------------------------------------------------------------------------------
 http://www.gmetrics.org
 
+Changes in version 0.6 (??? 2012)
+--------------------------------------
+FIXES AND ENHANCEMENTS
+- #3508192: Make CoberturaCoverageFile threadsafe.
+
+
 Changes in version 0.5 (Jan 2012)
 --------------------------------------
 NEW METRICS
