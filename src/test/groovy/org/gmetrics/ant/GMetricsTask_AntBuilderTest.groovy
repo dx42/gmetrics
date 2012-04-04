@@ -110,7 +110,7 @@ class GMetricsTask_AntBuilderTest extends AbstractTestCase {
            }
         }
         verifyReportFile(ALL_HTML_REPORT_FILE, [TITLE, 'org.gmetrics.metric', 'Description'])
-        allMetricSetFile.delete()
+//        allMetricSetFile.delete()
     }
 
     void testAntTask_Execute_SpecifyMetricSetFile() {
@@ -148,7 +148,8 @@ class GMetricsTask_AntBuilderTest extends AbstractTestCase {
         def specialProperties = [
             CoberturaBranchCoverage: "(coberturaFile: $COBERTURA_FILE)",
             CoberturaLineCoverage: "(coberturaFile: $COBERTURA_FILE)",
-            CRAP: "{ coverageMetric = CoberturaLineCoverage(coberturaFile: $COBERTURA_FILE)}"
+            CRAP: "{ coverageMetric = CoberturaLineCoverage(coberturaFile: $COBERTURA_FILE)}",
+            CyclomaticComplexity: "(functions:['average'])"
         ]
 
         allMetricSetFile.withWriter { w ->

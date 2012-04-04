@@ -166,11 +166,20 @@ class MetricResultBuilderTest extends AbstractTestCase {
     }
 
     void testUsesFunctionNamesFromMetric() {
-        final FUNCTION_NAMES = [AVERAGE, MAXIMUM]
+        final FUNCTION_NAMES = [TOTAL, MAXIMUM]
         def metric = [getName:{'TestMetric'}, getFunctions:{ FUNCTION_NAMES }] as Metric
         metricResultBuilder = new MetricResultBuilder(metric:metric, metricLevel:MetricLevel.METHOD)
         def result = metricResultBuilder.createAggregateMetricResult([], LINE_NUM)
-        assertMetricResultFunctionValues(result, [average:0, total:null, minimum:null, maximum:0])
+        assertMetricResultFunctionValues(result, [average:null, total:0, minimum:null, maximum:0])
+    }
+
+    void testCalculatesTotal_IfMetricSpecifiesAverage_EvenIfTotalNotSpecified() {
+        final FUNCTION_NAMES = [AVERAGE, MAXIMUM]
+        def metric = [getName:{'TestMetric'}, getFunctions:{ FUNCTION_NAMES }] as Metric
+        def children = [new StubMetricResult(count:3, total:10, maximum:7)]
+        metricResultBuilder = new MetricResultBuilder(metric:metric, metricLevel:MetricLevel.METHOD)
+        def result = metricResultBuilder.createAggregateMetricResult(children, LINE_NUM)
+        assertMetricResultFunctionValues(result, [average:scale(10/3), total:10, minimum:null, maximum:7])
     }
 
     //--------------------------------------------------------------------------
