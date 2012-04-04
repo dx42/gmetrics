@@ -49,10 +49,12 @@ class SingleNumberMetricResult implements MetricResult {
         this.lineNumber = lineNumber
     }
 
+    @Override
     Object getAt(String name) {
-        return name in metric.functions ? number : null
+        return number
     }
 
+    @Override
     String toString() {
         "SingleNumberMetricResult[metric=${metric.name}, $number]"
     }

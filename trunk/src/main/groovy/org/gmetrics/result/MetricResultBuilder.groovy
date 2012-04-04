@@ -119,7 +119,12 @@ class MetricResultBuilder {
     }
 
     private boolean shouldCalculateFunction(String functionName, Map<String,Number> functionValues) {
-        return functionName in metric.functions && !functionValues?.containsKey(functionName)
+        return isFunctionSpecifiedOrImplied(functionName) && !functionValues?.containsKey(functionName)
+    }
+
+    private boolean isFunctionSpecifiedOrImplied(String functionName) {
+        // Ensure TOTAL is included if AVERAGE is included
+        return functionName in metric.functions || (functionName == FunctionNames.TOTAL && metric.functions.contains(FunctionNames.AVERAGE))
     }
 
 }

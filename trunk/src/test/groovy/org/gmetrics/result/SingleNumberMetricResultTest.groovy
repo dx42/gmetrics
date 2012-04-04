@@ -86,19 +86,19 @@ class SingleNumberMetricResultTest extends AbstractTestCase {
         assert result.getCount() == 1
     }
 
-    void testGetValueForUnknownFunctionIsNull() {
-        def result = new SingleNumberMetricResult(METRIC, MetricLevel.METHOD, 0.23456)
-        assert result['xxx'] == null
-    }
+//    void testGetValueForUnknownFunctionIsNull() {
+//        def result = new SingleNumberMetricResult(METRIC, MetricLevel.METHOD, 0.23456)
+//        assert result['xxx'] == null
+//    }
 
-    void testUsesFunctionNamesFromMetric() {
-        final FUNCTION_NAMES = ['average', 'maximum']
-        def metric = [getName:{'TestMetric'}, getFunctions:{ FUNCTION_NAMES }] as Metric
-        def result = new SingleNumberMetricResult(metric, MetricLevel.METHOD, 1)
-        assert result['average'] != null
-        assert result['maximum'] != null
-        assert result['total'] == null
-        assert result['minimum'] == null
-    }
+//    void testUsesFunctionNamesFromMetric() {
+//        final FUNCTION_NAMES = ['average', 'maximum']
+//        def metric = [getName:{'TestMetric'}, getFunctions:{ FUNCTION_NAMES }] as Metric
+//        def result = new SingleNumberMetricResult(metric, MetricLevel.METHOD, 1)
+//        assert result['average'] != null
+//        assert result['maximum'] != null
+//        assert result['total'] == null
+//        assert result['minimum'] == null
+//    }
 
 }

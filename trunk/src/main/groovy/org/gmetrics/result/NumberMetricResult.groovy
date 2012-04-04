@@ -52,7 +52,7 @@ class NumberMetricResult implements MetricResult {
     }
 
     Object getAt(String name) {
-        return name in metric.functions ? values[name] : null
+        return values[name]
     }
 
     String toString() {

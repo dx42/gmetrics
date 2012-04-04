@@ -96,14 +96,14 @@ class NumberMetricResultTest extends AbstractTestCase {
         assert result['xxx'] == null
     }
 
-    void testUsesFunctionNamesFromMetric() {
-        final FUNCTION_NAMES = ['average', 'maximum']
-        def metric = [getName:{'TestMetric'}, getFunctions:{ FUNCTION_NAMES }] as Metric
-        def result = new NumberMetricResult(metric, MetricLevel.METHOD, [total:2, average:3, maximum:4, minimum:5])
-        assert result['average'] != null
-        assert result['maximum'] != null
-        assert result['total'] == null
-        assert result['minimum'] == null
-    }
+//    void testUsesFunctionNamesFromMetric() {
+//        final FUNCTION_NAMES = ['average', 'maximum']
+//        def metric = [getName:{'TestMetric'}, getFunctions:{ FUNCTION_NAMES }] as Metric
+//        def result = new NumberMetricResult(metric, MetricLevel.METHOD, [total:2, average:3, maximum:4, minimum:5])
+//        assert result['average'] != null
+//        assert result['maximum'] != null
+//        assert result['total'] == null
+//        assert result['minimum'] == null
+//    }
 
 }
