@@ -20,7 +20,6 @@ import org.gmetrics.metric.AbstractMetric
 import org.gmetrics.metric.MetricLevel
 import org.gmetrics.result.ClassMetricResult
 import org.gmetrics.result.MetricResult
-import org.gmetrics.result.SingleNumberMetricResult
 import org.gmetrics.source.SourceCode
 import org.gmetrics.result.MapMetricResult
 
@@ -35,7 +34,7 @@ class EfferentCouplingMetric extends AbstractMetric {
     final MetricLevel baseLevel = MetricLevel.PACKAGE
     String ignorePackageNames
 
-    @SuppressWarnings('UnusedMethodParameter')
+    @Override
     protected ClassMetricResult calculateForClass(ClassNode classNode, SourceCode sourceCode) {
         def visitor = new PackageReferenceAstVisitor(ignorePackageNames)
         visitor.setSourceCode(sourceCode)
@@ -46,10 +45,13 @@ class EfferentCouplingMetric extends AbstractMetric {
         return new ClassMetricResult(metricResult)
     }
 
-    @SuppressWarnings('UnusedMethodParameter')
+    @Override
     protected MetricResult calculateForPackage(String packageName, Collection<MetricResult> childMetricResults) {
-        def numClasses = childMetricResults.inject(0) { sum, result -> result.metricLevel == MetricLevel.CLASS ? sum+1 : sum }
-        return new SingleNumberMetricResult(this, MetricLevel.PACKAGE, numClasses)
+        Set referencedPackages = []
+        childMetricResults.each { childMetricResult ->
+            referencedPackages.addAll(childMetricResult['referencedPackages'])
+        }
+        return new MapMetricResult(this, MetricLevel.PACKAGE, [referencedPackages:referencedPackages])
     }
 
 }

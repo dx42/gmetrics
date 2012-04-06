@@ -31,7 +31,7 @@ import org.codehaus.groovy.ast.expr.*
  */
 class PackageReferenceAstVisitor extends AbstractAstVisitor {
 
-    final Set otherPackages = []
+    final Set<String> otherPackages = []
 
     private WildcardPattern wildcard
     private WildcardPattern javaAndGroovyWildcard = new WildcardPattern('java.*,groovy.*')
