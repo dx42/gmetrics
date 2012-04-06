@@ -22,6 +22,7 @@ import org.gmetrics.result.MetricResult
 
 import org.gmetrics.result.MethodKey
 import org.gmetrics.result.SingleNumberMetricResult
+import org.gmetrics.result.ClassMetricResult
 
 /**
  * Abstract superclass for metric test classes.
@@ -131,13 +132,18 @@ abstract class AbstractMetricTestCase extends AbstractTestCase {
         return results
     }
 
-    protected void assertApplyToClass(String source, classTotalValue, classAverageValue=classTotalValue, Map methodValues=null) {
+    protected ClassMetricResult assertApplyToClass(String source, Map classLevelValues) {
         def results = applyToClass(source)
         def classMetricResult = results.classMetricResult
         assert classMetricResult.metricLevel == MetricLevel.CLASS
-        assertEquals('average', classAverageValue, classMetricResult['average'])
-        assertEquals('total', classTotalValue, classMetricResult['total'])
+        classLevelValues.each { key, value ->
+            assertEquals(key, value, classMetricResult[key])
+        }
+        return results
+    }
 
+    protected void assertApplyToClass(String source, classTotalValue, classAverageValue=classTotalValue, Map methodValues=null) {
+        def results = assertApplyToClass(source, [total:classTotalValue, average:classAverageValue])
         def methodMetricResults = results.methodMetricResults
         assertBothAreFalseOrElseNeitherIs(methodValues, methodMetricResults) 
 
