@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 the original author or authors.
+ * Copyright 2012 the original author or authors.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,11 +19,13 @@ import org.gmetrics.metric.AbstractMetricTestCase
 import org.gmetrics.metric.MetricLevel
 
 /**
- * Tests for EfferentCouplingMetric
+ * Tests for applying EfferentCouplingMetric at the class level
+ *
+ * @see EfferentCouplingMetric_PackageTest
  *
  * @author Chris Mair
  */
-class EfferentCouplingMetricTest extends AbstractMetricTestCase {
+class EfferentCouplingMetric_ClassTest extends AbstractMetricTestCase {
 
     static metricClass = EfferentCouplingMetric
 
@@ -225,38 +227,6 @@ class EfferentCouplingMetricTest extends AbstractMetricTestCase {
         """
         assertApplyToClass(SOURCE, [])
     }
-
-    // Tests for applyToPackage()
-
-    void testApplyToPackage_ResultsForNoChildren() {
-        assertApplyToPackage([], 0, 0)
-    }
-
-    void testApplyToPackage_ResultsForOneChildClass() {
-        assertApplyToPackage([metricResultForClass(1)], 1, 1)
-    }
-
-    void testApplyToPackage_ResultsForThreeChildClasses() {
-        assertApplyToPackage([metricResultForClass(1), metricResultForClass(1), metricResultForClass(1)], 3, 3)
-    }
-
-    void testApplyToPackage_ResultsForClassesAndSubPackages_IgnoreSubPackages() {
-        assertApplyToPackage([
-            metricResultForClass(1), metricResultForClass(1), metricResultForPackage(99), metricResultForClass(1)
-        ], 3, 3)
-    }
-
-//    void testApplyToPackage_ResultsForNoChildren() {
-//        assertApplyToPackage([], 0, 0)
-//    }
-//
-//    void testApplyToPackage_ResultsForOneChild() {
-//        assertApplyToPackage([metricResult(23)], 23, 23)
-//    }
-//
-//    void testApplyToPackage_ResultsForThreeChildren() {
-//        assertApplyToPackage([metricResult(20), metricResult(6), metricResult(4)], 30, 10)
-//    }
 
     //------------------------------------------------------------------------------------
     // Helper Methods
