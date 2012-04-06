@@ -34,7 +34,7 @@ import org.gmetrics.metric.crap.CrapMetric
  */
 class DefaultMetricRegistry implements MetricRegistry {
 
-    private static final METRIC_CLASSES = [
+    public static final METRIC_CLASSES = [
         AbcMetric,
         CoberturaBranchCoverageMetric,
         CoberturaLineCoverageMetric,
