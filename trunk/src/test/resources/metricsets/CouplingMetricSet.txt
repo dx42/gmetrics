@@ -1,0 +1,9 @@
+// MetricSet for testing coupling metrics
+
+metricset {
+
+    EfferentCoupling {
+        functions = ['total', 'referencedPackages']
+    }
+
+}

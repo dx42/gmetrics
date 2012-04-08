@@ -1,0 +1,54 @@
+		--------------------------------------------------
+			   GMetrics - Efferent Coupling Metric
+		--------------------------------------------------
+
+Efferent Coupling Metric
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  Calculates the <<Efferent Coupling>> for a package. This is a count of the number of other packages
+  that the classes in a package depend upon, and is an indicator of the package's independence ([1]).
+  This is a <<package>>-level metric.
+
+ Implemented by the <<<org.gmetrics.metric.coupling.EfferentCouplingMetric>>> class.
+
+
+* Metric Properties
+~~~~~~~~~~~~~~~~~~~
+
+  The following properties can be configured for this metric within a <MetricSet>. See
+  {{{./gmetrics-creating-metricset.html}Creating a MetricSet}} for information on the syntax of
+  setting a metric property.
+
+*-----------------+--------------------------------------------------------------------+------------------------+
+| <<Property>>    | <<Description>>                                                    | <<Default Value>>      |
+*-----------------+--------------------------------------------------------------------+------------------------+
+| enabled         | This <<<boolean>>> property controls whether the metric is         | <<<true>>>             |
+|                 | <enabled>. If set to <<<false>>>, then the metric is not included  |                        |
+|                 | as part of the results or the output reports.                      |                        |
+*-----------------+--------------------------------------------------------------------+------------------------+
+| functions       | This <<<List\<String\>>>> property contains the names of the functions| <<<["total","average"]>>>|
+|                 | to be calculated at the <package> level.                           |                        |
+|                 | and (potentially) included within the report(s). Valid values are:\ |                       |
+|                 |   \ - "total"\                                                     |                        |
+|                 |   \ - "average"\                                                   |                        |
+|                 |   \ - "minimum"\                                                   |                        |
+|                 |   \ - "maximum"\                                                   |                        |
+|                 |   \ - "referencedPackages" - the list of referenced packages       |                        |
+*-----------------+--------------------------------------------------------------------+------------------------+
+
+
+* References
+~~~~~~~~~~~~
+
+ * <<[1]>> The {{{http://en.wikipedia.org/wiki/Software_package_metrics}The <Wikipedia> page for <Software package metrics>}}.
+
+ * <<[2]>> {{{http://www.ibm.com/developerworks/java/library/j-cq04256/}"CodeQuality for Software Architects: Use coupling metrics to support your system architecture"}} -
+   Andrew Glover, part of the "In pursuit of code quality" series in <developerWorks>.
+   This article includes a discussion of <<Efferent Coupling>>, among other metrics.
+
+ * <<[3]>> {{{http://www.spinellis.gr/codequality/}Code Quality: The Open Source Perspective}} - Diomidis Spinellis. Addison Wesley, 2006.
+
+ * <<[4]>> {{{http://www.amazon.com/exec/obidos/ASIN/0135974445/objectmentorinc}Agile Software Development, Principles, Patterns, and Practices}} -
+    Robert C. Martin. Prentice Hall, 2002.
+
+

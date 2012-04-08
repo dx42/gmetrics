@@ -61,6 +61,7 @@
             <item name="CoberturaLineCoverageMetric" href="/gmetrics-CoberturaLineCoverageMetric.html"/>
             <item name="CrapMetric" href="/gmetrics-CrapMetric.html"/>
             <item name="CyclomaticComplexity" href="/gmetrics-CyclomaticComplexityMetric.html"/>
+            <item name="EfferentCoupling" href="/gmetrics-EfferentCouplingMetric.html"/>
             <item name="FieldCount" href="/gmetrics-FieldCountMetric.html"/>
             <item name="MethodLineCount" href="/gmetrics-MethodLineCountMetric.html"/>
             <item name="MethodCount" href="/gmetrics-MethodCountMetric.html"/>
