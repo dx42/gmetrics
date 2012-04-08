@@ -46,9 +46,11 @@ class ClassNameUtilTest extends AbstractTestCase {
         assert !ClassNameUtil.isClassName('')
         assert !ClassNameUtil.isClassName('abc')
         assert !ClassNameUtil.isClassName('abc.def')
+        assert !ClassNameUtil.isClassName('abc.someValue')
         assert ClassNameUtil.isClassName('abc.def.MyClass')
         assert !ClassNameUtil.isClassName('abc.def.MyClass.CONSTANT')
         assert !ClassNameUtil.isClassName('abc.def.MyClass.count')
+        assert !ClassNameUtil.isClassName('abc.def.MyClass.someValue')
     }
 
 

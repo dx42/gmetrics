@@ -149,7 +149,8 @@ class GMetricsTask_AntBuilderTest extends AbstractTestCase {
             CoberturaBranchCoverage: "(coberturaFile: $COBERTURA_FILE)",
             CoberturaLineCoverage: "(coberturaFile: $COBERTURA_FILE)",
             CRAP: "{ coverageMetric = CoberturaLineCoverage(coberturaFile: $COBERTURA_FILE)}",
-            CyclomaticComplexity: "(functions:['average'])"
+            CyclomaticComplexity: "(functions:['average'])",
+            EfferentCoupling: "(functions:['total', 'referencedPackages'])"
         ]
 
         allMetricSetFile.withWriter { w ->
