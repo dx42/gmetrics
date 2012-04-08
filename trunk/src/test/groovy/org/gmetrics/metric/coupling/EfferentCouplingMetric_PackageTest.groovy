@@ -19,6 +19,7 @@ import org.gmetrics.metric.AbstractMetricTestCase
 import org.gmetrics.metric.MetricLevel
 import org.gmetrics.result.MapMetricResult
 import org.gmetrics.result.MetricResult
+import org.gmetrics.result.FunctionNames
 
 /**
  * Tests for applying the EfferentCouplingMetric at the package level
@@ -57,6 +58,7 @@ class EfferentCouplingMetric_PackageTest extends AbstractMetricTestCase {
         def metricResult = metric.applyToPackage(packageName, childMetricResults)
         assert metricResult, "No MetricResult for package [$packageName]"
         assert metricResult['referencedPackages'] == referencedPackages as Set
+        assert metricResult[FunctionNames.TOTAL] == referencedPackages.size()
     }
 
     private MetricResult metricResult(Collection<String> referencedPackages) {

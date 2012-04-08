@@ -22,7 +22,7 @@
  */
 class ClassNameUtil {
 
-    private static final UPPER_CASE = /[A-Z].*/
+    private static final UPPER_CASE = ~/[A-Z].*/
 
     static String parentPackageName(String typeName) {
         if (typeName?.contains('.')) {
@@ -51,7 +51,7 @@ class ClassNameUtil {
     }
 
     private static boolean isCapitalized(String name) {
-        return name =~ UPPER_CASE
+        return name ? UPPER_CASE.matcher(name).matches() : false
     }
 
     /**

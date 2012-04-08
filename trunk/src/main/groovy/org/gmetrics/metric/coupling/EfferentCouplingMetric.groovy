@@ -15,6 +15,8 @@
  */
 package org.gmetrics.metric.coupling
 
+import static org.gmetrics.result.FunctionNames.*
+
 import org.codehaus.groovy.ast.ClassNode
 import org.gmetrics.metric.AbstractMetric
 import org.gmetrics.metric.MetricLevel
@@ -51,7 +53,8 @@ class EfferentCouplingMetric extends AbstractMetric {
         childMetricResults.each { childMetricResult ->
             referencedPackages.addAll(childMetricResult['referencedPackages'])
         }
-        return new MapMetricResult(this, MetricLevel.PACKAGE, [referencedPackages:referencedPackages])
+        def resultsMap = [referencedPackages:referencedPackages, (TOTAL):referencedPackages.size()]
+        return new MapMetricResult(this, MetricLevel.PACKAGE, resultsMap)
     }
 
 }

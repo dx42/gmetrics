@@ -165,11 +165,27 @@ class EfferentCouplingMetric_ClassTest extends AbstractMetricTestCase {
         assertApplyToClass(SOURCE, ['org.other'])
     }
 
+    void testApplyToClass_IgnoresThisReferences() {
+        final SOURCE = """
+            class MyClass {
+                private final int someValue
+                MyClass() {
+                    this.someValue = 23
+                }
+            }
+        """
+        assertApplyToClass(SOURCE, [])
+    }
+
     void testApplyToClass_ClassNameWithinExpression() {
         final SOURCE = '''
             if (value.class == org.bad.BadClass) { }
             println "isClosure=${value instanceof org.other.OtherClass}"
             def count = com.example.Helper.getCount()
+
+            println myVariable.prop.value       // NOT a class/package name
+            println child.name                  // NOT a class/package name
+            println this.field                  // NOT a class/package name
         '''
         assertApplyToClass(SOURCE, ['org.bad', 'org.other', 'com.example'])
     }

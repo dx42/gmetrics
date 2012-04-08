@@ -26,6 +26,7 @@ import org.gmetrics.metric.cyclomatic.CyclomaticComplexityMetric
 import org.gmetrics.metric.coverage.CoberturaBranchCoverageMetric
 import org.gmetrics.metric.coverage.CoberturaLineCoverageMetric
 import org.gmetrics.metric.crap.CrapMetric
+import org.gmetrics.metric.coupling.EfferentCouplingMetric
 
 /**
  * Default implementation of MetricRegistry
@@ -42,6 +43,7 @@ class DefaultMetricRegistry implements MetricRegistry {
         ClassLineCountMetric,
         CrapMetric,
         CyclomaticComplexityMetric,
+        EfferentCouplingMetric,
         FieldCountMetric,
         MethodCountMetric,
         MethodLineCountMetric
