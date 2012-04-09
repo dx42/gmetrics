@@ -19,6 +19,7 @@ import static FunctionNames.*
 
 import org.gmetrics.metric.Metric
 import org.gmetrics.metric.MetricLevel
+import org.gmetrics.util.Calculator
 
 /**
  * A Builder for MetricResult objects.
@@ -107,15 +108,7 @@ class MetricResultBuilder {
     }
 
     private Object average(sum, int count, Map<String,Object> overrideValues) {
-        return shouldCalculateFunction(AVERAGE, overrideValues) ? calculateAverage(sum, count) : overrideValues?.get(AVERAGE)
-    }
-
-    private Object calculateAverage(sum, count) {
-        if(sum && count) {
-            def result = sum / count
-            return result.setScale(scale, BigDecimal.ROUND_HALF_UP)
-        }
-        return 0
+        return shouldCalculateFunction(AVERAGE, overrideValues) ? Calculator.calculateAverage(sum, count, scale) : overrideValues?.get(AVERAGE)
     }
 
     private boolean shouldCalculateFunction(String functionName, Map<String,Number> functionValues) {

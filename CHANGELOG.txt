@@ -4,6 +4,9 @@ http://www.gmetrics.org
 
 Changes in version 0.6 (??? 2012)
 --------------------------------------
+NEW METRICS
+- New EfferentCouplingMetric. Package-level metric that counts the number of other packages that the classes in a package depend upon, and is an indicator of the package's independence.
+
 FIXES AND ENHANCEMENTS
 - #3508192: Make CoberturaCoverageFile threadsafe.
 
