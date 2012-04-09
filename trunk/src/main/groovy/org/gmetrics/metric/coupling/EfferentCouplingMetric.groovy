@@ -24,6 +24,7 @@ import org.gmetrics.result.ClassMetricResult
 import org.gmetrics.result.MetricResult
 import org.gmetrics.source.SourceCode
 import org.gmetrics.result.MapMetricResult
+import org.gmetrics.util.Calculator
 
 /**
  * Metric for counting the number of other packages that the classes in the package depend upon.
@@ -50,12 +51,29 @@ class EfferentCouplingMetric extends AbstractMetric {
     @Override
     protected MetricResult calculateForPackage(String packageName, Collection<MetricResult> childMetricResults) {
         Set referencedPackages = []
+        int total = 0
+        int count = 0
+        boolean containsClasses = false
         childMetricResults.each { childMetricResult ->
-            referencedPackages.addAll(childMetricResult['referencedPackages'])
+            if (childMetricResult.metricLevel == MetricLevel.CLASS) {
+                referencedPackages.addAll(childMetricResult['referencedPackages'])
+                containsClasses = true
+            }
+            else {
+                count += childMetricResult.count
+                total += childMetricResult[TOTAL]
+            }
         }
-        def resultsMap = [referencedPackages:referencedPackages, (TOTAL):referencedPackages.size()]
+        count += containsClasses ? 1 : 0
+        total += containsClasses ? referencedPackages.size() : 0
+
+        def average = Calculator.calculateAverage(total, count, 2)
+        def resultsMap = [count:count, total:total, average:average]
+        if (referencedPackages) {
+            resultsMap['referencedPackages'] = referencedPackages
+            resultsMap['value'] = referencedPackages.size()
+        }
         return new MapMetricResult(this, MetricLevel.PACKAGE, resultsMap)
     }
 
 }
-
