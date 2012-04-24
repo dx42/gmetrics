@@ -237,4 +237,21 @@ class CyclomaticComplexityMetric_MethodTest extends AbstractMetricTestCase {
         assert calculateForMethod(SOURCE) == 4
     }
 
+    void testCalculate_NullCheckOperator_OnMethodCalls() {
+        final SOURCE = """
+            private Map buildServerMap(serverCodes) {
+                Map serverMap = new HashMap()
+                for(serverCode in serverCodes){
+                    def index = serverCode?.indexOf("=")
+                    def length = serverCode?.length()
+                    if(index>0){
+                        serverMap.put(serverCode?.substring(0, index)?.trim(), serverCode?.substring(index+1,length)?.trim())
+                    }
+                }
+                return serverMap
+            }
+        """
+        assert calculateForMethod(SOURCE) == 9
+    }
+
 }
