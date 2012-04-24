@@ -26,6 +26,7 @@ import org.codehaus.groovy.ast.expr.BinaryExpression
 import org.codehaus.groovy.ast.expr.Expression
 import org.codehaus.groovy.ast.expr.TernaryExpression
 import org.codehaus.groovy.ast.expr.PropertyExpression
+import org.codehaus.groovy.ast.expr.MethodCallExpression
 
 /**
  * AST Visitor for calculating the Cyclomatic Complexity for a method or closure field.
@@ -81,6 +82,12 @@ class CyclomaticComplexityAstVisitor extends AbstractAstVisitor {
     void visitTernaryExpression(TernaryExpression expression) {
         complexity++
         super.visitTernaryExpression(expression)
+    }
+
+    @Override
+    void visitMethodCallExpression(MethodCallExpression call) {
+        complexity += call.safe ? 1 : 0
+        super.visitMethodCallExpression(call)
     }
 
     void visitPropertyExpression(PropertyExpression expression) {

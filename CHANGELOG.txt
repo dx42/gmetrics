@@ -9,6 +9,7 @@ NEW METRICS
 
 FIXES AND ENHANCEMENTS
 - #3508192: Make CoberturaCoverageFile threadsafe.
+- #3520789: Fix CyclomaticComplexity metric does not count null-check operator if it is applied to a method call.
 
 
 Changes in version 0.5 (Jan 2012)
