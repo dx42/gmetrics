@@ -33,6 +33,8 @@ import org.gmetrics.util.Calculator
  */
 class EfferentCouplingMetric extends AbstractMetric {
 
+    private static final String REFERENCED_PACKAGES = 'referencedPackages'
+
     final String name = 'EfferentCoupling'
     final MetricLevel baseLevel = MetricLevel.PACKAGE
     String ignorePackageNames
@@ -44,7 +46,7 @@ class EfferentCouplingMetric extends AbstractMetric {
         visitor.visitClass(classNode)
         def otherPackages = visitor.otherPackages
 
-        def metricResult = new MapMetricResult(this, MetricLevel.CLASS, [referencedPackages:otherPackages])
+        def metricResult = new MapMetricResult(this, MetricLevel.CLASS, [(REFERENCED_PACKAGES):otherPackages])
         return new ClassMetricResult(metricResult)
     }
 
@@ -56,7 +58,7 @@ class EfferentCouplingMetric extends AbstractMetric {
         boolean containsClasses = false
         childMetricResults.each { childMetricResult ->
             if (childMetricResult.metricLevel == MetricLevel.CLASS) {
-                referencedPackages.addAll(childMetricResult['referencedPackages'])
+                referencedPackages.addAll(childMetricResult[REFERENCED_PACKAGES])
                 containsClasses = true
             }
             else {
@@ -70,8 +72,8 @@ class EfferentCouplingMetric extends AbstractMetric {
         def average = Calculator.calculateAverage(total, count, 2)
         def resultsMap = [count:count, total:total, average:average]
         if (referencedPackages) {
-            resultsMap['referencedPackages'] = referencedPackages
-            resultsMap['value'] = referencedPackages.size()
+            resultsMap[REFERENCED_PACKAGES] = referencedPackages
+            resultsMap[VALUE] = referencedPackages.size()
         }
         return new MapMetricResult(this, MetricLevel.PACKAGE, resultsMap)
     }

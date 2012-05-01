@@ -24,6 +24,7 @@ class FunctionNames {
 
     // Consider making this into a first-class object and/or Enum.
 
+    public static final VALUE = 'value'
     public static final TOTAL = 'total'
     public static final AVERAGE = 'average'
     public static final MINIMUM = 'minimum'
