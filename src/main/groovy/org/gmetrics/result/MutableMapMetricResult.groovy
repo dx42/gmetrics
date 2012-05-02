@@ -19,17 +19,17 @@ import org.gmetrics.metric.Metric
 import org.gmetrics.metric.MetricLevel
 
 /**
- * A MetricResult for arbitrary values, backed by a Map. An instance of this class is immutable.
+ * A MetricResult for arbitrary values, backed by a mutable Map.
  *
  * @author Chris Mair
  */
-class MapMetricResult implements MetricResult {
+class MutableMapMetricResult implements MetricResult {
 
     final Metric metric
     final MetricLevel metricLevel
     final Integer lineNumber = null
+    final map
     final int count
-    private final map
 
     /**
      * Construct a new instance
@@ -38,7 +38,7 @@ class MapMetricResult implements MetricResult {
      * @param map - the Map of metric result values
      * @param count - the count value; optional, defaults to 1
      */
-    MapMetricResult(Metric metric, MetricLevel metricLevel, Map<String,Object> map, int count=1) {
+    MutableMapMetricResult(Metric metric, MetricLevel metricLevel, Map<String,Object> map, int count=1) {
         assert metric
         assert metricLevel
         assert map != null
@@ -55,7 +55,7 @@ class MapMetricResult implements MetricResult {
 
     @Override
     String toString() {
-        "MapMetricResult[metric=${metric.name}, $map]"
+        "MutableMapMetricResult[metric=${metric.name}, $map]"
     }
 
 }
