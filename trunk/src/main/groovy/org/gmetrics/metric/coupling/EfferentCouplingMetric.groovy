@@ -15,15 +15,12 @@
  */
 package org.gmetrics.metric.coupling
 
-import static org.gmetrics.result.FunctionNames.*
+import static org.gmetrics.result.FunctionNames.TOTAL
+import static org.gmetrics.result.FunctionNames.VALUE
 
-import org.codehaus.groovy.ast.ClassNode
-import org.gmetrics.metric.AbstractMetric
 import org.gmetrics.metric.MetricLevel
-import org.gmetrics.result.ClassMetricResult
-import org.gmetrics.result.MetricResult
-import org.gmetrics.source.SourceCode
 import org.gmetrics.result.MapMetricResult
+import org.gmetrics.result.MetricResult
 import org.gmetrics.util.Calculator
 
 /**
@@ -31,24 +28,9 @@ import org.gmetrics.util.Calculator
  *
  * @author Chris Mair
  */
-class EfferentCouplingMetric extends AbstractMetric {
-
-    private static final String REFERENCED_PACKAGES = 'referencedPackages'
+class EfferentCouplingMetric extends AbstractPackageCouplingMetric {
 
     final String name = 'EfferentCoupling'
-    final MetricLevel baseLevel = MetricLevel.PACKAGE
-    String ignorePackageNames
-
-    @Override
-    protected ClassMetricResult calculateForClass(ClassNode classNode, SourceCode sourceCode) {
-        def visitor = new PackageReferenceAstVisitor(ignorePackageNames)
-        visitor.setSourceCode(sourceCode)
-        visitor.visitClass(classNode)
-        def otherPackages = visitor.otherPackages
-
-        def metricResult = new MapMetricResult(this, MetricLevel.CLASS, [(REFERENCED_PACKAGES):otherPackages])
-        return new ClassMetricResult(metricResult)
-    }
 
     @Override
     protected MetricResult calculateForPackage(String packageName, Collection<MetricResult> childMetricResults) {
