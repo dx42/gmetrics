@@ -20,7 +20,7 @@ import org.gmetrics.metric.MetricLevel
 
 class StubMetricResult implements MetricResult {
 
-    private static final FUNCTION_NAMES = ['total', 'average', 'minimum', 'maximum']
+    private static final FUNCTION_NAMES = ['total', 'average', 'minimum', 'maximum', 'value']
     Metric metric
     MetricLevel metricLevel
     int count

@@ -24,6 +24,7 @@ import org.gmetrics.metricset.ListMetricSet
 import org.gmetrics.result.StubMetricResult
 import org.gmetrics.result.MetricResult
 import org.gmetrics.metric.MetricLevel
+import org.gmetrics.result.MapMetricResult
 
 /**
  * Abstract superclass for ReportWriter test classes.
@@ -127,6 +128,10 @@ abstract class AbstractReportWriterTestCase extends AbstractTestCase {
 
     protected String metricDescription(metric) {
         "Description for " + metric.name
+    }
+
+    protected MetricResult metric1MapResult(Map map) {
+        return new MapMetricResult(metric1, MetricLevel.METHOD, map)
     }
 
     protected MetricResult metric1Result(Map map) {

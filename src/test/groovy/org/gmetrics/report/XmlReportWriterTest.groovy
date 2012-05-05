@@ -73,6 +73,10 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
     static reportFilename = "GMetricsXmlReport.xml" 
     private localizedMessages
 
+    //------------------------------------------------------------------------------------
+    // Tests
+    //------------------------------------------------------------------------------------
+
     void testThatDefaultOutputFile_IsGmetricsReportHtml() {
         assert reportWriter.defaultOutputFile == 'GMetricsXmlReport.xml'
     }
@@ -154,6 +158,40 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
                 MyController: classResultsNode(name:'MyController', metricResults:[metric1Result(102)])
             ])
         ])
+        assertReportXml(rootNode, XML)
+    }
+
+    void testWriteReport_ShowsListMetricValues() {
+        final PACKAGES = """
+            <PackageSummary>
+                <MetricResult name='Metric1' total='[a, b, c]'/>
+            </PackageSummary>
+            <Package path='org'>
+                <MetricResult name='Metric1' total='[a, b, c]'/>
+                <Class name='MyDao'>
+                    <MetricResult name='Metric1' total='[123, 456]'/>
+                </Class>
+            </Package>
+        """
+        final XML = XML_DECLARATION + GMETRICS_ROOT + REPORT_TIMESTAMP + PROJECT + PACKAGES + METRIC_DESCRIPTIONS_2 + GMETRICS_END_TAG
+        def rootNode = packageResultsNode([metricResults:[metric1MapResult(total:['a', 'b', 'c'])]],
+        [
+            org: packageResultsNode([name:'org', path:'org', metricResults:[metric1MapResult(total:['a', 'b', 'c'])]],
+            [
+                MyDao: classResultsNode(name:'MyDao', metricResults:[metric1MapResult(total:[123, 456])]),
+            ])
+        ])
+        assertReportXml(rootNode, XML)
+    }
+
+    void testWriteReport_OmitsAttributesWithNullValue() {
+        final SUMMARY = """
+            <PackageSummary>
+                <MetricResult name='Metric1' total='123'/>
+            </PackageSummary>
+        """
+        final XML = XML_DECLARATION + GMETRICS_ROOT + REPORT_TIMESTAMP + PROJECT + SUMMARY + METRIC_DESCRIPTIONS_2 + GMETRICS_END_TAG
+        def rootNode = packageResultsNode([metricResults:[metric1MapResult(total:123, average:null)]])
         assertReportXml(rootNode, XML)
     }
 
@@ -273,6 +311,10 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
         reportWriter.setFunctions('Metric2=average')
         assertReportXml(rootNode, XML)
     }
+
+    //------------------------------------------------------------------------------------
+    // Setup and Helper Methods
+    //------------------------------------------------------------------------------------
 
     void setUp() {
         super.setUp()
