@@ -2,8 +2,12 @@
 
 metricset {
 
+    AfferentCoupling {
+        functions = ['value', 'referencedFromPackages']
+    }
+
     EfferentCoupling {
-        functions = ['total', 'referencedPackages']
+        functions = ['value', 'referencedPackages']
     }
 
 }

@@ -27,7 +27,6 @@ abstract class AbstractPackageCouplingMetric_ClassTestCase extends AbstractMetri
 
     void testCommonMetricProperties() {
         assert metric.baseLevel == MetricLevel.PACKAGE
-//        assert metric.name == 'EfferentCoupling'
         assert metric.ignorePackageNames == null
     }
 

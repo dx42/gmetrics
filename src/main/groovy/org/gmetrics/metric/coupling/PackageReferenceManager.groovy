@@ -15,7 +15,7 @@
  */
 package org.gmetrics.metric.coupling
 
-import static org.gmetrics.result.FunctionNames.VALUE
+import static org.gmetrics.result.FunctionNames.*
 
 import org.gmetrics.result.MetricResult
 import org.gmetrics.metric.MetricLevel
@@ -32,7 +32,7 @@ import org.gmetrics.result.MutableMapMetricResult
  */
 class PackageReferenceManager {
 
-    protected static final String REFERENCED_BY_PACKAGES = 'referencedByPackages'
+    protected static final String REFERENCED_FROM_PACKAGES = 'referencedFromPackages'
 
     final Metric metric
     private Map<String, Set<String>> referencesToPackage = [:].withDefault { [] as Set<String> }
@@ -48,8 +48,11 @@ class PackageReferenceManager {
             def refs = referencesToPackage[otherPackage]
             refs << packageName
             def metricResult = metricResultMap[otherPackage]
-            metricResult.map[REFERENCED_BY_PACKAGES] = refs
+            metricResult.map[REFERENCED_FROM_PACKAGES] = refs
             metricResult.map[VALUE] = refs.size()
+
+            // TODO Refine to only add for unique packages
+            metricResult.map[TOTAL] = refs.size()
         }
     }
 
@@ -62,7 +65,7 @@ class PackageReferenceManager {
     }
 
     private MutableMapMetricResult createEmptyMetricResult() {
-        new MutableMapMetricResult(metric, MetricLevel.PACKAGE, [:])
+        new MutableMapMetricResult(metric, MetricLevel.PACKAGE, [(VALUE):0, (TOTAL):0, (AVERAGE):0])
     }
 
 }
