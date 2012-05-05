@@ -15,7 +15,7 @@
  */
 package org.gmetrics.metric.coupling
 
-import static org.gmetrics.result.FunctionNames.VALUE
+import static org.gmetrics.result.FunctionNames.*
 
 import org.gmetrics.metric.MetricLevel
 import org.gmetrics.metric.StubMetric
@@ -87,13 +87,17 @@ class PackageReferenceManagerTest extends AbstractTestCase {
     // Helper Methods
     //------------------------------------------------------------------------------------
 
-    private void assertMetricResult(MetricResult metricResult, Set<String> referencedByPackages) {
+    private void assertMetricResult(MetricResult metricResult, Set<String> referencedFromPackages) {
         log(metricResult)
         assert metricResult.metric == METRIC
         assert metricResult.metricLevel == MetricLevel.PACKAGE
         assert metricResult.count == 1
-        assert metricResult[VALUE] == (referencedByPackages == null ? null : referencedByPackages.size())
-        assert metricResult[PackageReferenceManager.REFERENCED_BY_PACKAGES] == referencedByPackages
+        assert metricResult[VALUE] == (referencedFromPackages == null ? 0 : referencedFromPackages.size())
+        assert metricResult[TOTAL] == metricResult[VALUE]
+
+        // TODO Use actual average
+        assert metricResult[AVERAGE] == 0
+        assert metricResult[PackageReferenceManager.REFERENCED_FROM_PACKAGES] == referencedFromPackages
     }
 
 }

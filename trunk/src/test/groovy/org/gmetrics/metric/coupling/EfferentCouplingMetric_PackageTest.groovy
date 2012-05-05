@@ -15,13 +15,6 @@
  */
 package org.gmetrics.metric.coupling
 
-import static org.gmetrics.result.FunctionNames.*
-
-import org.gmetrics.metric.AbstractMetricTestCase
-import org.gmetrics.metric.MetricLevel
-import org.gmetrics.result.MapMetricResult
-import org.gmetrics.result.MetricResult
-
 /**
  * Tests for applying the EfferentCouplingMetric at the package level
  *
@@ -29,15 +22,13 @@ import org.gmetrics.result.MetricResult
  *
  * @author Chris Mair
  */
-class EfferentCouplingMetric_PackageTest extends AbstractMetricTestCase {
+class EfferentCouplingMetric_PackageTest extends AbstractPackageCouplingMetric_PackageTestCase {
 
     static metricClass = EfferentCouplingMetric
 
     private static final PACKAGE_NAME = 'com.example'
-    private static final Set PACKAGE_SET1 = ['com.example', 'org.example']
+    private static final Set PACKAGE_SET1 = ['com.stuff', 'org.example']
     private static final Set PACKAGE_SET2 = ['com.other.util', 'org.example', 'com.acme.anvil']
-    private static final VALUE = 'value'
-    private static final REFERENCED_PACKAGES = 'referencedPackages'
 
     // Tests for applyToPackage()
 
@@ -70,24 +61,4 @@ class EfferentCouplingMetric_PackageTest extends AbstractMetricTestCase {
             [referencedPackages:PACKAGE_SET2, value:3, count:3, total:6, average:2])
     }
 
-    //------------------------------------------------------------------------------------
-    // Helper Methods
-    //------------------------------------------------------------------------------------
-
-    protected void assertApplyToPackage(String packageName, Collection childMetricResults, Map expectedResultValues) {
-        def metricResult = metric.applyToPackage(packageName, childMetricResults)
-        assert metricResult, "No MetricResult for package [$packageName]"
-        assert metricResult[REFERENCED_PACKAGES] == expectedResultValues[REFERENCED_PACKAGES] as Set
-        assert metricResult[VALUE] == expectedResultValues[VALUE]
-        assert metricResult[TOTAL] == expectedResultValues[TOTAL]
-        assert metricResult[AVERAGE] == expectedResultValues[AVERAGE]
-    }
-
-    private MetricResult packageMetricResult(Collection<String> referencedPackages, int count=1, Integer total=null) {
-        new MapMetricResult(metric, MetricLevel.PACKAGE, [referencedPackages:referencedPackages as Set, total:total], count)
-    }
-
-    private MetricResult classMetricResult(Collection<String> referencedPackages) {
-        new MapMetricResult(metric, MetricLevel.CLASS, [referencedPackages:referencedPackages as Set])
-    }
 }

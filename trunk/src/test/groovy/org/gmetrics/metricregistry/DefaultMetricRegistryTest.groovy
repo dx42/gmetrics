@@ -26,6 +26,8 @@ import org.gmetrics.metric.cyclomatic.CyclomaticComplexityMetric
 import org.gmetrics.metric.coverage.CoberturaLineCoverageMetric
 import org.gmetrics.metric.coverage.CoberturaBranchCoverageMetric
 import org.gmetrics.metric.crap.CrapMetric
+import org.gmetrics.metric.coupling.EfferentCouplingMetric
+import org.gmetrics.metric.coupling.AfferentCouplingMetric
 
 /**
  * Tests for DefaultMetricRegistry
@@ -42,6 +44,7 @@ class DefaultMetricRegistryTest extends AbstractTestCase {
 
     void testRetrieveMetricClassesByName() {
         assert registry.getMetricClass('ABC') == AbcMetric
+        assert registry.getMetricClass('AfferentCoupling') == AfferentCouplingMetric
         assert registry.getMetricClass('ClassCount') == ClassCountMetric
         assert registry.getMetricClass('ClassLineCount') == ClassLineCountMetric
         assert registry.getMetricClass('CoberturaBranchCoverage') == CoberturaBranchCoverageMetric
@@ -49,6 +52,7 @@ class DefaultMetricRegistryTest extends AbstractTestCase {
         assert registry.getMetricClass('CRAP') == CrapMetric
         assert registry.getMetricClass('CyclomaticComplexity') ==  CyclomaticComplexityMetric
         assert registry.getMetricClass('FieldCount') == FieldCountMetric
+        assert registry.getMetricClass('EfferentCoupling') == EfferentCouplingMetric
         assert registry.getMetricClass('MethodCount') == MethodCountMetric
         assert registry.getMetricClass('MethodLineCount') == MethodLineCountMetric
     }

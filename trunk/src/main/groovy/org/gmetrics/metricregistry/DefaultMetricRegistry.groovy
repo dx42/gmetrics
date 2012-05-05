@@ -27,6 +27,7 @@ import org.gmetrics.metric.coverage.CoberturaBranchCoverageMetric
 import org.gmetrics.metric.coverage.CoberturaLineCoverageMetric
 import org.gmetrics.metric.crap.CrapMetric
 import org.gmetrics.metric.coupling.EfferentCouplingMetric
+import org.gmetrics.metric.coupling.AfferentCouplingMetric
 
 /**
  * Default implementation of MetricRegistry
@@ -37,6 +38,7 @@ class DefaultMetricRegistry implements MetricRegistry {
 
     public static final METRIC_CLASSES = [
         AbcMetric,
+        AfferentCouplingMetric,
         CoberturaBranchCoverageMetric,
         CoberturaLineCoverageMetric,
         ClassCountMetric,
