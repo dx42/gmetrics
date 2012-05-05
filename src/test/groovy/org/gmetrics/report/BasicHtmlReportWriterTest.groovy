@@ -218,6 +218,16 @@ class BasicHtmlReportWriterTest extends AbstractReportWriterTestCase {
         assertReportContents(resultsNode, CONTENTS)
     }
 
+    void testWriteReport_NullMetricValue_ShowsNA() {
+        final CONTENTS = [
+                HTML_TAG,
+                ALL_PACKAGES, NA, NA, 20, 20,
+                metric1.name, metricDescription(metric1),
+                BOTTOM_LINK]
+        def resultsNode = new StubResultsNode(metricResults:[metric1MapResult(total:null, average:null), metric2Result(20)])
+        assertReportContents(resultsNode, CONTENTS)
+    }
+
     void testWriteReport_DoNotShowResultsForLevelBelowMetricBaseLevel() {
         final CONTENTS = [
                 HTML_TAG,

@@ -12,6 +12,7 @@ FIXES AND ENHANCEMENTS
 - #3520789: Fix CyclomaticComplexity metric does not count null-check operator if it is applied to a method call.
 - #3523819: Omit attributes that have null value from the XML report.
 - #3523820: Reports: Support for metric values that are lists or maps.
+- #3523828: BasicHtmlReportWriter: Display ‘N/A’ if the metric value is null.
 
 
 Changes in version 0.5 (Jan 2012)
