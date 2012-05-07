@@ -77,13 +77,14 @@ class MutableMapMetricResultTest extends AbstractTestCase {
         assert result['a'] == 99
     }
 
-    void testGetCount_DefaultsToOne() {
+    void testGetCount_DefaultsToZero() {
         def result = new MutableMapMetricResult(METRIC, MetricLevel.METHOD, MAP)
-        assert result.getCount() == 1
+        assert result.getCount() == 0
     }
 
-    void testGetCount_ReturnsValuePassedIn() {
-        def result = new MutableMapMetricResult(METRIC, MetricLevel.METHOD, MAP, 7)
+    void testGetCount() {
+        def result = new MutableMapMetricResult(METRIC, MetricLevel.METHOD, MAP)
+        result.count = 7
         assert result.getCount() == 7
     }
 

@@ -33,7 +33,7 @@ class EfferentCouplingMetric_PackageTest extends AbstractPackageCouplingMetric_P
     // Tests for applyToPackage()
 
     void testApplyToPackage_NoChildren() {
-        assertApplyToPackage(PACKAGE_NAME, [], [referencedPackages:null, count:0, total:0, average:0])
+        assertApplyToPackage(PACKAGE_NAME, [], [referencedPackages:null, value:0, count:0, total:0, average:0])
     }
 
     void testApplyToPackage_OneChildClass() {
@@ -43,7 +43,7 @@ class EfferentCouplingMetric_PackageTest extends AbstractPackageCouplingMetric_P
 
     void testApplyToPackage_OneChildPackage() {
         assertApplyToPackage(PACKAGE_NAME, [packageMetricResult(PACKAGE_SET1, 3, 6)],
-            [count:3, total:6, average:2])
+            [value:0, count:3, total:6, average:2])
     }
 
     void testApplyToPackage_MultipleChildClasses() {
@@ -53,7 +53,7 @@ class EfferentCouplingMetric_PackageTest extends AbstractPackageCouplingMetric_P
 
     void testApplyToPackage_MultipleChildPackages() {
         assertApplyToPackage(PACKAGE_NAME, [packageMetricResult(PACKAGE_SET1, 1, 4), packageMetricResult(PACKAGE_SET2, 2, 8)],
-            [count:3, total:12, average:4])
+            [value:0, count:3, total:12, average:4])
     }
 
     void testApplyToPackage_ChildPackagesAndClasses() {

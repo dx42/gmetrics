@@ -16,6 +16,7 @@
 package org.gmetrics.metric.coupling
 
 import static org.gmetrics.result.FunctionNames.*
+import static PackageReferenceManager.REFERENCED_FROM_PACKAGES
 
 import org.gmetrics.metric.MetricLevel
 import org.gmetrics.metric.StubMetric
@@ -64,17 +65,27 @@ class PackageReferenceManagerTest extends AbstractTestCase {
         assert manager.getReferencesToPackage(PACKAGE4) == [PACKAGE1] as Set
     }
 
+    // Tests for getPackageMetricResult()
+
     void testGetPackageMetricResult_InitializedToEmpty() {
         def metricResult = manager.getPackageMetricResult(PACKAGE1)
-        assertMetricResult(metricResult, null)
+        assertMetricResult(metricResult, [(REFERENCED_FROM_PACKAGES):null, count:0, value:0, total:0, average:0])
     }
 
     void testGetPackageMetricResult_ReflectsAddedPackageReferences() {
         manager.addReferencesFromPackage(PACKAGE1, [PACKAGE2, PACKAGE3] as Set)
         manager.addReferencesFromPackage(PACKAGE2, [PACKAGE3] as Set)
-        assertMetricResult(manager.getPackageMetricResult(PACKAGE1), null)
-        assertMetricResult(manager.getPackageMetricResult(PACKAGE2), [PACKAGE1] as Set)
-        assertMetricResult(manager.getPackageMetricResult(PACKAGE3), [PACKAGE1, PACKAGE2] as Set)
+        assertMetricResult(manager.getPackageMetricResult(PACKAGE1), [(REFERENCED_FROM_PACKAGES):null, count:1, value:0, total:0, average:0])
+        assertMetricResult(manager.getPackageMetricResult(PACKAGE2), [(REFERENCED_FROM_PACKAGES):[PACKAGE1] as Set, count:1, value:1, total:1, average:1])
+        assertMetricResult(manager.getPackageMetricResult(PACKAGE3), [(REFERENCED_FROM_PACKAGES):[PACKAGE1, PACKAGE2] as Set, count:0, value:2, total:2, average:2])
+    }
+
+    void testGetPackageMetricResult_AddingReferencesFromPackageIncrementsCount_OnlyTheFirstTime() {
+        assertMetricResult(manager.getPackageMetricResult(PACKAGE1), [(REFERENCED_FROM_PACKAGES):null, count:0, value:0, total:0, average:0])
+        manager.addReferencesFromPackage(PACKAGE1, [PACKAGE2] as Set)
+        assertMetricResult(manager.getPackageMetricResult(PACKAGE1), [(REFERENCED_FROM_PACKAGES):null, count:1, value:0, total:0, average:0])
+        manager.addReferencesFromPackage(PACKAGE1, [PACKAGE3] as Set)
+        assertMetricResult(manager.getPackageMetricResult(PACKAGE1), [(REFERENCED_FROM_PACKAGES):null, count:1, value:0, total:0, average:0])
     }
 
     void testGetPackageMetricResult_AlwaysReturnsSameInstanceForPackage() {
@@ -87,17 +98,15 @@ class PackageReferenceManagerTest extends AbstractTestCase {
     // Helper Methods
     //------------------------------------------------------------------------------------
 
-    private void assertMetricResult(MetricResult metricResult, Set<String> referencedFromPackages) {
+    private void assertMetricResult(MetricResult metricResult, Map expectedResultValues) {
         log(metricResult)
         assert metricResult.metric == METRIC
         assert metricResult.metricLevel == MetricLevel.PACKAGE
-        assert metricResult.count == 1
-        assert metricResult[VALUE] == (referencedFromPackages == null ? 0 : referencedFromPackages.size())
-        assert metricResult[TOTAL] == metricResult[VALUE]
-
-        // TODO Use actual average
-        assert metricResult[AVERAGE] == 0
-        assert metricResult[PackageReferenceManager.REFERENCED_FROM_PACKAGES] == referencedFromPackages
+        assert metricResult.count == expectedResultValues['count']
+        assert metricResult[VALUE] == expectedResultValues[VALUE]
+        assert metricResult[TOTAL] == expectedResultValues[TOTAL]
+        assert metricResult[AVERAGE] == expectedResultValues[AVERAGE]
+        assert metricResult[REFERENCED_FROM_PACKAGES] == expectedResultValues[REFERENCED_FROM_PACKAGES]
     }
 
 }

@@ -17,9 +17,9 @@ package org.gmetrics.metric.coupling
 
 import static org.gmetrics.result.FunctionNames.*
 
-import org.gmetrics.result.MetricResult
-import org.gmetrics.metric.MetricLevel
 import org.gmetrics.metric.Metric
+import org.gmetrics.metric.MetricLevel
+import org.gmetrics.result.MetricResult
 import org.gmetrics.result.MutableMapMetricResult
 
 /**
@@ -37,6 +37,7 @@ class PackageReferenceManager {
     final Metric metric
     private Map<String, Set<String>> referencesToPackage = [:].withDefault { [] as Set<String> }
     private Map<String, MutableMapMetricResult> metricResultMap = [:].withDefault { createEmptyMetricResult() }
+    private Set<String> packagesContainingClasses = []
 
     PackageReferenceManager(Metric metric) {
         assert metric
@@ -44,15 +45,21 @@ class PackageReferenceManager {
     }
 
     void addReferencesFromPackage(String packageName, Set<String> packages) {
+        // Increment count only the first time for this package
+        if (!packagesContainingClasses.contains(packageName)) {
+            def metricResult = metricResultMap[packageName]
+            metricResult.count += 1
+            packagesContainingClasses << packageName
+        }
+
         packages.each { otherPackage ->
             def refs = referencesToPackage[otherPackage]
             refs << packageName
             def metricResult = metricResultMap[otherPackage]
             metricResult.map[REFERENCED_FROM_PACKAGES] = refs
             metricResult.map[VALUE] = refs.size()
-
-            // TODO Refine to only add for unique packages
             metricResult.map[TOTAL] = refs.size()
+            metricResult.map[AVERAGE] = refs.size()
         }
     }
 

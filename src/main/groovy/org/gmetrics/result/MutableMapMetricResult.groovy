@@ -29,23 +29,22 @@ class MutableMapMetricResult implements MetricResult {
     final MetricLevel metricLevel
     final Integer lineNumber = null
     final map
-    final int count
+
+    int count = 0
 
     /**
      * Construct a new instance
      * @param metric - the Metric to which this result applies
      * @param metricLevel - the metric level for this result
      * @param map - the Map of metric result values
-     * @param count - the count value; optional, defaults to 1
      */
-    MutableMapMetricResult(Metric metric, MetricLevel metricLevel, Map<String,Object> map, int count=1) {
+    MutableMapMetricResult(Metric metric, MetricLevel metricLevel, Map<String,Object> map) {
         assert metric
         assert metricLevel
         assert map != null
         this.metric = metric
         this.metricLevel = metricLevel
         this.map = new HashMap(map)
-        this.count = count
     }
 
     @Override

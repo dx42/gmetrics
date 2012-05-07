@@ -43,8 +43,9 @@ abstract class AbstractPackageCouplingMetric_PackageTestCase extends AbstractMet
         assert metricResult[REFERENCED_PACKAGES] == expectedResultValues[REFERENCED_PACKAGES] as Set
         assert metricResult[REFERENCED_FROM_PACKAGES] == expectedResultValues[REFERENCED_FROM_PACKAGES] as Set
         assert metricResult[VALUE] == expectedResultValues[VALUE]
-//        assert metricResult[TOTAL] == expectedResultValues[TOTAL]
-//        assert metricResult[AVERAGE] == expectedResultValues[AVERAGE]
+        assert metricResult[TOTAL] == expectedResultValues[TOTAL]
+        assert metricResult[AVERAGE] == expectedResultValues[AVERAGE]
+        assert metricResult.getCount() == expectedResultValues['count']
     }
 
     protected MetricResult packageMetricResult(Collection<String> referencedPackages, int count=1, Integer total=null) {
