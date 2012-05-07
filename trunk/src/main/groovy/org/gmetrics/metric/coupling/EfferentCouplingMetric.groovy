@@ -15,8 +15,7 @@
  */
 package org.gmetrics.metric.coupling
 
-import static org.gmetrics.result.FunctionNames.TOTAL
-import static org.gmetrics.result.FunctionNames.VALUE
+import static org.gmetrics.result.FunctionNames.*
 
 import org.gmetrics.metric.MetricLevel
 import org.gmetrics.result.MapMetricResult
@@ -52,12 +51,12 @@ class EfferentCouplingMetric extends AbstractPackageCouplingMetric {
         total += containsClasses ? referencedPackages.size() : 0
 
         def average = Calculator.calculateAverage(total, count, 2)
-        def resultsMap = [count:count, total:total, average:average]
+        def resultsMap = [(VALUE):0, total:total, average:average]
         if (referencedPackages) {
             resultsMap[REFERENCED_PACKAGES] = referencedPackages
             resultsMap[VALUE] = referencedPackages.size()
         }
-        return new MapMetricResult(this, MetricLevel.PACKAGE, resultsMap)
+        return new MapMetricResult(this, MetricLevel.PACKAGE, resultsMap, count)
     }
 
 }
