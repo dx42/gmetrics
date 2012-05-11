@@ -33,7 +33,7 @@ class AfferentCouplingMetric_PackageTest extends AbstractPackageCouplingMetric_P
     // Tests for applyToPackage()
 
     void testApplyToPackage_NoChildren() {
-        assertApplyToPackage(PACKAGE1, [], [referencedFromPackages:null, value:0, total:0, average:0, count:0])
+        assertApplyToPackage(PACKAGE1, [], [referencedFromPackages:null, value:0, total:0, average:0, count:1])
     }
 
     void testApplyToPackage_ChildClassesOnly() {
@@ -44,16 +44,22 @@ class AfferentCouplingMetric_PackageTest extends AbstractPackageCouplingMetric_P
     }
 
     void testApplyToPackage_ChildPackagesOnly() {
-        assertApplyToPackage(PACKAGE1, [packageMetricResult([PACKAGE2, PACKAGE3] as Set)], [referencedFromPackages:null, value:0, total:0, average:0, count:0])
-        assertApplyToPackage(PACKAGE2, [packageMetricResult([PACKAGE2, PACKAGE3] as Set)], [referencedFromPackages:null, value:0, total:0, average:0, count:0])
-        assertApplyToPackage(PACKAGE1, [packageMetricResult([PACKAGE2, PACKAGE3] as Set)], [referencedFromPackages:null, value:0, total:0, average:0, count:0])
+        assertApplyToPackage(PACKAGE1, [packageMetricResult([PACKAGE2, PACKAGE3] as Set)], [referencedFromPackages:null, value:0, total:0, average:0, count:1])
+        assertApplyToPackage(PACKAGE2, [packageMetricResult([PACKAGE2, PACKAGE3] as Set)], [referencedFromPackages:null, value:0, total:0, average:0, count:1])
+        assertApplyToPackage(PACKAGE1, [packageMetricResult([PACKAGE2, PACKAGE3] as Set)], [referencedFromPackages:null, value:0, total:0, average:0, count:1])
+    }
+
+    void testApplyToPackage_AggregatesTotalsAndAveragesUpThroughParentPackages() {
+        assertApplyToPackage(PACKAGE1, [classMetricResult(['aaa.bbb.ccc'] as Set)], [referencedFromPackages:null, value:0, total:0, average:0, count:1])
+        assertApplyToPackage('aaa.bbb.ccc', [], [referencedFromPackages:[PACKAGE1], value:1, total:1, average:1, count:1])
+        assertApplyToPackage('aaa.bbb', [], [referencedFromPackages:null, value:0, total:1, average:0.5, count:2])
+        assertApplyToPackage('aaa', [], [referencedFromPackages:null, value:0, total:1, average:0.33, count:3])
     }
 
     void testApplyToPackage_NormalizesPackageNames() {
         def package1WithSlashes = PACKAGE1.replace('.', '/')
         assertApplyToPackage(package1WithSlashes, [classMetricResult([PACKAGE2, PACKAGE3] as Set)], [referencedFromPackages:null, value:0, total:0, average:0, count:1])
-        assertApplyToPackage(PACKAGE2, [], [referencedFromPackages:[PACKAGE1], value:1, total:1, average:1, count:0])
+        assertApplyToPackage(PACKAGE2, [], [referencedFromPackages:[PACKAGE1], value:1, total:1, average:1, count:1])
     }
 
-    // TODO Test aggregates results up through parent packages
 }

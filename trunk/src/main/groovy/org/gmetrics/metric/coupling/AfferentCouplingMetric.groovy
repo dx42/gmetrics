@@ -31,6 +31,7 @@ class AfferentCouplingMetric extends AbstractPackageCouplingMetric {
     @Override
     protected MetricResult calculateForPackage(String rawPackageName, Collection<MetricResult> childMetricResults) {
         String packageName = normalizePackageName(rawPackageName)
+        packageReferenceManager.registerPackageContainingClasses(packageName)
         childMetricResults.each { childMetricResult ->
             if (childMetricResult.metricLevel == MetricLevel.CLASS) {
                 packageReferenceManager.addReferencesFromPackage(packageName, childMetricResult[REFERENCED_PACKAGES])

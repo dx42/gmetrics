@@ -54,7 +54,7 @@ class MutableMapMetricResult implements MetricResult {
 
     @Override
     String toString() {
-        "MutableMapMetricResult[metric=${metric.name}, $map]"
+        "MutableMapMetricResult[metric=${metric.name}, count=$count, $map]"
     }
 
 }
