@@ -21,6 +21,8 @@ import org.gmetrics.metric.Metric
 import org.gmetrics.metric.MetricLevel
 import org.gmetrics.result.MetricResult
 import org.gmetrics.result.MutableMapMetricResult
+import org.gmetrics.util.ClassNameUtil
+import org.gmetrics.util.Calculator
 
 /**
  * Maintains a mapping of packageName -> packages that reference it, as well as a reference
@@ -44,22 +46,43 @@ class PackageReferenceManager {
         this.metric = metric
     }
 
-    void addReferencesFromPackage(String packageName, Set<String> packages) {
-        // Increment count only the first time for this package
+    void registerPackageContainingClasses(String packageName) {
         if (!packagesContainingClasses.contains(packageName)) {
             def metricResult = metricResultMap[packageName]
             metricResult.count += 1
+            metricResult.map[AVERAGE] = Calculator.calculateAverage(metricResult.map[TOTAL], metricResult.count, 2)
             packagesContainingClasses << packageName
+            incrementTotalsForAncestorPackages(packageName, 0, 1)
         }
+    }
 
+    void addReferencesFromPackage(String packageName, Set<String> packages) {
+        registerPackageContainingClasses(packageName)
         packages.each { otherPackage ->
+            registerPackageContainingClasses(otherPackage)
             def refs = referencesToPackage[otherPackage]
+            def originalNumReferences = refs.size()
             refs << packageName
             def metricResult = metricResultMap[otherPackage]
             metricResult.map[REFERENCED_FROM_PACKAGES] = refs
             metricResult.map[VALUE] = refs.size()
             metricResult.map[TOTAL] = refs.size()
-            metricResult.map[AVERAGE] = refs.size()
+            metricResult.map[AVERAGE] = Calculator.calculateAverage(metricResult.map[TOTAL], metricResult.count, 2)
+//            metricResult.map[AVERAGE] = refs.size()
+
+            def addToTotal = refs.size() - originalNumReferences
+            incrementTotalsForAncestorPackages(otherPackage, addToTotal, 0)
+        }
+    }
+
+    private void incrementTotalsForAncestorPackages(String packageName, int addToTotal, int addToCount) {
+        def parentPackageName = ClassNameUtil.parentPackageName(packageName)
+        if (parentPackageName) {
+            def metricResult = metricResultMap[parentPackageName]
+            metricResult.count += addToCount
+            metricResult.map[TOTAL] += addToTotal
+            metricResult.map[AVERAGE] = Calculator.calculateAverage(metricResult.map[TOTAL], metricResult.count, 2)
+            incrementTotalsForAncestorPackages(parentPackageName, addToTotal, addToCount)
         }
     }
 
