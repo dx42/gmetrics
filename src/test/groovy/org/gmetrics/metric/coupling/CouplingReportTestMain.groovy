@@ -33,7 +33,7 @@ class CouplingReportTestMain {
         def ant = new AntBuilder()
         ant.taskdef(name:'gmetrics', classname:'org.gmetrics.ant.GMetricsTask')
 
-        ant.gmetrics(metricSetFile: 'file:src/test/resources/metricsets/CouplingMetricSet.txt') {
+        ant.gmetrics(metricSetFile: 'file:src/test/resources/coupling/CouplingMetricSet.txt') {
            fileset(dir:'src/main/groovy') {
                include(name:"**/*.groovy")
            }

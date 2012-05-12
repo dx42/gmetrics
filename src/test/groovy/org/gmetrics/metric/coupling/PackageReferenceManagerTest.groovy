@@ -54,6 +54,8 @@ class PackageReferenceManagerTest extends AbstractTestCase {
         assert manager.getReferencesToPackage(PACKAGE1) == [] as Set
     }
 
+    // Tests for addReferencesFromPackage()
+
     void testAddReferencesFromPackage_AddsReverseReferences() {
         manager.addReferencesFromPackage(PACKAGE1, [PACKAGE2, PACKAGE3] as Set)
         assert manager.getReferencesToPackage(PACKAGE1) == [] as Set
@@ -71,11 +73,11 @@ class PackageReferenceManagerTest extends AbstractTestCase {
 
     void testAddReferencesFromPackage_IncrementsTotalForSharedAncestorPackages() {
         manager.addReferencesFromPackage(PACKAGE1, ['aaa.bbb.ccc'] as Set)
-        manager.addReferencesFromPackage(PACKAGE2, ['aaa.bbb.ccc'] as Set)
-        manager.addReferencesFromPackage(PACKAGE3, ['aaa.ddd'] as Set)
+        manager.addReferencesFromPackage(PACKAGE2, ['aaa/bbb/ccc'] as Set)
+        manager.addReferencesFromPackage(PACKAGE3, ['aaa/ddd'] as Set)
 
         assertMetricResult(manager.getPackageMetricResult('aaa.bbb.ccc'), [count:1, value:2, total:2, average:2, referencedFromPackages:[PACKAGE1, PACKAGE2]])
-        assertMetricResult(manager.getPackageMetricResult('aaa.bbb'), [count:1, value:0, total:2, average:2, referencedFromPackages:null])
+        assertMetricResult(manager.getPackageMetricResult('aaa/bbb'), [count:1, value:0, total:2, average:2, referencedFromPackages:null])
         assertMetricResult(manager.getPackageMetricResult('aaa.ddd'), [count:1, value:1, total:1, average:1, referencedFromPackages:[PACKAGE3]])
         assertMetricResult(manager.getPackageMetricResult('aaa'), [count:2, value:0, total:3, average:1.5, referencedFromPackages:null])
     }
@@ -104,9 +106,9 @@ class PackageReferenceManagerTest extends AbstractTestCase {
     }
 
     void testGetPackageMetricResult_AlwaysReturnsSameInstanceForPackage() {
-        def metricResult = manager.getPackageMetricResult(PACKAGE1)
-        manager.addReferencesFromPackage(PACKAGE2, [PACKAGE1] as Set)
-        assert manager.getPackageMetricResult(PACKAGE1) == metricResult
+        def metricResult = manager.getPackageMetricResult('aa/bb')
+        manager.addReferencesFromPackage(PACKAGE2, ['aa/bb'] as Set)
+        assert manager.getPackageMetricResult('aa.bb') == metricResult
     }
 
     // Tests for registerPackageContainingClasses()
@@ -125,7 +127,7 @@ class PackageReferenceManagerTest extends AbstractTestCase {
         assert manager.getPackageMetricResult('aa.bb').count == 1
         assert manager.getPackageMetricResult('aa').count == 1
 
-        manager.registerPackageContainingClasses('aa.dd')
+        manager.registerPackageContainingClasses('aa/dd')
         assert manager.getPackageMetricResult('aa.dd').count == 1
         assert manager.getPackageMetricResult('aa').count == 2
     }
@@ -135,6 +137,16 @@ class PackageReferenceManagerTest extends AbstractTestCase {
         manager.registerPackageContainingClasses('aa')
         assert manager.getPackageMetricResult('aa').count == 2
         assert manager.getPackageMetricResult('aa').map[AVERAGE] == 0.5
+    }
+
+    void testNormalizePackageName() {
+        assert manager.normalizePackageName(null) == null
+        assert manager.normalizePackageName('') == ''
+        assert manager.normalizePackageName(' ') == ' '
+        assert manager.normalizePackageName('a.b') == 'a.b'
+        assert manager.normalizePackageName('a/b') == 'a.b'
+        assert manager.normalizePackageName('/a/b/c/d') == '.a.b.c.d'
+        assert manager.normalizePackageName('/') == '.'
     }
 
     //------------------------------------------------------------------------------------
