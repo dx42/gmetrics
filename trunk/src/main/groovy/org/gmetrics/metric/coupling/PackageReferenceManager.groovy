@@ -46,7 +46,8 @@ class PackageReferenceManager {
         this.metric = metric
     }
 
-    void registerPackageContainingClasses(String packageName) {
+    void registerPackageContainingClasses(String rawPackageName) {
+        def packageName = normalizePackageName(rawPackageName)
         if (!packagesContainingClasses.contains(packageName)) {
             def metricResult = metricResultMap[packageName]
             metricResult.count += 1
@@ -56,9 +57,11 @@ class PackageReferenceManager {
         }
     }
 
-    void addReferencesFromPackage(String packageName, Set<String> packages) {
+    void addReferencesFromPackage(String rawPackageName, Set<String> packages) {
+        def packageName = normalizePackageName(rawPackageName)
         registerPackageContainingClasses(packageName)
-        packages.each { otherPackage ->
+        packages.each { rawOtherPackage ->
+            def otherPackage = normalizePackageName(rawOtherPackage)
             registerPackageContainingClasses(otherPackage)
             def refs = referencesToPackage[otherPackage]
             def originalNumReferences = refs.size()
@@ -68,7 +71,6 @@ class PackageReferenceManager {
             metricResult.map[VALUE] = refs.size()
             metricResult.map[TOTAL] = refs.size()
             metricResult.map[AVERAGE] = Calculator.calculateAverage(metricResult.map[TOTAL], metricResult.count, 2)
-//            metricResult.map[AVERAGE] = refs.size()
 
             def addToTotal = refs.size() - originalNumReferences
             incrementTotalsForAncestorPackages(otherPackage, addToTotal, 0)
@@ -86,12 +88,18 @@ class PackageReferenceManager {
         }
     }
 
-    Set<String> getReferencesToPackage(String packageName) {
+    Set<String> getReferencesToPackage(String rawPackageName) {
+        def packageName = normalizePackageName(rawPackageName)
         return referencesToPackage[packageName]
     }
 
-    MetricResult getPackageMetricResult(String packageName) {
+    MetricResult getPackageMetricResult(String rawPackageName) {
+        def packageName = normalizePackageName(rawPackageName)
         return metricResultMap[packageName]
+    }
+
+    protected String normalizePackageName(String name) {
+        return name ? name.replace('/', '.') : name
     }
 
     private MutableMapMetricResult createEmptyMetricResult() {

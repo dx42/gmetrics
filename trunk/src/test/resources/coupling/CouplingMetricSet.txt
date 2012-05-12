@@ -3,7 +3,8 @@
 metricset {
 
     AfferentCoupling {
-        functions = ['value', 'referencedFromPackages']
+        functions = ['value', 'total', 'average', 'referencedFromPackages']
+        ignorePackageNames = ['org.codehaus']
     }
 
     EfferentCoupling {
