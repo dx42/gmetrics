@@ -53,6 +53,11 @@ class MutableMapMetricResult implements MetricResult {
     }
 
     @Override
+    void putAt(String name, Object newValue) {
+        map[name] = newValue
+    }
+
+    @Override
     String toString() {
         "MutableMapMetricResult[metric=${metric.name}, count=$count, $map]"
     }
