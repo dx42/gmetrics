@@ -77,6 +77,13 @@ class MutableMapMetricResultTest extends AbstractTestCase {
         assert result['a'] == 99
     }
 
+    void testModifyingValuesUsingSubscriptOperator() {
+        def result = new MutableMapMetricResult(METRIC, MetricLevel.METHOD, [a:123])
+        assert result['a'] == 123
+        result['a'] = 99
+        assert result['a'] == 99
+    }
+
     void testGetCount_DefaultsToZero() {
         def result = new MutableMapMetricResult(METRIC, MetricLevel.METHOD, MAP)
         assert result.getCount() == 0
