@@ -16,6 +16,7 @@
 package org.gmetrics.metric.coupling
 
 import org.gmetrics.metric.MetricLevel
+import org.gmetrics.metric.PostProcessingMetric
 import org.gmetrics.result.MetricResult
 
 /**
@@ -23,24 +24,28 @@ import org.gmetrics.result.MetricResult
  *
  * @author Chris Mair
  */
-class AfferentCouplingMetric extends AbstractPackageCouplingMetric {
+class AfferentCouplingMetric extends AbstractPackageCouplingMetric implements PostProcessingMetric {
 
     final String name = 'AfferentCoupling'
-    private final PackageReferenceManager packageReferenceManager = new PackageReferenceManager(this)
+    private final AfferentCouplingReferenceManager referenceManager = new AfferentCouplingReferenceManager(this)
 
     @Override
-    protected MetricResult calculateForPackage(String rawPackageName, Collection<MetricResult> childMetricResults) {
-        String packageName = normalizePackageName(rawPackageName)
-        packageReferenceManager.registerPackageContainingClasses(packageName)
+    protected MetricResult calculateForPackage(String packageName, Collection<MetricResult> childMetricResults) {
         childMetricResults.each { childMetricResult ->
             if (childMetricResult.metricLevel == MetricLevel.CLASS) {
-                packageReferenceManager.addReferencesFromPackage(packageName, childMetricResult[REFERENCED_PACKAGES])
+                referenceManager.addReferencesFromPackage(packageName, childMetricResult[REFERENCED_PACKAGES])
             }
         }
-        return packageReferenceManager.getPackageMetricResult(packageName)
+        return referenceManager.getPackageMetricResult(packageName)
     }
 
-    private String normalizePackageName(String name) {
-        return name ? name.replace('/', '.') : name
+    @Override
+    void afterAllSourceCodeProcessed() {
+        referenceManager.updateStatisticsForAllPackages()
+    }
+
+    // For testing
+    protected MetricResult getMetricResult(String packageName) {
+        return referenceManager.getPackageMetricResult(packageName)
     }
 }

@@ -15,7 +15,7 @@
  */
 package org.gmetrics.metric.coupling
 
-import static PackageReferenceManager.REFERENCED_FROM_PACKAGES
+import static AfferentCouplingReferenceManager.REFERENCED_FROM_PACKAGES
 import static org.gmetrics.result.FunctionNames.*
 
 import org.gmetrics.metric.MetricLevel

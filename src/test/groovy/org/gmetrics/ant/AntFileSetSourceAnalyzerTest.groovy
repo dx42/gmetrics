@@ -31,6 +31,7 @@ import org.gmetrics.metric.linecount.ClassLineCountMetric
 import org.gmetrics.metric.linecount.MethodLineCountMetric
 import org.gmetrics.metric.MetricLevel
 import org.gmetrics.result.MethodKey
+import org.gmetrics.metric.PostProcessingMetric
 
 /**
  * Tests for AntFileSetSourceAnalyzer
@@ -121,6 +122,21 @@ class AntFileSetSourceAnalyzerTest extends AbstractSourceAnalyzer_IntegrationTes
                 'ClassA1':[metricResults:[metricResult1]],
                 'ClassA2':[metricResults:[metricResult1]]
             ]])
+    }
+
+    private class PostProcessingTestMetric extends StubMetric implements PostProcessingMetric {
+        boolean afterAllSourceCodeProcessedCalled = false
+        @Override
+        void afterAllSourceCodeProcessed() {
+            afterAllSourceCodeProcessedCalled = true
+        }
+    }
+
+    void testAnalyze_InvokesPostProcessingMetric() {
+        def metric = new PostProcessingTestMetric()
+        metricSet = new ListMetricSet([new StubMetric(), metric])
+        analyzer.analyze(metricSet)
+        assert metric.afterAllSourceCodeProcessedCalled
     }
 
     void testAnalyze_MultipleFileSets() {
