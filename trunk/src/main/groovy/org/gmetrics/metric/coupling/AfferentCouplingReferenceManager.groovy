@@ -62,11 +62,11 @@ class AfferentCouplingReferenceManager {
     private void applyReverseReferencesForPackage(packageName, Set<String> referencedPackages) {
         referencedPackages.each { referencedPackage ->
             def metricResult = metricResultMap[referencedPackage]
-            def refs = metricResult[REFERENCED_FROM_PACKAGES]
-            refs << packageName
-            metricResult[VALUE] = refs.size()
-            metricResult[TOTAL] = refs.size()
-            metricResult[AVERAGE] = refs.size()
+            metricResult[REFERENCED_FROM_PACKAGES] << packageName
+            def numberOfReferences = metricResult[REFERENCED_FROM_PACKAGES].size()
+            metricResult[VALUE] = numberOfReferences
+            metricResult[TOTAL] = numberOfReferences
+            metricResult[AVERAGE] = numberOfReferences
             metricResult.count = 1
         }
     }

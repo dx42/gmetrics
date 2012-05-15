@@ -15,6 +15,8 @@
  */
 package org.gmetrics.metric.coupling
 
+import org.gmetrics.metric.PostProcessingMetric
+
 /**
  * Tests for applying AfferentCouplingMetric at the class level
  *
@@ -32,6 +34,10 @@ class AfferentCouplingMetric_ClassTest extends AbstractPackageCouplingMetric_Cla
 
     void testMetricName() {
         assert metric.name == 'AfferentCoupling'
+    }
+
+    void testMetricImplementsPostProcessingMetricInterface() {
+        assert metric instanceof PostProcessingMetric
     }
 
 }

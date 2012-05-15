@@ -30,36 +30,48 @@ class AfferentCouplingMetric_PackageTest extends AbstractPackageCouplingMetric_P
     private static final String PACKAGE2 = 'com.stuff'
     private static final String PACKAGE3 = 'org.example'
 
-    // Tests for applyToPackage()
-
-    void testApplyToPackage_NoChildren() {
-        assertApplyToPackage(PACKAGE1, [], [referencedFromPackages:null, value:0, total:0, average:0, count:1])
+    void testStatistics_NoChildren() {
+        def metricResult = metric.applyToPackage(PACKAGE1, [])
+        metric.afterAllSourceCodeProcessed()
+        assertMetricResult(metricResult, PACKAGE1, [referencedFromPackages:[], value:0, total:0, average:0, count:0])
     }
 
-    void testApplyToPackage_ChildClassesOnly() {
-        assertApplyToPackage(PACKAGE1, [classMetricResult([PACKAGE2, PACKAGE3] as Set)], [referencedFromPackages:null, value:0, total:0, average:0, count:1])
-        assertApplyToPackage(PACKAGE2, [classMetricResult([PACKAGE1, PACKAGE3])], [referencedFromPackages:[PACKAGE1], value:1, total:1, average:1, count:1])
-        assertApplyToPackage(PACKAGE3, [classMetricResult([PACKAGE1])], [referencedFromPackages:[PACKAGE1, PACKAGE2], value:2, total:2, average:2, count:1])
-        assertApplyToPackage(PACKAGE1, [classMetricResult([] as Set)], [referencedFromPackages:[PACKAGE2, PACKAGE3], value:2, total:2, average:2, count:1])
+    void testStatistics_ChildClassesOnly() {
+        def metricResult1 = metric.applyToPackage(PACKAGE1, [classMetricResult([PACKAGE2, PACKAGE3] as Set)])
+        def metricResult2 = metric.applyToPackage(PACKAGE2, [classMetricResult([PACKAGE1, PACKAGE3])])
+        def metricResult3 = metric.applyToPackage(PACKAGE3, [classMetricResult([PACKAGE1])])
+        metric.afterAllSourceCodeProcessed()
+        assertMetricResult(metricResult1, PACKAGE1, [referencedFromPackages:[PACKAGE2, PACKAGE3], value:2, total:2, average:2, count:1])
+        assertMetricResult(metricResult2, PACKAGE2, [referencedFromPackages:[PACKAGE1], value:1, total:1, average:1, count:1])
+        assertMetricResult(metricResult3, PACKAGE1, [referencedFromPackages:[PACKAGE1, PACKAGE2], value:2, total:2, average:2, count:1])
     }
 
-    void testApplyToPackage_ChildPackagesOnly() {
-        assertApplyToPackage(PACKAGE1, [packageMetricResult([PACKAGE2, PACKAGE3] as Set)], [referencedFromPackages:null, value:0, total:0, average:0, count:1])
-        assertApplyToPackage(PACKAGE2, [packageMetricResult([PACKAGE2, PACKAGE3] as Set)], [referencedFromPackages:null, value:0, total:0, average:0, count:1])
-        assertApplyToPackage(PACKAGE1, [packageMetricResult([PACKAGE2, PACKAGE3] as Set)], [referencedFromPackages:null, value:0, total:0, average:0, count:1])
+    void testStatistics_ChildPackagesOnly() {
+        def metricResult1 = metric.applyToPackage(PACKAGE1, [packageMetricResult([PACKAGE2, PACKAGE3] as Set)])
+        def metricResult2 = metric.applyToPackage(PACKAGE2, [packageMetricResult([PACKAGE2, PACKAGE3] as Set)])
+        metric.afterAllSourceCodeProcessed()
+        assertMetricResult(metricResult1, PACKAGE1, [referencedFromPackages:[], value:0, total:0, average:0, count:0])
+        assertMetricResult(metricResult2, PACKAGE2, [referencedFromPackages:[], value:0, total:0, average:0, count:0])
     }
 
-    void testApplyToPackage_AggregatesTotalsAndAveragesUpThroughParentPackages() {
-        assertApplyToPackage(PACKAGE1, [classMetricResult(['aaa.bbb.ccc'] as Set)], [referencedFromPackages:null, value:0, total:0, average:0, count:1])
-        assertApplyToPackage('aaa.bbb.ccc', [], [referencedFromPackages:[PACKAGE1], value:1, total:1, average:1, count:1])
-        assertApplyToPackage('aaa.bbb', [], [referencedFromPackages:null, value:0, total:1, average:0.5, count:2])
-        assertApplyToPackage('aaa', [], [referencedFromPackages:null, value:0, total:1, average:0.33, count:3])
+    void testStatistics_AggregatesTotalsAndAveragesUpThroughParentPackages() {
+        def metricResult1 = metric.applyToPackage(PACKAGE1, [classMetricResult(['aaa.bbb.ccc'] as Set)])
+        metric.afterAllSourceCodeProcessed()
+        def metricResultABC = metric.getMetricResult('aaa.bbb.ccc')
+        def metricResultAB = metric.getMetricResult('aaa.bbb')
+        def metricResultA = metric.getMetricResult('aaa')
+        assertMetricResult(metricResult1, PACKAGE1, [referencedFromPackages:[], value:0, total:0, average:0, count:1])
+        assertMetricResult(metricResultABC, 'aaa.bbb.ccc', [referencedFromPackages:[PACKAGE1], value:1, total:1, average:1, count:1])
+        assertMetricResult(metricResultAB, 'aaa.bbb', [referencedFromPackages:[], value:0, total:1, average:1, count:1])
+        assertMetricResult(metricResultA, 'aaa', [referencedFromPackages:[], value:0, total:1, average:1, count:1])
     }
 
-    void testApplyToPackage_NormalizesPackageNames() {
+    void testStatistics_NormalizesPackageNames() {
         def package1WithSlashes = PACKAGE1.replace('.', '/')
-        assertApplyToPackage(package1WithSlashes, [classMetricResult([PACKAGE2, PACKAGE3] as Set)], [referencedFromPackages:null, value:0, total:0, average:0, count:1])
-        assertApplyToPackage(PACKAGE2, [], [referencedFromPackages:[PACKAGE1], value:1, total:1, average:1, count:1])
+        def metricResult1 = metric.applyToPackage(package1WithSlashes, [classMetricResult([PACKAGE2, PACKAGE3])])
+        metric.afterAllSourceCodeProcessed()
+        assertMetricResult(metricResult1, 'PACKAGE1', [referencedFromPackages:[], value:0, total:0, average:0, count:1])
+        assertMetricResult(metric.getMetricResult(PACKAGE2), PACKAGE2, [referencedFromPackages:[PACKAGE1], value:1, total:1, average:1, count:1])
     }
 
 }

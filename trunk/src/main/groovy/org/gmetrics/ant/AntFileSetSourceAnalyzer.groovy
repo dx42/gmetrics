@@ -26,6 +26,7 @@ import org.gmetrics.resultsnode.ClassResultsNode
 import org.codehaus.groovy.ast.ClassNode
 import org.gmetrics.source.SourceCode
 import org.gmetrics.util.PathUtil
+import org.gmetrics.metric.PostProcessingMetric
 
 /**
  * SourceAnalyzer implementation that gets source files from one or more Ant FileSets.
@@ -63,7 +64,8 @@ class AntFileSetSourceAnalyzer implements SourceAnalyzer {
         fileSets.each { fileSet ->
             processFileSet(fileSet, metricSet)
         }
-        calculatePackageLevelMetricResults(rootResultsNode, metricSet) 
+        calculatePackageLevelMetricResults(rootResultsNode, metricSet)
+        afterAllSourceCodeProcessed(metricSet)
         return rootResultsNode
     }
 
@@ -179,5 +181,13 @@ class AntFileSetSourceAnalyzer implements SourceAnalyzer {
 
     private String removeLeadingSlash(path) {
         return (path.startsWith('\\') || path.startsWith('/')) ? path.substring(1) : path
+    }
+
+    private void afterAllSourceCodeProcessed(MetricSet metricSet) {
+        metricSet.metrics.each { metric ->
+            if (metric instanceof PostProcessingMetric) {
+                metric.afterAllSourceCodeProcessed()
+            }
+        }
     }
 }
