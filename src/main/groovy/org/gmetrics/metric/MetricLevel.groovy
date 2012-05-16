@@ -19,12 +19,22 @@ package org.gmetrics.metric
  * Enum representing the level at which a metric is applied - either method, class or package
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 enum MetricLevel {
     METHOD('method'),
     CLASS('class'),
     PACKAGE('package')
+
+    static MetricLevel parse(String name) {
+        return valueOf(name.toUpperCase())
+    }
+
+    static List<MetricLevel> parseCommaSeparatedList(String names) {
+        def tokens = names.tokenize(',')
+        return tokens.collect { name ->
+            parse(name.trim())
+        }
+    }
 
     static List getNames() {
         return MetricLevel.values().collect { it.name }

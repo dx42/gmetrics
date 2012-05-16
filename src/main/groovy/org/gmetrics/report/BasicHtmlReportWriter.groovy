@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 the original author or authors.
+ * Copyright 2012 the original author or authors.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,6 +43,7 @@ class BasicHtmlReportWriter extends AbstractReportWriter {
 
     static defaultOutputFile = DEFAULT_OUTPUT_FILE
     String title
+    private List<MetricLevel> reportMetricLevels
     private String notApplicable
 
     @Override
@@ -139,39 +140,49 @@ class BasicHtmlReportWriter extends AbstractReportWriter {
         return getResourceBundleString(resourceKey, "$metricName ($metricProperty)")
     }
 
+    void setReportLevels(String levels) {
+        reportMetricLevels = MetricLevel.parseCommaSeparatedList(levels)
+    }
+
+    private boolean includesReportLevel(MetricLevel level) {
+        reportMetricLevels == null || level in reportMetricLevels
+    }
+
     private buildResultsTableRowRecursively(ResultsNode resultsNode, List metricResultColumns) {
         return {
             def level = resultsNode.level
-            def rowCssClass = level.name
-            tr(class:rowCssClass) {
-                def prefix = prefixForResultsNodeLevel(resultsNode)
-                def nodeName = level == MetricLevel.PACKAGE ? resultsNode.path : resultsNode.name
-                def pathName = nodeName ?: ROOT_PACKAGE_NAME
-                def cssClass = resultsNode.name ? 'name' : 'allPackages'
+            if (includesReportLevel(level)) {
+                def rowCssClass = level.name
+                tr(class:rowCssClass) {
+                    def prefix = prefixForResultsNodeLevel(resultsNode)
+                    def nodeName = level == MetricLevel.PACKAGE ? resultsNode.path : resultsNode.name
+                    def pathName = nodeName ?: ROOT_PACKAGE_NAME
+                    def cssClass = resultsNode.name ? 'name' : 'allPackages'
 
-                td(class:"${level.name}Indent") {
-                    span(prefix, class:'rowTypePrefix')
-                    span(pathName, class:cssClass)
-                }
+                    td(class:"${level.name}Indent") {
+                        span(prefix, class:'rowTypePrefix')
+                        span(pathName, class:cssClass)
+                    }
 
-                metricResultColumns.each { columnDef ->
-                    Metric metric = columnDef.metric
-                    if (includesMetric(metric)) {
-                        def includeMetricResults = includesLevel(metric, level) && level >= metric.getBaseLevel()
-                        def metricResult = includeMetricResults ? resultsNode.getMetricResult(metric) : null
-                        boolean hasNonNullValue = metricResult && metricResult[columnDef.property] != null
-                        def formattedValue = hasNonNullValue ? formatMetricResultValue(metric.name, metricResult[columnDef.property]) : notApplicable
-                        td(formattedValue, class:'metricValue')
+                    metricResultColumns.each { columnDef ->
+                        Metric metric = columnDef.metric
+                        if (includesMetric(metric)) {
+                            def includeMetricResults = includesLevel(metric, level) && level >= metric.getBaseLevel()
+                            def metricResult = includeMetricResults ? resultsNode.getMetricResult(metric) : null
+                            boolean hasNonNullValue = metricResult && metricResult[columnDef.property] != null
+                            def formattedValue = hasNonNullValue ? formatMetricResultValue(metric.name, metricResult[columnDef.property]) : notApplicable
+                            td(formattedValue, class:'metricValue')
+                        }
                     }
                 }
             }
-            out << buildResultsRowForLevel(resultsNode, metricResultColumns, MetricLevel.METHOD)
-            out << buildResultsRowForLevel(resultsNode, metricResultColumns, MetricLevel.CLASS)
-            out << buildResultsRowForLevel(resultsNode, metricResultColumns, MetricLevel.PACKAGE)
+            out << buildResultsRowsForChildren(resultsNode, metricResultColumns, MetricLevel.METHOD)
+            out << buildResultsRowsForChildren(resultsNode, metricResultColumns, MetricLevel.CLASS)
+            out << buildResultsRowsForChildren(resultsNode, metricResultColumns, MetricLevel.PACKAGE)
         }
     }
 
-    private buildResultsRowForLevel(ResultsNode resultsNode, List metricResultColumns, MetricLevel metricLevel) {
+    private buildResultsRowsForChildren(ResultsNode resultsNode, List metricResultColumns, MetricLevel metricLevel) {
         return {
             resultsNode.children.each { childName, childNode ->
                 if (childNode.level == metricLevel) {
