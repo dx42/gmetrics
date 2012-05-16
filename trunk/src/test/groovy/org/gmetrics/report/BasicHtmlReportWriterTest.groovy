@@ -240,6 +240,29 @@ class BasicHtmlReportWriterTest extends AbstractReportWriterTestCase {
         assertReportContents(resultsNode, CONTENTS)
     }
 
+    void testWriteReport_ReportLevels_DoNotShowRowsForUnlistedReportLevel() {
+        def resultsNode = packageResultsNode([metricResults:[metric1Result(77)]],
+        [
+            ClassA1: classResultsNode([name:'ClassA1', metricResults:[metric1Result(888)]],
+            [
+                MethodA1a: methodResultsNode(name:'MethodA1a', metricResults:[metric1Result(9999)]),
+            ])
+        ])
+
+        reportWriter.reportLevels = 'package'
+        assertReportContents(resultsNode, [HTML_TAG, ALL_PACKAGES, 77, 77, BOTTOM_LINK], [888, 9999])
+
+        reportWriter.reportLevels = 'class'
+        assertReportContents(resultsNode, [HTML_TAG, 888, 888, BOTTOM_LINK], [77, 9999])
+
+        reportWriter.reportLevels = 'method'
+        assertReportContents(resultsNode, [HTML_TAG, 9999, 9999, BOTTOM_LINK], [77, 888])
+
+        reportWriter.reportLevels = 'package,class'
+        assertReportContents(resultsNode, [HTML_TAG, ALL_PACKAGES, 77, 77, 888, 888, BOTTOM_LINK], [9999])
+
+    }
+
     void testWriteReport_FormatsValuesUsingConfiguredFormatter() {
         final CONTENTS = [
                 HTML_TAG,

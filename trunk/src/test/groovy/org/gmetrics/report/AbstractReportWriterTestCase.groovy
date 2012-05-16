@@ -43,7 +43,7 @@ abstract class AbstractReportWriterTestCase extends AbstractTestCase {
     protected static final SRC_DIR2 = 'c:/MyProject/src/test/groovy'
 
     protected reportWriter
-    protected writer
+//    protected writer
     protected metric1, metric2, metric3
     protected metricSet1, metricSet2, metricSet3
     protected analysisContext
@@ -78,7 +78,6 @@ abstract class AbstractReportWriterTestCase extends AbstractTestCase {
     void setUp() {
         super.setUp()
         reportWriter = createReportWriter()
-        writer = new StringWriter()
         metric1 = new StubMetric(name:'Metric1')
         metric2 = new StubMetric(name:'Metric2')
         metric3 = new StubMetric(name:'Metric3')
@@ -119,6 +118,7 @@ abstract class AbstractReportWriterTestCase extends AbstractTestCase {
     }
 
     protected String writeReport(resultsNode, boolean writeToFile=false) {
+        def writer = new StringWriter()
         reportWriter.writeReport(writer, resultsNode, analysisContext)
         def reportText = writer.toString()
         log("reportText=$reportText")
