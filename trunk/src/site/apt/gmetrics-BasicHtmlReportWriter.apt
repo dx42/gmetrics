@@ -63,6 +63,15 @@ BasicHtmlReportWriter
 |                     | metric. Note that all levels are included for any other metrics|                        |
 |                     | not explicitly configured.                                     |                        |
 *---------------------+----------------------------------------------------------------+------------------------+
+| reportLevels        | The (comma-separated) list of levels included in the report for| No                     |
+|                     | all metrics. By default, all levels are included in the report.|                        |
+|                     | ----                                                           |                        |
+|                     | Valid <level> values are "package", "class" and "method".      |                        |
+|                     | ----                                                           |                        |
+|                     | For example, a value of <<<"package,method">>> for             |                        |
+|                     | <<<reportLevels>>> includes only rows for the <package> and    |                        |
+|                     | <method>.                                                      |                        |
+*---------------------+----------------------------------------------------------------+------------------------+
 | metrics             | The (comma-separated) list of names of the metrics included    | No                     |
 |                     | in the report. By default, all metrics within the results are  |                        |
 |                     | included in the report.                                        |                        |
