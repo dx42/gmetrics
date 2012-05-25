@@ -75,6 +75,11 @@ class AfferentCouplingReferenceManagerTest extends AbstractTestCase {
         assert manager.getReferencesFromPackage('aa.bb') == ['bb.cc', 'cc.dd'] as Set
     }
 
+    void testAddReferencesFromPackage_HandlesNullPackageName() {
+        manager.addReferencesFromPackage(null, ['aa'])
+        assert manager.getReferencesFromPackage(null) == ['aa'] as Set
+    }
+
     void testAddReferencesFromPackage_UnknownPackage_ReturnsEmptySet() {
         assert manager.getReferencesFromPackage('aa.bb') == [] as Set
     }
@@ -87,13 +92,16 @@ class AfferentCouplingReferenceManagerTest extends AbstractTestCase {
     // Tests for updateStatisticsForAllPackages()
 
     void testUpdateStatisticsForAllPackages_UpdatesStatisticsForSingleReferencedPackage() {
-        manager.addReferencesFromPackage('aa.bb', ['bb.cc'])
-        assertMetricResult(manager.getPackageMetricResult('bb.cc'), [referencedFromPackages:[], count:0, value:0, total:0, average:0])
+        manager.addReferencesFromPackage('bb', [])
+        manager.addReferencesFromPackage('aa', ['bb'])
+        assertMetricResult(manager.getPackageMetricResult('bb'), [referencedFromPackages:[], count:1, value:0, total:0, average:0])
         manager.updateStatisticsForAllPackages()
-        assertMetricResult(manager.getPackageMetricResult('bb.cc'), [referencedFromPackages:['aa.bb'], count:1, value:1, total:1, average:1])
+        assertMetricResult(manager.getPackageMetricResult('bb'), [referencedFromPackages:['aa'], count:1, value:1, total:1, average:1])
+        assertMetricResult(manager.getPackageMetricResult(null), [referencedFromPackages:[], count:2, value:0, total:1, average:0.5])
     }
 
     void testUpdateStatisticsForAllPackages_UpdatesStatisticsForReferencedPackages() {
+        manager.addReferencesFromPackage('dd.ee', [])
         manager.addReferencesFromPackage('aa.bb', ['bb.cc', 'cc/dd'])
         manager.addReferencesFromPackage('aa.bb', ['bb.cc', 'dd.ee'])
         manager.addReferencesFromPackage('bb.cc', ['dd.ee'])
@@ -104,6 +112,7 @@ class AfferentCouplingReferenceManagerTest extends AbstractTestCase {
     }
 
     void testUpdateStatisticsForAllPackages_UpdatesForAncestorPackages() {
+        manager.addReferencesFromPackage('aa.bb.cc', [])
         manager.addReferencesFromPackage(PACKAGE1, ['aa.bb.cc'])
         manager.updateStatisticsForAllPackages()
 
@@ -113,6 +122,8 @@ class AfferentCouplingReferenceManagerTest extends AbstractTestCase {
     }
 
     void testAddReferencesFromPackage_IncrementsTotalForSharedAncestorPackages() {
+        manager.addReferencesFromPackage('aa.bb.cc', [])
+        manager.addReferencesFromPackage('aa.dd', [])
         manager.addReferencesFromPackage(PACKAGE1, ['aa.bb.cc'])
         manager.addReferencesFromPackage(PACKAGE2, ['aa/bb/cc'])
         manager.addReferencesFromPackage(PACKAGE3, ['aa/dd'])
@@ -124,6 +135,19 @@ class AfferentCouplingReferenceManagerTest extends AbstractTestCase {
         assertMetricResult(manager.getPackageMetricResult('aa'), [count:2, value:0, total:3, average:1.5, referencedFromPackages:[]])
     }
 
+    void testAddReferencesFromPackage_DoesNotDoubleCountChildPackages() {
+        manager.addReferencesFromPackage('aa.bb.cc.dd', [])
+        manager.addReferencesFromPackage(PACKAGE1, ['aa.bb'])
+        manager.addReferencesFromPackage(PACKAGE1, ['aa.bb.cc'])
+        manager.addReferencesFromPackage(PACKAGE1, ['aa.bb.cc.dd'])
+
+        manager.updateStatisticsForAllPackages()
+        assertMetricResult(manager.getPackageMetricResult('aa.bb.cc.dd'), [count:1, value:1, total:1, average:1, referencedFromPackages:[PACKAGE1]])
+        assertMetricResult(manager.getPackageMetricResult('aa.bb.cc'), [count:2, value:1, total:2, average:1, referencedFromPackages:[PACKAGE1]])
+        assertMetricResult(manager.getPackageMetricResult('aa.bb'), [count:3, value:1, total:3, average:1, referencedFromPackages:[PACKAGE1]])
+        assertMetricResult(manager.getPackageMetricResult('aa'), [count:3, value:0, total:3, average:1, referencedFromPackages:[]])
+    }
+
     // Tests for getPackageMetricResult()
 
     void testGetPackageMetricResult_InitializedToEmpty() {
@@ -133,18 +157,18 @@ class AfferentCouplingReferenceManagerTest extends AbstractTestCase {
 
     void testGetPackageMetricResult_AlwaysReturnsSameInstanceForPackage() {
         def metricResult = manager.getPackageMetricResult('aa/bb')
-        manager.addReferencesFromPackage(PACKAGE1, ['aa/bb'] as Set)
+        manager.addReferencesFromPackage(PACKAGE1, ['aa/bb'])
         assert manager.getPackageMetricResult('aa.bb') == metricResult
     }
 
     void testNormalizePackageName() {
-        assert manager.normalizePackageName(null) == null
-        assert manager.normalizePackageName('') == ''
         assert manager.normalizePackageName(' ') == ' '
         assert manager.normalizePackageName('a.b') == 'a.b'
         assert manager.normalizePackageName('a/b') == 'a.b'
         assert manager.normalizePackageName('/a/b/c/d') == '.a.b.c.d'
         assert manager.normalizePackageName('/') == '.'
+        assert manager.normalizePackageName(null) == AfferentCouplingReferenceManager.ROOT
+        assert manager.normalizePackageName('') == AfferentCouplingReferenceManager.ROOT
     }
 
     //------------------------------------------------------------------------------------

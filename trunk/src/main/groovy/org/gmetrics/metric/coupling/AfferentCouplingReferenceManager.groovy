@@ -35,6 +35,7 @@ import org.gmetrics.util.ClassNameUtil
 class AfferentCouplingReferenceManager {
 
     protected static final String REFERENCED_FROM_PACKAGES = 'referencedFromPackages'
+    protected static final String ROOT = '<ROOT>'
 
     final Metric metric
     private Map<String, Set<String>> referencesFromPackage = [:].withDefault { [] as Set<String> }
@@ -61,33 +62,54 @@ class AfferentCouplingReferenceManager {
 
     private void applyReverseReferencesForPackage(packageName, Set<String> referencedPackages) {
         referencedPackages.each { referencedPackage ->
-            def metricResult = metricResultMap[referencedPackage]
-            metricResult[REFERENCED_FROM_PACKAGES] << packageName
-            def numberOfReferences = metricResult[REFERENCED_FROM_PACKAGES].size()
-            metricResult[VALUE] = numberOfReferences
-            metricResult[TOTAL] = numberOfReferences
-            metricResult[AVERAGE] = numberOfReferences
-            metricResult.count = 1
+            if (isSourcePackageOrAncestor(referencedPackage)) {
+                def metricResult = metricResultMap[referencedPackage]
+                metricResult[REFERENCED_FROM_PACKAGES] << packageName
+                def numberOfReferences = metricResult[REFERENCED_FROM_PACKAGES].size()
+                metricResult[VALUE] = numberOfReferences
+                metricResult[TOTAL] = numberOfReferences
+                metricResult[AVERAGE] = numberOfReferences
+                metricResult.count = 1
+            }
+        }
+    }
+
+    private boolean isSourcePackageOrAncestor(String packageName) {
+        if (referencesFromPackage.containsKey(packageName) || packageName == ROOT) {
+            return true
+        }
+        return referencesFromPackage.keySet().find { fromPackageName ->
+            fromPackageName.startsWith(packageName + '.')
         }
     }
 
     private void updateStatisticsForAllAncestorPackages() {
-        def packagesWithReferences = new HashSet(metricResultMap.keySet())
+        def packagesWithReferences = sortPackagesWithReferencesWithParentFirst()
         packagesWithReferences.each { packageName ->
             def metricResult = metricResultMap[packageName]
             updateStatisticsForAncestorPackage(packageName, metricResult[TOTAL], metricResult.count)
         }
     }
 
+    private SortedSet sortPackagesWithReferencesWithParentFirst() {
+        return new TreeSet(metricResultMap.keySet())
+    }
+
     private void updateStatisticsForAncestorPackage(String packageName, int addToTotal, int addToCount) {
-        def parentPackageName = ClassNameUtil.parentPackageName(packageName)
-        if (parentPackageName) {
+        def parentPackageName = parentPackageName(packageName)
+        if (parentPackageName && isSourcePackageOrAncestor(parentPackageName)) {
             def metricResult = metricResultMap[parentPackageName]
             metricResult.count += addToCount
             metricResult.map[TOTAL] += addToTotal
             metricResult.map[AVERAGE] = Calculator.calculateAverage(metricResult.map[TOTAL], metricResult.count, 2)
-            updateStatisticsForAncestorPackage(parentPackageName, addToTotal, addToCount)
+            if (parentPackageName != ROOT) {
+                updateStatisticsForAncestorPackage(parentPackageName, addToTotal, addToCount)
+            }
         }
+    }
+
+    private String parentPackageName(String packageName) {
+        return ClassNameUtil.parentPackageName(packageName) ?: ROOT
     }
 
     Set<String> getReferencesFromPackage(String rawPackageName) {
@@ -101,7 +123,7 @@ class AfferentCouplingReferenceManager {
     }
 
     protected String normalizePackageName(String name) {
-        return name ? name.replace('/', '.') : name
+        return name ? name.replace('/', '.') : ROOT
     }
 
     private MutableMapMetricResult createEmptyMetricResult() {
