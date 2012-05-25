@@ -56,6 +56,7 @@ class AfferentCouplingMetric_PackageTest extends AbstractPackageCouplingMetric_P
 
     void testStatistics_AggregatesTotalsAndAveragesUpThroughParentPackages() {
         def metricResult1 = metric.applyToPackage(PACKAGE1, [classMetricResult(['aaa.bbb.ccc'] as Set)])
+        metric.applyToPackage('aaa.bbb.ccc', [classMetricResult([] as Set)])
         metric.afterAllSourceCodeProcessed()
         def metricResultABC = metric.getMetricResult('aaa.bbb.ccc')
         def metricResultAB = metric.getMetricResult('aaa.bbb')
@@ -69,6 +70,7 @@ class AfferentCouplingMetric_PackageTest extends AbstractPackageCouplingMetric_P
     void testStatistics_NormalizesPackageNames() {
         def package1WithSlashes = PACKAGE1.replace('.', '/')
         def metricResult1 = metric.applyToPackage(package1WithSlashes, [classMetricResult([PACKAGE2, PACKAGE3])])
+        metric.applyToPackage(PACKAGE2, [classMetricResult([] as Set)])
         metric.afterAllSourceCodeProcessed()
         assertMetricResult(metricResult1, 'PACKAGE1', [referencedFromPackages:[], value:0, total:0, average:0, count:1])
         assertMetricResult(metric.getMetricResult(PACKAGE2), PACKAGE2, [referencedFromPackages:[PACKAGE1], value:1, total:1, average:1, count:1])

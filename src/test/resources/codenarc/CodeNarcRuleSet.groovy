@@ -27,7 +27,8 @@ ruleset {
             doNotApplyToClassNames = 'GMetricsTask'
         }
     }
-    ruleset('rulesets/groovyism.xml')
+    ruleset('rulesets/groovyism.xml') {
+    }
     ruleset('rulesets/imports.xml')
     ruleset('rulesets/junit.xml') {
         JUnitStyleAssertions(enabled:false)
@@ -60,6 +61,7 @@ ruleset {
         UnnecessaryCollectCall(enabled:false)
         UnnecessaryGetter(enabled:false)
         UnnecessaryGString(enabled:false)
+        UnnecessaryObjectReferences(enabled:false)
         UnnecessaryReturnKeyword(enabled:false)
         UnnecessarySubstring(enabled:false)
     }

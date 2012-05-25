@@ -43,6 +43,7 @@ class CouplingReportTestMain {
            report(type:HTML_REPORT_WRITER){
                option(name:'title', value:TITLE)
                option(name:'outputFile', value:HTML_REPORT_FILE)
+               option(name:'reportLevels', value:'package')
            }
            report(type:XML_REPORT_WRITER){
                option(name:'title', value:TITLE)
