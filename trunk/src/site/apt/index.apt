@@ -21,6 +21,8 @@ GMetrics
 
   * {{{./gmetrics-CrapMetric.html}CRAP}} - (Change Risk Anti-Patterns) score
 
+  * {{{./gmetrics-AfferentCouplingMetric.html}Afferent Coupling}}
+
   * {{{./gmetrics-EfferentCouplingMetric.html}Efferent Coupling}}
 
   * {{{./gmetrics-MethodLineCountMetric.html}Lines per method}}

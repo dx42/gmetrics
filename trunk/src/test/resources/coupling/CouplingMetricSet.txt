@@ -4,11 +4,11 @@ metricset {
 
     AfferentCoupling {
         functions = ['value', 'total', 'average', 'referencedFromPackages']
-        ignorePackageNames = ['org.codehaus']
+        //ignorePackageNames = ['org.codehaus']
     }
 
     EfferentCoupling {
-        functions = ['value', 'referencedPackages']
+        functions = ['value', 'referencedPackages', 'total', 'average']
     }
 
 }

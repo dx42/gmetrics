@@ -55,6 +55,7 @@
 
         <menu name="Metrics">
             <item name="ABC" href="/gmetrics-AbcMetric.html"/>
+            <item name="AfferentCoupling" href="/gmetrics-AfferentCouplingMetric.html"/>
             <item name="ClassCount" href="/gmetrics-ClassCountMetric.html"/>
             <item name="ClassLineCount" href="/gmetrics-ClassLineCountMetric.html"/>
             <item name="CoberturaBranchCoverageMetric" href="/gmetrics-CoberturaBranchCoverageMetric.html"/>
