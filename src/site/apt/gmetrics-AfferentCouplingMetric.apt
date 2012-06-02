@@ -1,15 +1,15 @@
 		--------------------------------------------------
-			   GMetrics - Efferent Coupling Metric
+			   GMetrics - Afferent Coupling Metric
 		--------------------------------------------------
 
-Efferent Coupling Metric
+Afferent Coupling Metric
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  Calculates the <<Efferent Coupling>> for a package. This is a count of the number of other packages
-  that the classes in a package depend upon, and is an indicator of the package's independence ([1]).
+  Calculates the <<Afferent Coupling>> for a package. This is a count of the number of other packages
+  that depend on the classes within this package. It is an indicator of the package's responsibility ([1]).
   This is a <<package>>-level metric.
 
- Implemented by the <<<org.gmetrics.metric.coupling.EfferentCouplingMetric>>> class.
+ Implemented by the <<<org.gmetrics.metric.coupling.AfferentCouplingMetric>>> class.
 
 
 * Metric Properties
@@ -32,9 +32,9 @@ Efferent Coupling Metric
 |                    |   \ - "value" - the value for the current package\                 |                        |
 |                    |   \ - "total" - the total value for the current package and its descendant packages\ |      |
 |                    |   \ - "average" - the average value for the current package and its descendant packages\ |  |
-|                    |   \ - "referencedPackages" - the list of referenced packages       |                        |
+|                    |   \ - "referencedFromPackages" - the list of packages that reference classes within the current package |       |
 *--------------------+--------------------------------------------------------------------+------------------------+
-| ignorePackageNames | The names of packages to ignore when calculating efferent coupling.| <null>                 |
+| ignorePackageNames | The names of packages to ignore when calculating afferent coupling.| <null>                 |
 |                    | This pattern string may contain wildcard characters ('*' or '?');  |                        |
 |                    | it may also contain more than one pattern, separated by commas.    |                        |
 *--------------------+--------------------------------------------------------------------+------------------------+
@@ -47,7 +47,7 @@ Efferent Coupling Metric
 
  * <<[2]>> {{{http://www.ibm.com/developerworks/java/library/j-cq04256/}"CodeQuality for Software Architects: Use coupling metrics to support your system architecture"}} -
    Andrew Glover, part of the "In pursuit of code quality" series in <developerWorks>.
-   This article includes a discussion of <<Efferent Coupling>>, among other metrics.
+   This article includes a discussion of <<Afferent Coupling>>, among other metrics.
 
  * <<[3]>> {{{http://www.spinellis.gr/codequality/}Code Quality: The Open Source Perspective}} - Diomidis Spinellis. Addison Wesley, 2006.
 

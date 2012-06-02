@@ -21,6 +21,7 @@ import org.gmetrics.metric.MetricLevel
 import org.gmetrics.result.ClassMetricResult
 import org.gmetrics.result.MapMetricResult
 import org.gmetrics.source.SourceCode
+import org.gmetrics.result.FunctionNames
 
 /**
  * Abstract superclass for Metrics that measure package-level coupling.
@@ -33,6 +34,10 @@ abstract class AbstractPackageCouplingMetric extends AbstractMetric {
 
     final MetricLevel baseLevel = MetricLevel.PACKAGE
     String ignorePackageNames
+
+    AbstractPackageCouplingMetric() {
+        this.functions = [FunctionNames.VALUE, FunctionNames.AVERAGE]
+    }
 
     @Override
     protected ClassMetricResult calculateForClass(ClassNode classNode, SourceCode sourceCode) {
