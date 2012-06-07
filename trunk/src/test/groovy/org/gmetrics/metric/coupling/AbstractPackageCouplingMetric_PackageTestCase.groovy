@@ -37,11 +37,6 @@ abstract class AbstractPackageCouplingMetric_PackageTestCase extends AbstractMet
     // Helper Methods
     //------------------------------------------------------------------------------------
 
-    protected void assertApplyToPackage(String packageName, Collection childMetricResults, Map expectedResultValues) {
-        def metricResult = metric.applyToPackage(packageName, childMetricResults)
-        assertMetricResult(metricResult, packageName, expectedResultValues)
-    }
-
     protected void assertMetricResult(metricResult, String packageName, Map expectedResultValues) {
         assert metricResult, "No MetricResult for package [$packageName]"
         assert metricResult[REFERENCED_PACKAGES] == expectedResultValues[REFERENCED_PACKAGES] as Set

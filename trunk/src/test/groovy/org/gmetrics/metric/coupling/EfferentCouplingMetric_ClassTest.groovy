@@ -16,6 +16,7 @@
 package org.gmetrics.metric.coupling
 
 import org.gmetrics.result.FunctionNames
+import org.gmetrics.metric.PostProcessingMetric
 
 /**
  * Tests for applying EfferentCouplingMetric at the class level
@@ -38,6 +39,10 @@ class EfferentCouplingMetric_ClassTest extends AbstractPackageCouplingMetric_Cla
 
     void testFunctions() {
         assert metric.functions == [FunctionNames.VALUE, FunctionNames.AVERAGE]
+    }
+
+    void testMetricImplementsPostProcessingMetricInterface() {
+        assert metric instanceof PostProcessingMetric
     }
 
 }

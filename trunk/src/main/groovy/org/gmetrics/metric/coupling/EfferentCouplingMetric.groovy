@@ -15,48 +15,39 @@
  */
 package org.gmetrics.metric.coupling
 
-import static org.gmetrics.result.FunctionNames.*
-
 import org.gmetrics.metric.MetricLevel
-import org.gmetrics.result.MapMetricResult
 import org.gmetrics.result.MetricResult
-import org.gmetrics.util.Calculator
+import org.gmetrics.metric.PostProcessingMetric
 
 /**
  * Metric for counting the number of other packages that the classes in the package depend upon.
  *
  * @author Chris Mair
  */
-class EfferentCouplingMetric extends AbstractPackageCouplingMetric {
+class EfferentCouplingMetric extends AbstractPackageCouplingMetric implements PostProcessingMetric {
 
     final String name = 'EfferentCoupling'
 
+    private final EfferentCouplingReferenceManager referenceManager = new EfferentCouplingReferenceManager(this)
+
     @Override
     protected MetricResult calculateForPackage(String packageName, Collection<MetricResult> childMetricResults) {
-        Set referencedPackages = []
-        int total = 0
-        int count = 0
-        boolean containsClasses = false
         childMetricResults.each { childMetricResult ->
             if (childMetricResult.metricLevel == MetricLevel.CLASS) {
-                referencedPackages.addAll(childMetricResult[REFERENCED_PACKAGES])
-                containsClasses = true
-            }
-            else {
-                count += childMetricResult.count
-                total += childMetricResult[TOTAL]
+                referenceManager.addReferencesFromPackage(packageName, childMetricResult[REFERENCED_PACKAGES])
             }
         }
-        count += containsClasses ? 1 : 0
-        total += containsClasses ? referencedPackages.size() : 0
+        return referenceManager.getPackageMetricResult(packageName)
+    }
 
-        def average = Calculator.calculateAverage(total, count, 2)
-        def resultsMap = [(VALUE):0, total:total, average:average]
-        if (referencedPackages) {
-            resultsMap[REFERENCED_PACKAGES] = referencedPackages
-            resultsMap[VALUE] = referencedPackages.size()
-        }
-        return new MapMetricResult(this, MetricLevel.PACKAGE, resultsMap, count)
+    // For testing
+    protected MetricResult getMetricResult(String packageName) {
+        return referenceManager.getPackageMetricResult(packageName)
+    }
+
+    @Override
+    void afterAllSourceCodeProcessed() {
+        referenceManager.updateStatisticsForAllPackages()
     }
 
 }
