@@ -22,18 +22,18 @@ import org.gmetrics.metric.MetricLevel
 import org.gmetrics.result.MutableMapMetricResult
 
 /**
- * Maintains a mapping of packageName -> packages that reference it, as well as a reference
+ * Maintains a mapping of packageName -> packages it references, as well as a reference
  * to a MetricResult for the associated PackageResultsNode. As this object is updated with
  * subsequent package references, the MetricResult is updated as well. So, the MetricResult
  * for a PackageResultNode is not "complete" until all of the packages have been processed.
  *
  * @author Chris Mair
  */
-class AfferentCouplingReferenceManager extends AbstractCouplingReferenceManager {
+class EfferentCouplingReferenceManager extends AbstractCouplingReferenceManager {
 
-    protected static final String REFERENCED_FROM_PACKAGES = 'referencedFromPackages'
+    protected static final String REFERENCED_PACKAGES = 'referencedPackages'
 
-    AfferentCouplingReferenceManager(Metric metric) {
+    EfferentCouplingReferenceManager(Metric metric) {
         super(metric)
     }
 
@@ -46,7 +46,7 @@ class AfferentCouplingReferenceManager extends AbstractCouplingReferenceManager 
 
     @Override
     protected MutableMapMetricResult createEmptyMetricResult() {
-        new MutableMapMetricResult(metric, MetricLevel.PACKAGE, [(VALUE):0, (TOTAL):0, (AVERAGE):0, (REFERENCED_FROM_PACKAGES):[] as Set])
+        new MutableMapMetricResult(metric, MetricLevel.PACKAGE, [(VALUE):0, (TOTAL):0, (AVERAGE):0, (REFERENCED_PACKAGES):[] as Set])
     }
 
     //------------------------------------------------------------------------------------
@@ -54,26 +54,13 @@ class AfferentCouplingReferenceManager extends AbstractCouplingReferenceManager 
     //------------------------------------------------------------------------------------
 
     private void applyReverseReferencesForPackage(packageName, Set<String> referencedPackages) {
-        referencedPackages.each { referencedPackage ->
-            if (isSourcePackageOrAncestor(referencedPackage)) {
-                def metricResult = metricResultMap[referencedPackage]
-                metricResult[REFERENCED_FROM_PACKAGES] << packageName
-                def numberOfReferences = metricResult[REFERENCED_FROM_PACKAGES].size()
-                metricResult[VALUE] = numberOfReferences
-                metricResult[TOTAL] = numberOfReferences
-                metricResult[AVERAGE] = numberOfReferences
-                metricResult.count = 1
-            }
-        }
-    }
-
-    private boolean isSourcePackageOrAncestor(String packageName) {
-        if (referencesFromPackage.containsKey(packageName) || packageName == ROOT) {
-            return true
-        }
-        return referencesFromPackage.keySet().find { fromPackageName ->
-            fromPackageName.startsWith(packageName + '.')
-        }
+        def metricResult = metricResultMap[packageName]
+        metricResult[REFERENCED_PACKAGES] = referencedPackages
+        def numberOfReferences = referencedPackages.size()
+        metricResult[VALUE] = numberOfReferences
+        metricResult[TOTAL] = numberOfReferences
+        metricResult[AVERAGE] = numberOfReferences
+        metricResult.count = 1
     }
 
     private void updateStatisticsForAllAncestorPackages() {
