@@ -69,10 +69,10 @@ class EfferentCouplingMetric_PackageTest extends AbstractPackageCouplingMetric_P
 
     void testStatistics_NormalizesPackageNames() {
         def package1WithSlashes = PACKAGE1.replace('.', '/')
-        def metricResult1 = metric.applyToPackage(package1WithSlashes, [classMetricResult([PACKAGE2, PACKAGE3])])
+        def metricResult1 = metric.applyToPackage(package1WithSlashes, [classMetricResult([PACKAGE2])])
         metric.applyToPackage(PACKAGE2, [classMetricResult([])])
         metric.afterAllSourceCodeProcessed()
-        assertMetricResult(metricResult1, 'PACKAGE1', [referencedPackages:[PACKAGE2, PACKAGE3], value:2, total:2, average:2, count:1])
+        assertMetricResult(metricResult1, 'PACKAGE1', [referencedPackages:[PACKAGE2], value:1, total:1, average:1, count:1])
         assertMetricResult(metric.getMetricResult(PACKAGE2), PACKAGE2, [referencedPackages:[], value:0, total:0, average:0, count:1])
     }
 
