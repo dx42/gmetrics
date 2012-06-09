@@ -16,27 +16,17 @@
 package org.gmetrics.metric.coupling
 
 import static AfferentCouplingReferenceManager.REFERENCED_FROM_PACKAGES
-import static org.gmetrics.result.FunctionNames.*
-
-import org.gmetrics.metric.MetricLevel
-import org.gmetrics.metric.StubMetric
-import org.gmetrics.result.MetricResult
-import org.gmetrics.test.AbstractTestCase
 
 /**
  * Tests for AfferentCouplingReferenceManager
  *
  * @author Chris Mair
  */
-class AfferentCouplingReferenceManagerTest extends AbstractTestCase {
+class AfferentCouplingReferenceManagerTest extends AbstractCouplingReferenceManagerTestCase {
 
-    private static final METRIC = new StubMetric()
-    private static final PACKAGE1 = 'a.b.package1'
-    private static final PACKAGE2 = 'c.d.package2'
-    private static final PACKAGE3 = 'e.f.package3'
-    private static final PACKAGE4 = 'g.h.package4'
-
-    private AfferentCouplingReferenceManager manager = new AfferentCouplingReferenceManager(METRIC)
+    protected createManager() {
+        new AfferentCouplingReferenceManager(METRIC)
+    }
 
     //------------------------------------------------------------------------------------
     // Tests
@@ -48,45 +38,6 @@ class AfferentCouplingReferenceManagerTest extends AbstractTestCase {
 
     void testConstructor_AssignsMetric() {
         assert new AfferentCouplingReferenceManager(METRIC).metric == METRIC
-    }
-
-    // Tests for addReferencesFromPackage()
-
-    void testAddReferencesFromPackage_StoresReferences() {
-        manager.addReferencesFromPackage(PACKAGE1, [PACKAGE2, PACKAGE3])
-        manager.addReferencesFromPackage(PACKAGE2, [PACKAGE1])
-        assert manager.getReferencesFromPackage(PACKAGE1) == [PACKAGE2, PACKAGE3] as Set
-        assert manager.getReferencesFromPackage(PACKAGE2) == [PACKAGE1] as Set
-    }
-
-    void testAddReferencesFromPackage_AggregatesReferences() {
-        manager.addReferencesFromPackage(PACKAGE1, [PACKAGE2, PACKAGE3])
-        manager.addReferencesFromPackage(PACKAGE1, [PACKAGE2, PACKAGE4])
-        assert manager.getReferencesFromPackage(PACKAGE1) == [PACKAGE2, PACKAGE3, PACKAGE4] as Set
-    }
-
-    void testAddReferencesFromPackage_UpdatesCountForFromPackage() {
-        manager.addReferencesFromPackage(PACKAGE1, [PACKAGE2, PACKAGE3])
-        assert manager.getPackageMetricResult(PACKAGE1).count == 1
-    }
-
-    void testAddReferencesFromPackage_NormalizesPackageNames() {
-        manager.addReferencesFromPackage('aa/bb', ['bb/cc', 'cc/dd'])
-        assert manager.getReferencesFromPackage('aa.bb') == ['bb.cc', 'cc.dd'] as Set
-    }
-
-    void testAddReferencesFromPackage_HandlesNullPackageName() {
-        manager.addReferencesFromPackage(null, ['aa'])
-        assert manager.getReferencesFromPackage(null) == ['aa'] as Set
-    }
-
-    void testAddReferencesFromPackage_UnknownPackage_ReturnsEmptySet() {
-        assert manager.getReferencesFromPackage('aa.bb') == [] as Set
-    }
-
-    void testGetReferencesFromPackage_NormalizesPackageName() {
-        manager.addReferencesFromPackage('aa.bb', ['bb.cc', 'cc/dd'])
-        assert manager.getReferencesFromPackage('aa/bb') == ['bb.cc', 'cc.dd'] as Set
     }
 
     // Tests for updateStatisticsForAllPackages()
@@ -153,37 +104,6 @@ class AfferentCouplingReferenceManagerTest extends AbstractTestCase {
     void testGetPackageMetricResult_InitializedToEmpty() {
         def metricResult = manager.getPackageMetricResult(PACKAGE1)
         assertMetricResult(metricResult, [(REFERENCED_FROM_PACKAGES):[], count:0, value:0, total:0, average:0])
-    }
-
-    void testGetPackageMetricResult_AlwaysReturnsSameInstanceForPackage() {
-        def metricResult = manager.getPackageMetricResult('aa/bb')
-        manager.addReferencesFromPackage(PACKAGE1, ['aa/bb'])
-        assert manager.getPackageMetricResult('aa.bb') == metricResult
-    }
-
-    void testNormalizePackageName() {
-        assert manager.normalizePackageName(' ') == ' '
-        assert manager.normalizePackageName('a.b') == 'a.b'
-        assert manager.normalizePackageName('a/b') == 'a.b'
-        assert manager.normalizePackageName('/a/b/c/d') == '.a.b.c.d'
-        assert manager.normalizePackageName('/') == '.'
-        assert manager.normalizePackageName(null) == AfferentCouplingReferenceManager.ROOT
-        assert manager.normalizePackageName('') == AfferentCouplingReferenceManager.ROOT
-    }
-
-    //------------------------------------------------------------------------------------
-    // Helper Methods
-    //------------------------------------------------------------------------------------
-
-    private void assertMetricResult(MetricResult metricResult, Map expectedResultValues) {
-        log(metricResult)
-        assert metricResult.metric == METRIC
-        assert metricResult.metricLevel == MetricLevel.PACKAGE
-        assert metricResult.count == expectedResultValues['count']
-        assert metricResult[VALUE] == expectedResultValues[VALUE]
-        assert metricResult[TOTAL] == expectedResultValues[TOTAL]
-        assert metricResult[AVERAGE] == expectedResultValues[AVERAGE]
-        assert metricResult[REFERENCED_FROM_PACKAGES] == expectedResultValues[REFERENCED_FROM_PACKAGES] as Set
     }
 
 }
