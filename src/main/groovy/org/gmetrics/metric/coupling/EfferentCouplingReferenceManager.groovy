@@ -39,7 +39,7 @@ class EfferentCouplingReferenceManager extends AbstractCouplingReferenceManager 
 
     void updateStatisticsForAllPackages() {
         referencesFromPackage.each { packageName, referencedPackages ->
-            applyReverseReferencesForPackage(packageName, referencedPackages)
+            applyReferencesForPackage(packageName, referencedPackages)
         }
         updateStatisticsForAllAncestorPackages()
     }
@@ -53,7 +53,8 @@ class EfferentCouplingReferenceManager extends AbstractCouplingReferenceManager 
     // Helper Methods
     //------------------------------------------------------------------------------------
 
-    private void applyReverseReferencesForPackage(packageName, Set<String> referencedPackages) {
+    private void applyReferencesForPackage(packageName, Set<String> allReferencedPackages) {
+        Set<String> referencedPackages = allReferencedPackages.findAll { String pkg -> isSourcePackage(pkg) }
         def metricResult = metricResultMap[packageName]
         metricResult[REFERENCED_PACKAGES] = referencedPackages
         def numberOfReferences = referencedPackages.size()
@@ -71,4 +72,7 @@ class EfferentCouplingReferenceManager extends AbstractCouplingReferenceManager 
         }
     }
 
+    private boolean isSourcePackage(String packageName) {
+        return referencesFromPackage.containsKey(packageName)
+    }
 }
