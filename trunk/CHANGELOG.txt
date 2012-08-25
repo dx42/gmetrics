@@ -7,6 +7,9 @@ Changes in version 0.6 (??? 2012)
 NEW METRICS
 - New EfferentCouplingMetric. Package-level metric that counts the number of other packages that the classes in a package depend upon, and is an indicator of the package's independence.
 
+NEW FEATURES
+- #3560963: Add fileName and filePath attributes to <Class> elements on XML report.
+
 FIXES AND ENHANCEMENTS
 - #3508192: Make CoberturaCoverageFile threadsafe.
 - #3520789: Fix CyclomaticComplexity metric does not count null-check operator if it is applied to a method call.

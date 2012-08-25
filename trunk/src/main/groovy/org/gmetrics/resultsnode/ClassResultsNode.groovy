@@ -25,17 +25,24 @@ import org.gmetrics.result.MethodKey
  * Represents a node in the hierarchy of metric result nodes
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class ClassResultsNode implements ResultsNode {
 
     final String name
+    final String fileName
+    final String filePath
     final MetricLevel level = MetricLevel.CLASS
     final Map<String, ResultsNode> children = [:]
     final List<MetricResult> metricResults = []
 
     ClassResultsNode(String name) {
         this.name = name
+    }
+
+    ClassResultsNode(String name, String fileName, String filePath) {
+        this.name = name
+        this.fileName = fileName
+        this.filePath = filePath
     }
 
     boolean containsClassResults() {
