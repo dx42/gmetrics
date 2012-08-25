@@ -23,12 +23,13 @@ import org.gmetrics.metric.Metric
  * Stub ResultsNode implementation for testing
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 @SuppressWarnings('ConfusingMethodName')
 class StubResultsNode implements ResultsNode {
 
     String name
+    String fileName
+    String filePath
     MetricLevel level = MetricLevel.CLASS
     boolean containsClassResults = false
     List metricResults = []

@@ -112,7 +112,8 @@ class XmlReportWriter extends AbstractReportWriter {
 
     private buildClassElement(resultsNode) {
         return {
-            Class([name:resultsNode.name]) {
+            Class([name:resultsNode.name, fileName:resultsNode.fileName, filePath:resultsNode.filePath]) {
+//            Class([name:resultsNode.name]) {
                 out << buildMetricElements(resultsNode.metricResults, resultsNode.level)
                 resultsNode.children.each { childName, childResultsNode ->
                     out << buildElement(childResultsNode)

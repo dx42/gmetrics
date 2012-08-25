@@ -100,10 +100,10 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
             <Package path='org'>
                 <MetricResult name='Metric1' total='11' average='11'/>
                 <MetricResult name='Metric2' total='21' average='21'/>
-                <Class name='MyDao'>
+                <Class name='MyDao' fileName='' filePath=''>
                     <MetricResult name='Metric1' total='101' average='101'/>
                 </Class>
-                <Class name='MyController'>
+                <Class name='MyController' fileName='' filePath=''>
                     <MetricResult name='Metric1' total='102' average='102'/>
                 </Class>
             </Package>
@@ -141,10 +141,10 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
             <Package path='org'>
                 <MetricResult name='Metric1' total='11' average='11'/>
                 <MetricResult name='Metric2' total='21' average='21'/>
-                <Class name='MyDao'>
+                <Class name='MyDao' fileName='MyDao.groovy' filePath='src/base/MyDao.groovy'>
                     <MetricResult name='Metric1' total='101' average='101'/>
                 </Class>
-                <Class name='MyController'>
+                <Class name='MyController' fileName='' filePath=''>
                     <MetricResult name='Metric1' total='102' average='102'/>
                 </Class>
             </Package>
@@ -154,7 +154,7 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
         [
             org: packageResultsNode([name:'org', path:'org', metricResults:[metric1Result(11), metric2Result(21)]],
             [
-                MyDao: classResultsNode(name:'MyDao', metricResults:[metric1Result(101)]),
+                MyDao: classResultsNode(name:'MyDao', metricResults:[metric1Result(101)], fileName:'MyDao.groovy', filePath:'src/base/MyDao.groovy'),
                 MyController: classResultsNode(name:'MyController', metricResults:[metric1Result(102)])
             ])
         ])
@@ -168,7 +168,7 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
             </PackageSummary>
             <Package path='org'>
                 <MetricResult name='Metric1' total='[a, b, c]'/>
-                <Class name='MyDao'>
+                <Class name='MyDao' fileName='MyDao.groovy' filePath='src/base/MyDao.groovy'>
                     <MetricResult name='Metric1' total='[123, 456]'/>
                 </Class>
             </Package>
@@ -178,7 +178,7 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
         [
             org: packageResultsNode([name:'org', path:'org', metricResults:[metric1MapResult(total:['a', 'b', 'c'])]],
             [
-                MyDao: classResultsNode(name:'MyDao', metricResults:[metric1MapResult(total:[123, 456])]),
+                MyDao: classResultsNode(name:'MyDao', metricResults:[metric1MapResult(total:[123, 456])], fileName:'MyDao.groovy', filePath:'src/base/MyDao.groovy'),
             ])
         ])
         assertReportXml(rootNode, XML)
@@ -206,10 +206,10 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
             <Package path='org'>
                 <MetricResult name='Metric1' minimum='11' maximum='11'/>
                 <MetricResult name='Metric2' average='21'/>
-                <Class name='MyDao'>
+                <Class name='MyDao' fileName='' filePath=''>
                     <MetricResult name='Metric1' minimum='101' maximum='101'/>
                 </Class>
-                <Class name='MyController'>
+                <Class name='MyController' fileName='' filePath=''>
                     <MetricResult name='Metric1' minimum='102' maximum='102'/>
                 </Class>
             </Package>
@@ -233,13 +233,13 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
             <Package path='test'>
                 <MetricResult name='Metric1' total='11' average='11'/>
                 <MetricResult name='Metric2' total='21' average='21'/>
-                <Class name='MyDao'>
+                <Class name='MyDao' fileName='' filePath=''>
                     <MetricResult name='Metric1' total='101' average='101'/>
                     <Method name='process' signature='void process()'>
                         <MetricResult name='Metric1' total='1001' average='1001'/>
                     </Method>
                 </Class>
-                <Class name='MyController'>
+                <Class name='MyController' fileName='' filePath=''>
                     <MetricResult name='Metric1' total='102' average='102'/>
                     <Method name='initialize' signature='boolean initialize(int)'>
                         <MetricResult name='Metric1' total='1002' average='1002'/>
@@ -280,10 +280,10 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
         final PACKAGES = """
             <Package path='org'>
                 <MetricResult name='Metric1' total='11' average='11'/>
-                <Class name='MyDao'>
+                <Class name='MyDao' fileName='' filePath=''>
                     <MetricResult name='Metric2' average='201'/>
                 </Class>
-                <Class name='MyController'>
+                <Class name='MyController' fileName='' filePath=''>
                     <MetricResult name='Metric2' average='202'/>
                     <Method name='process' signature='void process()'>
                         <MetricResult name='Metric1' total='1002' average='1002'/>

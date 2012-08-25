@@ -30,6 +30,8 @@ import org.gmetrics.result.MethodKey
 class ClassResultsNodeTest extends AbstractTestCase {
 
     private static final NAME = 'name123'
+    private static final FILE_NAME = 'filenameAbc'
+    private static final FILE_PATH = 'abc/def'
     private static final METRIC = new StubMetric()
     private classResultsNode
     private classResult1, classResult2, classResult3
@@ -40,6 +42,12 @@ class ClassResultsNodeTest extends AbstractTestCase {
 
     void testNameAssignedFromConstructor() {
         assert classResultsNode.name == NAME
+    }
+
+    void testConstructorAssignsFileNameAndFilePath() {
+        def newClassResultsNode = new ClassResultsNode(NAME, FILE_NAME, FILE_PATH)
+        assert newClassResultsNode.fileName == FILE_NAME
+        assert newClassResultsNode.filePath == FILE_PATH
     }
 
     void testThatMetricLevelIsClassLevel() {
