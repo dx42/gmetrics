@@ -67,15 +67,6 @@ class AfferentCouplingReferenceManager extends AbstractCouplingReferenceManager 
         }
     }
 
-    private boolean isSourcePackageOrAncestor(String packageName) {
-        if (referencesFromPackage.containsKey(packageName) || packageName == ROOT) {
-            return true
-        }
-        return referencesFromPackage.keySet().find { fromPackageName ->
-            fromPackageName.startsWith(packageName + '.')
-        }
-    }
-
     private void updateStatisticsForAllAncestorPackages() {
         def packagesWithReferences = sortPackagesWithReferencesWithParentFirst()
         packagesWithReferences.each { packageName ->
