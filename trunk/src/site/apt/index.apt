@@ -7,7 +7,7 @@ GMetrics
 
   The <<GMetrics>> project provides calculation and reporting of size and complexity metrics for
   Groovy source code. <<GMetrics>> scans Groovy source code, applying a set of metrics, and
-  generates an HTML report of the results.
+  generates an HTML or XML report of the results.
 
   You can run <<GMetrics>> using the supplied {{{./gmetrics-ant-task.html}Ant Task}}.
 

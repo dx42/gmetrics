@@ -29,7 +29,6 @@ import org.gmetrics.util.PathUtil
  * SourceAnalyzer implementation that recursively processes files from the file system.
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class FilesystemSourceAnalyzer implements SourceAnalyzer {
     static final SEP = '/'
@@ -123,7 +122,7 @@ class FilesystemSourceAnalyzer implements SourceAnalyzer {
     }
 
     private ClassResultsNode applyMetricsToClass(ClassNode classNode, MetricSet metricSet, SourceCode sourceCode) {
-        def classResultsNode = new ClassResultsNode(classNode.name)
+        def classResultsNode = new ClassResultsNode(classNode.name, sourceCode.getName(), sourceCode.getPath())
         metricSet.metrics.each { metric ->
             def classMetricResult = metric.applyToClass(classNode, sourceCode)
             classResultsNode.addClassMetricResult(classMetricResult)

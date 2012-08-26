@@ -124,6 +124,15 @@ class AntFileSetSourceAnalyzerTest extends AbstractSourceAnalyzer_IntegrationTes
             ]])
     }
 
+    void testAnalyze_IncludesFileNameAndFilePath_ForClassResultsNode() {
+        metricSet = new ListMetricSet([metric1])
+        fileSet.dir = new File(BASE_DIR + '/dirA')
+        def resultsNode = analyzer.analyze(metricSet)
+        ResultsNodeTestUtil.print(resultsNode)
+        resultsNode.children['ClassA1'].fileName == 'ClassA1.groovy'
+        resultsNode.children['ClassA1'].filePath.endsWith('/dirA/ClassA1.groovy')
+    }
+
     private class PostProcessingTestMetric extends StubMetric implements PostProcessingMetric {
         boolean afterAllSourceCodeProcessedCalled = false
         @Override
