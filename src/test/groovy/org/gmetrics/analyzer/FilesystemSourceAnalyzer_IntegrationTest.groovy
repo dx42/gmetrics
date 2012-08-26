@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 the original author or authors.
+ * Copyright 2012 the original author or authors.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,14 +15,24 @@
  */
 package org.gmetrics.analyzer
 
+import org.gmetrics.resultsnode.ResultsNodeTestUtil
+
 /**
  * Integration tests for FilesystemSourceAnalyzer. These tests access the real filesystem
  * and use a real Metric implementation.
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class FilesystemSourceAnalyzer_IntegrationTest extends AbstractSourceAnalyzer_IntegrationTest {
+
+    void testAnalyze_IncludesFileNameAndFilePath_ForClassResultsNode() {
+        analyzer.baseDirectory = BASE_DIR + '/dirA'
+        def resultsNode = analyzer.analyze(metricSet)
+        ResultsNodeTestUtil.print(resultsNode)
+        resultsNode.children['ClassA1'].fileName == 'ClassA1.groovy'
+        resultsNode.children['ClassA1'].filePath.endsWith('/dirA/ClassA1.groovy')
+    }
+
 
     protected SourceAnalyzer createSourceAnalyzer() {
         return new FilesystemSourceAnalyzer(baseDirectory:BASE_DIR)
