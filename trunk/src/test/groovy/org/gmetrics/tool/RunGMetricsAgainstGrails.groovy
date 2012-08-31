@@ -31,9 +31,11 @@ class RunGMetricsAgainstGrails {
         runGMetrics()
     }
 
+    @SuppressWarnings('Println')
     private static void runGMetrics() {
         def baseDir = System.getProperty('grails.home')
         assert baseDir, 'The "grails.home" system property must be set to the location of the Grails installation.'
+        println "Analyzing Grails source code from [$baseDir]"
 
         def ant = new AntBuilder()
 
@@ -41,8 +43,9 @@ class RunGMetricsAgainstGrails {
 
         ant.gmetrics(metricSetFile:METRICSET_FILE) {
 
-            fileset(dir:baseDir) {
-                include(name:'src/**/*.groovy')
+            fileset(dir:baseDir+'/src/java') {
+//                include(name:'src/**/*.groovy')    // doesn't work; package names are relative to baseDir, not actual package names
+                include(name:'**/*.groovy')
                 include(name:'scripts/**/*.groovy')
                 exclude(name:'**/templates/**')
             }
@@ -50,6 +53,14 @@ class RunGMetricsAgainstGrails {
             report(type:HTML_REPORT_WRITER){
                option(name:'title', value:'Grails')
                option(name:'outputFile', value:'GMetrics-Grails-Report.html')
+               option(name:'metrics', value:'CyclomaticComplexity, ClassLineCount, MethodLineCount')
+            }
+
+            report(type:HTML_REPORT_WRITER){
+                option(name:'title', value:'Grails - Package')
+                option(name:'outputFile', value:'GMetrics-Grails-Package-Report.html')
+                option(name:'metrics', value:'AfferentCoupling, EfferentCoupling')
+                option(name:'reportLevels', value:'package')
             }
         }
     }

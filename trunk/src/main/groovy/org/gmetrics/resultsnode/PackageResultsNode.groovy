@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 the original author or authors.
+ * Copyright 2012 the original author or authors.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,11 +23,11 @@ import org.gmetrics.metric.Metric
  * Represents a package node in the hierarchy of metric result nodes
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class PackageResultsNode implements ResultsNode {
 
     final String name
+    final String packageName
     final String path
     final MetricLevel level = MetricLevel.PACKAGE
     final List<MetricResult> metricResults = []
@@ -38,8 +38,9 @@ class PackageResultsNode implements ResultsNode {
         this.name = name
     }
 
-    PackageResultsNode(String name, String path) {
+    PackageResultsNode(String name, String packageName, String path) {
         this.name = name
+        this.packageName = packageName
         this.path = path
     }
 
@@ -86,6 +87,6 @@ class PackageResultsNode implements ResultsNode {
     }
 
     String toString() {
-        return "PackageResultsNode[path=$path, metricResults=$metricResults, children=$children]"
+        return "PackageResultsNode[path=$path, packageName=$packageName, metricResults=$metricResults, children=$children]"
     }
 }

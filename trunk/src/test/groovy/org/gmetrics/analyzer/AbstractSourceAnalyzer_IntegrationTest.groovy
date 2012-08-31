@@ -26,7 +26,6 @@ import org.gmetrics.metric.linecount.MethodLineCountMetric
  * and use a real Metric implementation.
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 abstract class AbstractSourceAnalyzer_IntegrationTest extends AbstractTestCase {
 
@@ -74,8 +73,8 @@ abstract class AbstractSourceAnalyzer_IntegrationTest extends AbstractTestCase {
         def classB1_method1 = new StubMetricResult(metric:metric, count:1, total:1, average:1)
         def classB1_method2 = new StubMetricResult(metric:metric, count:1, total:1, average:1)
         def classB1_closure3 = new StubMetricResult(metric:metric, count:1, total:7, average:7)
-        def classB1 = new StubMetricResult(metric:metric, count:3, total:9, average:3)
-        def dirB = new StubMetricResult(metric:metric, count:3, total:9, average:3)
+        def classB1 = new StubMetricResult(metric:metric, count:3, total:9, average:3.0)
+        def dirB = new StubMetricResult(metric:metric, count:3, total:9, average:3.0)
 
         def all = new StubMetricResult(metric:metric, count:7, total:25, average:scale(25/7))
 
@@ -85,7 +84,7 @@ abstract class AbstractSourceAnalyzer_IntegrationTest extends AbstractTestCase {
                 dirA:[
                     metricResults:[dirA],
                     children:[
-                        'ClassA1':[
+                        'org.gmetrics.ClassA1':[
                             metricResults:[classA1],
                             children:[
                                 'method1':[metricResults:[classA1_method1]],
@@ -105,7 +104,7 @@ abstract class AbstractSourceAnalyzer_IntegrationTest extends AbstractTestCase {
                 dirB:[
                     metricResults:[dirB],
                     children:[
-                        'ClassB1':[
+                        'org.gmetrics.example.ClassB1':[
                             metricResults:[classB1],
                             children:[
                                 'method1':[metricResults:[classB1_method1]],

@@ -29,19 +29,22 @@ class FilesystemSourceAnalyzer_IntegrationTest extends AbstractSourceAnalyzer_In
         analyzer.baseDirectory = BASE_DIR + '/dirA'
         def resultsNode = analyzer.analyze(metricSet)
         ResultsNodeTestUtil.print(resultsNode)
-        resultsNode.children['ClassA1'].fileName == 'ClassA1.groovy'
-        resultsNode.children['ClassA1'].filePath.endsWith('/dirA/ClassA1.groovy')
+        resultsNode.children['org.gmetrics.ClassA1'].fileName == 'ClassA1.groovy'
+        resultsNode.children['org.gmetrics.ClassA1'].filePath.endsWith('/dirA/ClassA1.groovy')
     }
 
 
+    @Override
     protected SourceAnalyzer createSourceAnalyzer() {
         return new FilesystemSourceAnalyzer(baseDirectory:BASE_DIR)
     }
 
+    @Override
     protected void initializeSourceAnalyzerForEmptyDirectory() {
         analyzer.baseDirectory = BASE_DIR + '/empty'
     }
 
+    @Override
     protected void initializeSourceAnalyzerForDirectoryWithNoMatchingFiles() {
         analyzer.baseDirectory = BASE_DIR + '/no_matching_files'
     }
