@@ -108,13 +108,17 @@ class AntFileSetSourceAnalyzer implements SourceAnalyzer {
     private void processFile(File baseDir, String filePath, MetricSet metricSet) {
 
         def parentPath = PathUtil.getParent(filePath)
-        def parentResultsNode = findOrAddResultsNodeForPath(parentPath)
 
         def file = new File(baseDir, filePath)
         def sourceCode = new SourceFile(file)
         def ast = sourceCode.ast
         if (ast) {
+            def parentResultsNode
             ast.classes.each { classNode ->
+                if (!parentResultsNode) {
+                    def packageName = classNode.packageName
+                    parentResultsNode = findOrAddResultsNodeForPath(parentPath, packageName)
+                }
                 def classResultsNode = applyMetricsToClass(classNode, metricSet, sourceCode)
                 def className = classNode.name
                 parentResultsNode.addChildIfNotEmpty(className, classResultsNode)
@@ -157,16 +161,16 @@ class AntFileSetSourceAnalyzer implements SourceAnalyzer {
         return found ? result : null
     }
 
-    protected ResultsNode findOrAddResultsNodeForPath(String path) {
+    protected ResultsNode findOrAddResultsNodeForPath(String path, String packageName) {
         def resultsNode = findResultsNodeForPath(path)
         if (resultsNode) {
             return resultsNode
         }
         def parentPath = PathUtil.getParent(path)
-        def packageName = PathUtil.getName(path)
-        def newPackageNode = new PackageResultsNode(packageName, path)
-        def parentNode = parentPath ? findOrAddResultsNodeForPath(parentPath) : rootResultsNode
-        parentNode.addChild(packageName, newPackageNode)
+        def name = PathUtil.getName(path)
+        def newPackageNode = new PackageResultsNode(name, packageName, path)
+        def parentNode = parentPath ? findOrAddResultsNodeForPath(parentPath, packageName) : rootResultsNode
+        parentNode.addChild(name, newPackageNode)
         return newPackageNode
     }
 

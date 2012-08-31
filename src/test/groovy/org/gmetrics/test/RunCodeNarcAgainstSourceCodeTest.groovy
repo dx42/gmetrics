@@ -38,7 +38,6 @@ class RunCodeNarcAgainstSourceCodeTest extends org.gmetrics.test.AbstractTestCas
 
            fileset(dir:'src/main/groovy') {
                include(name:GROOVY_FILES)
-               exclude(name:'**/Temp.groovy')   // TODO Remove when we get rid of this temporary file
            }
            fileset(dir:'src/test/groovy') {
                include(name:GROOVY_FILES)

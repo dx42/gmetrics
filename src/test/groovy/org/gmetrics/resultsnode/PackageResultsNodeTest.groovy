@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 the original author or authors.
+ * Copyright 2012 the original author or authors.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,6 +30,7 @@ class PackageResultsNodeTest extends AbstractTestCase {
 
     private static final NAME = 'name123'
     private static final PATH = 'path123'
+    private static final PACKAGE_NAME = 'org.gmetrics'
     private static final METRIC = new MethodLineCountMetric()
     private static final MR1 = new SingleNumberMetricResult(METRIC, MetricLevel.CLASS, 23)
     private static final MR2 = new SingleNumberMetricResult(METRIC, MetricLevel.CLASS, 99)
@@ -44,13 +45,20 @@ class PackageResultsNodeTest extends AbstractTestCase {
         assert packageResultsNode instanceof ResultsNode
     }
 
-    void testNameAssignedFromConstructor() {
+    void testName_AssignedFromConstructor() {
         assert packageResultsNode.name == NAME
     }
 
-    void testNameAndPathAssignedFromConstructor() {
-        def newResultsNode = new PackageResultsNode(NAME, PATH)
+    void testNameAndPath_AssignedFromConstructor() {
+        def newResultsNode = new PackageResultsNode(NAME, PACKAGE_NAME, PATH)
         assert newResultsNode.name == NAME
+        assert newResultsNode.path == PATH
+    }
+
+    void testNamePackageNameAndPath_AssignedFromConstructor() {
+        def newResultsNode = new PackageResultsNode(NAME, PACKAGE_NAME, PATH)
+        assert newResultsNode.name == NAME
+        assert newResultsNode.packageName == PACKAGE_NAME
         assert newResultsNode.path == PATH
     }
 
@@ -190,7 +198,7 @@ class PackageResultsNodeTest extends AbstractTestCase {
 
     void setUp() {
         super.setUp()
-        packageResultsNode = new PackageResultsNode(NAME, PATH)
+        packageResultsNode = new PackageResultsNode(NAME, PACKAGE_NAME, PATH)
         emptyResultsNode = new StubResultsNode()
         resultsNode1 = new StubResultsNode(metricResults:[MR1])
         resultsNode2 = new StubResultsNode(metricResults:[MR2])

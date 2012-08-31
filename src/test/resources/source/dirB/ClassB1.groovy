@@ -1,3 +1,5 @@
+package org.gmetrics.example
+
 class ClassB1 {
     def method1() { }
 
@@ -8,7 +10,7 @@ class ClassB1 {
 
 
 
-        
+
     }
 }
 

@@ -31,8 +31,9 @@ import org.gmetrics.util.PathUtil
  * @author Chris Mair
  */
 class FilesystemSourceAnalyzer implements SourceAnalyzer {
-    static final SEP = '/'
-    static final DEFAULT_INCLUDES = '**.groovy'
+
+    public static final SEP = '/'
+    public static final DEFAULT_INCLUDES = '**.groovy'
 
     /**
      * The base (root) directory. Must not be null or empty.
@@ -76,7 +77,7 @@ class FilesystemSourceAnalyzer implements SourceAnalyzer {
      */
     ResultsNode analyze(MetricSet metricSet) {
         assert baseDirectory
-        assert metricSet        // != null   ????
+        assert metricSet
 
         initializeWildcardPatterns()
         def dirFile = fileFactory.getFile(baseDirectory, '')

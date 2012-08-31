@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 the original author or authors.
+ * Copyright 2012 the original author or authors.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,12 +23,10 @@ import org.gmetrics.result.MethodKey
  * Utility methods related to ResultsNode objects, for testing.
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class ResultsNodeTestUtil {
     static void assertResultsNodeStructure(ResultsNode resultsNode, Map results, String name=null) {
         assertMetricResultList(resultsNode.metricResults, results.metricResults, name)
-//        assertEqualsOrBothFalse(resultsNode.children?.keySet(), results.children?.keySet())
         assertEqualsOrBothFalse(childNames(resultsNode.children?.keySet()), results.children?.keySet())
         resultsNode.children.each { childKey, child ->
             def childName = childKey instanceof MethodKey ? childKey.methodName : childKey

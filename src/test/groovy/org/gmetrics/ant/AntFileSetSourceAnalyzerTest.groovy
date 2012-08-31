@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 the original author or authors.
+ * Copyright 2012 the original author or authors.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,14 +45,17 @@ class AntFileSetSourceAnalyzerTest extends AbstractSourceAnalyzer_IntegrationTes
     private metric1, metric2
     private metricResult1, metricResult2
 
+    @Override
     protected SourceAnalyzer createSourceAnalyzer() {
         return new AntFileSetSourceAnalyzer(project, [fileSet])
     }
 
+    @Override
     protected void initializeSourceAnalyzerForEmptyDirectory() {
         fileSet.dir = new File(BASE_DIR + '/empty')
     }
 
+    @Override
     protected void initializeSourceAnalyzerForDirectoryWithNoMatchingFiles() {
         fileSet.dir = new File(BASE_DIR + '/no_matching_files')
     }
@@ -119,7 +122,7 @@ class AntFileSetSourceAnalyzerTest extends AbstractSourceAnalyzer_IntegrationTes
         assertAnalyze_ResultsNodeStructure([
             metricResults:[metricResult1],
             children:[
-                'ClassA1':[metricResults:[metricResult1]],
+                'org.gmetrics.ClassA1':[metricResults:[metricResult1]],
                 'ClassA2':[metricResults:[metricResult1]]
             ]])
     }
@@ -129,9 +132,24 @@ class AntFileSetSourceAnalyzerTest extends AbstractSourceAnalyzer_IntegrationTes
         fileSet.dir = new File(BASE_DIR + '/dirA')
         def resultsNode = analyzer.analyze(metricSet)
         ResultsNodeTestUtil.print(resultsNode)
-        resultsNode.children['ClassA1'].fileName == 'ClassA1.groovy'
-        resultsNode.children['ClassA1'].filePath.endsWith('/dirA/ClassA1.groovy')
+        assert resultsNode.children['org.gmetrics.ClassA1'].fileName == 'ClassA1.groovy'
+        assert resultsNode.children['org.gmetrics.ClassA1'].filePath.endsWith('/dirA/ClassA1.groovy')
     }
+
+    void testAnalyze_IncludesPackageName_ForPackageResultsNode() {
+        def resultsNode = analyzer.analyze(metricSet)
+        ResultsNodeTestUtil.print(resultsNode)
+        assert resultsNode.children['dirA'].packageName == 'org.gmetrics'
+        assert resultsNode.children['dirB'].packageName == 'org.gmetrics.example'
+    }
+
+    void testAnalyze_NoPackageDeclarationInClass_NoPackageName_ForPackageResultsNode() {
+        fileSet.dir = new File(SCRIPTS_DIR)
+        def resultsNode = analyzer.analyze(metricSet)
+        ResultsNodeTestUtil.print(resultsNode)
+        assert resultsNode.packageName == null
+    }
+
 
     private class PostProcessingTestMetric extends StubMetric implements PostProcessingMetric {
         boolean afterAllSourceCodeProcessedCalled = false
@@ -157,7 +175,7 @@ class AntFileSetSourceAnalyzerTest extends AbstractSourceAnalyzer_IntegrationTes
 
         final TOP_LEVEL_RESULTS = new StubMetricResult(metric:metric, count:7, total:25, average:scale(25/7))
         ResultsNodeTestUtil.assertMetricResultList(resultsNode.metricResults, [TOP_LEVEL_RESULTS], "top-level")
-        assertEqualSets(resultsNode.children.keySet(), ['ClassA1', 'ClassA2', 'ClassB1'])
+        assertEqualSets(resultsNode.children.keySet(), ['org.gmetrics.ClassA1', 'ClassA2', 'org.gmetrics.example.ClassB1'])
     }
 
     void testGetSourceDirectories_ReturnsEmptyListForNoFileSets() {
@@ -203,10 +221,11 @@ class AntFileSetSourceAnalyzerTest extends AbstractSourceAnalyzer_IntegrationTes
     }
 
     void testFindResultsNodeForPath() {
-        def p1 = new PackageResultsNode('a', 'p1')
-        def p2 = new PackageResultsNode('a', 'p2')
-        def p3 = new PackageResultsNode('a', 'p3')
-        def p4 = new PackageResultsNode('a', 'p4')
+        final PKG = 'org.gmetrics'
+        def p1 = new PackageResultsNode('a', PKG, 'p1')
+        def p2 = new PackageResultsNode('a', PKG, 'p2')
+        def p3 = new PackageResultsNode('a', PKG, 'p3')
+        def p4 = new PackageResultsNode('a', PKG, 'p4')
         analyzer.rootResultsNode.addChild('a', p1)
         analyzer.rootResultsNode.addChild('b', p2)
         p1.addChild('c', p3)
@@ -219,19 +238,20 @@ class AntFileSetSourceAnalyzerTest extends AbstractSourceAnalyzer_IntegrationTes
     }
 
     void testFindOrAddResultsNodeForPath() {
-        def p1 = new PackageResultsNode('a', 'p1')
-        def p2 = new PackageResultsNode('a', 'p1/p2')   // TODO: BRITTLE. Implicit dependency between path and (child) name
+        final PKG = 'org.gmetrics'
+        def p1 = new PackageResultsNode('a', PKG, 'p1')
+        def p2 = new PackageResultsNode('a', PKG, 'p1/p2')   // TODO: BRITTLE. Implicit dependency between path and (child) name
         analyzer.rootResultsNode.addChild('p1', p1)
         p1.addChild('p2', p2)
 
-        assert analyzer.findOrAddResultsNodeForPath('p1') == p1
-        assert analyzer.findOrAddResultsNodeForPath('p1/p2') == p2
+        assert analyzer.findOrAddResultsNodeForPath('p1', PKG) == p1
+        assert analyzer.findOrAddResultsNodeForPath('p1/p2', PKG) == p2
 
-        def p3 = analyzer.findOrAddResultsNodeForPath('p3')
+        def p3 = analyzer.findOrAddResultsNodeForPath('p3', PKG)
         assert p3.path == 'p3'
         assert analyzer.rootResultsNode.children.p3 == p3
 
-        def p4 = analyzer.findOrAddResultsNodeForPath('p1/p2/p4')
+        def p4 = analyzer.findOrAddResultsNodeForPath('p1/p2/p4', PKG)
         ResultsNodeTestUtil.print(analyzer.rootResultsNode)
         assert p4.path == 'p1/p2/p4'
         assert p2.children.p4 == p4
