@@ -25,6 +25,7 @@
 class RunGMetricsAgainstGrails {
 
     private static final HTML_REPORT_WRITER = 'org.gmetrics.report.BasicHtmlReportWriter'
+    private static final XML_REPORT_WRITER = 'org.gmetrics.report.XmlReportWriter'
     private static final METRICSET_FILE = 'RunGMetricsAgainstGrails.metricset'
 
     static void main(String[] args) {
@@ -43,8 +44,9 @@ class RunGMetricsAgainstGrails {
 
         ant.gmetrics(metricSetFile:METRICSET_FILE) {
 
-            fileset(dir:baseDir+'/src/java') {
-//                include(name:'src/**/*.groovy')    // doesn't work; package names are relative to baseDir, not actual package names
+            fileset(dir:baseDir) {
+//            fileset(dir:baseDir+'/src/java') {
+                include(name:'src/**/*.groovy')    // doesn't work; package names are relative to baseDir, not actual package names
                 include(name:'**/*.groovy')
                 include(name:'scripts/**/*.groovy')
                 exclude(name:'**/templates/**')
@@ -54,6 +56,12 @@ class RunGMetricsAgainstGrails {
                option(name:'title', value:'Grails')
                option(name:'outputFile', value:'GMetrics-Grails-Report.html')
                option(name:'metrics', value:'CyclomaticComplexity, ClassLineCount, MethodLineCount')
+            }
+
+            report(type:XML_REPORT_WRITER){
+                option(name:'title', value:'Grails')
+                option(name:'outputFile', value:'GMetrics-Grails-Report.xml')
+                option(name:'metrics', value:'CyclomaticComplexity, ClassLineCount, MethodLineCount')
             }
 
             report(type:HTML_REPORT_WRITER){

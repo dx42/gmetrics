@@ -9,6 +9,7 @@ NEW METRICS
 
 NEW FEATURES
 - #3560963: Add fileName and filePath attributes to <Class> elements on XML report.
+- #3563055: Include a new name attribute in the <Package> elements in the XML report, to contain the actual package name. Add packageName property to PackageResultsNode to hold the actual package name, independent of the source folder. NOTE: Not using packageName instead of path in HTML reports for now.
 
 FIXES AND ENHANCEMENTS
 - #3508192: Make CoberturaCoverageFile threadsafe.
