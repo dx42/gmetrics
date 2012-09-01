@@ -26,7 +26,7 @@ import org.gmetrics.util.GMetricsVersion
 
 /**
  * ReportWriter that generates an XML report. The XML includes
- * and the metric descriptions for each Metric within the passed-in MetricSet.
+ * and the metric descriptions for each Metric within the configured MetricSet.
  *
  * @author Chris Mair
  */
@@ -91,7 +91,7 @@ class XmlReportWriter extends AbstractReportWriter {
 
     private buildPackageElement(resultsNode) {
         def elementName = isRoot(resultsNode) ? 'PackageSummary' : 'Package'
-        def attributeMap = isRoot(resultsNode) ? [:] : [path:resultsNode.path]
+        def attributeMap = isRoot(resultsNode) ? [:] : [path:resultsNode.path, name:resultsNode.packageName]
         return {
             "$elementName"(attributeMap) {
                 out << buildMetricElements(resultsNode.metricResults, resultsNode.level)

@@ -97,7 +97,7 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
 
     void testWriteReport_DoNotShowResultsForLevelBelowMetricBaseLevel() {
         final PACKAGES = """
-            <Package path='org'>
+            <Package path='src/org' name='org'>
                 <MetricResult name='Metric1' total='11' average='11'/>
                 <MetricResult name='Metric2' total='21' average='21'/>
                 <Class name='MyDao' fileName='' filePath=''>
@@ -111,7 +111,7 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
         final XML = XML_DECLARATION + GMETRICS_ROOT + REPORT_TIMESTAMP + PROJECT + PACKAGE_SUMMARY_2 + PACKAGES + METRIC_DESCRIPTIONS_2 + GMETRICS_END_TAG
         def rootNode = packageResultsNode([metricResults:[metric1Result(10), metric2Result(20)]],
         [
-            org: packageResultsNode([name:'org', path:'org', metricResults:[metric1Result(11), metric2Result(21)]],
+            org: packageResultsNode([name:'org', packageName:'org', path:'src/org', metricResults:[metric1Result(11), metric2Result(21)]],
             [
                 MyDao: classResultsNode(name:'MyDao', metricResults:[metric1Result(101), metric2Result(201)]),
                 MyController: classResultsNode(name:'MyController', metricResults:[metric1Result(102), metric2Result(202)])
@@ -123,7 +123,7 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
 
     void testWriteReport_Package_TwoMetrics() {
         final PACKAGES = """
-            <Package path='Dir1'>
+            <Package path='src/org' name='org'>
                 <MetricResult name='Metric1' total='11' average='11'/>
                 <MetricResult name='Metric2' total='21' average='21'/>
             </Package>
@@ -131,14 +131,29 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
         final XML = XML_DECLARATION + GMETRICS_ROOT + REPORT_TIMESTAMP + PROJECT + PACKAGE_SUMMARY_2 + PACKAGES + METRIC_DESCRIPTIONS_2 + GMETRICS_END_TAG
         def rootNode = packageResultsNode([metricResults:[metric1Result(10), metric2Result(20)]],
         [
-            Dir1: packageResultsNode(path:'Dir1', metricResults:[metric1Result(11), metric2Result(21)])
+            Dir1: packageResultsNode(path:'src/org', packageName:'org', metricResults:[metric1Result(11), metric2Result(21)])
         ])
+        assertReportXml(rootNode, XML)
+    }
+
+    void testWriteReport_Package_NoPackageName() {
+        final PACKAGES = """
+            <Package path='src/org' name=''>
+                <MetricResult name='Metric1' total='11' average='11'/>
+                <MetricResult name='Metric2' total='21' average='21'/>
+            </Package>
+        """
+        final XML = XML_DECLARATION + GMETRICS_ROOT + REPORT_TIMESTAMP + PROJECT + PACKAGE_SUMMARY_2 + PACKAGES + METRIC_DESCRIPTIONS_2 + GMETRICS_END_TAG
+        def rootNode = packageResultsNode([metricResults:[metric1Result(10), metric2Result(20)]],
+                [
+                        Dir1: packageResultsNode(path:'src/org', metricResults:[metric1Result(11), metric2Result(21)])
+                ])
         assertReportXml(rootNode, XML)
     }
 
     void testWriteReport_Package_TwoClasses_TwoMetrics() {
         final PACKAGES = """
-            <Package path='org'>
+            <Package path='src/org' name='org'>
                 <MetricResult name='Metric1' total='11' average='11'/>
                 <MetricResult name='Metric2' total='21' average='21'/>
                 <Class name='MyDao' fileName='MyDao.groovy' filePath='src/base/MyDao.groovy'>
@@ -152,7 +167,7 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
         final XML = XML_DECLARATION + GMETRICS_ROOT + REPORT_TIMESTAMP + PROJECT + PACKAGE_SUMMARY_2 + PACKAGES + METRIC_DESCRIPTIONS_2 + GMETRICS_END_TAG
         def rootNode = packageResultsNode([metricResults:[metric1Result(10), metric2Result(20)]],
         [
-            org: packageResultsNode([name:'org', path:'org', metricResults:[metric1Result(11), metric2Result(21)]],
+            org: packageResultsNode([name:'org', path:'src/org', packageName:'org', metricResults:[metric1Result(11), metric2Result(21)]],
             [
                 MyDao: classResultsNode(name:'MyDao', metricResults:[metric1Result(101)], fileName:'MyDao.groovy', filePath:'src/base/MyDao.groovy'),
                 MyController: classResultsNode(name:'MyController', metricResults:[metric1Result(102)])
@@ -166,7 +181,7 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
             <PackageSummary>
                 <MetricResult name='Metric1' total='[a, b, c]'/>
             </PackageSummary>
-            <Package path='org'>
+            <Package path='src/org' name='org'>
                 <MetricResult name='Metric1' total='[a, b, c]'/>
                 <Class name='MyDao' fileName='MyDao.groovy' filePath='src/base/MyDao.groovy'>
                     <MetricResult name='Metric1' total='[123, 456]'/>
@@ -176,7 +191,7 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
         final XML = XML_DECLARATION + GMETRICS_ROOT + REPORT_TIMESTAMP + PROJECT + PACKAGES + METRIC_DESCRIPTIONS_2 + GMETRICS_END_TAG
         def rootNode = packageResultsNode([metricResults:[metric1MapResult(total:['a', 'b', 'c'])]],
         [
-            org: packageResultsNode([name:'org', path:'org', metricResults:[metric1MapResult(total:['a', 'b', 'c'])]],
+            org: packageResultsNode([name:'org', path:'src/org', packageName:'org', metricResults:[metric1MapResult(total:['a', 'b', 'c'])]],
             [
                 MyDao: classResultsNode(name:'MyDao', metricResults:[metric1MapResult(total:[123, 456])], fileName:'MyDao.groovy', filePath:'src/base/MyDao.groovy'),
             ])
@@ -203,7 +218,7 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
             </PackageSummary>
         """
         final PACKAGES = """
-            <Package path='org'>
+            <Package path='src/org' name='org'>
                 <MetricResult name='Metric1' minimum='11' maximum='11'/>
                 <MetricResult name='Metric2' average='21'/>
                 <Class name='MyDao' fileName='' filePath=''>
@@ -217,7 +232,7 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
         final XML = XML_DECLARATION + GMETRICS_ROOT + REPORT_TIMESTAMP + PROJECT + PACKAGE_SUMMARY + PACKAGES + METRIC_DESCRIPTIONS_2 + GMETRICS_END_TAG
         def rootNode = packageResultsNode([metricResults:[metric1Result(10), metric2Result(20)]],
         [
-            org: packageResultsNode([name:'org', path:'org', metricResults:[metric1Result(11), metric2Result(21)]],
+            org: packageResultsNode([name:'org', path:'src/org', packageName:'org', metricResults:[metric1Result(11), metric2Result(21)]],
             [
                 MyDao: classResultsNode(name:'MyDao', metricResults:[metric1Result(101)]),
                 MyController: classResultsNode(name:'MyController', metricResults:[metric1Result(102)])
@@ -230,7 +245,7 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
 
     void testWriteReport_Package_NestedPackageClassesAndMethods() {
         final PACKAGES = """
-            <Package path='test'>
+            <Package path='src/test' name='test'>
                 <MetricResult name='Metric1' total='11' average='11'/>
                 <MetricResult name='Metric2' total='21' average='21'/>
                 <Class name='MyDao' fileName='' filePath=''>
@@ -249,7 +264,7 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
                     </Method>
                 </Class>
             </Package>
-            <Package path='test/unit'>
+            <Package path='src/test/unit' name='test.unit'>
                 <MetricResult name='Metric1' total='31' average='31'/>
                 <MetricResult name='Metric2' total='32' average='32'/>
             </Package>
@@ -257,7 +272,7 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
         final XML = XML_DECLARATION + GMETRICS_ROOT + REPORT_TIMESTAMP + PROJECT + PACKAGE_SUMMARY_2 + PACKAGES + METRIC_DESCRIPTIONS_2 + GMETRICS_END_TAG
         def rootNode = packageResultsNode([metricResults:[metric1Result(10), metric2Result(20)]],
             [
-            org: packageResultsNode([name:'org', path:'test', metricResults:[metric1Result(11), metric2Result(21), metric3Result(99)]],
+            org: packageResultsNode([name:'org', path:'src/test', packageName:'test', metricResults:[metric1Result(11), metric2Result(21), metric3Result(99)]],
                 [
                     MyDao: classResultsNode(name:'MyDao', metricResults:[metric1Result(101)],
                         [
@@ -268,7 +283,7 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
                             initialize: methodResultsNode(name:'initialize', signature:'boolean initialize(int)', metricResults:[metric1Result(1002)]),
                             cleanup: methodResultsNode(name:'cleanup', signature:'void cleanup()', metricResults:[metric1Result(1003)])
                         ]),
-                        'test/unit': packageResultsNode(name:'unit', path:'test/unit', metricResults:[metric1Result(31), metric2Result(32)])
+                       'src/test/unit': packageResultsNode(name:'unit', path:'src/test/unit', packageName:'test.unit', metricResults:[metric1Result(31), metric2Result(32)])
                 ])
             ]
         )
@@ -278,7 +293,7 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
 
     void testWriteReport_FilterByLevelAndFunction() {
         final PACKAGES = """
-            <Package path='org'>
+            <Package path='src/org' name='org'>
                 <MetricResult name='Metric1' total='11' average='11'/>
                 <Class name='MyDao' fileName='' filePath=''>
                     <MetricResult name='Metric2' average='201'/>
@@ -290,21 +305,21 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
                     </Method>
                 </Class>
             </Package>
-            <Package path='subdir'>
+            <Package path='src/subdir' name='subdir'>
                 <MetricResult name='Metric1' total='301' average='301'/>
             </Package>
         """
         final XML = XML_DECLARATION + GMETRICS_ROOT + REPORT_TIMESTAMP + PROJECT + PACKAGE_SUMMARY_1 + PACKAGES + METRIC_DESCRIPTIONS_2 + GMETRICS_END_TAG
         def rootNode = packageResultsNode([metricResults:[metric1Result(10), metric2Result(20)]],
         [
-            org: packageResultsNode([name:'org', path:'org', metricResults:[metric1Result(11), metric2Result(21)]],
+            org: packageResultsNode([name:'org', path:'src/org', packageName:'org', metricResults:[metric1Result(11), metric2Result(21)]],
             [
                 MyDao: classResultsNode(name:'MyDao', metricResults:[metric1Result(101), metric2Result(201)]),
                 MyController: classResultsNode(name:'MyController', metricResults:[metric1Result(102), metric2Result(202)],
                     [
                         process: methodResultsNode(name:'process', signature:'void process()', metricResults:[metric1Result(1002), metric2Result(2002)])
                     ]),
-                'subdir': packageResultsNode(name:'subdir', path:'subdir', metricResults:[metric1Result(301), metric2Result(302)])
+                'subdir': packageResultsNode(name:'subdir', path:'src/subdir', packageName:'subdir', metricResults:[metric1Result(301), metric2Result(302)])
             ])
         ])
         reportWriter.setLevels('Metric1=package,method; Metric2=class')

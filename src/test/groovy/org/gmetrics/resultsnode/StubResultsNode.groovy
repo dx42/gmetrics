@@ -30,6 +30,7 @@ class StubResultsNode implements ResultsNode {
     String name
     String fileName
     String filePath
+    String packageName
     MetricLevel level = MetricLevel.CLASS
     boolean containsClassResults = false
     List metricResults = []
