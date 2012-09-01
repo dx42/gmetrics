@@ -203,6 +203,6 @@ class PackageResultsNodeTest extends AbstractTestCase {
         resultsNode1 = new StubResultsNode(metricResults:[MR1])
         resultsNode2 = new StubResultsNode(metricResults:[MR2])
         classResultsNode = new StubResultsNode(metricResults:[MR1], containsClassResults:true)
-        packageResultsNode2 = new PackageResultsNode(NAME)
+        packageResultsNode2 = new PackageResultsNode(NAME, null, null)
     }
 }
