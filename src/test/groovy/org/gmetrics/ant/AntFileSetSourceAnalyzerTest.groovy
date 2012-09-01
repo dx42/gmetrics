@@ -139,15 +139,24 @@ class AntFileSetSourceAnalyzerTest extends AbstractSourceAnalyzer_IntegrationTes
     void testAnalyze_IncludesPackageName_ForPackageResultsNode() {
         def resultsNode = analyzer.analyze(metricSet)
         ResultsNodeTestUtil.print(resultsNode)
+        assert resultsNode.packageName == ''
         assert resultsNode.children['dirA'].packageName == 'org.gmetrics'
         assert resultsNode.children['dirB'].packageName == 'org.gmetrics.example'
+    }
+
+    void testAnalyze_OnlyIncludesPackageName_ForPackagesWithClasses() {
+        fileSet.dir = new File(NESTED_DIR)
+        def resultsNode = analyzer.analyze(metricSet)
+        ResultsNodeTestUtil.print(resultsNode)
+        assert resultsNode.children['dir1'].children['dir2'].packageName == 'dir1.dir2'
+        assert resultsNode.children['dir1'].packageName == ''
     }
 
     void testAnalyze_NoPackageDeclarationInClass_NoPackageName_ForPackageResultsNode() {
         fileSet.dir = new File(SCRIPTS_DIR)
         def resultsNode = analyzer.analyze(metricSet)
         ResultsNodeTestUtil.print(resultsNode)
-        assert resultsNode.packageName == null
+        assert resultsNode.packageName == ''
     }
 
 

@@ -31,6 +31,7 @@ abstract class AbstractSourceAnalyzer_IntegrationTest extends AbstractTestCase {
 
     protected static final BASE_DIR = 'src/test/resources/source'
     protected static final SCRIPTS_DIR = 'src/test/resources/samplescripts'
+    protected static final NESTED_DIR = 'src/test/resources/nested'
     protected static final GROOVY_FILES = '**/*.groovy'
     
     protected analyzer

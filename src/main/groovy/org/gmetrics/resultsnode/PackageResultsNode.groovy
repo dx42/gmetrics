@@ -34,10 +34,6 @@ class PackageResultsNode implements ResultsNode {
 
     private Map<String, ResultsNode> children = [:]
 
-    PackageResultsNode(String name) {
-        this.name = name
-    }
-
     PackageResultsNode(String name, String packageName, String path) {
         this.name = name
         this.packageName = packageName

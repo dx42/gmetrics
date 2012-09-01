@@ -40,7 +40,7 @@ class AntFileSetSourceAnalyzer implements SourceAnalyzer {
 
     private Project project
     protected List fileSets = []
-    protected ResultsNode rootResultsNode = new PackageResultsNode(null)
+    protected ResultsNode rootResultsNode = new PackageResultsNode(null, '', null)
 
     /**
      * Construct a new instance on the specified List of Ant FileSets.
@@ -116,7 +116,7 @@ class AntFileSetSourceAnalyzer implements SourceAnalyzer {
             def parentResultsNode
             ast.classes.each { classNode ->
                 if (!parentResultsNode) {
-                    def packageName = classNode.packageName
+                    def packageName = classNode.packageName  ?: ''
                     parentResultsNode = findOrAddResultsNodeForPath(parentPath, packageName)
                 }
                 def classResultsNode = applyMetricsToClass(classNode, metricSet, sourceCode)
@@ -169,7 +169,7 @@ class AntFileSetSourceAnalyzer implements SourceAnalyzer {
         def parentPath = PathUtil.getParent(path)
         def name = PathUtil.getName(path)
         def newPackageNode = new PackageResultsNode(name, packageName, path)
-        def parentNode = parentPath ? findOrAddResultsNodeForPath(parentPath, packageName) : rootResultsNode
+        def parentNode = parentPath ? findOrAddResultsNodeForPath(parentPath, '') : rootResultsNode
         parentNode.addChild(name, newPackageNode)
         return newPackageNode
     }
