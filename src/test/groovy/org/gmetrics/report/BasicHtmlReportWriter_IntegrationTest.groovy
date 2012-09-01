@@ -17,20 +17,24 @@ package org.gmetrics.report
 
 import org.gmetrics.test.AbstractTestCase
 import org.gmetrics.metricset.ListMetricSet
-import org.gmetrics.analyzer.FilesystemSourceAnalyzer
 import org.gmetrics.metric.linecount.MethodLineCountMetric
 import org.gmetrics.metric.abc.AbcMetric
 import org.gmetrics.analyzer.AnalysisContext
+import org.gmetrics.ant.AntFileSetSourceAnalyzer
+import org.apache.tools.ant.Project
+import org.apache.tools.ant.types.FileSet
 
 /**
  * Tests for BasicHtmlReportWriter
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class BasicHtmlReportWriter_IntegrationTest extends AbstractTestCase {
+
     private static final REPORT_FILE = 'GMetricsReport.html'
     private static final BASE_DIR = 'src/main'
+    private static final GROOVY_FILES = '**/*.groovy'
+
     private sourceAnalyzer
     private reportWriter
     private metricSet
@@ -44,7 +48,10 @@ class BasicHtmlReportWriter_IntegrationTest extends AbstractTestCase {
 
     void setUp() {
         super.setUp()
-        sourceAnalyzer = new FilesystemSourceAnalyzer(baseDirectory:BASE_DIR)
+        def project = new Project(basedir:BASE_DIR)
+        private fileSet = new FileSet(project:project, dir:new File(BASE_DIR), includes:GROOVY_FILES)
+        sourceAnalyzer = new AntFileSetSourceAnalyzer(project, [fileSet])
+
         reportWriter = new BasicHtmlReportWriter()
         metricSet = new ListMetricSet([new MethodLineCountMetric(), new AbcMetric()])
         analysisContext = new AnalysisContext(metricSet:metricSet)

@@ -18,6 +18,9 @@ FIXES AND ENHANCEMENTS
 - #3523820: Reports: Support for metric values that are lists or maps.
 - #3523828: BasicHtmlReportWriter: Display ‘N/A’ if the metric value is null.
 
+OTHER
+- Remove FilesystemSourceAnalyzer (not used).
+
 THANKS
 - Thanks to Akila Perera for the patch for #3560963.
 
