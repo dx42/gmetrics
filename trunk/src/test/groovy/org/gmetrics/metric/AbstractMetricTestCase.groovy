@@ -162,11 +162,19 @@ abstract class AbstractMetricTestCase extends AbstractTestCase {
         assertApplyToPackage(null, childMetricResults, classTotalValue, classAverageValue)
     }
 
-    protected void assertApplyToPackage(String packageName, Collection childMetricResults, totalValue, averageValue) {
-        def metricResult = metric.applyToPackage(packageName, null, childMetricResults)
-        assert metricResult, "No MetricResult for package [$packageName]"
+    protected void assertApplyToPackage(String path, Collection childMetricResults, totalValue, averageValue) {
+        assertApplyToPackage(path, null, childMetricResults, totalValue, averageValue)
+    }
+
+    protected void assertApplyToPackage(String path, String packageName, Collection childMetricResults, totalValue, averageValue) {
+        def metricResult = metric.applyToPackage(path, packageName, childMetricResults)
+        assert metricResult, "No MetricResult for package [$path]"
         assert metricResult['total'] == totalValue
         assert metricResult['average'] == averageValue
+    }
+
+    protected void assertApplyToPackage(String path, String packageName, value) {
+        assertApplyToPackage(path, packageName, null, value, value)
     }
 
     protected void assertApplyToPackage(String packageName, value) {
