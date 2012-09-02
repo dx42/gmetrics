@@ -24,7 +24,6 @@ import org.gmetrics.result.SingleNumberMetricResult
 import org.gmetrics.result.MetricResult
 import org.codehaus.groovy.ast.ClassNode
 import org.gmetrics.result.MethodKey
-import org.gmetrics.util.PathUtil
 import org.gmetrics.result.ClassMetricResult
 import org.gmetrics.source.SourceCode
 import org.gmetrics.result.MetricResultBuilder
@@ -107,12 +106,11 @@ abstract class AbstractCoberturaCoverageMetric extends AbstractMetric implements
     }
 
     @Override
-    protected MetricResult calculateForPackage(String packagePath, String actualPackageName, Collection<MetricResult> childMetricResults) {
+    protected MetricResult calculateForPackage(String packagePath, String packageName, Collection<MetricResult> childMetricResults) {
         if (packagePath == null) {
             return getOverallPackageMetricValue()
         }
 
-        def packageName = PathUtil.toPackageName(packagePath)
         def matchingPackageElement = getCoberturaCoverageFile().findMatchingPackageElement(packageName, packagePath)
         if (matchingPackageElement == null || matchingPackageElement.isEmpty()) {
             if (containsClasses(childMetricResults)) {
