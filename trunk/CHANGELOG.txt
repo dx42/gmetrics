@@ -2,10 +2,11 @@ GMetrics Change Log
 -------------------------------------------------------------------------------
 http://www.gmetrics.org
 
-Changes in version 0.6 (??? 2012)
+Changes in version 0.6 (Sep 2012)
 --------------------------------------
 NEW METRICS
-- New EfferentCouplingMetric. Package-level metric that counts the number of other packages that the classes in a package depend upon, and is an indicator of the package's independence.
+- #3341849: New EfferentCouplingMetric. Package-level metric that counts the number of other packages that the classes in a package depend upon, and is an indicator of the package's independence.
+- #3341855: New AfferentCouplingMetric. Package-level metric that counts the number of other packages that depend on the classes within a package. It is an indicator of the package's responsibility.
 
 NEW FEATURES
 - #3560963: Add fileName and filePath attributes to <Class> elements on XML report.
@@ -18,7 +19,11 @@ FIXES AND ENHANCEMENTS
 - #3523820: Reports: Support for metric values that are lists or maps.
 - #3523828: BasicHtmlReportWriter: Display ‘N/A’ if the metric value is null.
 
-OTHER
+FRAMEWORK/API CHANGES  (Potential breaking changes if you have implemented your own Metrics)
+- Changed Metric interface to include actual package name in applyToPackage:
+    - Modified interface method: applyToPackage(String path, String packageName, Collection<MetricResult> childMetricResults)
+    - AbstractMetric: Added protected MetricResult calculateForPackage(String path, String packageName, Collection<MetricResult> childMetricResults)
+    - AbstractMetric: Changed existing calculateForPackage(String path, Collection<MetricResult> childMetricResults) to call calculateForPackage(path, null, childMetricResults) for backward-compatibility.
 - Remove FilesystemSourceAnalyzer (not used).
 
 THANKS

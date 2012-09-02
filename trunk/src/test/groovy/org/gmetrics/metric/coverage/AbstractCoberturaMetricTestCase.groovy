@@ -59,7 +59,7 @@ abstract class AbstractCoberturaMetricTestCase extends AbstractMetricTestCase {
 
     void testCanLoadCoberturaFileWithDTDSpecifyingUnreachableURI() {
         metric.coberturaFile = COBERTURA_XML_BAD_DTD
-        metric.applyToPackage('whatever', null) == null
+        metric.applyToPackage('whatever', null, null) == null
     }
 
     // Tests for applyToClosure()
@@ -165,23 +165,23 @@ abstract class AbstractCoberturaMetricTestCase extends AbstractMetricTestCase {
 
     void testApplyToPackage_DoesNotMatchPackageNamePrefixes() {
         metric.packageNamePrefixes = 'src/other'
-        assert metric.applyToPackage('src/main/java/com.example.service', null) == null
+        assert metric.applyToPackage('src/main/java/com.example.service', null, null) == null
     }
 
     void testApplyToPackage_NoCoverageInformation_ForPackageWithNoClasses_DoesNotLogWarning() {
         def children = [PACKAGE_METRIC_RESULT]
-        def log4jMessages = captureLog4JMessages { metric.applyToPackage('com.example', children) }
+        def log4jMessages = captureLog4JMessages { metric.applyToPackage('com.example', null, children) }
         assert !log4jMessages.find { logEvent -> logEvent.message.contains('com.example') }
     }
 
     void testApplyToPackage_NoCoverageInformation_ForPackageWithClasses_LogsWarning() {
         def children = [PACKAGE_METRIC_RESULT, CLASS_METRIC_RESULT]
-        def log4jMessages = captureLog4JMessages { metric.applyToPackage('com.example', children) }
+        def log4jMessages = captureLog4JMessages { metric.applyToPackage('com.example', null, children) }
         assert log4jMessages.find { logEvent -> logEvent.message.contains('com.example') }
     }
 
     void testApplyToPackage_NoCoverageInformation() {
-        assert metric.applyToPackage('no.such.package', null) == null
+        assert metric.applyToPackage('no.such.package', null, null) == null
     }
 
     // Test loading file using resource syntax

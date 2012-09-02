@@ -47,8 +47,8 @@ class StubMetric implements MethodMetric {
     }
 
     @Override
-    MetricResult applyToPackage(String packageName, Collection childMetricResults) {
-        this.packageName = packageName
+    MetricResult applyToPackage(String path, String packageName, Collection childMetricResults) {
+        this.packageName = path    // TODO Rename to path
         return packageMetricResult
     }
 
