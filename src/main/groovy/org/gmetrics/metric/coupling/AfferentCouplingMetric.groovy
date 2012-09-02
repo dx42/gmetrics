@@ -30,7 +30,7 @@ class AfferentCouplingMetric extends AbstractPackageCouplingMetric implements Po
     private final AfferentCouplingReferenceManager referenceManager = new AfferentCouplingReferenceManager(this)
 
     @Override
-    protected MetricResult calculateForPackage(String packageName, Collection<MetricResult> childMetricResults) {
+    protected MetricResult calculateForPackage(String path, String packageName, Collection<MetricResult> childMetricResults) {
         childMetricResults.each { childMetricResult ->
             if (childMetricResult.metricLevel == MetricLevel.CLASS) {
                 referenceManager.addReferencesFromPackage(packageName, childMetricResult[REFERENCED_PACKAGES])

@@ -107,7 +107,7 @@ abstract class AbstractCoberturaCoverageMetric extends AbstractMetric implements
     }
 
     @Override
-    protected MetricResult calculateForPackage(String packagePath, Collection<MetricResult> childMetricResults) {
+    protected MetricResult calculateForPackage(String packagePath, String actualPackageName, Collection<MetricResult> childMetricResults) {
         if (packagePath == null) {
             return getOverallPackageMetricValue()
         }

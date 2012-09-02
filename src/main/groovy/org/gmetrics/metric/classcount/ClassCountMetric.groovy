@@ -40,7 +40,7 @@ class ClassCountMetric extends AbstractMetric {
     }
 
     @SuppressWarnings('UnusedMethodParameter')
-    protected MetricResult calculateForPackage(String packageName, Collection<MetricResult> childMetricResults) {
+    protected MetricResult calculateForPackage(String path, String packageName, Collection<MetricResult> childMetricResults) {
         def numClasses = childMetricResults.inject(0) { sum, result -> result.metricLevel == MetricLevel.CLASS ? sum+1 : sum }
         return new SingleNumberMetricResult(this, MetricLevel.PACKAGE, numClasses)
     }

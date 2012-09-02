@@ -26,7 +26,6 @@ import org.codehaus.groovy.ast.ASTNode
  * Subclasses must implement the <code>calculateForClass(ClassNode, SourceCode)</code> method.
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 
 abstract class AbstractMetric implements Metric {
@@ -36,15 +35,15 @@ abstract class AbstractMetric implements Metric {
 
     protected abstract ClassMetricResult calculateForClass(ClassNode classNode, SourceCode sourceCode)
 
-    MetricResult applyToPackage(String packageName, Collection<MetricResult> childMetricResults) {
+    MetricResult applyToPackage(String path, String packageName, Collection<MetricResult> childMetricResults) {
         if (!enabled) {
             return null
         }
-        return calculateForPackage(packageName, childMetricResults)
+        return calculateForPackage(path, packageName, childMetricResults)
     }
 
     @SuppressWarnings('UnusedMethodParameter')
-    protected MetricResult calculateForPackage(String packageName, Collection<MetricResult> childMetricResults) {
+    protected MetricResult calculateForPackage(String path, String packageName, Collection<MetricResult> childMetricResults) {
         return createAggregateMetricResult(MetricLevel.PACKAGE, childMetricResults)
     }
 
