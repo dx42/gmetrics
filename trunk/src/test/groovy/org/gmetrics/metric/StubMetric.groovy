@@ -37,6 +37,7 @@ class StubMetric implements MethodMetric {
     MetricResult packageMetricResult
     MetricResult methodMetricResult
     MetricResult closureMetricResult
+    String path
     String packageName
     def otherProperty
     List<String> functions = ['total', 'average']
@@ -48,7 +49,8 @@ class StubMetric implements MethodMetric {
 
     @Override
     MetricResult applyToPackage(String path, String packageName, Collection childMetricResults) {
-        this.packageName = path    // TODO Rename to path
+        this.path = path
+        this.packageName = packageName
         return packageMetricResult
     }
 
