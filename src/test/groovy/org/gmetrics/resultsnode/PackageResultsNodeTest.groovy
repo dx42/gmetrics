@@ -133,7 +133,7 @@ class PackageResultsNodeTest extends AbstractTestCase {
     void test_applyMetric_AddsPackageResultsForPackageName() {
         def metric = new StubMetric()
         packageResultsNode.applyMetric(metric)
-        assert metric.packageName == PATH
+        assert metric.packageName == PACKAGE_NAME
     }
 
     void test_applyMetric_AddsNothingIfMetricReturnsNullForThePackage() {
