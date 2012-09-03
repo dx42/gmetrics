@@ -1,0 +1,24 @@
+import org.gmetrics.metric.cyclomatic.CyclomaticComplexityMetric
+import org.gmetrics.metric.linecount.ClassLineCountMetric
+import org.gmetrics.metric.linecount.MethodLineCountMetric
+import org.gmetrics.metric.coupling.AfferentCouplingMetric
+import org.gmetrics.metric.coupling.EfferentCouplingMetric
+
+metricset {
+
+    description 'MetricSet for RunGMetricsAgainstExternalProject'
+
+    metric(CyclomaticComplexityMetric)
+
+    metric(ClassLineCountMetric)
+
+    metric(MethodLineCountMetric)
+
+    metric(AfferentCouplingMetric) {
+        functions = ['value', 'average', 'referencedFromPackages']
+    }
+    metric(EfferentCouplingMetric) {
+        functions = ['value', 'average', 'referencedPackages']
+    }
+
+}
