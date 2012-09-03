@@ -39,15 +39,6 @@ CoberturaBranchCoverage Metric
 |                 | from a relative or absolute path on the filesystem), or "http:".   |                        |
 |                 | This property is REQUIRED.                                         |                        |
 *-----------------+--------------------------------------------------------------------+------------------------+
-| packageNamePrefixes | Optional, comma-separated list of prefixes that should be      | <<<null>>>              |
-|                 | stripped from full path names before checking the <<Cobertura>>    |                        |
-|                 | XML file for matching coverage information. For instance, if the   |                        |
-|                 | <<GMetrics>> Ant task is configured to pull in all *.groovy files  |                        |
-|                 | from "src/main/groovy/**", then all of the package paths will be   |                        |
-|                 | prefixed with "src/main/groovy", which is not part of the actual   |                        |
-|                 | package name recorded in the <<Cobertura>> XML file. In that case, |                        |
-|                 | set the <packageNamePrefixes> property to "src/main/groovy".       |                        |
-*-----------------+--------------------------------------------------------------------+------------------------+
 
 
 * Known Limitations

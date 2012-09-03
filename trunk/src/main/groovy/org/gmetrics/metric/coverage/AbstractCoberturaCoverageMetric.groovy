@@ -46,7 +46,6 @@ abstract class AbstractCoberturaCoverageMetric extends AbstractMetric implements
 
     final MetricLevel baseLevel = MetricLevel.METHOD
     String coberturaFile
-    String packageNamePrefixes
 
     private classMetricResultBuilder = new MetricResultBuilder(metric:this, metricLevel:MetricLevel.CLASS, scale:2)
     private CoberturaCoverageFile coberturaCoverageFile
@@ -111,7 +110,7 @@ abstract class AbstractCoberturaCoverageMetric extends AbstractMetric implements
             return getOverallPackageMetricValue()
         }
 
-        def matchingPackageElement = getCoberturaCoverageFile().findMatchingPackageElement(packageName, packagePath)
+        def matchingPackageElement = getCoberturaCoverageFile().findPackageElement(packageName)
         if (matchingPackageElement == null || matchingPackageElement.isEmpty()) {
             if (containsClasses(childMetricResults)) {
                 LOG.warn("No coverage information found for package [$packageName]")
@@ -203,7 +202,7 @@ abstract class AbstractCoberturaCoverageMetric extends AbstractMetric implements
         synchronized(coberturaLock) {
             if (coberturaCoverageFile == null) {
                 assert coberturaFile
-                coberturaCoverageFile = new CoberturaCoverageFile(coberturaFile, getAttributeName(), packageNamePrefixes)
+                coberturaCoverageFile = new CoberturaCoverageFile(coberturaFile, getAttributeName())
             }
         }
         return coberturaCoverageFile

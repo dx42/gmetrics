@@ -147,31 +147,6 @@ abstract class AbstractCoberturaMetricTestCase extends AbstractMetricTestCase {
         assertApplyToPackage(null, getRootPackageValue())
     }
 
-//    void testApplyToPackage_SinglePrefix_MatchesPackageNamePrefixes() {
-//        metric.packageNamePrefixes = 'src/main/java'
-//        assertApplyToPackage('src/main/java/com.example.service', getServicePackageValue())
-//    }
-//
-//    void testApplyToPackage_MultiplePrefixes_MatchesPackageNamePrefixes() {
-//        metric.packageNamePrefixes = 'src/main/java,other'
-//        assertApplyToPackage('other/com/example/service', getServicePackageValue())
-//    }
-//
-//    void testApplyToPackage_AllowsWhitespaceAroundPackageNamePrefixes() {
-//        metric.packageNamePrefixes = 'src/main/java, other '
-//        assertApplyToPackage('other/com/example/service', getServicePackageValue())
-//    }
-//
-//    void testApplyToPackage_PrefixHasTrailingSeparator_MatchesPackageNamePrefixes() {
-//        metric.packageNamePrefixes = 'other/'
-//        assertApplyToPackage('other/com.example.service', getServicePackageValue())
-//    }
-//
-//    void testApplyToPackage_DoesNotMatchPackageNamePrefixes() {
-//        metric.packageNamePrefixes = 'src/other'
-//        assert metric.applyToPackage('src/main/java/com.example.service', null, null) == null
-//    }
-
     void testApplyToPackage_NoCoverageInformation_ForPackageWithNoClasses_DoesNotLogWarning() {
         def children = [PACKAGE_METRIC_RESULT]
         def log4jMessages = captureLog4JMessages { metric.applyToPackage('com.example', 'com.example', children) }
