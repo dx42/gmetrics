@@ -16,17 +16,18 @@
  package org.gmetrics.tool
 
 /**
- * Runs GMetrics against the Grails source code.
+ * Runs GMetrics against the another project's source code.
  *
- * You must set the "grails.home" system property to the Grails installation directory, containing the Grails source.
+ * You must set the "basedir" system property to the base directory of the external project.
+ * You must set the "title" system property to the title of the external project.
  *
  * @author Chris Mair
  */
-class RunGMetricsAgainstGrails {
+class RunGMetricsAgainstExternalProject {
 
     private static final HTML_REPORT_WRITER = 'org.gmetrics.report.BasicHtmlReportWriter'
     private static final XML_REPORT_WRITER = 'org.gmetrics.report.XmlReportWriter'
-    private static final METRICSET_FILE = 'RunGMetricsAgainstGrails.metricset'
+    private static final METRICSET_FILE = 'RunGMetricsAgainstExternalProject.metricset'
 
     static void main(String[] args) {
         runGMetrics()
@@ -34,9 +35,11 @@ class RunGMetricsAgainstGrails {
 
     @SuppressWarnings('Println')
     private static void runGMetrics() {
-        def baseDir = System.getProperty('grails.home')
-        assert baseDir, 'The "grails.home" system property must be set to the location of the Grails installation.'
-        println "Analyzing Grails source code from [$baseDir]"
+        def baseDir = System.getProperty('basedir')
+        def title = System.getProperty('title')
+        assert baseDir, 'The "basedir" system property must be set to the base directory of the external project.'
+        assert title, 'The "title" system property must be set to the title of the external project.'
+        println "Analyzing Groovy source code from [$baseDir]"
 
         def ant = new AntBuilder()
 
@@ -52,20 +55,20 @@ class RunGMetricsAgainstGrails {
             }
 
             report(type:HTML_REPORT_WRITER){
-               option(name:'title', value:'Grails')
-               option(name:'outputFile', value:'GMetrics-Grails-Report.html')
+               option(name:'title', value:title)
+               option(name:'outputFile', value:title + '-GMetrics-Report.html')
                option(name:'metrics', value:'CyclomaticComplexity, ClassLineCount, MethodLineCount')
             }
 
             report(type:XML_REPORT_WRITER){
-                option(name:'title', value:'Grails')
-                option(name:'outputFile', value:'GMetrics-Grails-Report.xml')
+                option(name:'title', value:title)
+                option(name:'outputFile', value:title + '-GMetrics-Report.xml')
                 option(name:'metrics', value:'CyclomaticComplexity, ClassLineCount, MethodLineCount')
             }
 
             report(type:HTML_REPORT_WRITER){
-                option(name:'title', value:'Grails - Package')
-                option(name:'outputFile', value:'GMetrics-Grails-Package-Report.html')
+                option(name:'title', value:title + ' - Package')
+                option(name:'outputFile', value:title + '-GMetrics-Package-Report.html')
                 option(name:'metrics', value:'AfferentCoupling, EfferentCoupling')
                 option(name:'reportLevels', value:'package')
             }

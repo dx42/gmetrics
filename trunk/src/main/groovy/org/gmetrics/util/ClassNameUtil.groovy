@@ -45,7 +45,7 @@ class ClassNameUtil {
     private static String getNameOnly(String packageName) {
         if (packageName?.contains('.')) {
             def lastPeriod = packageName.lastIndexOf('.')
-            return packageName[lastPeriod+1..-1]
+            return packageName.substring(lastPeriod+1)
         }
         return packageName ?: null
     }
