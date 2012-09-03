@@ -19,7 +19,6 @@ import groovy.util.slurpersupport.GPathResult
 import org.gmetrics.util.io.ResourceFactory
 import org.gmetrics.util.io.DefaultResourceFactory
 import org.apache.log4j.Logger
-import org.gmetrics.util.PathUtil
 
 /**
  * Parses and provides access to a Cobertura "coverage.xml"
@@ -29,21 +28,18 @@ import org.gmetrics.util.PathUtil
 class CoberturaCoverageFile {
 
     private static final LOG = Logger.getLogger(CoberturaCoverageFile)
-    private static final PATH_SEPARATOR = '/'
     private static final int SCALE = 2
     private static final int ROUNDING_MODE = BigDecimal.ROUND_HALF_UP
 
     private String coberturaFile
     private xml
     private String attributeName
-    private String packageNamePrefixes
     private coberturaXmlFileLoadLock = new Object()
     private ResourceFactory resourceFactory = new DefaultResourceFactory()
 
-    CoberturaCoverageFile(String coberturaFile, String attributeName, String packageNamePrefixes) {
+    CoberturaCoverageFile(String coberturaFile, String attributeName) {
         this.coberturaFile = coberturaFile
         this.attributeName = attributeName
-        this.packageNamePrefixes = packageNamePrefixes
     }
 
     protected BigDecimal getOverallCoverageRate() {
@@ -55,33 +51,6 @@ class CoberturaCoverageFile {
         def lineRateStr = node.@"$attributeName".text()
         def lineRate = lineRateStr as BigDecimal
         return lineRate.setScale(SCALE, ROUNDING_MODE)
-    }
-
-    protected GPathResult findMatchingPackageElement(String packageName, String packagePath) {
-        def matchingPackageElement = findPackageElement(packageName)
-        if (matchingPackageElement.isEmpty() && packageNamePrefixes) {
-            matchingPackageElement = findPackageElementMatchingPrefix(packagePath)
-        }
-        return matchingPackageElement
-    }
-
-    protected GPathResult findPackageElementMatchingPrefix(String packagePath) {
-        def prefixes = packageNamePrefixes.tokenize(',')
-        def matchingPackageElement
-        prefixes.find { String prefix ->
-            def trimmedPrefix = prefix.trim()
-            matchingPackageElement = findPackageWithPrefix(packagePath, trimmedPrefix, matchingPackageElement)
-        }
-        return matchingPackageElement
-    }
-
-    protected GPathResult findPackageWithPrefix(String packagePath, String prefix, matchingPackageElement) {
-        if (packagePath.startsWith(prefix)) {
-            def fullPrefix = prefix.endsWith(PATH_SEPARATOR) ? prefix : prefix + PATH_SEPARATOR
-            def pathWithoutPrefix = PathUtil.toPackageName(packagePath - fullPrefix)
-            matchingPackageElement = findPackageElement(pathWithoutPrefix)
-        }
-        return matchingPackageElement
     }
 
     protected GPathResult findPackageElement(String packageName) {

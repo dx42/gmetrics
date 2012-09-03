@@ -15,16 +15,20 @@ NEW FEATURES
 FIXES AND ENHANCEMENTS
 - #3508192: Make CoberturaCoverageFile threadsafe.
 - #3520789: Fix CyclomaticComplexity metric does not count null-check operator if it is applied to a method call.
+- #3564284: Use actual package name in CoberturaBranchCoverage and CoberturaLineCoverage metrics. Remove packageNamePrefixes property.
 - #3523819: Omit attributes that have null value from the XML report.
 - #3523820: Reports: Support for metric values that are lists or maps.
 - #3523828: BasicHtmlReportWriter: Display ‘N/A’ if the metric value is null.
 
-FRAMEWORK/API CHANGES  (Potential breaking changes if you have implemented your own Metrics)
-- Changed Metric interface to include actual package name in applyToPackage:
+FRAMEWORK/API CHANGES
+- #3564286: Changed Metric interface to include actual package name in applyToPackage:
     - Modified interface method: applyToPackage(String path, String packageName, Collection<MetricResult> childMetricResults)
-    - AbstractMetric: Added protected MetricResult calculateForPackage(String path, String packageName, Collection<MetricResult> childMetricResults)
-    - AbstractMetric: Changed existing calculateForPackage(String path, Collection<MetricResult> childMetricResults) to call calculateForPackage(path, null, childMetricResults) for backward-compatibility.
+    - AbstractMetric: Changed to calculateForPackage(String path, String packageName, Collection<MetricResult> childMetricResults)
 - Remove FilesystemSourceAnalyzer (not used).
+
+BREAKING CHANGES
+- #3564286: Change to Metric interface and AbstractMetric to include actual package name in applyToPackage() and calculateForPackage().
+- #3564284: Remove packageNamePrefixes property from CoberturaBranchCoverage and CoberturaLineCoverage metrics.
 
 THANKS
 - Thanks to Akila Perera for the patch for #3560963.

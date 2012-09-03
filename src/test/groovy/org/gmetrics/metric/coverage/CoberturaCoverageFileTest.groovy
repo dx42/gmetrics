@@ -36,7 +36,7 @@ class CoberturaCoverageFileTest extends AbstractTestCase {
 
     void testGetCoberturaXml_IsReentrant() {
         def loadedCount = new AtomicInteger()
-        def coberturaCoverageFile = new CoberturaCoverageFile(COBERTURA_XML_FILE, null, null)
+        def coberturaCoverageFile = new CoberturaCoverageFile(COBERTURA_XML_FILE, null)
         coberturaCoverageFile.resourceFactory = [
             getResource:{ path ->
                 assert path == COBERTURA_XML_FILE
