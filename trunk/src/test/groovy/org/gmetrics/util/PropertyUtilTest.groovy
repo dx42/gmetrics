@@ -61,17 +61,17 @@ class PropertyUtilTest extends AbstractTestCase {
 
     void setUp() {
         super.setUp()
-        object = new TestPropertyUtilClass()
+        object = new SamplePropertyUtilClass()
     }
 }
 
-class TestPropertyUtilClass extends TestPropertyUtilSuperclass {
+class SamplePropertyUtilClass extends SamplePropertyUtilSuperclass {
     String stringField
     int intField
     long longField
     boolean booleanField
 }
 
-class TestPropertyUtilSuperclass {
+class SamplePropertyUtilSuperclass {
     int superclassIntField
 }

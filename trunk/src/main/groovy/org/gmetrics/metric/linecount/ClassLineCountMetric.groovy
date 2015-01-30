@@ -48,7 +48,7 @@ class ClassLineCountMetric extends AbstractMetric {
 class ClassLineCountAstVisitor extends AbstractAstVisitor {
     int numberOfLinesInClass
     void visitClass(ClassNode classNode) {
-        if (classNode.lineNumber >= 0) {
+        if (!classNode.script) {
             numberOfLinesInClass = classNode.lastLineNumber - classNode.lineNumber + 1
         }
         super.visitClass(classNode)

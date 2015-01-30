@@ -30,7 +30,7 @@
         <dependency>
              <groupId>org.codehaus.groovy</groupId>
              <artifactId>groovy-all</artifactId>
-             <version>1.7.5</version>
+             <version>2.1.9</version>
         </dependency>
 
         <dependency>
@@ -48,7 +48,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>3.8.2</version>
+            <version>4.8.2</version>
             <scope>test</scope>
         </dependency>
 
@@ -150,7 +150,7 @@
                 <configuration>
                     <archive>
                         <manifestEntries>
-                            <GMetrics-Version>${pom.version}</GMetrics-Version>
+                            <GMetrics-Version>${project.version}</GMetrics-Version>
                         </manifestEntries>
                     </archive>
                 </configuration>

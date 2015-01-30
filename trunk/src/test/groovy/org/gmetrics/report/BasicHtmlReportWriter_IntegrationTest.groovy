@@ -49,7 +49,7 @@ class BasicHtmlReportWriter_IntegrationTest extends AbstractTestCase {
     void setUp() {
         super.setUp()
         def project = new Project(basedir:BASE_DIR)
-        private fileSet = new FileSet(project:project, dir:new File(BASE_DIR), includes:GROOVY_FILES)
+        def fileSet = new FileSet(project:project, dir:new File(BASE_DIR), includes:GROOVY_FILES)
         sourceAnalyzer = new AntFileSetSourceAnalyzer(project, [fileSet])
 
         reportWriter = new BasicHtmlReportWriter()
