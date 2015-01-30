@@ -15,6 +15,7 @@
  */
 package org.gmetrics.util
 
+import org.codehaus.groovy.ast.ClassNode
 import org.codehaus.groovy.ast.stmt.Statement
 import org.codehaus.groovy.ast.stmt.ExpressionStatement
 import org.codehaus.groovy.ast.expr.MethodCallExpression
@@ -219,7 +220,7 @@ class AstUtil {
      * @return true if the ASTNode was generated (synthetic) rather than from the "real" input source code.
      */
     static boolean isFromGeneratedSourceCode(ASTNode node) {
-        return node.lineNumber < 0
+        return node.lineNumber < 0 || (node instanceof ClassNode && node.script)
     }
 
     /**

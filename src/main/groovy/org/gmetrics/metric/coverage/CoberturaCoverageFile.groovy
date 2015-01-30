@@ -111,6 +111,9 @@ class CoberturaCoverageFile {
         // Do not try to validate using the DTD, which may refer to an unavailable URI
         xmlSlurper.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false)
 
+        // See http://bugs.java.com/bugdatabase/view_bug.do?bug_id=7157610
+        xmlSlurper.setFeature("http://apache.org/xml/features/disallow-doctype-decl", false)
+
         return xmlSlurper
     }
 

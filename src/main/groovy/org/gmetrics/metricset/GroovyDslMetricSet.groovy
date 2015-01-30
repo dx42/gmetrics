@@ -50,7 +50,7 @@ class GroovyDslMetricSet implements MetricSet {
         Binding binding = new Binding(metricset:callMetricSet)
 
         GroovyShell shell = new GroovyShell(binding);
-        shell.evaluate(inputStream);
+        shell.evaluate(inputStream.text);
 
         metrics = metricSetBuilder.metricSet.metrics
     }

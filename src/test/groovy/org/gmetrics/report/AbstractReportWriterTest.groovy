@@ -18,7 +18,6 @@ package org.gmetrics.report
 import org.gmetrics.test.AbstractTestCase
 import org.gmetrics.resultsnode.StubResultsNode
 import org.gmetrics.resultsnode.ResultsNode
-import org.gmetrics.metricset.MetricSet
 import org.gmetrics.analyzer.AnalysisContext
 import org.gmetrics.metric.StubMetric
 import org.gmetrics.metricset.ListMetricSet
@@ -40,7 +39,7 @@ class AbstractReportWriterTest extends AbstractTestCase {
     private reportWriter
 
     void testWriteReport_WritesToDefaultOutputFile_IfOutputFileIsNull() {
-        def defaultOutputFile = TestAbstractReportWriter.defaultOutputFile
+        def defaultOutputFile = SampleAbstractReportWriter.defaultOutputFile
         reportWriter.writeReport(RESULTS_NODE, ANALYSIS_CONTEXT)
         assertOutputFile(defaultOutputFile) 
     }
@@ -162,7 +161,7 @@ class AbstractReportWriterTest extends AbstractTestCase {
 
     void setUp() {
         super.setUp()
-        reportWriter = new TestAbstractReportWriter()
+        reportWriter = new SampleAbstractReportWriter()
     }
 
     private void assertOutputFile(String outputFile) {
@@ -185,7 +184,7 @@ class AbstractReportWriterTest extends AbstractTestCase {
 /**
  * Concrete subclass of AbstractReportWriter for testing
  */
-class TestAbstractReportWriter extends AbstractReportWriter {
+class SampleAbstractReportWriter extends AbstractReportWriter {
     static defaultOutputFile = 'TestReportWriter.txt'
 
     @SuppressWarnings('UnusedMethodParameter')
