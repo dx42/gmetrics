@@ -20,30 +20,46 @@
     <packaging>jar</packaging>
     <url>http://gmetrics.sourceforge.net/</url>
 
+    <properties>
+        <groovyVersion>[2.1.0,)</groovyVersion>
+    </properties>
+
     <scm>
-        <connection>scm:svn:https://gmetrics.svn.sourceforge.net/svnroot/gmetrics/tags/GMetrics-0.6</connection>
-        <developerConnection>scm:svn:https://gmetrics.svn.sourceforge.net/svnroot/gmetrics/tags/GMetrics-0.6</developerConnection>
-        <url>https://gmetrics.svn.sourceforge.net/svnroot/gmetrics/tags/GMetrics-0.6</url>
+        <connection>scm:svn:https://gmetrics.svn.sourceforge.net/svnroot/gmetrics/tags/GMetrics-${project.version}}</connection>
+        <developerConnection>scm:svn:https://gmetrics.svn.sourceforge.net/svnroot/gmetrics/tags/GMetrics-${project.version}</developerConnection>
+        <url>https://gmetrics.svn.sourceforge.net/svnroot/gmetrics/tags/GMetrics-${project.version}</url>
     </scm>
 
     <dependencies>
         <dependency>
-             <groupId>org.codehaus.groovy</groupId>
-             <artifactId>groovy-all</artifactId>
-             <!--<version>2.1.9</version>-->
-             <version>[2.1.0,)</version>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy</artifactId>
+            <version>${groovyVersion}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-xml</artifactId>
+            <version>${groovyVersion}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-ant</artifactId>
+            <version>${groovyVersion}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-test</artifactId>
+            <version>${groovyVersion}</version>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>1.2.13</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.ant</groupId>
-            <artifactId>ant</artifactId>
-            <version>1.7.1</version>
         </dependency>
 
         <dependency>
