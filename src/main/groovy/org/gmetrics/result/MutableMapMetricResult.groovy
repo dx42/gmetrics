@@ -52,7 +52,6 @@ class MutableMapMetricResult implements MetricResult {
         return map[name]
     }
 
-    @Override
     void putAt(String name, Object newValue) {
         map[name] = newValue
     }
