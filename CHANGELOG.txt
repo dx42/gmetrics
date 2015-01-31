@@ -5,7 +5,8 @@ http://www.gmetrics.org
 Changes in version 0.7 (Jan 2015)
 --------------------------------------
 BREAKING CHANGES
-- #31: Upgrade to Groovy 2.1.9.
+- #31: Upgrade to Groovy 2.x (>=2.1).
+- #32: Depend on individual Groovy modules rather than groovy-all.
 
 
 Changes in version 0.6 (Sep 2012)
