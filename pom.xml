@@ -25,7 +25,7 @@
     </properties>
 
     <scm>
-        <connection>scm:svn:https://gmetrics.svn.sourceforge.net/svnroot/gmetrics/tags}/GMetrics-0.7</connection>
+        <connection>scm:svn:https://gmetrics.svn.sourceforge.net/svnroot/gmetrics/tags/GMetrics-0.7</connection>
         <developerConnection>scm:svn:https://gmetrics.svn.sourceforge.net/svnroot/gmetrics/tags/GMetrics-0.7</developerConnection>
         <url>https://gmetrics.svn.sourceforge.net/svnroot/gmetrics/tags/GMetrics-0.7</url>
     </scm>
