@@ -121,7 +121,6 @@ abstract class AbstractCoberturaCoverageMetric extends AbstractMetric implements
         return new SingleNumberMetricResult(this, MetricLevel.PACKAGE, lineRate)
     }
 
-    @Override
     MetricResult calculate(MethodNode methodNode, SourceCode sourceCode) {
         def className = methodNode.declaringClass.name
         def classXmlElement = getCoberturaCoverageFile().findClassElement(className)

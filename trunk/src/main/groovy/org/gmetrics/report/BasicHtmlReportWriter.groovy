@@ -31,9 +31,7 @@ import org.gmetrics.util.GMetricsVersion
  *
  * @author Chris Mair
  */
-@Mixin(MetricsCriteriaFilter)
-@Mixin(LevelsCriteriaFilter)
-@Mixin(FunctionsCriteriaFilter)
+@Mixin([MetricsCriteriaFilter, LevelsCriteriaFilter, FunctionsCriteriaFilter])
 class BasicHtmlReportWriter extends AbstractReportWriter {
 
     public static final DEFAULT_OUTPUT_FILE = 'GMetricsReport.html'
