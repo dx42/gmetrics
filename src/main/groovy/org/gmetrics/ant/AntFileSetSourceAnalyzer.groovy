@@ -85,8 +85,7 @@ class AntFileSetSourceAnalyzer implements SourceAnalyzer {
         metricSet.metrics.each { metric -> resultsNode.applyMetric(metric) }
     }
 
-    @SuppressWarnings('EmptyMethod')
-    @SuppressWarnings('UnusedPrivateMethodParameter')
+    @SuppressWarnings(['EmptyMethod', 'UnusedPrivateMethodParameter'])
     private void calculatePackageLevelMetricResults(ResultsNode resultsNode, MetricSet metricSet) {
         // do nothing
     }

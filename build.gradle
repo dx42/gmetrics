@@ -1,0 +1,34 @@
+plugins {
+    id 'groovy'
+    id 'maven'
+    id 'net.saliman.cobertura' version '2.5.0'
+}
+
+group = 'org.gmetrics'
+version = '0.9'
+
+description = 'GMetrics'
+
+sourceCompatibility = 1.6
+targetCompatibility = 1.6
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+
+repositories {
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+    maven { url "http://repo.maven.apache.org/maven2" }
+}
+
+dependencies {
+	def groovyVersion = "2.3.3"
+	compile "org.codehaus.groovy:groovy-all:$groovyVersion"
+	compile "org.codehaus.groovy:groovy-ant:$groovyVersion"
+    compile 'log4j:log4j:1.2.17'
+
+    testCompile 'junit:junit:4.12'
+    testCompile group:'org.codenarc', name:'CodeNarc', version:'0.27.0', transitive:false
+    testRuntime 'org.slf4j:slf4j-api:1.7.25'
+}

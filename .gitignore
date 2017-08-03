@@ -1,0 +1,14 @@
+/bin/
+/AllMetricSet.txt
+/AllMetricsAntBuilderTestReport.html
+/AllMetricsAntBuilderTestReport.xml
+/AntBuilderTestReport.html
+/AntBuilderTestSingleSeriesMethodHtmlReport.html
+/AntBuilderTestSingleSeriesPackageHtmlReport.html
+/AntBuilderTestXmlReport.xml
+/CRAP_AntBuilderTest.html
+/CoberturaCoverage_AntBuilderTest-GMetricsReport.html
+/CoberturaCoverage_AntBuilderTest-GMetricsReport.xml
+/GMetricsReport.html
+/GMetricsSingleSeriesReport.html
+/GMetricsXmlReport.xml
