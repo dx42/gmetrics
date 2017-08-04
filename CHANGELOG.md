@@ -1,6 +1,6 @@
 # GMetrics Change Log
 
-## Version 0.7 (Jan 2015)
+Version 0.7 (Jan 2015)
 -------------------------------------------------------------------------------------------
 ### BREAKING CHANGES
 
@@ -8,7 +8,7 @@
   * 32: Depend on individual Groovy modules rather than groovy-all.
 
 
-## Version 0.6 (Sep 2012)
+Version 0.6 (Sep 2012)
 -------------------------------------------------------------------------------------------
 ### NEW METRICS
 - 3341849: New EfferentCouplingMetric. Package-level metric that counts the number of other packages that the classes in a package depend upon, and is an indicator of the package's independence.
@@ -40,7 +40,7 @@
 - Thanks to Akila Perera for the patch for #3560963.
 
 
-## Version 0.5 (Jan 2012)
+Version 0.5 (Jan 2012)
 -------------------------------------------------------------------------------------------
 ### NEW METRICS
 - New CoberturaBranchCoverageMetric. Branch coverage at method/class/package level. Requires a Cobertura "coverage.xml" file. (#3474462)
@@ -72,7 +72,7 @@
 - Change writeReport(Writer writer, ResultsNode resultsNode, AnalysisContext analysisContext) to protected
 
 
-## Version 0.4 (Oct 2011)
+Version 0.4 (Oct 2011)
 -------------------------------------------------------------------------------------------
 ### NEW FEATURES
 - Upgrade to Groovy 1.7. NOTE: GMetrics now requires Groovy 1.7. (#3421010)
@@ -101,7 +101,7 @@
 - Upgrade to use CodeNarc 0.15 for tests/analysis.
 
 
-## Version 0.3 (23 Jul 2010)
+Version 0.3 (23 Jul 2010)
 -------------------------------------------------------------------------------------------
 ### NEW FEATURES
 - NEW: SingleSeriesHtmlReportWriter. Creates HTML report for single series (univariate) of metric values.
@@ -128,7 +128,7 @@
 - Upgrade to GMaven 1.2.
 
 
-## Version 0.2 (10 Mar 2010)
+Version 0.2 (10 Mar 2010)
 -------------------------------------------------------------------------------------------
 ### NEW FEATURES
 - NEW: CyclomaticComplexityMetric
@@ -162,13 +162,13 @@
 - Add AbstractCommonMetricTestCase. Common tests: enabled returns null for package,class; metric implements Metric.
 
 
-## Version 0.1.1 (7 Feb 2010)
+Version 0.1.1 (7 Feb 2010)
 -------------------------------------------------------------------------------------------
 - Fix Bug #2919722: "Method metrics only process first closure field". https://sourceforge.net/tracker/?func=detail&aid=2919722&group_id=288180&atid=1220655.
 - Enable syncing with Maven Central Repository.
 
 
-## Version 0.1 (16 Dec 2009)
+Version 0.1 (16 Dec 2009)
 -------------------------------------------------------------------------------------------
 - Initial release. Includes AbcMetric, ClassLineCountMetric, MethodLineCountMetric.
 
