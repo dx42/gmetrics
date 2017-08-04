@@ -12,3 +12,5 @@
 /GMetricsReport.html
 /GMetricsSingleSeriesReport.html
 /GMetricsXmlReport.xml
+/build/
+/.gradle/
