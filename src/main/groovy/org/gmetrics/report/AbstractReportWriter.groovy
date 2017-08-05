@@ -77,6 +77,7 @@ abstract class AbstractReportWriter implements ReportWriter {
     private void writeReportToFile(ResultsNode resultsNode, AnalysisContext analysisContext) {
         def outputFilename = outputFile ?: getProperty('defaultOutputFile')
         def file = new File(outputFilename)
+		file.getParentFile()?.mkdirs()
         file.withWriter { writer ->
             writeReport(writer, resultsNode, analysisContext)
         }

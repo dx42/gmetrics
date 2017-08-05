@@ -278,6 +278,16 @@ class BasicHtmlReportWriterTest extends AbstractReportWriterTestCase {
         assertReportContents(resultsNode, CONTENTS)
     }
 
+	void testWriteReport_ParentDirectoryDoesNotExist() {
+		final NEW_REPORTS_DIR = "$REPORTS_DIR/DoesNotExist"
+		final NEW_REPORT_FILE = "$NEW_REPORTS_DIR/NewFile.html"
+		reportWriter.outputFile = NEW_REPORT_FILE
+		new File(NEW_REPORTS_DIR).deleteOnExit()
+		new File(NEW_REPORT_FILE).deleteOnExit()
+        def resultsNode = new StubResultsNode(metricResults:[metric1Result(0.65)])
+		reportWriter.writeReport(resultsNode, analysisContext)
+	}
+	
     //------------------------------------------------------------------------------------
     // Setup and Helper Methods
     //------------------------------------------------------------------------------------

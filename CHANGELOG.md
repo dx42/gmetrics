@@ -1,9 +1,15 @@
 # GMetrics Change Log
 
+TBD: Version 1.0 (Aug 2017)
+-------------------------------------------------------------------------------------------
+- #1: Migrate (import) GMetrics project from Sourceforge.
+- #2: Convert GMetrics project from Maven to Gradle. 
+- #3: Create missing directories for report output files
+
+
 Version 0.7 (Jan 2015)
 -------------------------------------------------------------------------------------------
 BREAKING CHANGES
-
   * 31: Upgrade to Groovy 2.x (>=2.1); support Groovy 2.x.
   * 32: Depend on individual Groovy modules rather than groovy-all.
 

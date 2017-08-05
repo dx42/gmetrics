@@ -96,9 +96,7 @@ abstract class AbstractReportWriterTestCase extends AbstractTestCase {
     }
 
     protected void assertReportContents(resultsNode, expectedContents, boolean writeToFile=false) {
-        def reportText = writeReport(resultsNode)
-        writeOutToFile(reportText, writeToFile)
-        assertContainsAllInOrder(reportText, expectedContents)
+		assertReportContents(resultsNode, expectedContents, [], writeToFile)
     }
 
     protected void assertReportContents(resultsNode, expectedContents, List notExpectedContents, boolean writeToFile=false) {
