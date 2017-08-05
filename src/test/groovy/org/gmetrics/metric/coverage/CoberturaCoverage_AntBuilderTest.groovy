@@ -25,10 +25,10 @@ import org.gmetrics.test.AbstractTestCase
 class CoberturaCoverage_AntBuilderTest extends AbstractTestCase {
 
     private static final HTML_REPORT_WRITER = 'org.gmetrics.report.BasicHtmlReportWriter'
-    private static final HTML_REPORT_FILE = 'CoberturaCoverage_AntBuilderTest-GMetricsReport.html'
+    private static final HTML_REPORT_FILE = "$REPORTS_DIR/CoberturaCoverage_AntBuilderTest-GMetricsReport.html"
 
     private static final XML_REPORT_WRITER = 'org.gmetrics.report.XmlReportWriter'
-    private static final XML_REPORT_FILE = 'CoberturaCoverage_AntBuilderTest-GMetricsReport.xml'
+    private static final XML_REPORT_FILE = "$REPORTS_DIR/CoberturaCoverage_AntBuilderTest-GMetricsReport.xml"
 
     private ant
 

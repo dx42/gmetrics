@@ -23,9 +23,10 @@
 class CouplingReportTestMain {
 
     private static final TITLE = 'Coupling Report'
-    private static final HTML_REPORT_FILE = 'CouplingTestReport.html'
+	private static final String REPORTS_DIR = "testreports"
+    private static final HTML_REPORT_FILE = "$REPORTS_DIR/CouplingTestReport.html"
     private static final HTML_REPORT_WRITER = 'org.gmetrics.report.BasicHtmlReportWriter'
-    private static final XML_REPORT_FILE = 'CouplingTestReport.xml'
+    private static final XML_REPORT_FILE = "$REPORTS_DIR/CouplingTestReport.xml"
     private static final XML_REPORT_WRITER = 'org.gmetrics.report.XmlReportWriter'
 
     static void main(String[] args) {

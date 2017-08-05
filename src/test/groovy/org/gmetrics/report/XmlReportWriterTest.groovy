@@ -32,6 +32,7 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
     private static final GMETRICS_ROOT = """<GMetrics url='http://www.gmetrics.org' version='${getVersion()}'>"""
     private static final GMETRICS_END_TAG = "</GMetrics>"
     private static final REPORT_TIMESTAMP = "<Report timestamp='${FORMATTED_TIMESTAMP}'/>"
+	private static final REPORT_FILE = "$REPORTS_DIR/GMetricsXmlReport.xml"
     private static final METRIC_DESCRIPTIONS_1 = """
         <Metrics>
             <Metric name='Metric1'>
@@ -70,7 +71,8 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
         </Project>
     """
 
-    static reportFilename = "GMetricsXmlReport.xml" 
+    static reportFilename = REPORT_FILE
+	 
     private localizedMessages
 
     //------------------------------------------------------------------------------------
@@ -348,6 +350,7 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
     protected ReportWriter createReportWriter() {
         def rw = new XmlReportWriter(title:TITLE)
         rw.getTimestamp = { TIMESTAMP_DATE }
+		rw.outputFile = "$REPORTS_DIR/GMetricsXmlReport.xml"
         return rw
     }
 

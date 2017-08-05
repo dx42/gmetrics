@@ -40,8 +40,10 @@ class BasicHtmlReportWriterTest extends AbstractReportWriterTestCase {
     private static final PACKAGE_PREFIX = '[p]'
     private static final CLASS_PREFIX = '[c]'
     private static final METHOD_PREFIX = '[m]'
-
-    static reportFilename = "GMetricsReport.html"
+	private static final REPORT_FILE = "$REPORTS_DIR/GMetricsReport.html"
+	
+    static reportFilename = REPORT_FILE
+	
     private localizedMessages
 
     void testThatDefaultOutputFile_IsGMetricsReportHtml() {
@@ -308,6 +310,6 @@ class BasicHtmlReportWriterTest extends AbstractReportWriterTestCase {
     }
 
     protected ReportWriter createReportWriter() {
-        return new BasicHtmlReportWriter()
+        return new BasicHtmlReportWriter(outputFile:REPORT_FILE)
     }
 }

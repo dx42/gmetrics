@@ -31,7 +31,7 @@ import org.apache.tools.ant.types.FileSet
  */
 class BasicHtmlReportWriter_IntegrationTest extends AbstractTestCase {
 
-    private static final REPORT_FILE = 'GMetricsReport.html'
+    private static final REPORT_FILE = "$REPORTS_DIR/GMetricsReport.html"
     private static final BASE_DIR = 'src/main'
     private static final GROOVY_FILES = '**/*.groovy'
 
@@ -52,7 +52,7 @@ class BasicHtmlReportWriter_IntegrationTest extends AbstractTestCase {
         def fileSet = new FileSet(project:project, dir:new File(BASE_DIR), includes:GROOVY_FILES)
         sourceAnalyzer = new AntFileSetSourceAnalyzer(project, [fileSet])
 
-        reportWriter = new BasicHtmlReportWriter()
+        reportWriter = new BasicHtmlReportWriter(outputFile:REPORT_FILE)
         metricSet = new ListMetricSet([new MethodLineCountMetric(), new AbcMetric()])
         analysisContext = new AnalysisContext(metricSet:metricSet)
     }

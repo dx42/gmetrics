@@ -29,6 +29,8 @@ import org.apache.log4j.spi.LoggingEvent
  */
 abstract class AbstractTestCase extends GroovyTestCase {
 
+	protected static final String REPORTS_DIR = "testreports"
+	
     /**
      * Assert that the specified closure should throw an exception whose message contains text
      * @param text - the text expected within the message; may be a single String or a List of Strings

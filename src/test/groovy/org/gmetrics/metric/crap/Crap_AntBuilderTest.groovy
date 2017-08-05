@@ -25,7 +25,7 @@ import org.gmetrics.test.AbstractTestCase
 class Crap_AntBuilderTest extends AbstractTestCase {
 
     private static final HTML_REPORT_WRITER = 'org.gmetrics.report.BasicHtmlReportWriter'
-    private static final HTML_REPORT_FILE = 'CRAP_AntBuilderTest.html'
+    private static final HTML_REPORT_FILE = "$REPORTS_DIR/CRAP_AntBuilderTest.html"
 
     private ant
 

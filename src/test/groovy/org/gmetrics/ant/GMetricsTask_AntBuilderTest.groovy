@@ -28,20 +28,20 @@ import org.gmetrics.test.AbstractTestCase
 class GMetricsTask_AntBuilderTest extends AbstractTestCase {
 
     private static final HTML_REPORT_WRITER = 'org.gmetrics.report.BasicHtmlReportWriter'
-    private static final HTML_REPORT_FILE = 'AntBuilderTestReport.html'
-    private static final HTML_TEMP_REPORT_FILE = 'AntBuilderTestReport_Temp.html'
+    private static final HTML_REPORT_FILE = "$REPORTS_DIR/AntBuilderTestReport.html"
+    private static final HTML_TEMP_REPORT_FILE = "$REPORTS_DIR/AntBuilderTestReport_Temp.html"
 
-    private static final ALL_HTML_REPORT_FILE = 'AllMetricsAntBuilderTestReport.html'
-    private static final ALL_XML_REPORT_FILE = 'AllMetricsAntBuilderTestReport.xml'
-    private static final ALL_METRICSET_FILE = 'AllMetricSet.txt'
+    private static final ALL_HTML_REPORT_FILE = "$REPORTS_DIR/AllMetricsAntBuilderTestReport.html"
+    private static final ALL_XML_REPORT_FILE = "$REPORTS_DIR/AllMetricsAntBuilderTestReport.xml"
+    private static final ALL_METRICSET_FILE = "$REPORTS_DIR/AllMetricSet.txt"
 
     private static final SERIES_HTML_REPORT_WRITER = 'org.gmetrics.report.SingleSeriesHtmlReportWriter'
-    private static final SERIES_HTML_METHOD_REPORT_FILE = 'AntBuilderTestSingleSeriesMethodHtmlReport.html'
-    private static final SERIES_HTML_PACKAGE_REPORT_FILE = 'AntBuilderTestSingleSeriesPackageHtmlReport.html'
+    private static final SERIES_HTML_METHOD_REPORT_FILE = "$REPORTS_DIR/AntBuilderTestSingleSeriesMethodHtmlReport.html"
+    private static final SERIES_HTML_PACKAGE_REPORT_FILE = "$REPORTS_DIR/AntBuilderTestSingleSeriesPackageHtmlReport.html"
     private static final SERIES_TITLE = 'Methods With Highest Line Count'
 
     private static final XML_REPORT_WRITER = 'org.gmetrics.report.XmlReportWriter'
-    private static final XML_REPORT_FILE = 'AntBuilderTestXmlReport.xml'
+    private static final XML_REPORT_FILE = "$REPORTS_DIR/AntBuilderTestXmlReport.xml"
     private static final TITLE = 'Sample'
     private ant
 

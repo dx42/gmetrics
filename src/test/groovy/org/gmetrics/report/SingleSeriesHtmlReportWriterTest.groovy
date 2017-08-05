@@ -37,8 +37,9 @@ class SingleSeriesHtmlReportWriterTest extends AbstractReportWriterTestCase {
     private static final DEFAULT_TITLE = SingleSeriesHtmlReportWriter.DEFAULT_TITLE
     private static final CSS_FILE_CONTENTS = getCssFileContents()
     private static final STANDARD_CONTENTS = [ HTML_TAG, DEFAULT_TITLE, CSS_FILE_CONTENTS, DEFAULT_TITLE, TIMESTAMP_LABEL, FORMATTED_TIMESTAMP]
-
-    static reportFilename = "GMetricsSingleSeriesReport.html"
+    private static final String REPORT_FILE = "$REPORTS_DIR/GMetricsSingleSeriesReport.html"
+    
+	static reportFilename = REPORT_FILE
 
     private emptyResultsNode = packageResultsNode(path:'test')
     private localizedMessages
@@ -211,6 +212,7 @@ class SingleSeriesHtmlReportWriterTest extends AbstractReportWriterTestCase {
 
     protected ReportWriter createReportWriter() {
         def rw = new SingleSeriesHtmlReportWriter()
+		rw.outputFile = REPORT_FILE
         rw.getTimestamp = { TIMESTAMP_DATE }
         return rw
     }
