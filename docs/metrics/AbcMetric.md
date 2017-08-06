@@ -1,7 +1,3 @@
-		--------------------------------------------------
-					  GMetrics - ABC Metric
-		--------------------------------------------------
-
 # ABC Metric
 
  Calculates the **ABC** Metric for a class or method. **ABC** is a metric of
@@ -46,13 +42,13 @@
 
   A frequently-referenced [blog post](http://jakescruggs.blogspot.com/2008/08/whats-good-flog-score.html) by Jake Scruggs ([4]) offers the following guidelines for interpreting an **ABC** score. Note that these values refer to the score (magnitude) calculated for a single method:
 
-    * 0-10 = *Awesome*
-    * 11-20 = *Good enough*
-    * 21-40 = *Might need refactoring*
-    * 41-60 = *Possible to justify*
-    * 61-100 = *Danger*
-    * 100-200 = *Whoop, whoop, whoop*
-    * 200+ = *Someone please think of the children*
+  * 0-10 = *Awesome*
+  * 11-20 = *Good enough*
+  * 21-40 = *Might need refactoring*
+  * 41-60 = *Possible to justify*
+  * 61-100 = *Danger*
+  * 100-200 = *Whoop, whoop, whoop*
+  * 200+ = *Someone please think of the children*
 
 
 ## Metric Properties
@@ -65,6 +61,7 @@
 | enabled         | This `boolean` property controls whether the metric is             | `true`                 |
 |                 | *enabled*. If set to `false`, then the metric is not included      |                        |
 |                 | as part of the results or the output reports.                      |                        |
+|-----------------|--------------------------------------------------------------------|------------------------|
 | functions       | This `List<String>` property contains the names of the functions   | `["total","average"]`  |
 |                 | to be calculated at the *method*, *class* and *package* levels     |                        |
 |                 | and (potentially) included within the report(s). Valid values are: |                        |
@@ -72,6 +69,7 @@
 |                 |    - "average"                                                     |                        |
 |                 |    - "minimum"                                                     |                        |
 |                 |    - "maximum"                                                     |                        |
+|-----------------|--------------------------------------------------------------------|------------------------|
 | includeClosureFields | This `boolean` property controls whether metric values are    | `true`                 |
 |                 | calculated for *Closure Fields* and treated as *methods*. A        |                        |
 |                 | *Closure Field* is a field that is initialized to a *Closure Expression*, |                 |
