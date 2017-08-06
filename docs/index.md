@@ -8,25 +8,25 @@
 
   Total and average values for the following metrics are provided:
 
-  * [Cyclomatic Complexity](./gmetrics-CyclomaticComplexityMetric.html).
+  * [Cyclomatic Complexity](./metrics/CyclomaticComplexityMetric.html).
 
-  * [ABC](./gmetrics-ABCMetric.html) Size/Complexity. Also see the [C2 Wiki page](http://c2.com/cgi/wiki?AbcMetric).
+  * [ABC](./metrics/ABCMetric.html) Size/Complexity. Also see the [C2 Wiki page](http://c2.com/cgi/wiki?AbcMetric).
 
-  * [Cobertura line coverage](./gmetrics-CoberturaLineCoverageMetric.html) and [Cobertura branch coverage](./gmetrics-CoberturaBranchCoverageMetric.html)
+  * [Cobertura line coverage](./metrics/CoberturaLineCoverageMetric.html) and [Cobertura branch coverage](./metrics/CoberturaBranchCoverageMetric.html)
 
-  * [CRAP](./gmetrics-CrapMetric.html) - (Change Risk Anti-Patterns) score
+  * [CRAP](./metrics/CrapMetric.html) - (Change Risk Anti-Patterns) score
 
-  * [Afferent Coupling](./gmetrics-AfferentCouplingMetric.html)
+  * [Afferent Coupling](./metrics/AfferentCouplingMetric.html)
 
-  * [Efferent Coupling](./gmetrics-EfferentCouplingMetric.html)
+  * [Efferent Coupling](./metrics/EfferentCouplingMetric.html)
 
-  * [Lines per method](./gmetrics-MethodLineCountMetric.html)
+  * [Lines per method](./metrics/MethodLineCountMetric.html)
 
-  * [Lines per class](./gmetrics-ClassLineCountMetric.html)
+  * [Lines per class](./metrics/ClassLineCountMetric.html)
 
-  * [Number of classes per package](./gmetrics-ClassCountMetric.html)
+  * [Number of classes per package](./metrics/ClassCountMetric.html)
 
-  * [Number of field per class](./gmetrics-FieldCountMetric.html)
+  * [Number of field per class](./metrics/FieldCountMetric.html)
 
   See the site navigation menu for a list of the metrics and reports provided
   out of the box by **GMetrics**.
