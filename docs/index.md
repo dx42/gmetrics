@@ -6,32 +6,30 @@
 
   You can run **GMetrics** using the supplied [Ant Task](./gmetrics-ant-task.html).
 
+## Metrics
+
   Total and average values for the following metrics are provided:
-
   * [Cyclomatic Complexity](./metrics/CyclomaticComplexityMetric).
-
-  * [ABC](./metrics/AbcMetric) Size/Complexity. Also see the [C2 Wiki page](http://c2.com/cgi/wiki?AbcMetric).
-
+  * [ABC](./metrics/AbcMetric) - Size/Complexity. Also see the [C2 Wiki page](http://c2.com/cgi/wiki?AbcMetric).
   * [Cobertura line coverage](./metrics/CoberturaLineCoverageMetric) and [Cobertura branch coverage](./metrics/CoberturaBranchCoverageMetric)
-
   * [CRAP](./metrics/CrapMetric) - (Change Risk Anti-Patterns) score
-
   * [Afferent Coupling](./metrics/AfferentCouplingMetric)
-
   * [Efferent Coupling](./metrics/EfferentCouplingMetric)
-
   * [Lines per method](./metrics/MethodLineCountMetric)
-
   * [Lines per class](./metrics/ClassLineCountMetric)
-
   * [Number of classes per package](./metrics/ClassCountMetric)
-
   * [Number of field per class](./metrics/FieldCountMetric)
 
-  See the site navigation menu for a list of the metrics and reports provided
-  out of the box by **GMetrics**.
 
-  Take a look at a [Sample GMetrics Report](./SampleGMetricsReport.html).
+## Reports
+  **GMetrics** provides the following reports:
+  * [BasicHtmlReportWriter](./reports/BasicHtmlReportWriter) -- [Sample HTML Report](./reports/SampleGMetricsReport.html)
+  * [SingleSeriesHtmlReportWriter](./reports/SingleSeriesHtmlReportWriter) -- [Sample Single Series HTML Report](./reports/SampleGMetricsSingleSeriesReport.html)
+  * [XmlReportWriter](./reports/XmlReportWriter) -- [Sample XML Report](./reports/SampleGMetricsXmlReport.html)
+  
+### Use XSLT to Generate a Custom HTML Report
+  [MrHaki](http://www.mrhaki.com/) has written a detailed blog post describing [How to Create a GMetrics Report with XSLT](http://mrhaki.blogspot.com/2011/01/groovy-goodness-create-gmetrics-report.html).
+
 
 ## Requirements
 
@@ -46,7 +44,7 @@
 
   For projects built using [Maven](http://maven.apache.org/), **GMetrics** is now available from the *Maven Central Repository*.
 
-    * groupId = org.gmetrics
-    * artifactId = GMetrics
+  * groupId = org.gmetrics
+  * artifactId = GMetrics
 
 
