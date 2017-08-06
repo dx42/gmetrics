@@ -34,5 +34,5 @@ dependencies {
     testCompile group:'org.codenarc', name:'CodeNarc', version:'0.27.0', transitive:false
 	
 	// TODO Remove once CodeNarc removes Log4J dependency
-    testCompile 'log4j:log4j:1.2.17'
+    testCompile "org.slf4j:log4j-over-slf4j:$slf4jVersion"
 }
