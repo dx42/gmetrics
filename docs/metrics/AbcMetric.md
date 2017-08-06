@@ -58,22 +58,11 @@
 
 | **Property**    | **Description**                                                    | **Default Value**      |
 |-----------------|--------------------------------------------------------------------|------------------------|
-| enabled         | This `boolean` property controls whether the metric is             | `true`                 |
-|                 | *enabled*. If set to `false`, then the metric is not included      |                        |
-|                 | as part of the results or the output reports.                      |                        |
+| *enabled*         | This `boolean` property controls whether the metric is *enabled*. If set to `false`, then the metric is not included as part of the results or the output reports. | `true`                 |
 |-----------------|--------------------------------------------------------------------|------------------------|
-| functions       | This `List<String>` property contains the names of the functions   | `["total","average"]`  |
-|                 | to be calculated at the *method*, *class* and *package* levels     |                        |
-|                 | and (potentially) included within the report(s). Valid values are: |                        |
-|                 |    - "total"                                                       |                        |
-|                 |    - "average"                                                     |                        |
-|                 |    - "minimum"                                                     |                        |
-|                 |    - "maximum"                                                     |                        |
+| *functions*       | This `List<String>` property contains the names of the functions to be calculated at the *method*, *class* and *package* levels and (potentially) included within the report(s). Valid values are: "total", "average", "minimum", "maximum" | `["total","average"]`  |
 |-----------------|--------------------------------------------------------------------|------------------------|
-| includeClosureFields | This `boolean` property controls whether metric values are    | `true`                 |
-|                 | calculated for *Closure Fields* and treated as *methods*. A        |                        |
-|                 | *Closure Field* is a field that is initialized to a *Closure Expression*, |                 |
-|                 | e.g., `def myField = { println 12 }`.                              |                        |
+| *includeClosureFields* | This `boolean` property controls whether metric values are calculated for *Closure Fields* and treated as *methods*. A *Closure Field* is a field that is initialized to a *Closure Expression*, e.g., `def myField = { println 12 }`. | `true`                 |
 
 
 ## References
