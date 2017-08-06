@@ -5,6 +5,7 @@ TBD: Version 1.0 (Aug 2017)
 - #1: Migrate (import) GMetrics project from Sourceforge.
 - #2: Convert GMetrics project from Maven to Gradle. 
 - #3: Create missing directories for report output files
+- #4: Switch from Log4J 1.x to SLF4J.
 
 
 Version 0.7 (Jan 2015)
