@@ -28,10 +28,16 @@ class CoberturaLineCoverageMetricTest extends AbstractCoberturaMetricTestCase {
     private static final EMAIL_VALUE = 0.66
     private static final SERVICE_PACKAGE_VALUE = 0.85
 
-    // Implement abstract method using Groovy Properties
-    BigDecimal rootPackageValue = 0.95
-    BigDecimal servicePackageValue = SERVICE_PACKAGE_VALUE
-
+	@Override
+	protected BigDecimal getRootPackageValue() {
+		return 0.95
+	}
+	
+	@Override
+	protected BigDecimal getServicePackageValue() {
+		return SERVICE_PACKAGE_VALUE
+	}
+	
     //------------------------------------------------------------------------------------
     // Tests
     //------------------------------------------------------------------------------------

@@ -23,6 +23,7 @@ import org.gmetrics.metric.MetricLevel
  *
  * @author Chris Mair
  */
+@SuppressWarnings('GStringExpressionWithinString')
 abstract class AbstractPackageCouplingMetric_ClassTestCase extends AbstractMetricTestCase {
 
     void testCommonMetricProperties() {

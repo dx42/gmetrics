@@ -24,12 +24,13 @@ import org.gmetrics.test.AbstractTestCase
  * @version $Revision$ - $Date$
  */
 class SourceCodeCriteriaTest extends AbstractTestCase {
-    static final NAME = 'MyTest.groovy'
-    static final PATH = "src/$NAME"
-    static final MATCH = /.*Test\.groovy/
-    static final NO_MATCH = /.*Other\.groovy/
-    static final OTHER_NAME = 'OtherClass.groovy'
-    static final ANYTHING = 'abc'
+    private static final NAME = 'MyTest.groovy'
+    private static final PATH = "src/$NAME"
+    private static final MATCH = /.*Test\.groovy/
+    private static final NO_MATCH = /.*Other\.groovy/
+    private static final OTHER_NAME = 'OtherClass.groovy'
+    private static final ANYTHING = 'abc'
+	
     private sourceCode
 
     void testMatches_NullPathAndName() {

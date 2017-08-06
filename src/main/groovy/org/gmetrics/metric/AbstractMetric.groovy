@@ -15,10 +15,12 @@
 */
 package org.gmetrics.metric
 
-import org.codehaus.groovy.ast.ClassNode
-import org.gmetrics.source.SourceCode
-import org.gmetrics.result.*
 import org.codehaus.groovy.ast.ASTNode
+import org.codehaus.groovy.ast.ClassNode
+import org.gmetrics.result.ClassMetricResult
+import org.gmetrics.result.MetricResult
+import org.gmetrics.result.MetricResultBuilder
+import org.gmetrics.source.SourceCode
 
 /**
  * Abstract superclass for metrics.

@@ -15,6 +15,7 @@ package org.gmetrics.report
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@SuppressWarnings('EmptyClass')
 class AbstractMetricCriteriaFilter {
     // Placeholder -- workaround for SVN / Maven issue
 }

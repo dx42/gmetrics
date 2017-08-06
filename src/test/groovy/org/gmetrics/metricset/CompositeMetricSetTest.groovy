@@ -25,8 +25,9 @@ import org.gmetrics.test.AbstractTestCase
  * @version $Revision$ - $Date$
  */
 class CompositeMetricSetTest extends AbstractTestCase {
-    static final METRIC1 = [:] as Metric
-    static final METRIC2 = [:] as Metric
+    private static final METRIC1 = [:] as Metric
+    private static final METRIC2 = [:] as Metric
+	
     private compositeMetricSet
                                                       
     void testImplementsMetricSetInterface() {

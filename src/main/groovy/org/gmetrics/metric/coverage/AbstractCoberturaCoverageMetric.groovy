@@ -42,7 +42,7 @@ abstract class AbstractCoberturaCoverageMetric extends AbstractMetric implements
     protected static final int SCALE = 2
     protected static final int ROUNDING_MODE = BigDecimal.ROUND_HALF_UP
 
-//    @SuppressWarnings('LoggerWithWrongModifiers')
+    @SuppressWarnings('LoggerWithWrongModifiers')
     protected static final LOG = LoggerFactory.getLogger(AbstractCoberturaCoverageMetric)
 	
     final MetricLevel baseLevel = MetricLevel.METHOD
@@ -122,6 +122,7 @@ abstract class AbstractCoberturaCoverageMetric extends AbstractMetric implements
         return new SingleNumberMetricResult(this, MetricLevel.PACKAGE, lineRate)
     }
 
+	@SuppressWarnings('UnusedMethodParameter')
     MetricResult calculate(MethodNode methodNode, SourceCode sourceCode) {
         def className = methodNode.declaringClass.name
         def classXmlElement = getCoberturaCoverageFile().findClassElement(className)

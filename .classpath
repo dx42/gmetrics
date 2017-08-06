@@ -20,7 +20,7 @@
 			<attribute name="FROM_GRADLE_MODEL" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry excluding="codenarc/|nested/|samplescripts/|source/**|source/dirA/|source/dirB/" kind="src" path="src/test/resources">
+	<classpathentry excluding="nested/|samplescripts/|source/**|source/dirA/|source/dirB/" kind="src" path="src/test/resources">
 		<attributes>
 			<attribute name="FROM_GRADLE_MODEL" value="true"/>
 		</attributes>

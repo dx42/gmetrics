@@ -26,7 +26,5 @@ class GMetricsVersion {
 
     private static final VERSION = ClassPathResource.getInputStream('gmetrics-version.txt').text
 
-    static String getVersion() {
-        return VERSION
-    }
+    static String version = VERSION
 }

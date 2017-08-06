@@ -24,12 +24,9 @@ package org.gmetrics.test
 class RunCodeNarcAgainstSourceCodeTest extends org.gmetrics.test.AbstractTestCase {
 
     private static final GROOVY_FILES = '**/*.groovy'
-    private static final RULESET_FILES = 'codenarc/CodeNarcRuleSet.groovy'
+    private static final RULESET_FILES = 'codenarc/CodeNarcRuleSet.txt'
 
-    void testNOTHING() { }
-
-    // TODO Re-enable once CodeNarc is upgraded to remove Log4J dependency
-    void IGNORE_testRunCodeNarc() {
+    void testRunCodeNarc() {
         def ant = new AntBuilder()
 
         ant.taskdef(name:'codenarc', classname:'org.codenarc.ant.CodeNarcTask')
@@ -46,11 +43,7 @@ class RunCodeNarcAgainstSourceCodeTest extends org.gmetrics.test.AbstractTestCas
                include(name:GROOVY_FILES)
            }
 
-           //report(type:'html') { }
-
-           report(type:'text') {
-               option(name:'writeToStandardOut', value:true)
-           }
+           report(type:'ide')
         }
     }
 

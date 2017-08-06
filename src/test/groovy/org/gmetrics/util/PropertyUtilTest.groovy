@@ -25,7 +25,7 @@ import org.gmetrics.test.AbstractTestCase
  */
 class PropertyUtilTest extends AbstractTestCase {
 
-    def object
+    private object
 
     void testSetPropertyFromString_String() {
         PropertyUtil.setPropertyFromString(object, 'stringField', 'AbcdefGHI')
