@@ -2,17 +2,20 @@
 
 TBD: Version 1.0 (Aug 2017)
 -------------------------------------------------------------------------------------------
+BREAKING CHANGES
+- #4: Switch from Log4J 1.x to SLF4J.
+FIXES AND ENHANCEMENTS
+- #3: Create missing directories for report output files
+INFRASTRUCTURE AND TESTS
 - #1: Migrate (import) GMetrics project from Sourceforge.
 - #2: Convert GMetrics project from Maven to Gradle. 
-- #3: Create missing directories for report output files
-- #4: Switch from Log4J 1.x to SLF4J.
 
 
 Version 0.7 (Jan 2015)
 -------------------------------------------------------------------------------------------
 BREAKING CHANGES
-  * 31: Upgrade to Groovy 2.x (>=2.1); support Groovy 2.x.
-  * 32: Depend on individual Groovy modules rather than groovy-all.
+- 31: Upgrade to Groovy 2.x (>=2.1); support Groovy 2.x.
+- 32: Depend on individual Groovy modules rather than groovy-all.
 
 
 Version 0.6 (Sep 2012)
@@ -20,11 +23,9 @@ Version 0.6 (Sep 2012)
 NEW METRICS
 - 3341849: New EfferentCouplingMetric. Package-level metric that counts the number of other packages that the classes in a package depend upon, and is an indicator of the package's independence.
 - 3341855: New AfferentCouplingMetric. Package-level metric that counts the number of other packages that depend on the classes within a package. It is an indicator of the package's responsibility.
-
 NEW FEATURES
 - 3560963: Add fileName and filePath attributes to <Class> elements on XML report.
 - 3563055: Include a new name attribute in the <Package> elements in the XML report, to contain the actual package name. Add packageName property to PackageResultsNode to hold the actual package name, independent of the source folder. NOTE: Not using packageName instead of path in HTML reports for now.
-
 FIXES AND ENHANCEMENTS
 - 3508192: Make CoberturaCoverageFile threadsafe.
 - 3520789: Fix CyclomaticComplexity metric does not count null-check operator if it is applied to a method call.
@@ -32,17 +33,14 @@ FIXES AND ENHANCEMENTS
 - 3523819: Omit attributes that have null value from the XML report.
 - 3523820: Reports: Support for metric values that are lists or maps.
 - 3523828: BasicHtmlReportWriter: Display ‘N/A’ if the metric value is null.
-
 FRAMEWORK/API CHANGES
 - 3564286: Changed Metric interface to include actual package name in applyToPackage:
     - Modified interface method: applyToPackage(String path, String packageName, Collection<MetricResult> childMetricResults)
     - AbstractMetric: Changed to calculateForPackage(String path, String packageName, Collection<MetricResult> childMetricResults)
 - Remove FilesystemSourceAnalyzer (not used).
-
 BREAKING CHANGES
 - 3564286: Change to Metric interface and AbstractMetric to include actual package name in applyToPackage() and calculateForPackage().
 - 3564284: Remove packageNamePrefixes property from CoberturaBranchCoverage and CoberturaLineCoverage metrics.
-
 THANKS
 - Thanks to Akila Perera for the patch for #3560963.
 
@@ -53,21 +51,17 @@ NEW METRICS
 - New CoberturaBranchCoverageMetric. Branch coverage at method/class/package level. Requires a Cobertura "coverage.xml" file. (#3474462)
 - New CoberturaLineCoverageMetric. Line coverage at method/class/package level. Requires a Cobertura "coverage.xml" file. (#3474462)
 - New CrapMetric. Calculated the CRAP score for a method, based on its complexity and code coverage. Requires a Cobertura "coverage.xml" file. (#3192158.)
-
 NEW FEATURES
 - MetricSet DSL: Return value from each metric in the metric set; Allow storing metric in variable. #3465486.
   This is useful for composite Metrics that require other metric values to calculate results (e.g. CrapMetric). If a metric is
   defined within another metric definition (assigned to a field), do not include as a standalone metric in the metric set.
-
 INTEGRATION WITH OTHER TOOLS
 - If you use GMetric with CodeNarc, this release requires CodeNarc 0.16.
-
 FIXES AND ENHANCEMENTS
 - Method-level Metrics: Handle multiple overloaded methods. (#3439103). Use MethodKey class.
 - Fix: For SingleSeries package-level reports, show the full package name, not just the rightmost part of the package name. (#3439104).
 - Add includeClosureFields property to AbstractMethodMetric. Defaults to true.
 - Add String getSignature() method to MethodResultsNode and MethodKey. Add signature attribute to Method elements in XmlReportWriter. #3444707.
-
 FRAMEWORK/API CHANGES  (Potential breaking changes if you have implemented your own Metrics)
 - Change Metric and AbstractMetric to add packageName to applyToPackage(): applyToPackage(String packageName, Collection<MetricResult> childMetricResults). (Breaking Change). (#3465484)
 - Introduce new MethodMetric (extends Metric) interface: applyToMethod() and applyToClosure().
@@ -84,25 +78,21 @@ Version 0.4 (Oct 2011)
 NEW FEATURES
 - Upgrade to Groovy 1.7. NOTE: GMetrics now requires Groovy 1.7. (#3421010)
 - Support specifying metrics within the MetricSet by specifying the metric name, with optional properties Map or optional closure. (#3421008)
-
 NEW METRICS
 - New FieldCountMetric. Counts the number of fields within each class. (#3341811)
 - New MethodCountMetric. Counts the number of methods (and closure fields) within each class. (#3341804)
 - New ClassCountMetric. Counts the number of classes within each package. (#3341812)
-
 FIXES AND ENHANCEMENTS
 - Fix #3305753: Make GMetrics runnable (compatible) with Groovy 1.8.
 - Fix #3413604: Reimplement ASTUtil.getVariableExpressions() to optimize performance. Thanks to Hamlet D’Arcy.
 - Fix #3186167: GMetrics can't be built with Groovy >= 1.7.7. Fix illegal writes to final properties.
 - Fix #3418843: Reports: Exclude results for level "less" than metric base level
 - ReportWriters: Include output file name in “Report created” message
-
 FRAMEWORK/API CHANGES  (Potential breaking changes if you have implemented your own Metrics)
 - 3418135: Add MetricLevel getMetricLevel() to MetricResult interface and impl classes.
   Also  AbstractMetric: Change protected createAggregateMetricResult() to add MetricLevel parameter.
 - Specify collection types (generics) for method signatures within Metric, MetricResult , ResultsNode and ClassMetricResult classes.
 - Add isValid() method to the SourceCode interface and implementations.
-
 INFRASTRUCTURE AND TESTS
 - Create GMetricsVersion class with String getVersion(). Remove "GMetrics" from version file.
 - Upgrade to use CodeNarc 0.15 for tests/analysis.
@@ -122,10 +112,8 @@ NEW FEATURES
         levels="CyclomaticComplexity=class,method; ABC=method"
         functions="ABC=average; CyclomaticComplexity=total,maximum"
 - Add support for "maximum" and "minimum" function for metrics.
-
 FIXES AND ENHANCEMENTS
 - Fix: All method-level Metrics (e.g. MethodLineCountMetric): Apply to constructors as well as regular methods.
-
 FRAMEWORK/API CHANGES
 - MetricResult: Replace hard-coded getTotal() and getAverage() methods with getAt(String) to support the metricResult['total'] syntax.
 - MetricResult. Add getLineNumber() method to interface. Change AbstractMetric and subclasses to populate the results accordingly.

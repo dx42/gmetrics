@@ -12,9 +12,7 @@ description = 'GMetrics'
 sourceCompatibility = 1.6
 targetCompatibility = 1.6
 
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
-}
+tasks.withType(JavaCompile) { options.encoding = 'UTF-8' }
 
 repositories {
     maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
@@ -22,17 +20,17 @@ repositories {
 }
 
 dependencies {
-	def groovyVersion = "2.4.12"
-	def slf4jVersion = "1.7.25"
-	
-	compile "org.codehaus.groovy:groovy-all:$groovyVersion"
-	compile "org.codehaus.groovy:groovy-ant:$groovyVersion"
+    def groovyVersion = "2.4.12"
+    def slf4jVersion = "1.7.25"
+
+    compile "org.codehaus.groovy:groovy-all:$groovyVersion"
+    compile "org.codehaus.groovy:groovy-ant:$groovyVersion"
     compile "org.slf4j:slf4j-api:$slf4jVersion"
 
     testCompile 'junit:junit:4.12'
     testCompile "org.slf4j:slf4j-simple:$slf4jVersion"
     testCompile group:'org.codenarc', name:'CodeNarc', version:'0.27.0', transitive:false
-	
-	// TODO Remove once CodeNarc removes Log4J dependency
+
+    // TODO Remove once CodeNarc removes Log4J dependency
     testCompile "org.slf4j:log4j-over-slf4j:$slf4jVersion"
 }
