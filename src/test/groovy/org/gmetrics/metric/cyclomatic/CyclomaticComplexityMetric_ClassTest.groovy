@@ -17,6 +17,7 @@ package org.gmetrics.metric.cyclomatic
 
 import org.gmetrics.metric.AbstractMetricTestCase
 import org.gmetrics.metric.MetricLevel
+import org.junit.Test
 
 /**
  * Tests for CyclomaticComplexityMetric - calculate aggregate metrics for a class
@@ -27,11 +28,11 @@ import org.gmetrics.metric.MetricLevel
 class CyclomaticComplexityMetric_ClassTest extends AbstractMetricTestCase {
     static metricClass = CyclomaticComplexityMetric
 
-    void testBaseLevelIsMethod() {
+    @Test	void testBaseLevelIsMethod() {
         assert metric.baseLevel == MetricLevel.METHOD
     }
 
-    void testApplyToClass_ReturnNullForClassWithNoMethods() {
+    @Test	void testApplyToClass_ReturnNullForClassWithNoMethods() {
         final SOURCE = """
             class MyClass {
                 int myValue
@@ -40,7 +41,7 @@ class CyclomaticComplexityMetric_ClassTest extends AbstractMetricTestCase {
         assert applyToClass(SOURCE) == null
     }
 
-    void testApplyToClass_ReturnNullForInterface() {
+    @Test	void testApplyToClass_ReturnNullForInterface() {
         final SOURCE = """
             interface MyInterface {
                 int doSomething(String name)
@@ -49,14 +50,14 @@ class CyclomaticComplexityMetric_ClassTest extends AbstractMetricTestCase {
         assert applyToClass(SOURCE) == null
     }
 
-    void testApplyToClass_IgnoresSyntheticNonRunMethods() {
+    @Test	void testApplyToClass_IgnoresSyntheticNonRunMethods() {
         final SOURCE = """
             println 123     // this is a script; will generate main() and run() methods
         """
         assertApplyToClass(SOURCE, 1, 1, [(RUN_METHOD):1])
     }
 
-    void testApplyToClass_ResultsForClassWithOneMethod() {
+    @Test	void testApplyToClass_ResultsForClassWithOneMethod() {
         final SOURCE = """
             class MyClass {
                 String a() {
@@ -67,7 +68,7 @@ class CyclomaticComplexityMetric_ClassTest extends AbstractMetricTestCase {
         assertApplyToClass(SOURCE, 2, 2, ['String a()':2])
     }
 
-    void testApplyToClass_ResultsForClassWithSeveralMethodsAndClosureFields() {
+    @Test	void testApplyToClass_ResultsForClassWithSeveralMethodsAndClosureFields() {
         final SOURCE = """
             class MyClass {
                 MyClass() {                   // 3
@@ -99,7 +100,7 @@ class CyclomaticComplexityMetric_ClassTest extends AbstractMetricTestCase {
         assertApplyToClass(SOURCE, 14, scale(14/5), [(DEFAULT_CONSTRUCTOR):3, b:3, 'String c()':5, d:1, e:2])
     }
 
-    void testApplyToClass_ResultsForClassWithOneClosureField() {
+    @Test	void testApplyToClass_ResultsForClassWithOneClosureField() {
         final SOURCE = """
             class MyClass {
                 def myClosure = {
@@ -110,7 +111,7 @@ class CyclomaticComplexityMetric_ClassTest extends AbstractMetricTestCase {
         assertApplyToClass(SOURCE, 2, 2, [myClosure:2])
     }
 
-    void testApplyToClass_ResultsForScript_RunMethod() {
+    @Test	void testApplyToClass_ResultsForScript_RunMethod() {
         final SOURCE = """
             def myClosure = {           // this is actually inside the implicit run() method
                 if (x == 23) return 99 else return 0
@@ -119,15 +120,15 @@ class CyclomaticComplexityMetric_ClassTest extends AbstractMetricTestCase {
         assertApplyToClass(SOURCE, 2, 2, [(RUN_METHOD):2])
     }
 
-    void testApplyToPackage_ResultsForNoChildren() {
+    @Test	void testApplyToPackage_ResultsForNoChildren() {
         assertApplyToPackage([], 0, 0)
     }
 
-    void testApplyToPackage_ResultsForOneChild() {
+    @Test	void testApplyToPackage_ResultsForOneChild() {
         assertApplyToPackage([metricResult(23)], 23, 23)
     }
 
-    void testApplyToPackage_ResultsForThreeChildren() {
+    @Test	void testApplyToPackage_ResultsForThreeChildren() {
         assertApplyToPackage([metricResult(20), metricResult(6), metricResult(4)], 30, 10)
     }
 

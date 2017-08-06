@@ -16,6 +16,7 @@
  package org.gmetrics.util
 
 import org.gmetrics.test.AbstractTestCase
+import org.junit.Test
 
 /**
  * Tests for GMetricsVersion
@@ -24,7 +25,7 @@ import org.gmetrics.test.AbstractTestCase
  */
 class GMetricsVersionTest extends AbstractTestCase {
 
-    void testGetVersion() {
+    @Test	void testGetVersion() {
         assert GMetricsVersion.getVersion() == new File('src/main/resources/gmetrics-version.txt').text
     }
 }

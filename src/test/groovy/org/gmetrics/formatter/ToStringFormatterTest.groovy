@@ -16,6 +16,7 @@
  package org.gmetrics.formatter
 
 import org.gmetrics.test.AbstractTestCase
+import org.junit.Test
 
 /**
  * Tests for ToStringFormatter
@@ -26,19 +27,19 @@ class ToStringFormatterTest extends AbstractTestCase {
 
     private formatter = new ToStringFormatter()
 
-    void testImplementsFormatter() {
+    @Test	void testImplementsFormatter() {
         assert formatter instanceof Formatter
     }
 
-    void testFormat_String() {
+    @Test	void testFormat_String() {
         assert formatter.format('abc') == 'abc'
     }
 
-    void testFormat_NonString_ReturnsToString() {
+    @Test	void testFormat_NonString_ReturnsToString() {
         assert formatter.format(123) == '123'
     }
 
-    void testFormat_Null_ReturnsNull() {
+    @Test	void testFormat_Null_ReturnsNull() {
         assert formatter.format(null) == null
     }
 

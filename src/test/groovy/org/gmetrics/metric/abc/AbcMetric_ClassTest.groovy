@@ -17,6 +17,7 @@ package org.gmetrics.metric.abc
 
 import org.gmetrics.metric.MetricLevel
 import org.gmetrics.result.MethodKey
+import org.junit.Test
 
 /**
  * Tests for AbcMetric calculation of class-level metrics
@@ -27,11 +28,11 @@ import org.gmetrics.result.MethodKey
 class AbcMetric_ClassTest extends AbstractAbcMetricTest {
     static metricClass = AbcMetric
 
-    void testMetricLevelIsMethod() {
+    @Test	void testMetricLevelIsMethod() {
         assert metric.baseLevel == MetricLevel.METHOD
     }
 
-    void testApplyToClass_ReturnNullForClassWithNoMethods() {
+    @Test	void testApplyToClass_ReturnNullForClassWithNoMethods() {
         final SOURCE = """
             class MyClass {
                 int myValue
@@ -40,7 +41,7 @@ class AbcMetric_ClassTest extends AbstractAbcMetricTest {
         assert applyToClass(SOURCE) == null
     }
 
-    void testApplyToClass_ReturnNullForInterface() {
+    @Test	void testApplyToClass_ReturnNullForInterface() {
         final SOURCE = """
             interface MyInterface {
                 int doSomething(String name)
@@ -49,14 +50,14 @@ class AbcMetric_ClassTest extends AbstractAbcMetricTest {
         assert applyToClass(SOURCE) == null
     }
 
-    void testApplyToClass_IgnoresSyntheticMethods() {
+    @Test	void testApplyToClass_IgnoresSyntheticMethods() {
         final SOURCE = """
             println 123     // this is a script; will generate main() and run() methods
         """
         assertApplyToClass(SOURCE, [0, 1, 0], [0,1,0], ['java.lang.Object run()':[0, 1, 0]])
     }
 
-    void testApplyToClass_ResultsForClassWithOneMethod() {
+    @Test	void testApplyToClass_ResultsForClassWithOneMethod() {
         final SOURCE = """
             String a() {
                 def x = 1               // A=1
@@ -65,7 +66,7 @@ class AbcMetric_ClassTest extends AbstractAbcMetricTest {
         assertApplyToClass(SOURCE, [1, 0, 0], [1,0,0], ['String a()':[1, 0, 0]])
     }
 
-    void testApplyToClass_ResultsForClassWithSeveralMethods() {
+    @Test	void testApplyToClass_ResultsForClassWithSeveralMethods() {
         final SOURCE = """
             class MyClass {
                 def MyClass() {
@@ -88,7 +89,7 @@ class AbcMetric_ClassTest extends AbstractAbcMetricTest {
         assertApplyToClass(SOURCE, [3,3,6], [1,1,2], [(DEFAULT_CONSTRUCTOR):[2,0,0], 'String b()':[1,3,0], 'String c()':[0,0,6]])
     }
 
-    void testApplyToClass_ResultsForScript_RunMethod() {
+    @Test	void testApplyToClass_ResultsForScript_RunMethod() {
         final SOURCE = """
             def myClosure = {           // this is actually inside the implicit run() method
                 def x = 1
@@ -97,7 +98,7 @@ class AbcMetric_ClassTest extends AbstractAbcMetricTest {
         assertApplyToClass(SOURCE, [2, 0, 0], [2,0,0], [(RUN_METHOD):[2, 0, 0]])
     }
 
-    void testApplyToClass_ResultsForClassWithOneClosureField() {
+    @Test	void testApplyToClass_ResultsForClassWithOneClosureField() {
         final SOURCE = """
             class MyClass {
                 def myClosure = {
@@ -110,7 +111,7 @@ class AbcMetric_ClassTest extends AbstractAbcMetricTest {
         assertApplyToClass(SOURCE, [2,1,2], [2,1,2], [myClosure:[2,1,2]])
     }
 
-    void testApplyToClass_ProcessesMultipleClosureFields() {
+    @Test	void testApplyToClass_ProcessesMultipleClosureFields() {
         final SOURCE = """
             class MyClass {
                 def a = {

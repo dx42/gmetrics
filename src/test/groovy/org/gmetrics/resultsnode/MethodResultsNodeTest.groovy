@@ -15,11 +15,11 @@
  */
 package org.gmetrics.resultsnode
 
-import org.gmetrics.test.AbstractTestCase
 import org.gmetrics.metric.MetricLevel
-
 import org.gmetrics.metric.StubMetric
 import org.gmetrics.result.SingleNumberMetricResult
+import org.gmetrics.test.AbstractTestCase
+import org.junit.Test
 
 /**
  * Tests for MethodResultsNode
@@ -37,41 +37,41 @@ class MethodResultsNodeTest extends AbstractTestCase {
 
     private methodResultsNode = new MethodResultsNode(NAME)
 
-    void testImplementsResultsNode() {
+    @Test	void testImplementsResultsNode() {
         assert methodResultsNode instanceof ResultsNode
     }
 
-    void testNameAssignedFromConstructor() {
+    @Test	void testNameAssignedFromConstructor() {
         assert methodResultsNode.name == NAME
     }
 
-    void testNameAndSignatureAssignedFromConstructor() {
+    @Test	void testNameAndSignatureAssignedFromConstructor() {
         def node = new MethodResultsNode(NAME, SIGNATURE)
         assert node.name == NAME
         assert node.signature == SIGNATURE
     }
 
-    void testThatMetricLevelIsMethodLevel() {
+    @Test	void testThatMetricLevelIsMethodLevel() {
         assert methodResultsNode.level == MetricLevel.METHOD
     }
 
-    void testThatContainsClassResultsIsFalse() {
+    @Test	void testThatContainsClassResultsIsFalse() {
         assert !methodResultsNode.containsClassResults()
     }
 
-    void test_InitialMetricValuesIsEmpty() {
+    @Test	void test_InitialMetricValuesIsEmpty() {
         assert methodResultsNode.getMetricResults() == []
     }
 
-    void test_ChildrenIsAlwaysEmpty() {
+    @Test	void test_ChildrenIsAlwaysEmpty() {
         assert methodResultsNode.getChildren() == [:]
     }
 
-    void test_addMetricResult_NullThrowsException() {
+    @Test	void test_addMetricResult_NullThrowsException() {
         shouldFailWithMessageContaining('metricResult') { methodResultsNode.addMetricResult(null) }
     }
 
-    void test_AddingSeveralMetricResults() {
+    @Test	void test_AddingSeveralMetricResults() {
         methodResultsNode.addMetricResult(METRIC_RESULT1)
         methodResultsNode.addMetricResult(METRIC_RESULT2)
         methodResultsNode.addMetricResult(METRIC_RESULT3)
@@ -80,11 +80,11 @@ class MethodResultsNodeTest extends AbstractTestCase {
         assert metricValues.metric == [METRIC, METRIC, METRIC]
     }
 
-    void test_getMetricResult_NullMetricThrowsException() {
+    @Test	void test_getMetricResult_NullMetricThrowsException() {
         shouldFailWithMessageContaining('metric') { methodResultsNode.getMetricResult(null) }
     }
 
-    void test_getMetricResult_ReturnsCorrectMetricResult() {
+    @Test	void test_getMetricResult_ReturnsCorrectMetricResult() {
         def metric2 = new StubMetric()
         def metric3 = new StubMetric()
         methodResultsNode.addMetricResult(new SingleNumberMetricResult(metric2, MetricLevel.METHOD, 2))
@@ -94,7 +94,7 @@ class MethodResultsNodeTest extends AbstractTestCase {
         assert methodResultsNode.getMetricResult(METRIC) == METRIC_RESULT1
     }
 
-    void test_getMetricResult_ReturnsNullIfNoMatchingMetricResultIsFound() {
+    @Test	void test_getMetricResult_ReturnsNullIfNoMatchingMetricResultIsFound() {
         assert methodResultsNode.getMetricResult(METRIC) == null
     }
 

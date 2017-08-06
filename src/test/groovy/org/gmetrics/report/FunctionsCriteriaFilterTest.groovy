@@ -15,8 +15,9 @@
  */
 package org.gmetrics.report
 
-import org.gmetrics.test.AbstractTestCase
 import org.gmetrics.metric.StubMetric
+import org.gmetrics.test.AbstractTestCase
+import org.junit.Test
 
 /**
  * Tests for FunctionsCriteriaFilter
@@ -33,12 +34,12 @@ class FunctionsCriteriaFilterTest extends AbstractTestCase {
 
     private functionsCriteriaFilter = new FunctionsCriteriaFilter()
 
-    void testNoFunctionsDefined_IncludesFunction_ReturnsTrue() {
+    @Test	void testNoFunctionsDefined_IncludesFunction_ReturnsTrue() {
         assert functionsCriteriaFilter.includesFunction(METRIC_ABC, 'average')
         assert functionsCriteriaFilter.includesFunction(METRIC_XXX, 'total')
     }
 
-    void testOneMetric_OneLevelDefined_IncludesFunction_ReturnsTrueForThat_AndFalseForOthers() {
+    @Test	void testOneMetric_OneLevelDefined_IncludesFunction_ReturnsTrueForThat_AndFalseForOthers() {
         functionsCriteriaFilter.setFunctions('ABC=average')
         assert functionsCriteriaFilter.includesFunction(METRIC_ABC, 'average')
         assert !functionsCriteriaFilter.includesFunction(METRIC_ABC, 'total')
@@ -47,7 +48,7 @@ class FunctionsCriteriaFilterTest extends AbstractTestCase {
         assert functionsCriteriaFilter.includesFunction(METRIC_XXX, 'average')
     }
 
-    void testOneMetric_SingleLevelDefined_IncludesFunction_ReturnsTrueForMatching_AndFalseForOthers() {
+    @Test	void testOneMetric_SingleLevelDefined_IncludesFunction_ReturnsTrueForMatching_AndFalseForOthers() {
         functionsCriteriaFilter.setFunctions('ABC=total,minimum')
         assert functionsCriteriaFilter.includesFunction(METRIC_ABC, 'total')
         assert functionsCriteriaFilter.includesFunction(METRIC_ABC, 'minimum')
@@ -56,7 +57,7 @@ class FunctionsCriteriaFilterTest extends AbstractTestCase {
         assert functionsCriteriaFilter.includesFunction(METRIC_XXX, 'average')
     }
 
-    void testMultipleMetrics_MultipleLevelsDefined_IncludesFunction_ReturnsTrueForMatching_AndFalseForOthers() {
+    @Test	void testMultipleMetrics_MultipleLevelsDefined_IncludesFunction_ReturnsTrueForMatching_AndFalseForOthers() {
         functionsCriteriaFilter.setFunctions('ABC=minimum,total; XXX=average,maximum; ZZZ=average')
         assert functionsCriteriaFilter.includesFunction(METRIC_ABC, 'minimum')
         assert functionsCriteriaFilter.includesFunction(METRIC_ABC, 'total')
@@ -69,7 +70,7 @@ class FunctionsCriteriaFilterTest extends AbstractTestCase {
         assert functionsCriteriaFilter.includesFunction(METRIC_123, 'average')
     }
 
-    void testMultipleLevelsDefined_IncludesFunction_IsCaseInsensitive() {
+    @Test	void testMultipleLevelsDefined_IncludesFunction_IsCaseInsensitive() {
         functionsCriteriaFilter.setFunctions('ABC=avERAGe,TOTAL;   XXX = Minimum')
         assert functionsCriteriaFilter.includesFunction(METRIC_ABC, 'average')
         assert functionsCriteriaFilter.includesFunction(METRIC_ABC, 'total')
@@ -79,13 +80,13 @@ class FunctionsCriteriaFilterTest extends AbstractTestCase {
         assert !functionsCriteriaFilter.includesFunction(METRIC_XXX, 'total')
     }
 
-    void testInvalidCriteriaString_ThrowsException() {
+    @Test	void testInvalidCriteriaString_ThrowsException() {
         shouldFailWithMessageContaining('criteria') { functionsCriteriaFilter.setFunctions('%#') }
         shouldFailWithMessageContaining('criteria') { functionsCriteriaFilter.setFunctions('ABC') }
         shouldFailWithMessageContaining('criteria') { functionsCriteriaFilter.setFunctions('ABC:123') }
     }
 
-    void testSetFunctions_NullOrEmptyCriteriaString_ThrowsException() {
+    @Test	void testSetFunctions_NullOrEmptyCriteriaString_ThrowsException() {
         shouldFailWithMessageContaining('criteria') { functionsCriteriaFilter.setFunctions(null) }
         shouldFailWithMessageContaining('criteria') { functionsCriteriaFilter.setFunctions('') }
     }

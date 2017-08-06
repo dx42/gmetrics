@@ -15,8 +15,9 @@
  */
  package org.gmetrics.metric.crap
 
-import org.gmetrics.test.AbstractTestCase
 import org.gmetrics.metricset.GroovyDslMetricSet
+import org.gmetrics.test.AbstractTestCase
+import org.junit.Test
 
 /**
  * Integration test for CrapMetric that loads a MetricSet definition from a MetricSet Groovy DSL file.
@@ -25,7 +26,7 @@ import org.gmetrics.metricset.GroovyDslMetricSet
  */
 class CrapMetric_MetricSetTest extends AbstractTestCase {
 
-    void testLoadMetricSet() {
+    @Test	void testLoadMetricSet() {
         def metricSet = new GroovyDslMetricSet('crap/CrapMetricSet.txt')
         log metricSet.metrics
         def crapMetric = metricSet.metrics.find { it instanceof CrapMetric }

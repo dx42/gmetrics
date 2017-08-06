@@ -16,6 +16,7 @@
 package org.gmetrics.metricset
 
 import org.gmetrics.test.AbstractTestCase
+import org.junit.Test
 
 /**
  * Tests for DefaultMetricSet
@@ -25,7 +26,7 @@ import org.gmetrics.test.AbstractTestCase
  */
 class DefaultMetricSetTest extends AbstractTestCase {
 
-    void testThatDefaultContentsAreCorrect() {
+    @Test	void testThatDefaultContentsAreCorrect() {
         def metricSet = new DefaultMetricSet()
         def metrics = metricSet.getMetrics()
         assert metrics.name == ['CyclomaticComplexity', 'ClassLineCount', 'MethodLineCount']

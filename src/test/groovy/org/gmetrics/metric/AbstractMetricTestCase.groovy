@@ -15,14 +15,14 @@
  */
 package org.gmetrics.metric
 
-import org.gmetrics.test.AbstractTestCase
-import org.gmetrics.source.SourceString
 import org.codehaus.groovy.ast.expr.ClosureExpression
-import org.gmetrics.result.MetricResult
-
-import org.gmetrics.result.MethodKey
-import org.gmetrics.result.SingleNumberMetricResult
 import org.gmetrics.result.ClassMetricResult
+import org.gmetrics.result.MethodKey
+import org.gmetrics.result.MetricResult
+import org.gmetrics.result.SingleNumberMetricResult
+import org.gmetrics.source.SourceString
+import org.gmetrics.test.AbstractTestCase
+import org.junit.Before
 
 /**
  * Abstract superclass for metric test classes.
@@ -41,8 +41,8 @@ abstract class AbstractMetricTestCase extends AbstractTestCase {
     protected metric
     protected sourceCode
 
-    void setUp() {
-        super.setUp()
+    @Before
+    void setUp_AbstractMetricTestCase() {
         Class mClass = getProperty('metricClass')
         metric = mClass.newInstance()
     }
@@ -137,7 +137,7 @@ abstract class AbstractMetricTestCase extends AbstractTestCase {
         def classMetricResult = results.classMetricResult
         assert classMetricResult.metricLevel == MetricLevel.CLASS
         classLevelValues.each { key, value ->
-            assertEquals(key, value, classMetricResult[key])
+            assert value == classMetricResult[key], "key=$key"
         }
         return results
     }
@@ -154,7 +154,7 @@ abstract class AbstractMetricTestCase extends AbstractTestCase {
             assert metricResults, "No MetricResults exist for method named [$methodName]"
             assert metricResults.metricLevel == MetricLevel.METHOD
             def methodValue = metricResults['total']
-            assertEquals("methodName=$methodName", methodValues[methodName], methodValue)
+            assert  methodValues[methodName] == methodValue, "methodName=$methodName"
         }
     }
 

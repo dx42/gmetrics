@@ -17,6 +17,7 @@
 
 import org.gmetrics.source.SourceString
 import org.gmetrics.test.AbstractTestCase
+import org.junit.Test
 
 /**
  * Tests for ImportUtil
@@ -25,7 +26,7 @@ import org.gmetrics.test.AbstractTestCase
  */
 class ImportUtilTest extends AbstractTestCase {
 
-    void testPackageNameForImport() {
+    @Test	void testPackageNameForImport() {
         final SOURCE = '''
             import aaa.b.MyClass
             import bbb.c.MyClass as Boo

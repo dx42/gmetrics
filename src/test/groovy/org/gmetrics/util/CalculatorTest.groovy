@@ -16,6 +16,7 @@
 package org.gmetrics.util
 
 import org.gmetrics.test.AbstractTestCase
+import org.junit.Test
 
 /**
  * Tests for Calculator
@@ -24,7 +25,7 @@ import org.gmetrics.test.AbstractTestCase
  */
 class CalculatorTest extends AbstractTestCase {
 
-    void testCalculateAverage() {
+    @Test	void testCalculateAverage() {
         assert Calculator.calculateAverage(null, 0, 2) == 0.00
         assert Calculator.calculateAverage(0.0, 0, 2) == 0.00
         assert Calculator.calculateAverage(10.0, 0, 2) == 0.00
@@ -38,7 +39,7 @@ class CalculatorTest extends AbstractTestCase {
 
     }
 
-    void testCalculateAverage_Scale() {
+    @Test	void testCalculateAverage_Scale() {
         assert Calculator.calculateAverage(0.0, 10, 2).scale == 2
         assert Calculator.calculateAverage(1.0, 4, 4).scale == 4
     }

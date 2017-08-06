@@ -16,9 +16,11 @@
  package org.gmetrics.metric.crap
 
 import org.gmetrics.metric.AbstractMetricTestCase
+import org.gmetrics.metric.MethodMetric
 import org.gmetrics.metric.cyclomatic.CyclomaticComplexityMetric
 import org.gmetrics.result.StubMetricResult
-import org.gmetrics.metric.MethodMetric
+import org.junit.Before
+import org.junit.Test
 
 /**
  * Tests for CrapMetric
@@ -37,61 +39,60 @@ class CrapMetricTest extends AbstractMetricTestCase {
     private coverageMetricResult = metricResult(DEFAULT_COVERAGE)
     private complexityMetricResult = metricResult(DEFAULT_COMPLEXITY)
 
-    @Override
+    @Before
     void setUp() {
-        super.setUp()
         metric.coverageMetric = [applyToMethod:{ methodNode, sourceCode -> coverageMetricResult }] as MethodMetric
         metric.complexityMetric = [applyToMethod:{ methodNode, sourceCode -> complexityMetricResult }] as MethodMetric
     }
 
-    void testMetricName() {
+    @Test	void testMetricName() {
         assert metric.name == 'CRAP'
     }
 
-    void testComplexityMetric_DefaultsToCyclomaticComplexityMetric() {
+    @Test	void testComplexityMetric_DefaultsToCyclomaticComplexityMetric() {
         assert new CrapMetric().complexityMetric instanceof CyclomaticComplexityMetric
     }
 
-    void testCalculate_CoverageMetricNotSet_ThrowsException() {
+    @Test	void testCalculate_CoverageMetricNotSet_ThrowsException() {
         metric.coverageMetric = null
         shouldFailWithMessageContaining('coverageMetric') { assert calculateForMethod(SOURCE) }
     }
 
-    void testCalculate_ComplexityMetricNotSet_ThrowsException() {
+    @Test	void testCalculate_ComplexityMetricNotSet_ThrowsException() {
         metric.complexityMetric = null
         shouldFailWithMessageContaining('complexityMetric') { assert calculateForMethod(SOURCE) }
     }
 
-    void testApplyToMethod() {
+    @Test	void testApplyToMethod() {
         assert applyToMethodValue(SOURCE) == DEFAULT_CRAP
     }
 
-    void testCalculate_Valid_Values1() {
+    @Test	void testCalculate_Valid_Values1() {
         assert calculateForMethod(SOURCE) == DEFAULT_CRAP
     }
 
-    void testCalculate_Valid_Values2() {
+    @Test	void testCalculate_Valid_Values2() {
         complexityMetricResult = metricResult(5.0)
         coverageMetricResult = metricResult(0.00)
         assert calculateForMethod(SOURCE) == 30.0
     }
 
-    void testCalculate_ComplexityIsNull() {
+    @Test	void testCalculate_ComplexityIsNull() {
         complexityMetricResult = new StubMetricResult(total:null)
         assertCalculateForMethodReturnsNull(SOURCE)
     }
 
-    void testCalculate_ComplexityNotAvailable_ReturnsNull() {
+    @Test	void testCalculate_ComplexityNotAvailable_ReturnsNull() {
         complexityMetricResult = null
         assertCalculateForMethodReturnsNull(SOURCE)
     }
 
-    void testCalculate_CoverageNotAvailable_ReturnsNull() {
+    @Test	void testCalculate_CoverageNotAvailable_ReturnsNull() {
         coverageMetricResult = null
         assertCalculateForMethodReturnsNull(SOURCE)
     }
 
-    void testCalculate_ReturnsNullForAbstractMethodDeclaration() {
+    @Test	void testCalculate_ReturnsNullForAbstractMethodDeclaration() {
         final SOURCE = """
             abstract class MyClass {
                 abstract void doSomething()
@@ -100,7 +101,7 @@ class CrapMetricTest extends AbstractMetricTestCase {
         assertCalculateForMethodReturnsNull(SOURCE)
     }
 
-    void testCalculate_ReturnsNullForSyntheticMethod() {
+    @Test	void testCalculate_ReturnsNullForSyntheticMethod() {
         final SOURCE = """
             println 123
         """
@@ -108,7 +109,7 @@ class CrapMetricTest extends AbstractMetricTestCase {
         assert metric.calculate(methodNode, sourceCode) == null
     }
 
-    void testCalculate_CountsForConstructor() {
+    @Test	void testCalculate_CountsForConstructor() {
         final SOURCE = """
             class MyClass {
                 MyClass() {
@@ -121,7 +122,7 @@ class CrapMetricTest extends AbstractMetricTestCase {
 
     // Tests for applyToClass()
 
-    void testApplyToClass_OnlyClosureFields_ReturnsNull() {
+    @Test	void testApplyToClass_OnlyClosureFields_ReturnsNull() {
         final SOURCE = """
             class MyClass {
                 def closure = { }
@@ -132,7 +133,7 @@ class CrapMetricTest extends AbstractMetricTestCase {
 
     // Tests for calculateCrapScore()
 
-    void testCalculateCrapScore() {
+    @Test	void testCalculateCrapScore() {
         assert metric.calculateCrapScore(0.0, 0.0) == 0
         assert metric.calculateCrapScore(1.0, 0.0) == 2.0
         assert metric.calculateCrapScore(1.00, 0.00) == 2.0

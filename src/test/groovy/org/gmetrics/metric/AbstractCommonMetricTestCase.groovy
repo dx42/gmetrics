@@ -15,6 +15,8 @@
  */
  package org.gmetrics.metric
 
+import org.junit.Test
+
 /**
  * Abstract superclass for tests common to all Metric classes.
  *
@@ -31,27 +33,27 @@ abstract class AbstractCommonMetricTestCase extends AbstractMetricTestCase {
         }
     '''
 
-    void testImplementsMetricInterface() {
+    @Test	void testImplementsMetricInterface() {
         assert metric instanceof Metric
     }
 
-    void testFunctions_DefaultsTo_TotalAndAverage() {
+    @Test	void testFunctions_DefaultsTo_TotalAndAverage() {
         assert metric.getFunctions() == ['total', 'average']
     }
 
-    void testEnabledFalse_ReturnsNullFor_ApplyToPackage() {
+    @Test	void testEnabledFalse_ReturnsNullFor_ApplyToPackage() {
         metric.enabled = false
         assert metric.applyToPackage(null, null, []) == null
     }
 
-    void testEnabledFalse_ReturnsNullFor_ApplyToClass() {
+    @Test	void testEnabledFalse_ReturnsNullFor_ApplyToClass() {
         metric.enabled = false
         assert applyToClass(SOURCE) == null
     }
 
-    void testApplyToClass_SetsLineNumber() {
+    @Test	void testApplyToClass_SetsLineNumber() {
         def results = applyToClass(SOURCE)
-        assertEquals 2, results.classMetricResult.lineNumber
+        assert results.classMetricResult.lineNumber == 2
     }
 
 }

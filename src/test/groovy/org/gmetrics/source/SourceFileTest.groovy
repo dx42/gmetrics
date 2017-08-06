@@ -16,6 +16,8 @@
 package org.gmetrics.source
 
 import org.gmetrics.test.AbstractTestCase
+import org.junit.Before
+import org.junit.Test
 
 /**
  * Tests for SourceFile 
@@ -31,24 +33,24 @@ class SourceFileTest extends AbstractTestCase {
     private sourceFile
     private file
 
-    void testConstructor_NullPath() {
+    @Test	void testConstructor_NullPath() {
         shouldFail { new SourceFile(null) }
     }
 
-    void testConstructor_EmptyPath() {
+    @Test	void testConstructor_EmptyPath() {
         shouldFail { new SourceFile('') }
     }
 
-    void testGetName() {
+    @Test	void testGetName() {
         assert sourceFile.getName() == 'SampleFile.groovy'
     }
 
-    void testGetPath() {
+    @Test	void testGetPath() {
         log("path=${sourceFile.path}") 
         assert sourceFile.getPath() == FILE
     }
 
-    void testGetText() {
+    @Test	void testGetText() {
         def text = sourceFile.text
         assert text == new File(FILE).text
 
@@ -56,7 +58,7 @@ class SourceFileTest extends AbstractTestCase {
         assert sourceFile.text.is(text)
     }
 
-    void testGetLines() {
+    @Test	void testGetLines() {
         def lines = sourceFile.lines
         assert lines == ['class SampleFile {', '', '}']
 
@@ -64,13 +66,13 @@ class SourceFileTest extends AbstractTestCase {
         assert sourceFile.lines.is(lines)
     }
 
-    void testLine() {
+    @Test	void testLine() {
         assert sourceFile.line(0) ==  'class SampleFile {'
         assert sourceFile.line(-1) ==  null
         assert sourceFile.line(99) ==  null
     }
 
-    void testGetAst() {
+    @Test	void testGetAst() {
         def ast = sourceFile.ast
         log("classes=${ast.classes}")
         assert ast.classes[0].name == 'SampleFile'
@@ -79,13 +81,13 @@ class SourceFileTest extends AbstractTestCase {
         assert sourceFile.ast.is(ast)
     }
 
-    void testGetAst_UsesFileNameForScriptClass() {
+    @Test	void testGetAst_UsesFileNameForScriptClass() {
         sourceFile = new SourceFile(new File(SCRIPT_FILE))
         log("classes=${sourceFile.ast.classes}")
         assert sourceFile.ast.classes[0].name == 'config'
     }
 
-    void testGetLineNumberForCharacterIndex() {
+    @Test	void testGetLineNumberForCharacterIndex() {
         assert sourceFile.getLineNumberForCharacterIndex(0) == 0
         assert sourceFile.getLineNumberForCharacterIndex(1) == 0
         assert sourceFile.getLineNumberForCharacterIndex(21) == 1
@@ -93,13 +95,13 @@ class SourceFileTest extends AbstractTestCase {
         assert sourceFile.getLineNumberForCharacterIndex(-1) == -1
     }
 
-    void testIsValid() {
-        assertTrue sourceFile.valid
-        assertFalse new SourceFile(new File(BAD_FILE)).valid
+    @Test	void testIsValid() {
+        assert sourceFile.valid
+        assert new SourceFile(new File(BAD_FILE)).valid == false
     }
 
+    @Before
     void setUp() {
-        super.setUp()
         file = new File(FILE)
         sourceFile = new SourceFile(file)
     }

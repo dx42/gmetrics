@@ -15,12 +15,15 @@
  */
 package org.gmetrics.metricset
 
-import org.gmetrics.test.AbstractTestCase
-import org.gmetrics.metric.abc.AbcMetric
 import org.gmetrics.metric.StubMetric
-import org.gmetrics.metricregistry.MetricRegistryHolder
-import org.gmetrics.metricregistry.MetricRegistry
+import org.gmetrics.metric.abc.AbcMetric
 import org.gmetrics.metric.crap.CrapMetric
+import org.gmetrics.metricregistry.MetricRegistry
+import org.gmetrics.metricregistry.MetricRegistryHolder
+import org.gmetrics.test.AbstractTestCase
+import org.junit.After
+import org.junit.Before
+import org.junit.Test
 
 /**
  * Tests for MetricSetBuilder
@@ -33,7 +36,7 @@ class MetricSetBuilderTest extends AbstractTestCase {
     private newMetric
     private originalMetricRegistry
 
-    void testMetricset_NullFilename() {
+    @Test	void testMetricset_NullFilename() {
         log(metricSetBuilder)
         shouldFailWithMessageContaining('path') {
             metricSetBuilder.metricset {
@@ -42,7 +45,7 @@ class MetricSetBuilderTest extends AbstractTestCase {
         }
     }
 
-    void testMetricset_GroovyFile_MetricSetFileDoesNotExist() {
+    @Test	void testMetricset_GroovyFile_MetricSetFileDoesNotExist() {
         shouldFailWithMessageContaining('DoesNotExist.groovy') {
             metricSetBuilder.metricset {
                 metricset('DoesNotExist.groovy')
@@ -50,7 +53,7 @@ class MetricSetBuilderTest extends AbstractTestCase {
         }
     }
 
-    void testMetricset_GroovyFile_ConfigureMetricUsingMap() {
+    @Test	void testMetricset_GroovyFile_ConfigureMetricUsingMap() {
         metricSetBuilder.metricset {
             metricset(MetricSetTestFiles.METRICSET1) {
                 'Stub' otherProperty:'888', name:'NewName'
@@ -60,7 +63,7 @@ class MetricSetBuilderTest extends AbstractTestCase {
         assertMetricProperties('NewName', [otherProperty:'888'])
     }
 
-    void testMetricset_GroovyFile_NestedMetricDefinitionNotIncludedInMetricSet() {
+    @Test	void testMetricset_GroovyFile_NestedMetricDefinitionNotIncludedInMetricSet() {
         metricSetBuilder.metricset {
             metricset(MetricSetTestFiles.METRICSET1) {
                 Stub {
@@ -71,7 +74,7 @@ class MetricSetBuilderTest extends AbstractTestCase {
         assertMetricNames('Stub', 'XXX')
     }
 
-    void testMetricset_GroovyFile_ConfigureMetricUsingMap_MetricNotFound() {
+    @Test	void testMetricset_GroovyFile_ConfigureMetricUsingMap_MetricNotFound() {
         shouldFailWithMessageContaining('NotFound') {
             metricSetBuilder.metricset {
                 metricset(MetricSetTestFiles.METRICSET1) {
@@ -81,7 +84,7 @@ class MetricSetBuilderTest extends AbstractTestCase {
         }
     }
 
-    void testMetricset_GroovyFile_ConfigureMetricUsingClosure() {
+    @Test	void testMetricset_GroovyFile_ConfigureMetricUsingClosure() {
         metricSetBuilder.metricset {
             metricset(MetricSetTestFiles.METRICSET1) {
                 Stub {
@@ -93,7 +96,7 @@ class MetricSetBuilderTest extends AbstractTestCase {
         assertMetricProperties('Stub', [otherProperty:'999'])
     }
 
-    void testMetricset_GroovyFile_ConfigureMetricUsingClosure_MetricNotFound() {
+    @Test	void testMetricset_GroovyFile_ConfigureMetricUsingClosure_MetricNotFound() {
         shouldFailWithMessageContaining('NotFound') {
             metricSetBuilder.metricset {
                 metricset(MetricSetTestFiles.METRICSET1) {
@@ -105,14 +108,14 @@ class MetricSetBuilderTest extends AbstractTestCase {
         }
     }
 
-    void testMetricset_GroovyFile_NoClosure() {
+    @Test	void testMetricset_GroovyFile_NoClosure() {
         metricSetBuilder.metricset {
             metricset(MetricSetTestFiles.METRICSET1)
         }
         assertMetricNames('Stub', 'XXX')
     }
 
-    void testMetric_Class_Map() {
+    @Test	void testMetric_Class_Map() {
         metricSetBuilder.metricset {
             newMetric = metric(AbcMetric, [enabled:false])
         }
@@ -121,7 +124,7 @@ class MetricSetBuilderTest extends AbstractTestCase {
         assert newMetric instanceof AbcMetric
     }
 
-    void testMetric_Class_NoClosure() {
+    @Test	void testMetric_Class_NoClosure() {
         metricSetBuilder.metricset {
             newMetric = metric(AbcMetric)
         }
@@ -129,7 +132,7 @@ class MetricSetBuilderTest extends AbstractTestCase {
         assert newMetric instanceof AbcMetric
     }
 
-    void testMetric_Class_NoClosure_NullMetricClass() {
+    @Test	void testMetric_Class_NoClosure_NullMetricClass() {
         shouldFailWithMessageContaining('metricClass') {
             metricSetBuilder.metricset {
                 metric(null)
@@ -137,7 +140,7 @@ class MetricSetBuilderTest extends AbstractTestCase {
         }
     }
 
-    void testMetric_Class_NoClosure_ClassDoesNotImplementRuleInterface() {
+    @Test	void testMetric_Class_NoClosure_ClassDoesNotImplementRuleInterface() {
         shouldFailWithMessageContaining('metricClass') {
             metricSetBuilder.metricset {
                 metric(this.class)
@@ -145,7 +148,7 @@ class MetricSetBuilderTest extends AbstractTestCase {
         }
     }
 
-    void testMetric_Class_Closure() {
+    @Test	void testMetric_Class_Closure() {
         metricSetBuilder.metricset {
             metric(StubMetric) {
                 name = 'xxx'
@@ -161,7 +164,7 @@ class MetricSetBuilderTest extends AbstractTestCase {
         assert newMetric.name == 'yyyy'
     }
 
-    void testMetric_Class_Closure_NullRuleClass() {
+    @Test	void testMetric_Class_Closure_NullRuleClass() {
         shouldFailWithMessageContaining('metricClass') {
             metricSetBuilder.metricset {
                 metric((Class)null) {
@@ -171,7 +174,7 @@ class MetricSetBuilderTest extends AbstractTestCase {
         }
     }
 
-    void testMetric_Class_Closure_ClassDoesNotImplementMetricInterface() {
+    @Test	void testMetric_Class_Closure_ClassDoesNotImplementMetricInterface() {
         shouldFailWithMessageContaining('metricClass') {
             metricSetBuilder.metricset {
                 metric(this.class) {
@@ -181,7 +184,7 @@ class MetricSetBuilderTest extends AbstractTestCase {
         }
     }
 
-    void testMetric_MetricName_EmptyParentheses() {
+    @Test	void testMetric_MetricName_EmptyParentheses() {
         metricSetBuilder.metricset {
             newMetric = ABC()
         }
@@ -189,7 +192,7 @@ class MetricSetBuilderTest extends AbstractTestCase {
         assert newMetric instanceof AbcMetric
     }
 
-    void testMetric_MetricName_ParenthesesWithMap() {
+    @Test	void testMetric_MetricName_ParenthesesWithMap() {
         metricSetBuilder.metricset {
             newMetric = ABC([enabled:false])
         }
@@ -198,7 +201,7 @@ class MetricSetBuilderTest extends AbstractTestCase {
         assert newMetric instanceof AbcMetric
     }
 
-    void testMetric_MetricName_NoParenthesesWithClosure() {
+    @Test	void testMetric_MetricName_NoParenthesesWithClosure() {
         metricSetBuilder.metricset {
             newMetric = ABC {
                 enabled = false
@@ -209,7 +212,7 @@ class MetricSetBuilderTest extends AbstractTestCase {
         assert newMetric instanceof AbcMetric
     }
 
-    void testMetric_NestedMetricDefinitionUsingMetric_NotIncludedInMetricSet() {
+    @Test	void testMetric_NestedMetricDefinitionUsingMetric_NotIncludedInMetricSet() {
         metricSetBuilder.metricset {
             CRAP {
                 coverageMetric = metric(StubMetric)
@@ -218,7 +221,7 @@ class MetricSetBuilderTest extends AbstractTestCase {
         assertMetricNames('CRAP')
     }
 
-    void testMetric_NestedMetricDefinitionUsingMetricWithMap_NotIncludedInMetricSet() {
+    @Test	void testMetric_NestedMetricDefinitionUsingMetricWithMap_NotIncludedInMetricSet() {
         metricSetBuilder.metricset {
             CRAP {
                 coverageMetric = metric(StubMetric, [name:'yyyy'])
@@ -227,7 +230,7 @@ class MetricSetBuilderTest extends AbstractTestCase {
         assertMetricNames('CRAP')
     }
 
-    void testMetric_NestedMetricDefinitionUsingMetricWithClosure_NotIncludedInMetricSet() {
+    @Test	void testMetric_NestedMetricDefinitionUsingMetricWithClosure_NotIncludedInMetricSet() {
         metricSetBuilder.metricset {
             CRAP {
                 coverageMetric = metric(StubMetric) {
@@ -239,7 +242,7 @@ class MetricSetBuilderTest extends AbstractTestCase {
         assertMetricNames('CRAP')
     }
 
-    void testMetric_NestedMetricDefinition_AssignNestedMetricWithinMap_KnownLimitation() {
+    @Test	void testMetric_NestedMetricDefinition_AssignNestedMetricWithinMap_KnownLimitation() {
         metricSetBuilder.metricset {
             CRAP(coverageMetric:ABC)
         }
@@ -247,7 +250,7 @@ class MetricSetBuilderTest extends AbstractTestCase {
         assertMetricNames('ABC', 'CRAP')
     }
 
-    void testMetric_NestedMetricDefinitionUsingMetricNameWithClosure_NotIncludedInMetricSet() {
+    @Test	void testMetric_NestedMetricDefinitionUsingMetricNameWithClosure_NotIncludedInMetricSet() {
         metricSetBuilder.metricset {
             CRAP {
                 coverageMetric = ABC {
@@ -258,14 +261,14 @@ class MetricSetBuilderTest extends AbstractTestCase {
         assertMetricNames('CRAP')
     }
 
-    void testMetric_NestedMetricDefinitionUsingMetricNameWithMap_IsIncludedInMetricSet() {
+    @Test	void testMetric_NestedMetricDefinitionUsingMetricNameWithMap_IsIncludedInMetricSet() {
         metricSetBuilder.metricset {
             CRAP([coverageMetric: ABC(enabled:false)])
         }
         assertMetricNames('ABC', 'CRAP')
     }
 
-    void testMetric_MetricName_NoParenthesesOrClosure() {
+    @Test	void testMetric_MetricName_NoParenthesesOrClosure() {
         metricSetBuilder.metricset {
             newMetric = ABC
         }
@@ -273,7 +276,7 @@ class MetricSetBuilderTest extends AbstractTestCase {
         assert newMetric instanceof AbcMetric
     }
 
-    void testMetric_MetricName_NoSuchMetricName() {
+    @Test	void testMetric_MetricName_NoSuchMetricName() {
         MetricRegistryHolder.metricRegistry = [getMetricClass:{ null }] as MetricRegistry
         shouldFailWithMessageContaining('DoesNotExist') {
             metricSetBuilder.metricset {
@@ -282,7 +285,7 @@ class MetricSetBuilderTest extends AbstractTestCase {
         }
     }
 
-    void testDescription() {
+    @Test	void testDescription() {
         metricSetBuilder.metricset {
             description 'abc'
         }
@@ -292,18 +295,16 @@ class MetricSetBuilderTest extends AbstractTestCase {
     // Setup and helper methods
     //------------------------------------------------------------------------------------
 
-    @Override
+    @Before
     void setUp() {
-        super.setUp()
         metricSetBuilder = new MetricSetBuilder()
         final METRICS = [CRAP:CrapMetric, ABC:AbcMetric]
         originalMetricRegistry = MetricRegistryHolder.metricRegistry
         MetricRegistryHolder.metricRegistry = [getMetricClass:{ name -> METRICS[name] }] as MetricRegistry
     }
 
-    @Override
-    protected void tearDown() {
-        super.tearDown()
+    @After
+    void tearDown() {
         MetricRegistryHolder.metricRegistry = originalMetricRegistry
     }
 

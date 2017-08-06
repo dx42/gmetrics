@@ -16,6 +16,8 @@
 package org.gmetrics.metric.abc
 
 import org.gmetrics.test.AbstractTestCase
+import org.junit.Assert
+import org.junit.Test
 
 /**
  * Tests for AbcVector
@@ -25,44 +27,44 @@ import org.gmetrics.test.AbstractTestCase
  */
 class AbcVectorTest extends AbstractTestCase {
 
-    void testPassingNegativeAssignmentsIntoConstructorThrowsException() {
+    @Test	void testPassingNegativeAssignmentsIntoConstructorThrowsException() {
         shouldFailWithMessageContaining('assignments') { new AbcVector(-1, 0, 0) } 
     }
 
-    void testPassingNegativeBranchesIntoConstructorThrowsException() {
+    @Test	void testPassingNegativeBranchesIntoConstructorThrowsException() {
         shouldFailWithMessageContaining('branches') { new AbcVector(0, -1, 0) } 
     }
 
-    void testPassingNegativeConditionsIntoConstructorThrowsException() {
+    @Test	void testPassingNegativeConditionsIntoConstructorThrowsException() {
         shouldFailWithMessageContaining('conditions') { new AbcVector(0, 0, -1) }
     }
 
-    void testValueForEmptyVectorSetIsZero() {
+    @Test	void testValueForEmptyVectorSetIsZero() {
         assert abcVectorMagnitude(0, 0, 0) == 0
     }
 
-    void testVectorWithIntegerResultValue() {
+    @Test	void testVectorWithIntegerResultValue() {
         assert abcVectorMagnitude(1, 2, 2) == 3
     }
 
-    void testVectorWithNonIntegerResultValue() {
+    @Test	void testVectorWithNonIntegerResultValue() {
         assert abcVectorMagnitude(7, 1, 2) == 7.3
     }
 
-    void testVectorWithOnlyAssignmentValueIsThatValue() {
+    @Test	void testVectorWithOnlyAssignmentValueIsThatValue() {
         assert abcVectorMagnitude(7, 0, 0) == 7
     }
 
-    void testVectorWithOnlyBranchValueIsThatValue() {
+    @Test	void testVectorWithOnlyBranchValueIsThatValue() {
         assert abcVectorMagnitude(0, 7, 0) == 7
     }
 
-    void testVectorWithOnlyConditionalValueIsThatValue() {
+    @Test	void testVectorWithOnlyConditionalValueIsThatValue() {
         assert abcVectorMagnitude(0, 0, 7) == 7
     }
 
-    void testVectorWithHugeNumbers() {
-        assertEquals(46589.5, abcVectorMagnitude(8408, 45703, 3335), 0.01)
+    @Test	void testVectorWithHugeNumbers() {
+        Assert.assertEquals(46589.5, abcVectorMagnitude(8408, 45703, 3335), 0.01)
     }
 
 

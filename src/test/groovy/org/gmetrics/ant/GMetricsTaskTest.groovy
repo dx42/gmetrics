@@ -15,13 +15,15 @@
  */
 package org.gmetrics.ant
 
-import org.gmetrics.test.AbstractTestCase
+import org.apache.tools.ant.BuildException
 import org.apache.tools.ant.Project
 import org.apache.tools.ant.types.FileSet
-import org.gmetrics.report.BasicHtmlReportWriter
-import org.apache.tools.ant.BuildException
 import org.gmetrics.metricset.DefaultMetricSet
 import org.gmetrics.metricset.MetricSetTestFiles
+import org.gmetrics.report.BasicHtmlReportWriter
+import org.gmetrics.test.AbstractTestCase
+import org.junit.Before
+import org.junit.Test
 
 /**
  * Tests for GMetricsTask
@@ -38,18 +40,18 @@ class GMetricsTaskTest extends AbstractTestCase {
     private project
     private called = [:]
 
+    @Before
     void setUp() {
-        super.setUp()
         project = new Project(basedir:'.')
         fileSet = new FileSet(dir:new File('.'), project:project)
         gMetricsTask = new GMetricsTask(project:project)
     }
 
-    void testExecute_NullFileSet() {
+    @Test	void testExecute_NullFileSet() {
         shouldFailWithMessageContaining('fileSet') { gMetricsTask.execute() }
     }
 
-    void testExecute_CreatesConfiguresAndExecutesGMetricsRunner() {
+    @Test	void testExecute_CreatesConfiguresAndExecutesGMetricsRunner() {
         gMetricsTask.addFileset(fileSet)
         gMetricsTask.addConfiguredReport(createReport(HTML_REPORT_WRITER))
         def gMetricsRunner = [execute:{ -> called.execute = true }]
@@ -64,7 +66,7 @@ class GMetricsTaskTest extends AbstractTestCase {
         assert gMetricsRunner.reportWriters[0] instanceof BasicHtmlReportWriter
     }
 
-    void testExecute_UsesConfiguredMetricSetFile() {
+    @Test	void testExecute_UsesConfiguredMetricSetFile() {
         gMetricsTask.metricSetFile = MetricSetTestFiles.METRICSET1
         gMetricsTask.addFileset(fileSet)
         def gMetricsRunner = [execute:{ -> called.execute = true }]
@@ -74,19 +76,19 @@ class GMetricsTaskTest extends AbstractTestCase {
         assert gMetricsRunner.metricSet.metrics*.name == ['Stub', 'XXX']
     }
 
-    void testExecute_MetricSetFileNotFound_ThrowsException() {
+    @Test	void testExecute_MetricSetFileNotFound_ThrowsException() {
         gMetricsTask.metricSetFile = 'DoesNotExist.groovy'
         gMetricsTask.addFileset(fileSet)
         shouldFailWithMessageContaining('DoesNotExist.groovy') { gMetricsTask.execute() }
     }
 
-    void testAddConfiguredReport_AddsToReportWriters() {
+    @Test	void testAddConfiguredReport_AddsToReportWriters() {
         gMetricsTask.addConfiguredReport(createReport(HTML_REPORT_WRITER))
         assert gMetricsTask.reportWriters.size() == 1
         assert gMetricsTask.reportWriters[0] instanceof BasicHtmlReportWriter
     }
 
-    void testAddConfiguredReport_Twice_AddsToReportWriters() {
+    @Test	void testAddConfiguredReport_Twice_AddsToReportWriters() {
         gMetricsTask.addConfiguredReport(createReport(HTML_REPORT_WRITER, [title:'abc']))
         gMetricsTask.addConfiguredReport(createReport(HTML_REPORT_WRITER, [title:'def']))
         assert gMetricsTask.reportWriters[0] instanceof BasicHtmlReportWriter
@@ -94,26 +96,26 @@ class GMetricsTaskTest extends AbstractTestCase {
         assert gMetricsTask.reportWriters.title == ['abc', 'def']
     }
 
-    void testAddConfiguredReport_ReportOptionsSetPropertiesOnReportWriter() {
+    @Test	void testAddConfiguredReport_ReportOptionsSetPropertiesOnReportWriter() {
         def report = createReport(HTML_REPORT_WRITER, [title:'abc', outputFile:'def'])
         gMetricsTask.addConfiguredReport(report)
         assert gMetricsTask.reportWriters.title == ['abc']
         assert gMetricsTask.reportWriters.outputFile == ['def']
     }
 
-    void testAddConfiguredReport_ThrowsExceptionForInvalidReportType() {
+    @Test	void testAddConfiguredReport_ThrowsExceptionForInvalidReportType() {
         shouldFail(ClassNotFoundException) { gMetricsTask.addConfiguredReport(new Report(type:'XXX')) }
     }
 
-    void testAddConfiguredReport_ThrowsExceptionForMissingReportType() {
+    @Test	void testAddConfiguredReport_ThrowsExceptionForMissingReportType() {
         shouldFail(BuildException) { gMetricsTask.addConfiguredReport(new Report()) }
     }
 
-    void testAddFileSet_ThrowsExceptionIfFileSetIsNull() {
+    @Test	void testAddFileSet_ThrowsExceptionIfFileSetIsNull() {
         shouldFailWithMessageContaining('fileSet') { gMetricsTask.addFileset(null) }
     }
 
-    void testAddFileSet_AddsToFileSets() {
+    @Test	void testAddFileSet_AddsToFileSets() {
         gMetricsTask.addFileset(fileSet)
         assert gMetricsTask.fileSets == [fileSet]
 

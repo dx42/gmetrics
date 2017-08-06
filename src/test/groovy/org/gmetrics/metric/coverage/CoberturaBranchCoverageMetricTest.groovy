@@ -15,6 +15,8 @@
  */
 package org.gmetrics.metric.coverage
 
+import org.junit.Test
+
 /**
  * Tests for CoberturaBranchCoverageMetric
  *
@@ -41,13 +43,13 @@ class CoberturaBranchCoverageMetricTest extends AbstractCoberturaMetricTestCase 
     // Tests
     //------------------------------------------------------------------------------------
 
-    void testHasProperName() {
+    @Test	void testHasProperName() {
         assert metric.name == 'CoberturaBranchCoverage'
     }
 
     // Tests for applyToMethod()
 
-    void testApplyToMethod_EnabledIsFalse_ReturnsNull() {
+    @Test	void testApplyToMethod_EnabledIsFalse_ReturnsNull() {
         final SOURCE = """
             package com.example.service
             class Email {
@@ -58,7 +60,7 @@ class CoberturaBranchCoverageMetricTest extends AbstractCoberturaMetricTestCase 
         assert applyToMethod(SOURCE) == null
     }
 
-    void testApplyToMethod() {
+    @Test	void testApplyToMethod() {
         final SOURCE = """
             package com.example.service
             class Email {
@@ -70,7 +72,7 @@ class CoberturaBranchCoverageMetricTest extends AbstractCoberturaMetricTestCase 
 
     // Tests for calculate()
 
-    void testCalculate() {
+    @Test	void testCalculate() {
         final SOURCE = """
             package com.example.service
             class Email {
@@ -80,7 +82,7 @@ class CoberturaBranchCoverageMetricTest extends AbstractCoberturaMetricTestCase 
         assert calculateForMethod(SOURCE) == 0.91
     }
 
-    void testCalculate_MethodThatHasNoCoverageInformation() {
+    @Test	void testCalculate_MethodThatHasNoCoverageInformation() {
         final SOURCE = """
             package com.example.service
             class Email {
@@ -90,7 +92,7 @@ class CoberturaBranchCoverageMetricTest extends AbstractCoberturaMetricTestCase 
         assertCalculateForMethodReturnsNull(SOURCE)
     }
 
-    void testCalculate_ReturnsNullForAbstractMethodDeclaration() {
+    @Test	void testCalculate_ReturnsNullForAbstractMethodDeclaration() {
         final SOURCE = """
             package com.example.service
             class Email {
@@ -100,7 +102,7 @@ class CoberturaBranchCoverageMetricTest extends AbstractCoberturaMetricTestCase 
         assertCalculateForMethodReturnsNull(SOURCE)
     }
 
-    void testCalculate_Constructor() {
+    @Test	void testCalculate_Constructor() {
         final SOURCE = """
             package com.example.service
             class Context {
@@ -112,7 +114,7 @@ class CoberturaBranchCoverageMetricTest extends AbstractCoberturaMetricTestCase 
 
     // Tests for applyToClass()
 
-    void testApplyToClass_ClassWithNoMethods() {
+    @Test	void testApplyToClass_ClassWithNoMethods() {
         final SOURCE = """
             package com.example.service
             class Email { }
@@ -120,7 +122,7 @@ class CoberturaBranchCoverageMetricTest extends AbstractCoberturaMetricTestCase 
         assertApplyToClass(SOURCE, EMAIL_VALUE, 0)
     }
 
-    void testApplyToClass_ClassWithOneMethod() {
+    @Test	void testApplyToClass_ClassWithOneMethod() {
         final SOURCE = """
             package com.example.service
             class Email {
@@ -130,7 +132,7 @@ class CoberturaBranchCoverageMetricTest extends AbstractCoberturaMetricTestCase 
         assertApplyToClass(SOURCE, EMAIL_VALUE, 0.91, ['String toString()':0.91])
     }
 
-    void testApplyToClass_ClassWithMethodThatHasNoCoverageInformation() {
+    @Test	void testApplyToClass_ClassWithMethodThatHasNoCoverageInformation() {
         final SOURCE = """
             package com.example.service
             class Email {
@@ -140,7 +142,7 @@ class CoberturaBranchCoverageMetricTest extends AbstractCoberturaMetricTestCase 
         assertApplyToClass(SOURCE, EMAIL_VALUE, 0)
     }
 
-    void testApplyToClass_IgnoresAbstractMethods() {
+    @Test	void testApplyToClass_IgnoresAbstractMethods() {
         final SOURCE = """
             package com.example.service
             class Email {
@@ -150,7 +152,7 @@ class CoberturaBranchCoverageMetricTest extends AbstractCoberturaMetricTestCase 
         assertApplyToClass(SOURCE, EMAIL_VALUE, 0)
     }
 
-    void testApplyToClass_Constructor() {
+    @Test	void testApplyToClass_Constructor() {
         final SOURCE = """
             package com.example.service
             class Context {
@@ -160,7 +162,7 @@ class CoberturaBranchCoverageMetricTest extends AbstractCoberturaMetricTestCase 
         assertApplyToClass(SOURCE, 0.31, 0.32, ['void <init>(Collection)':0.32])
     }
 
-    void testApplyToClass_OverloadedConstructor() {
+    @Test	void testApplyToClass_OverloadedConstructor() {
         final SOURCE = """
             package com.example.service
             class MyException {
@@ -178,7 +180,7 @@ class CoberturaBranchCoverageMetricTest extends AbstractCoberturaMetricTestCase 
         ])
     }
 
-    void testApplyToClass_ContainsInnerClasses() {
+    @Test	void testApplyToClass_ContainsInnerClasses() {
         final SOURCE = """
             package com.example.service
             class GenericLookupService {
@@ -195,19 +197,19 @@ class CoberturaBranchCoverageMetricTest extends AbstractCoberturaMetricTestCase 
 
     // Tests for getCoverageRatioForClass
 
-    void testGetCoverageRatioForClass() {
+    @Test	void testGetCoverageRatioForClass() {
         assertRatio(metric.getCoverageRatioForClass('com.example.service.Email'), 2, 6)
     }
 
-    void testGetCoverageRatioForClass_ClassContainingClosures() {
+    @Test	void testGetCoverageRatioForClass_ClassContainingClosures() {
         assertRatio(metric.getCoverageRatioForClass('com.example.service.GenericLookupService'), 11, 12)
     }
 
-    void testGetCoverageRatioForClass_EmptyClass() {
+    @Test	void testGetCoverageRatioForClass_EmptyClass() {
         assertRatio(metric.getCoverageRatioForClass('com.example.service.ClientMappingDao'), 0, 0)
     }
 
-    void testGetCoverageRatioForClass_NoSuchClass_ReturnsNull() {
+    @Test	void testGetCoverageRatioForClass_NoSuchClass_ReturnsNull() {
         assert metric.getCoverageRatioForClass('NoSuchClass') == null
     }
 

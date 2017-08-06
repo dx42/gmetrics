@@ -16,6 +16,7 @@
 package org.gmetrics.metric.cyclomatic
 
 import org.gmetrics.metric.AbstractMetricTestCase
+import org.junit.Test
 
 /**
  * Tests for CyclomaticComplexityMetric - for methods
@@ -26,21 +27,21 @@ class CyclomaticComplexityMetric_MethodTest extends AbstractMetricTestCase {
 
     static metricClass = CyclomaticComplexityMetric
 
-    void testApplyToMethod() {
+    @Test	void testApplyToMethod() {
         final SOURCE = """
             def myMethod() { }
         """
         assert applyToMethodValue(SOURCE) == 1
     }
 
-    void testCalculate_ReturnsOne_ForEmptyMethod() {
+    @Test	void testCalculate_ReturnsOne_ForEmptyMethod() {
         final SOURCE = """
             def myMethod() { }
         """
         assert calculateForMethod(SOURCE) == 1
     }
 
-    void testCalculate_ReturnsNullForAbstractMethodDeclaration() {
+    @Test	void testCalculate_ReturnsNullForAbstractMethodDeclaration() {
         final SOURCE = """
             abstract class MyClass {
                 abstract void doSomething()
@@ -49,7 +50,7 @@ class CyclomaticComplexityMetric_MethodTest extends AbstractMetricTestCase {
         assertCalculateForMethodReturnsNull(SOURCE)
     }
 
-    void testCalculate_ReturnsNullForSyntheticMethod() {
+    @Test	void testCalculate_ReturnsNullForSyntheticMethod() {
         final SOURCE = """
             println 123
         """
@@ -57,7 +58,7 @@ class CyclomaticComplexityMetric_MethodTest extends AbstractMetricTestCase {
         assert metric.calculate(methodNode, sourceCode) == null
     }
 
-    void testCalculate_CountsForConstructor() {
+    @Test	void testCalculate_CountsForConstructor() {
         final SOURCE = """
             class MyClass {
                 MyClass() {
@@ -68,7 +69,7 @@ class CyclomaticComplexityMetric_MethodTest extends AbstractMetricTestCase {
         assert calculateForConstructor(SOURCE) == 1
     }
 
-    void testCalculate_IncrementsForEach_If() {
+    @Test	void testCalculate_IncrementsForEach_If() {
         final SOURCE = """
             def myMethod() {
                 if (ready) { }
@@ -80,7 +81,7 @@ class CyclomaticComplexityMetric_MethodTest extends AbstractMetricTestCase {
         assert calculateForMethod(SOURCE) == 3
     }
 
-    void testCalculate_IncrementsForEach_While() {
+    @Test	void testCalculate_IncrementsForEach_While() {
         final SOURCE = """
             def myMethod() {
                 while (ready) { }
@@ -92,7 +93,7 @@ class CyclomaticComplexityMetric_MethodTest extends AbstractMetricTestCase {
         assert calculateForMethod(SOURCE) == 4
     }
 
-    void testCalculate_IncrementsForEach_ClassicForLoop() {
+    @Test	void testCalculate_IncrementsForEach_ClassicForLoop() {
         final SOURCE = """
             def myMethod() {
                 for (int i=0; i < 99; i++) {
@@ -104,7 +105,7 @@ class CyclomaticComplexityMetric_MethodTest extends AbstractMetricTestCase {
         assert calculateForMethod(SOURCE) == 3
     }
 
-    void testCalculate_IncrementsForEach_ForInLoop() {
+    @Test	void testCalculate_IncrementsForEach_ForInLoop() {
         final SOURCE = """
             def myMethod() {
                 for (x in [1,2,3]) {
@@ -116,7 +117,7 @@ class CyclomaticComplexityMetric_MethodTest extends AbstractMetricTestCase {
         assert calculateForMethod(SOURCE) == 3
     }
 
-    void testCalculate_IncrementsForEach_JavaStyleForEachLoop() {
+    @Test	void testCalculate_IncrementsForEach_JavaStyleForEachLoop() {
         final SOURCE = """
             def myMethod() {
                 for(int x: [1,2,3]) {
@@ -128,7 +129,7 @@ class CyclomaticComplexityMetric_MethodTest extends AbstractMetricTestCase {
         assert calculateForMethod(SOURCE) == 3
     }
 
-    void testCalculate_IncrementsForEach_Case() {
+    @Test	void testCalculate_IncrementsForEach_Case() {
         final SOURCE = """
             def myMethod() {
                 switch(x) {
@@ -141,7 +142,7 @@ class CyclomaticComplexityMetric_MethodTest extends AbstractMetricTestCase {
         assert calculateForMethod(SOURCE) == 3
     }
 
-    void testCalculate_IncrementsForEach_Catch() {
+    @Test	void testCalculate_IncrementsForEach_Catch() {
         final SOURCE = """
             def myMethod() {
                 try {
@@ -157,7 +158,7 @@ class CyclomaticComplexityMetric_MethodTest extends AbstractMetricTestCase {
         assert calculateForMethod(SOURCE) == 4
     }
 
-    void testCalculate_IncrementsForEach_And_Or() {
+    @Test	void testCalculate_IncrementsForEach_And_Or() {
         final SOURCE = """
             def myMethod() {
                 done = x && y               // +1
@@ -168,7 +169,7 @@ class CyclomaticComplexityMetric_MethodTest extends AbstractMetricTestCase {
         assert calculateForMethod(SOURCE) == 3
     }
 
-    void testCalculate_IncrementsForEach_TernaryOperator() {
+    @Test	void testCalculate_IncrementsForEach_TernaryOperator() {
         final SOURCE = """
             def myMethod() {
                 value = ready ? 0 : 1       // +1
@@ -177,7 +178,7 @@ class CyclomaticComplexityMetric_MethodTest extends AbstractMetricTestCase {
         assert calculateForMethod(SOURCE) == 2
     }
 
-    void testCalculate_IncrementsForEach_ElvisOperator() {
+    @Test	void testCalculate_IncrementsForEach_ElvisOperator() {
         final SOURCE = """
             def myMethod() {
                 value = ready ?: null       // +1
@@ -186,7 +187,7 @@ class CyclomaticComplexityMetric_MethodTest extends AbstractMetricTestCase {
         assert calculateForMethod(SOURCE) == 2
     }
 
-    void testCalculate_IncrementsForEach_NullCheckOperator() {
+    @Test	void testCalculate_IncrementsForEach_NullCheckOperator() {
         final SOURCE = """
             def myMethod() {
                 return parameter?.value       // +1
@@ -196,7 +197,7 @@ class CyclomaticComplexityMetric_MethodTest extends AbstractMetricTestCase {
         assert calculateForMethod(SOURCE) == 2
     }
 
-    void testCalculate_ProperCount_Combination() {
+    @Test	void testCalculate_ProperCount_Combination() {
         final SOURCE = """
             def myMethod() {
                 try {
@@ -226,7 +227,7 @@ class CyclomaticComplexityMetric_MethodTest extends AbstractMetricTestCase {
         assert calculateForMethod(SOURCE) == 13
     }
 
-    void testCalculate_MethodContainingNestedClosure() {
+    @Test	void testCalculate_MethodContainingNestedClosure() {
         final SOURCE = """
             def myMethod() {
                 if (ready) { }
@@ -237,7 +238,7 @@ class CyclomaticComplexityMetric_MethodTest extends AbstractMetricTestCase {
         assert calculateForMethod(SOURCE) == 4
     }
 
-    void testCalculate_NullCheckOperator_OnMethodCalls() {
+    @Test	void testCalculate_NullCheckOperator_OnMethodCalls() {
         final SOURCE = """
             private Map buildServerMap(serverCodes) {
                 Map serverMap = new HashMap()

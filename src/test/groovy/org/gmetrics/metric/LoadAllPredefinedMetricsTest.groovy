@@ -15,10 +15,13 @@
  */
  package org.gmetrics.metric
 
-import org.gmetrics.metricregistry.DefaultMetricRegistry
-import org.gmetrics.test.AbstractTestCase
 import javax.xml.parsers.DocumentBuilder
 import javax.xml.parsers.DocumentBuilderFactory
+
+import org.gmetrics.metricregistry.DefaultMetricRegistry
+import org.gmetrics.test.AbstractTestCase
+import org.junit.Before
+import org.junit.Test
 
 /**
  * Test that loads all predefined Metrics and verifies metric descriptions
@@ -30,7 +33,7 @@ class LoadAllPredefinedMetricsTest extends AbstractTestCase {
     private static final BASE_MESSAGES_BUNDLE = 'gmetrics-base-messages'
     private messages
 
-    void testPredefinedMetricsHaveRequiredProperties() {
+    @Test	void testPredefinedMetricsHaveRequiredProperties() {
 
         DefaultMetricRegistry.METRIC_CLASSES.each { metricClass ->
             def metric = metricClass.newInstance()
@@ -42,7 +45,7 @@ class LoadAllPredefinedMetricsTest extends AbstractTestCase {
     }
 
     @SuppressWarnings('CatchThrowable')
-    void testPredefinedMetricsHaveValidHtmlDescriptions() {
+    @Test	void testPredefinedMetricsHaveValidHtmlDescriptions() {
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance()
         factory.validating = false
@@ -73,8 +76,8 @@ Error: $t.message
         }
     }
 
+    @Before
     void setUp() {
-        super.setUp()
         messages = ResourceBundle.getBundle(BASE_MESSAGES_BUNDLE)
     }
 }

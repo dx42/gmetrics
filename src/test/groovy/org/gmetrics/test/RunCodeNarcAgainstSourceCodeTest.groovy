@@ -15,6 +15,8 @@
  */
 package org.gmetrics.test
 
+import org.junit.Test
+
 /**
  * Run CodeNarc against the project source code. Fail on configured rule violations.
  *
@@ -26,7 +28,7 @@ class RunCodeNarcAgainstSourceCodeTest extends org.gmetrics.test.AbstractTestCas
     private static final GROOVY_FILES = '**/*.groovy'
     private static final RULESET_FILES = 'codenarc/CodeNarcRuleSet.txt'
 
-    void testRunCodeNarc() {
+    @Test	void testRunCodeNarc() {
         def ant = new AntBuilder()
 
         ant.taskdef(name:'codenarc', classname:'org.codenarc.ant.CodeNarcTask')

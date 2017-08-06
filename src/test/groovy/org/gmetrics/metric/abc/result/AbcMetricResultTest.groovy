@@ -15,12 +15,13 @@
  */
 package org.gmetrics.metric.abc.result
 
-import org.gmetrics.test.AbstractTestCase
-import org.gmetrics.metric.abc.AbcMetric
-import org.gmetrics.metric.abc.AbcVector
-import org.gmetrics.metric.abc.AbcTestUtil
 import org.gmetrics.metric.Metric
 import org.gmetrics.metric.MetricLevel
+import org.gmetrics.metric.abc.AbcMetric
+import org.gmetrics.metric.abc.AbcTestUtil
+import org.gmetrics.metric.abc.AbcVector
+import org.gmetrics.test.AbstractTestCase
+import org.junit.Test
 
 /**
  * Tests for AbcMetricResult
@@ -34,46 +35,46 @@ class AbcMetricResultTest extends AbstractTestCase {
     private static final METRIC = new AbcMetric(functions:DEFAULT_FUNCTION_NAMES)
     private static final ABC_VECTOR = new AbcVector(0, 0, 0)
 
-    void testPassingNullAbcVectorIntoConstructorThrowsException() {
+    @Test	void testPassingNullAbcVectorIntoConstructorThrowsException() {
         shouldFailWithMessageContaining('abcVector') { new AbcMetricResult(METRIC, MetricLevel.METHOD, null) }
     }
 
-    void testPassingNullLevelIntoConstructorThrowsException() {
+    @Test	void testPassingNullLevelIntoConstructorThrowsException() {
         shouldFailWithMessageContaining('metricLevel') { new AbcMetricResult(METRIC, null, ABC_VECTOR) }
     }
 
-    void testGetLineNumberIsSameValuePassedIntoConstructor() {
+    @Test	void testGetLineNumberIsSameValuePassedIntoConstructor() {
         def result = new AbcMetricResult(METRIC, MetricLevel.METHOD, ABC_VECTOR, 67)
         assert result.getLineNumber() == 67
     }
 
-    void testGetMetricLevelIsSameValuePassedIntoConstructor() {
+    @Test	void testGetMetricLevelIsSameValuePassedIntoConstructor() {
         def result = new AbcMetricResult(METRIC, MetricLevel.METHOD, ABC_VECTOR, 67)
         assert result.getMetricLevel() == MetricLevel.METHOD
     }
 
-    void testValuesForEmptyVectorSetIsZero() {
+    @Test	void testValuesForEmptyVectorSetIsZero() {
         assert abcMetricResultAllFunctionValues(0, 0, 0) == 0
     }
 
-    void testVectorWithIntegerResultValue() {
+    @Test	void testVectorWithIntegerResultValue() {
         assert abcMetricResultAllFunctionValues(1, 2, 2) == 3
     }
 
-    void testVectorWithNonIntegerResultValue() {
+    @Test	void testVectorWithNonIntegerResultValue() {
         assert abcMetricResultAllFunctionValues(7, 1, 2) == 7.3
     }
 
-    void testValuesAreSameAsAbcVectorMagnitude() {
+    @Test	void testValuesAreSameAsAbcVectorMagnitude() {
         assert abcMetricResultAllFunctionValues(6, 7, 8) == new AbcVector(6, 7, 8).magnitude
     }
 
-    void testGetValueForUnknownFunctionIsNull() {
+    @Test	void testGetValueForUnknownFunctionIsNull() {
         def result = AbcTestUtil.abcMetricResult(METRIC, 1, 1, 1)
         assert result['xxx'] == null
     }
 
-    void testUsesFunctionsFromMetric() {
+    @Test	void testUsesFunctionsFromMetric() {
         final FUNCTION_NAMES = ['average', 'maximum']
         def metric = [getName:{'TestMetric'}, getFunctions:{ FUNCTION_NAMES }] as Metric
         def result = AbcTestUtil.abcMetricResult(metric, 1, 1, 1)

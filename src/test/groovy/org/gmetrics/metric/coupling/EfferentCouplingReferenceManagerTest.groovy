@@ -15,7 +15,10 @@
  */
 package org.gmetrics.metric.coupling
 
-import static EfferentCouplingReferenceManager.REFERENCED_PACKAGES
+import static org.gmetrics.metric.coupling.EfferentCouplingReferenceManager.REFERENCED_PACKAGES
+
+import org.junit.Before
+import org.junit.Test
 
 /**
  * Tests for EfferentCouplingReferenceManager
@@ -32,17 +35,17 @@ class EfferentCouplingReferenceManagerTest extends AbstractCouplingReferenceMana
     // Tests
     //------------------------------------------------------------------------------------
 
-    void testConstructor_NullMetric_ThrowsException() {
+    @Test	void testConstructor_NullMetric_ThrowsException() {
         shouldFailWithMessageContaining('metric') { new EfferentCouplingReferenceManager(null) }
     }
 
-    void testConstructor_AssignsMetric() {
+    @Test	void testConstructor_AssignsMetric() {
         assert new EfferentCouplingReferenceManager(METRIC).metric == METRIC
     }
 
     // Tests for updateStatisticsForAllPackages()
 
-    void testUpdateStatisticsForAllPackages_UpdatesStatisticsForSingleReferencedPackage() {
+    @Test	void testUpdateStatisticsForAllPackages_UpdatesStatisticsForSingleReferencedPackage() {
         manager.addReferencesFromPackage(PACKAGE1, [PACKAGE2])
         assertMetricResult(manager.getPackageMetricResult(PACKAGE1), [referencedPackages:[], count:1, value:0, total:0, average:0])
         manager.updateStatisticsForAllPackages()
@@ -50,13 +53,13 @@ class EfferentCouplingReferenceManagerTest extends AbstractCouplingReferenceMana
         assertMetricResult(manager.getPackageMetricResult(null), [referencedPackages:[], count:2, value:0, total:1, average:0.5])
     }
 
-    void testUpdateStatisticsForAllPackages_OnlyIncludesPackagesThatWereProcessed() {
+    @Test	void testUpdateStatisticsForAllPackages_OnlyIncludesPackagesThatWereProcessed() {
         manager.addReferencesFromPackage(PACKAGE1, [PACKAGE2, PACKAGE3])
         manager.updateStatisticsForAllPackages()
         assertMetricResult(manager.getPackageMetricResult(PACKAGE1), [referencedPackages:[PACKAGE2], count:1, value:1, total:1, average:1])
     }
 
-    void testUpdateStatisticsForAllPackages_UpdatesForAncestorPackages() {
+    @Test	void testUpdateStatisticsForAllPackages_UpdatesForAncestorPackages() {
         manager.addReferencesFromPackage('aa.bb.cc', [PACKAGE1, PACKAGE2])
         manager.updateStatisticsForAllPackages()
 
@@ -66,7 +69,7 @@ class EfferentCouplingReferenceManagerTest extends AbstractCouplingReferenceMana
         assertMetricResult(manager.getPackageMetricResult(null), [count:3, value:0, total:2, average:0.67, referencedPackages:[]])
     }
 
-    void testAddReferencesFromPackage_IncrementsTotalForSharedAncestorPackages() {
+    @Test	void testAddReferencesFromPackage_IncrementsTotalForSharedAncestorPackages() {
         manager.addReferencesFromPackage('aa.bb.cc', [PACKAGE1])
         manager.addReferencesFromPackage('aa.bb.dd', [])
         manager.addReferencesFromPackage('aa.dd', [PACKAGE1, PACKAGE2])
@@ -81,7 +84,7 @@ class EfferentCouplingReferenceManagerTest extends AbstractCouplingReferenceMana
 
     // Tests for getPackageMetricResult()
 
-    void testGetPackageMetricResult_InitializedToEmpty() {
+    @Test	void testGetPackageMetricResult_InitializedToEmpty() {
         def metricResult = manager.getPackageMetricResult('some.package')
         assertMetricResult(metricResult, [(REFERENCED_PACKAGES):[], count:0, value:0, total:0, average:0])
     }
@@ -90,8 +93,8 @@ class EfferentCouplingReferenceManagerTest extends AbstractCouplingReferenceMana
     // Helper Methods
     //------------------------------------------------------------------------------------
 
+    @Before
     void setUp() {
-        super.setUp()
         manager.addReferencesFromPackage(PACKAGE1, [])
         manager.addReferencesFromPackage(PACKAGE2, [])
     }

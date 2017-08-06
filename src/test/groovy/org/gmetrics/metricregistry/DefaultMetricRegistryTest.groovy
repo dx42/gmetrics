@@ -15,19 +15,20 @@
  */
  package org.gmetrics.metricregistry
 
-import org.gmetrics.test.AbstractTestCase
 import org.gmetrics.metric.abc.AbcMetric
 import org.gmetrics.metric.classcount.ClassCountMetric
+import org.gmetrics.metric.coupling.AfferentCouplingMetric
+import org.gmetrics.metric.coupling.EfferentCouplingMetric
+import org.gmetrics.metric.coverage.CoberturaBranchCoverageMetric
+import org.gmetrics.metric.coverage.CoberturaLineCoverageMetric
+import org.gmetrics.metric.crap.CrapMetric
+import org.gmetrics.metric.cyclomatic.CyclomaticComplexityMetric
 import org.gmetrics.metric.fieldcount.FieldCountMetric
 import org.gmetrics.metric.linecount.ClassLineCountMetric
 import org.gmetrics.metric.linecount.MethodLineCountMetric
 import org.gmetrics.metric.methodcount.MethodCountMetric
-import org.gmetrics.metric.cyclomatic.CyclomaticComplexityMetric
-import org.gmetrics.metric.coverage.CoberturaLineCoverageMetric
-import org.gmetrics.metric.coverage.CoberturaBranchCoverageMetric
-import org.gmetrics.metric.crap.CrapMetric
-import org.gmetrics.metric.coupling.EfferentCouplingMetric
-import org.gmetrics.metric.coupling.AfferentCouplingMetric
+import org.gmetrics.test.AbstractTestCase
+import org.junit.Test
 
 /**
  * Tests for DefaultMetricRegistry
@@ -38,11 +39,11 @@ class DefaultMetricRegistryTest extends AbstractTestCase {
 
     private registry = new DefaultMetricRegistry()
 
-    void testImplementsMetricRegistry() {
+    @Test	void testImplementsMetricRegistry() {
         assert registry instanceof MetricRegistry
     }
 
-    void testRetrieveMetricClassesByName() {
+    @Test	void testRetrieveMetricClassesByName() {
         assert registry.getMetricClass('ABC') == AbcMetric
         assert registry.getMetricClass('AfferentCoupling') == AfferentCouplingMetric
         assert registry.getMetricClass('ClassCount') == ClassCountMetric
@@ -57,7 +58,7 @@ class DefaultMetricRegistryTest extends AbstractTestCase {
         assert registry.getMetricClass('MethodLineCount') == MethodLineCountMetric
     }
 
-    void testGetAllMetricNames() {
+    @Test	void testGetAllMetricNames() {
         def allNames = registry.allMetricNames
         assert allNames.containsAll(['ABC', 'ClassCount', 'MethodLineCount'])
     }

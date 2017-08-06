@@ -16,6 +16,7 @@
  package org.gmetrics.metric.coverage
 
 import org.gmetrics.test.AbstractTestCase
+import org.junit.Test
 
 /**
  * Tests for Ratio
@@ -24,34 +25,34 @@ import org.gmetrics.test.AbstractTestCase
  */
 class RatioTest extends AbstractTestCase {
 
-    void testConstructor_AssignsFields() {
+    @Test	void testConstructor_AssignsFields() {
         def ratio = new Ratio(6, 7)
         assertRatio(ratio, 6, 7)
     }
 
-    void testZERO() {
+    @Test	void testZERO() {
         assertRatio(Ratio.ZERO, 0, 0)
     }
 
-    void testPlus() {
+    @Test	void testPlus() {
         def ratio = new Ratio(6, 7)
         def sumRatio = ratio + new Ratio(5, 20)
         assertRatio(sumRatio, 11, 27)
     }
 
-    void testPlus_NullRatio_ThrowsException() {
+    @Test	void testPlus_NullRatio_ThrowsException() {
         def ratio = new Ratio(6, 7)
         shouldFailWithMessageContaining('ratio') { ratio + null  }
     }
 
-    void testAsBigDecimal() {
+    @Test	void testAsBigDecimal() {
         assert new Ratio(6, 8) as BigDecimal == 0.75
         assert new Ratio(1, 5) as BigDecimal == 0.2
         assert new Ratio(5, 5) as BigDecimal == 1.0
         assert new Ratio(0, 8) as BigDecimal == 0.0
     }
 
-    void testToBigDecimal() {
+    @Test	void testToBigDecimal() {
         assert new Ratio(6, 8).toBigDecimal(2, BigDecimal.ROUND_HALF_UP) == 0.75
         assert new Ratio(6, 8).toBigDecimal(1, BigDecimal.ROUND_HALF_UP) == 0.8
         assert new Ratio(745, 1000).toBigDecimal(2, BigDecimal.ROUND_HALF_DOWN) == 0.74
@@ -60,11 +61,11 @@ class RatioTest extends AbstractTestCase {
         assert new Ratio(0, 8).toBigDecimal(3, BigDecimal.ROUND_HALF_DOWN) == 0.0
     }
 
-    void testToBigDecimal_DivideByZero() {
+    @Test	void testToBigDecimal_DivideByZero() {
         assert new Ratio(6, 0).toBigDecimal(2, BigDecimal.ROUND_HALF_UP) == 0.0
     }
 
-    void testAsType_OtherThanBigDecimal_ThrowsException() {
+    @Test	void testAsType_OtherThanBigDecimal_ThrowsException() {
         shouldFail { new Ratio(6, 8) as Integer }
     }
 

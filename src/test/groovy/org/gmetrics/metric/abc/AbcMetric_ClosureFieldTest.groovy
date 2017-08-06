@@ -15,6 +15,8 @@
  */
 package org.gmetrics.metric.abc
 
+import org.junit.Test
+
 /**
  * Tests for AbcMetric for fields initialized to a Closure
  *
@@ -24,7 +26,7 @@ class AbcMetric_ClosureFieldTest extends AbstractAbcMetricTest {
 
     static metricClass = AbcMetric
 
-    void testApplyToClosure() {
+    @Test	void testApplyToClosure() {
         final SOURCE = """
             class MyClass {
                 def myClosure = { }
@@ -34,7 +36,7 @@ class AbcMetric_ClosureFieldTest extends AbstractAbcMetricTest {
         AbcTestUtil.assertEquals(result, ZERO_VECTOR)
     }
 
-    void testCalculate_ZeroResultForEmptyClosure() {
+    @Test	void testCalculate_ZeroResultForEmptyClosure() {
         final SOURCE = """
             class MyClass {
                 def myClosure = { }
@@ -43,7 +45,7 @@ class AbcMetric_ClosureFieldTest extends AbstractAbcMetricTest {
         assertCalculateForClosureField(SOURCE, ZERO_VECTOR)
     }
 
-    void testCalculate_CountsForClosureField() {
+    @Test	void testCalculate_CountsForClosureField() {
         final SOURCE = """
             class MyClass {
                 def myClosure = {

@@ -15,8 +15,9 @@
  */
 package org.gmetrics.metricset
 
-import org.gmetrics.test.AbstractTestCase
 import org.gmetrics.metric.Metric
+import org.gmetrics.test.AbstractTestCase
+import org.junit.Test
 
 /**
  * Tests for ListMetricSet
@@ -28,12 +29,12 @@ class ListMetricSetTest extends AbstractTestCase {
 
     private static final METRIC = [:] as Metric
 
-    void testWithMetrics() {
+    @Test	void testWithMetrics() {
         def metricSet = new ListMetricSet([METRIC])
         assert metricSet.getMetrics() == [METRIC]
     }
 
-    void testMetricsListIsImmutable() {
+    @Test	void testMetricsListIsImmutable() {
         def list = [METRIC]
         def metricSet = new ListMetricSet(list)
         list.clear()
@@ -42,11 +43,11 @@ class ListMetricSetTest extends AbstractTestCase {
         shouldFail(UnsupportedOperationException) { m.clear() }
     }
 
-    void testConstructorThrowsExceptionForNull() {
+    @Test	void testConstructorThrowsExceptionForNull() {
         shouldFailWithMessageContaining('metrics') { new ListMetricSet(null) }
     }
 
-    void testConstructorThrowsExceptionIfNotAMetric() {
+    @Test	void testConstructorThrowsExceptionIfNotAMetric() {
         shouldFail { new ListMetricSet([METRIC, 23]) }
     }
 }

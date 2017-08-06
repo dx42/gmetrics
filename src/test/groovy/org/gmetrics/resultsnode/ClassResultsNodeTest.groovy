@@ -15,12 +15,14 @@
  */
 package org.gmetrics.resultsnode
 
-import org.gmetrics.test.AbstractTestCase
 import org.gmetrics.metric.MetricLevel
-import org.gmetrics.result.SingleNumberMetricResult
 import org.gmetrics.metric.StubMetric
 import org.gmetrics.result.ClassMetricResult
 import org.gmetrics.result.MethodKey
+import org.gmetrics.result.SingleNumberMetricResult
+import org.gmetrics.test.AbstractTestCase
+import org.junit.Before
+import org.junit.Test
 
 /**
  * Tests for ClassResultsNode
@@ -36,49 +38,49 @@ class ClassResultsNodeTest extends AbstractTestCase {
     private classResultsNode
     private classResult1, classResult2, classResult3
 
-    void testImplementsResultsNode() {
+    @Test	void testImplementsResultsNode() {
         assert classResultsNode instanceof ResultsNode
     }
 
-    void testNameAssignedFromConstructor() {
+    @Test	void testNameAssignedFromConstructor() {
         assert classResultsNode.name == NAME
     }
 
-    void testConstructorAssignsFileNameAndFilePath() {
+    @Test	void testConstructorAssignsFileNameAndFilePath() {
         def newClassResultsNode = new ClassResultsNode(NAME, FILE_NAME, FILE_PATH)
         assert newClassResultsNode.fileName == FILE_NAME
         assert newClassResultsNode.filePath == FILE_PATH
     }
 
-    void testThatMetricLevelIsClassLevel() {
+    @Test	void testThatMetricLevelIsClassLevel() {
         assert classResultsNode.level == MetricLevel.CLASS
     }
 
-    void testThatContainsClassResultsIsTrue() {
+    @Test	void testThatContainsClassResultsIsTrue() {
         assert classResultsNode.containsClassResults()
     }
 
-    void test_InitialMetricValuesIsEmpty() {
+    @Test	void test_InitialMetricValuesIsEmpty() {
         assert classResultsNode.getMetricResults() == []
     }
 
-    void test_InitialChildrenIsEmpty() {
+    @Test	void test_InitialChildrenIsEmpty() {
         assert classResultsNode.getChildren() == [:]
     }
 
-    void test_addClassMetricResult_NullClassMetricResultIsIgnored() {
+    @Test	void test_addClassMetricResult_NullClassMetricResultIsIgnored() {
         classResultsNode.addClassMetricResult(null)
         assert classResultsNode.getMetricResults() == []
         assert classResultsNode.getChildren() == [:]
     }
 
-    void test_AddingASingleClassResultWithNoMethods() {
+    @Test	void test_AddingASingleClassResultWithNoMethods() {
         classResultsNode.addClassMetricResult(classResult1)
         assert classResultsNode.metricResults.collect { it['total'] } == [1]
         assert classResultsNode.getChildren() == [:]
     }
 
-    void test_AddingSeveralClassResult() {
+    @Test	void test_AddingSeveralClassResult() {
         classResultsNode.addClassMetricResult(classResult1)
         classResultsNode.addClassMetricResult(classResult2)
         classResultsNode.addClassMetricResult(classResult3)
@@ -93,11 +95,11 @@ class ClassResultsNodeTest extends AbstractTestCase {
         assert children[new MethodKey('c')].metricResults.collect { it['total'] } == [30]
     }
 
-    void test_getMetricResult_NullMetricThrowsException() {
+    @Test	void test_getMetricResult_NullMetricThrowsException() {
         shouldFailWithMessageContaining('metric') { classResultsNode.getMetricResult(null) }
     }
 
-    void test_getMetricResult_ReturnsCorrectMetricResult() {
+    @Test	void test_getMetricResult_ReturnsCorrectMetricResult() {
         final METRIC_RESULT = new SingleNumberMetricResult(METRIC, MetricLevel.METHOD, 11)
         def metric2 = new StubMetric()
         def metric3 = new StubMetric()
@@ -108,12 +110,12 @@ class ClassResultsNodeTest extends AbstractTestCase {
         assert classResultsNode.getMetricResult(METRIC) == METRIC_RESULT
     }
 
-    void test_getMetricResult_ReturnsNullIfNoMatchingMetricResultIsFound() {
+    @Test	void test_getMetricResult_ReturnsNullIfNoMatchingMetricResultIsFound() {
         assert classResultsNode.getMetricResult(METRIC) == null
     }
 
+    @Before
     void setUp() {
-        super.setUp()
         classResultsNode = new ClassResultsNode(NAME)
         classResult1 = new ClassMetricResult(m(1), [:])
         def methodKey1 = new MethodKey('a')

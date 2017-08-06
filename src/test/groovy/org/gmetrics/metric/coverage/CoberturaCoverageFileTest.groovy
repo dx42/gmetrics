@@ -15,10 +15,12 @@
  */
  package org.gmetrics.metric.coverage
 
-import org.gmetrics.test.AbstractTestCase
-import org.gmetrics.util.io.ResourceFactory
-import org.gmetrics.util.io.Resource
 import java.util.concurrent.atomic.AtomicInteger
+
+import org.gmetrics.test.AbstractTestCase
+import org.gmetrics.util.io.Resource
+import org.gmetrics.util.io.ResourceFactory
+import org.junit.Test
 
 /**
  * Tests for CoberturaCoverageFile
@@ -34,7 +36,7 @@ class CoberturaCoverageFileTest extends AbstractTestCase {
     private static final RESOURCE = [getInputStream:{ return new ByteArrayInputStream(XML_BYTES) }] as Resource
     private static final COBERTURA_XML_FILE = 'cobertura.xml'
 
-    void testGetCoberturaXml_IsReentrant() {
+    @Test	void testGetCoberturaXml_IsReentrant() {
         def loadedCount = new AtomicInteger()
         def coberturaCoverageFile = new CoberturaCoverageFile(COBERTURA_XML_FILE, null)
         coberturaCoverageFile.resourceFactory = [

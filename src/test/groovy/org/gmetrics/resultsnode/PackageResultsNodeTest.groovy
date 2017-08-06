@@ -15,11 +15,13 @@
  */
 package org.gmetrics.resultsnode
 
-import org.gmetrics.test.AbstractTestCase
 import org.gmetrics.metric.MetricLevel
-import org.gmetrics.result.SingleNumberMetricResult
 import org.gmetrics.metric.StubMetric
 import org.gmetrics.metric.linecount.MethodLineCountMetric
+import org.gmetrics.result.SingleNumberMetricResult
+import org.gmetrics.test.AbstractTestCase
+import org.junit.Before
+import org.junit.Test
 
 /**
  * Tests for PackageResultsNode
@@ -41,48 +43,48 @@ class PackageResultsNodeTest extends AbstractTestCase {
     private emptyResultsNode, classResultsNode
     private resultsNode1, resultsNode2, packageResultsNode2
 
-    void testImplementsResultsNode() {
+    @Test	void testImplementsResultsNode() {
         assert packageResultsNode instanceof ResultsNode
     }
 
-    void testName_AssignedFromConstructor() {
+    @Test	void testName_AssignedFromConstructor() {
         assert packageResultsNode.name == NAME
     }
 
-    void testNameAndPath_AssignedFromConstructor() {
+    @Test	void testNameAndPath_AssignedFromConstructor() {
         def newResultsNode = new PackageResultsNode(NAME, PACKAGE_NAME, PATH)
         assert newResultsNode.name == NAME
         assert newResultsNode.path == PATH
     }
 
-    void testNamePackageNameAndPath_AssignedFromConstructor() {
+    @Test	void testNamePackageNameAndPath_AssignedFromConstructor() {
         def newResultsNode = new PackageResultsNode(NAME, PACKAGE_NAME, PATH)
         assert newResultsNode.name == NAME
         assert newResultsNode.packageName == PACKAGE_NAME
         assert newResultsNode.path == PATH
     }
 
-    void testThatMetricLevelIsPackageLevel() {
+    @Test	void testThatMetricLevelIsPackageLevel() {
         assert packageResultsNode.level == MetricLevel.PACKAGE
     }
 
-    void test_InitialMetricValuesIsEmpty() {
+    @Test	void test_InitialMetricValuesIsEmpty() {
         assert packageResultsNode.getMetricResults() == []
     }
 
-    void test_InitialChildrenIsEmpty() {
+    @Test	void test_InitialChildrenIsEmpty() {
         assert packageResultsNode.getChildren() == [:]
     }
 
-    void test_addChildIfNotEmpty_NullNameThrowsException() {
+    @Test	void test_addChildIfNotEmpty_NullNameThrowsException() {
         shouldFailWithMessageContaining('name') { packageResultsNode.addChildIfNotEmpty(null, emptyResultsNode) }
     }
 
-    void test_addChildIfNotEmpty_NullChildThrowsException() {
+    @Test	void test_addChildIfNotEmpty_NullChildThrowsException() {
         shouldFailWithMessageContaining('child') { packageResultsNode.addChildIfNotEmpty('a', null) }
     }
 
-    void test_AddingASingleChildWithNoResultMetrics() {
+    @Test	void test_AddingASingleChildWithNoResultMetrics() {
         packageResultsNode.addChildIfNotEmpty('a', emptyResultsNode)
         log(packageResultsNode)
 
@@ -90,7 +92,7 @@ class PackageResultsNodeTest extends AbstractTestCase {
         assert packageResultsNode.getChildren() == [:]
     }
 
-    void test_addChildIfNotEmpty_AddsToChildren() {
+    @Test	void test_addChildIfNotEmpty_AddsToChildren() {
         packageResultsNode.addChildIfNotEmpty('a', resultsNode1)
         packageResultsNode.addChildIfNotEmpty('b', emptyResultsNode)
         packageResultsNode.addChildIfNotEmpty('c', resultsNode2)
@@ -101,27 +103,27 @@ class PackageResultsNodeTest extends AbstractTestCase {
         assert packageResultsNode.metricResults == []
     }
 
-    void test_addChild_NullNameThrowsException() {
+    @Test	void test_addChild_NullNameThrowsException() {
         shouldFailWithMessageContaining('name') { packageResultsNode.addChild(null, emptyResultsNode) }
     }
 
-    void test_addChild_NullChildThrowsException() {
+    @Test	void test_addChild_NullChildThrowsException() {
         shouldFailWithMessageContaining('child') { packageResultsNode.addChild('a', null) }
     }
 
-    void test_addChild_AddsToChildren() {
+    @Test	void test_addChild_AddsToChildren() {
         packageResultsNode.addChild('a', resultsNode1)
         packageResultsNode.addChild('b', emptyResultsNode)
         assert packageResultsNode.children.keySet() == ['a', 'b'] as Set
     }
 
-    void test_applyMetric_PreventsAddingAnyMoreChildren() {
+    @Test	void test_applyMetric_PreventsAddingAnyMoreChildren() {
         packageResultsNode.addChildIfNotEmpty('a', resultsNode1)
         packageResultsNode.applyMetric(METRIC)
         shouldFail { packageResultsNode.addChildIfNotEmpty('b', resultsNode2) }
     }
 
-    void test_applyMetric_AddsToMetricResults() {
+    @Test	void test_applyMetric_AddsToMetricResults() {
         def metric = new StubMetric()
         packageResultsNode.addChildIfNotEmpty('a', resultsNode1)
         def metricResult = new SingleNumberMetricResult(metric, MetricLevel.CLASS, 23)
@@ -130,13 +132,13 @@ class PackageResultsNodeTest extends AbstractTestCase {
         assert packageResultsNode.metricResults == [metricResult]
     }
 
-    void test_applyMetric_AddsPackageResultsForPackageName() {
+    @Test	void test_applyMetric_AddsPackageResultsForPackageName() {
         def metric = new StubMetric()
         packageResultsNode.applyMetric(metric)
         assert metric.packageName == PACKAGE_NAME
     }
 
-    void test_applyMetric_AddsNothingIfMetricReturnsNullForThePackage() {
+    @Test	void test_applyMetric_AddsNothingIfMetricReturnsNullForThePackage() {
         def metric = new StubMetric()
         metric.packageMetricResult = null
         packageResultsNode.applyMetric(metric)
@@ -144,7 +146,7 @@ class PackageResultsNodeTest extends AbstractTestCase {
         assert packageResultsNode.metricResults == []
     }
 
-    void test_applyMetric_AggregatesResultsAcrossChildrenOfSameMetricType() {
+    @Test	void test_applyMetric_AggregatesResultsAcrossChildrenOfSameMetricType() {
         packageResultsNode.addChildIfNotEmpty('a', resultsNode1)
         packageResultsNode.addChildIfNotEmpty('b', emptyResultsNode)
         packageResultsNode.addChildIfNotEmpty('c', resultsNode2)
@@ -159,11 +161,11 @@ class PackageResultsNodeTest extends AbstractTestCase {
         assert metricResult['average'] == AVG
     }
 
-    void test_getMetricResult_NullMetricThrowsException() {
+    @Test	void test_getMetricResult_NullMetricThrowsException() {
         shouldFailWithMessageContaining('metric') { packageResultsNode.getMetricResult(null) }
     }
 
-    void test_getMetricResult_ReturnsCorrectMetricResult() {
+    @Test	void test_getMetricResult_ReturnsCorrectMetricResult() {
         def metric1 = new StubMetric()
         final METRIC_RESULT = new SingleNumberMetricResult(metric1, MetricLevel.METHOD, 11)
         metric1.packageMetricResult = METRIC_RESULT
@@ -177,27 +179,27 @@ class PackageResultsNodeTest extends AbstractTestCase {
         assert packageResultsNode.getMetricResult(metric1) == METRIC_RESULT
     }
 
-    void test_getMetricResult_ReturnsNullIfNoMatchingMetricResultIsFound() {
+    @Test	void test_getMetricResult_ReturnsNullIfNoMatchingMetricResultIsFound() {
         assert packageResultsNode.getMetricResult(METRIC) == null
     }
 
-    void testContainsClassResults_ReturnsFalseIfHasNoChildren() {
-        assertFalse packageResultsNode.containsClassResults()
+    @Test	void testContainsClassResults_ReturnsFalseIfHasNoChildren() {
+        assert packageResultsNode.containsClassResults() == false
     }
 
-    void testContainsClassResults_ReturnsFalseIfContainsOnlyChildPackageResults() {
+    @Test	void testContainsClassResults_ReturnsFalseIfContainsOnlyChildPackageResults() {
         packageResultsNode.addChildIfNotEmpty('a', packageResultsNode2)
-        assertFalse packageResultsNode.containsClassResults()
+        assert packageResultsNode.containsClassResults() == false
     }
 
-    void testContainsClassResults_ReturnsTrueIfChildContainsClassResults() {
+    @Test	void testContainsClassResults_ReturnsTrueIfChildContainsClassResults() {
         packageResultsNode.addChildIfNotEmpty('a', packageResultsNode2)
         packageResultsNode.addChildIfNotEmpty('b', classResultsNode)
-        assertTrue packageResultsNode.containsClassResults()
+        assert packageResultsNode.containsClassResults()
     }
 
+    @Before
     void setUp() {
-        super.setUp()
         packageResultsNode = new PackageResultsNode(NAME, PACKAGE_NAME, PATH)
         emptyResultsNode = new StubResultsNode()
         resultsNode1 = new StubResultsNode(metricResults:[MR1])

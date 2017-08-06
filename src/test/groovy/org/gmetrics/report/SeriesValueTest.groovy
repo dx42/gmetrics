@@ -16,6 +16,7 @@
 package org.gmetrics.report
 
 import org.gmetrics.test.AbstractTestCase
+import org.junit.Test
 
 /**
  * Tests for SeriesValue
@@ -25,7 +26,7 @@ import org.gmetrics.test.AbstractTestCase
  */
 class SeriesValueTest extends AbstractTestCase {
 
-    void testConstructorInitializesValues() {
+    @Test	void testConstructorInitializesValues() {
         def seriesValue = new SeriesValue('sample', 789)
         assert seriesValue.name == 'sample'
         assert seriesValue.value == 789

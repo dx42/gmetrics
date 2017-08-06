@@ -16,6 +16,7 @@
 package org.gmetrics.metric.cyclomatic
 
 import org.gmetrics.metric.AbstractMetricTestCase
+import org.junit.Test
 
 /**
  * Tests for CyclomaticComplexityMetric - for closure fields
@@ -26,7 +27,7 @@ class CyclomaticComplexityMetric_ClosureFieldTest extends AbstractMetricTestCase
 
     static metricClass = CyclomaticComplexityMetric
 
-    void testApplyToClosure() {
+    @Test	void testApplyToClosure() {
         final SOURCE = """
             class MyClass {
                 def myClosure = { }
@@ -35,7 +36,7 @@ class CyclomaticComplexityMetric_ClosureFieldTest extends AbstractMetricTestCase
         assert applyToClosureValue(SOURCE) == 1
     }
 
-    void testCalculate_ReturnsOne_ForEmptyClosureField() {
+    @Test	void testCalculate_ReturnsOne_ForEmptyClosureField() {
         final SOURCE = """
             class MyClass {
                 def myClosure = { }
@@ -44,7 +45,7 @@ class CyclomaticComplexityMetric_ClosureFieldTest extends AbstractMetricTestCase
         assert calculateForClosureField(SOURCE) == 1
     }
 
-    void testCalculate_ProperCount_ClosureField() {
+    @Test	void testCalculate_ProperCount_ClosureField() {
         final SOURCE = """
             class MyClass {
               def myClosure = {
@@ -76,7 +77,7 @@ class CyclomaticComplexityMetric_ClosureFieldTest extends AbstractMetricTestCase
         assert calculateForClosureField(SOURCE) == 12
     }
 
-    void testCalculate_ClosureFieldContainingNestedClosure() {
+    @Test	void testCalculate_ClosureFieldContainingNestedClosure() {
         final SOURCE = """
             class MyClass {
                 def myClosure = {

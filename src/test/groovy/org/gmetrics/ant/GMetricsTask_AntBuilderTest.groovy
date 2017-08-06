@@ -19,6 +19,8 @@ import org.gmetrics.metricregistry.MetricRegistryHolder
 import org.gmetrics.metricset.DefaultMetricSet
 import org.gmetrics.metricset.MetricSetTestFiles
 import org.gmetrics.test.AbstractTestCase
+import org.junit.Before
+import org.junit.Test
 
 /**
  * Tests for GMetricsTask that use the Groovy AntBuilder.
@@ -45,7 +47,7 @@ class GMetricsTask_AntBuilderTest extends AbstractTestCase {
     private static final TITLE = 'Sample'
     private ant
 
-    void testAntTask_Execute_UsingDefaultMetricSet() {
+    @Test	void testAntTask_Execute_UsingDefaultMetricSet() {
         ant.gmetrics {
            fileset(dir:'src/main/groovy') {
                include(name:"**/*.groovy")
@@ -92,7 +94,7 @@ class GMetricsTask_AntBuilderTest extends AbstractTestCase {
         verifyReportFile(SERIES_HTML_METHOD_REPORT_FILE, [SERIES_TITLE, 'Method'])
     }
 
-    void testAntTask_Execute_AllMetrics() {
+    @Test	void testAntTask_Execute_AllMetrics() {
         def allMetricSetFile = new File(ALL_METRICSET_FILE)
         generateAllMetricsFile(allMetricSetFile)
 
@@ -113,7 +115,7 @@ class GMetricsTask_AntBuilderTest extends AbstractTestCase {
 //        allMetricSetFile.delete()
     }
 
-    void testAntTask_Execute_SpecifyMetricSetFile() {
+    @Test	void testAntTask_Execute_SpecifyMetricSetFile() {
         ant.gmetrics(metricSetFile: MetricSetTestFiles.METRICSET1) {
            fileset(dir:'src/main/groovy') {
                include(name:"**/GMetricsRunner.groovy")
@@ -126,8 +128,8 @@ class GMetricsTask_AntBuilderTest extends AbstractTestCase {
         verifyReportFile(HTML_TEMP_REPORT_FILE, ['Stub','XXX'])
     }
 
+    @Before
     void setUp() {
-        super.setUp()
         ant = new AntBuilder()
         ant.taskdef(name:'gmetrics', classname:'org.gmetrics.ant.GMetricsTask')
     }

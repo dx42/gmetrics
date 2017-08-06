@@ -17,6 +17,7 @@ package org.gmetrics.metric.coupling
 
 import org.gmetrics.metric.AbstractMetricTestCase
 import org.gmetrics.metric.MetricLevel
+import org.junit.Test
 
 /**
  * Abstract superclass for class-level tests for package-level coupling metrics
@@ -26,14 +27,14 @@ import org.gmetrics.metric.MetricLevel
 @SuppressWarnings('GStringExpressionWithinString')
 abstract class AbstractPackageCouplingMetric_ClassTestCase extends AbstractMetricTestCase {
 
-    void testCommonMetricProperties() {
+    @Test	void testCommonMetricProperties() {
         assert metric.baseLevel == MetricLevel.PACKAGE
         assert metric.ignorePackageNames == null
     }
 
     // Tests for applyToClass()
 
-    void testApplyToClass_NoExternalPackageReferences() {
+    @Test	void testApplyToClass_NoExternalPackageReferences() {
         final SOURCE = """
             class MyClass {
                 int myValue
@@ -42,7 +43,7 @@ abstract class AbstractPackageCouplingMetric_ClassTestCase extends AbstractMetri
         assertApplyToClass(SOURCE, [])
     }
 
-    void testApplyToClass_Imports() {
+    @Test	void testApplyToClass_Imports() {
         final SOURCE = """
             import com.example.util.ExampleUtil
             import com.example.other.*
@@ -55,7 +56,7 @@ abstract class AbstractPackageCouplingMetric_ClassTestCase extends AbstractMetri
         assertApplyToClass(SOURCE, ['com.example.util', 'com.example.other', 'com.example.helper', 'com.example'])
     }
 
-    void testApplyToClass_MethodReturnType() {
+    @Test	void testApplyToClass_MethodReturnType() {
         final SOURCE = """
             interface MyInterface {
                 com.example.helper.MyHelper doStuff()
@@ -64,7 +65,7 @@ abstract class AbstractPackageCouplingMetric_ClassTestCase extends AbstractMetri
         assertApplyToClass(SOURCE, ['com.example.helper'])
     }
 
-    void testApplyToClass_MethodParameters() {
+    @Test	void testApplyToClass_MethodParameters() {
         final SOURCE = """
             class MyClass {
                 void doStuff(com.example.helper.MyHelper helper, int count, org.other.Thing thing) {}
@@ -73,7 +74,7 @@ abstract class AbstractPackageCouplingMetric_ClassTestCase extends AbstractMetri
         assertApplyToClass(SOURCE, ['com.example.helper', 'org.other'])
     }
 
-    void testApplyToClass_ConstructorParameters() {
+    @Test	void testApplyToClass_ConstructorParameters() {
         final SOURCE = """
             class MyClass {
                 public MyClass(com.example.helper.MyHelper helper, int count, org.other.Thing thing) {
@@ -84,7 +85,7 @@ abstract class AbstractPackageCouplingMetric_ClassTestCase extends AbstractMetri
         assertApplyToClass(SOURCE, ['com.example.helper', 'org.other'])
     }
 
-    void testApplyToClass_ClosureParameters() {
+    @Test	void testApplyToClass_ClosureParameters() {
         final SOURCE = """
             class MyClass {
                 def doStuff = { com.example.helper.MyHelper helper, int count, org.other.Thing thing -> }
@@ -93,7 +94,7 @@ abstract class AbstractPackageCouplingMetric_ClassTestCase extends AbstractMetri
         assertApplyToClass(SOURCE, ['com.example.helper', 'org.other'])
     }
 
-    void testApplyToClass_CastExpression() {
+    @Test	void testApplyToClass_CastExpression() {
         final SOURCE = """
             class MyClass {
                 def x = other as org.other.Thing
@@ -102,7 +103,7 @@ abstract class AbstractPackageCouplingMetric_ClassTestCase extends AbstractMetri
         assertApplyToClass(SOURCE, ['org.other'])
     }
 
-    void testApplyToClass_ConstructorCall() {
+    @Test	void testApplyToClass_ConstructorCall() {
         final SOURCE = """
             class MyClass {
                 def instance = new org.other.OtherClass()
@@ -111,7 +112,7 @@ abstract class AbstractPackageCouplingMetric_ClassTestCase extends AbstractMetri
         assertApplyToClass(SOURCE, ['org.other'])
     }
 
-    void testApplyToClass_ConstructorCallParameter() {
+    @Test	void testApplyToClass_ConstructorCallParameter() {
         final SOURCE = """
             class MyClass {
                 def instance = new MyClass(org.other.OtherClass)
@@ -120,28 +121,28 @@ abstract class AbstractPackageCouplingMetric_ClassTestCase extends AbstractMetri
         assertApplyToClass(SOURCE, ['org.other'])
     }
 
-    void testApplyToClass_ExtendsSuperclass() {
+    @Test	void testApplyToClass_ExtendsSuperclass() {
         final SOURCE = """
             class MyClass extends org.other.OtherClass { }
         """
         assertApplyToClass(SOURCE, ['org.other'])
     }
 
-    void testApplyToClass_ExtendsInterface() {
+    @Test	void testApplyToClass_ExtendsInterface() {
         final SOURCE = """
             class MyInterface extends org.other.OtherInterface { }
         """
         assertApplyToClass(SOURCE, ['org.other'])
     }
 
-    void testApplyToClass_ImplementsInterface() {
+    @Test	void testApplyToClass_ImplementsInterface() {
         final SOURCE = """
             class MyClass implements org.other.framework.OtherInterface, com.example.ExampleInterface { }
         """
         assertApplyToClass(SOURCE, ['org.other.framework', 'com.example'])
     }
 
-    void testApplyToClass_Field() {
+    @Test	void testApplyToClass_Field() {
         final SOURCE = """
             class MyClass {
                 org.other.OtherClass otherClass
@@ -150,7 +151,7 @@ abstract class AbstractPackageCouplingMetric_ClassTestCase extends AbstractMetri
         assertApplyToClass(SOURCE, ['org.other'])
     }
 
-    void testApplyToClass_Variable() {
+    @Test	void testApplyToClass_Variable() {
         final SOURCE = """
             class MyClass {
                 def doStuff() {
@@ -161,7 +162,7 @@ abstract class AbstractPackageCouplingMetric_ClassTestCase extends AbstractMetri
         assertApplyToClass(SOURCE, ['org.other'])
     }
 
-    void testApplyToClass_IgnoresThisReferences() {
+    @Test	void testApplyToClass_IgnoresThisReferences() {
         final SOURCE = """
             class MyClass {
                 private final int someValue
@@ -173,7 +174,7 @@ abstract class AbstractPackageCouplingMetric_ClassTestCase extends AbstractMetri
         assertApplyToClass(SOURCE, [])
     }
 
-    void testApplyToClass_ClassNameWithinExpression() {
+    @Test	void testApplyToClass_ClassNameWithinExpression() {
         final SOURCE = '''
             if (value.class == org.bad.BadClass) { }
             println "isClosure=${value instanceof org.other.OtherClass}"
@@ -186,7 +187,7 @@ abstract class AbstractPackageCouplingMetric_ClassTestCase extends AbstractMetri
         assertApplyToClass(SOURCE, ['org.bad', 'org.other', 'com.example'])
     }
 
-    void testApplyToClass_StaticMemberOfClass() {
+    @Test	void testApplyToClass_StaticMemberOfClass() {
         final SOURCE = '''
             println org.math.Constants.PI
             println org.net.RMI     // make sure it does not think this is a static member reference
@@ -194,14 +195,14 @@ abstract class AbstractPackageCouplingMetric_ClassTestCase extends AbstractMetri
         assertApplyToClass(SOURCE, ['org.math', 'org.net'])
     }
 
-    void testApplyToClass_IgnoresSyntheticFieldsAndMethods() {
+    @Test	void testApplyToClass_IgnoresSyntheticFieldsAndMethods() {
         final SOURCE = """
             def x = org.other.MyClass
         """
         assertApplyToClass(SOURCE, ['org.other'])
     }
 
-    void testApplyToClass_IgnorePackageReferencesFromSamePackage() {
+    @Test	void testApplyToClass_IgnorePackageReferencesFromSamePackage() {
         final SOURCE = """
             package com.example
             class MyClass {
@@ -211,7 +212,7 @@ abstract class AbstractPackageCouplingMetric_ClassTestCase extends AbstractMetri
         assertApplyToClass(SOURCE, [])
     }
 
-    void testApplyToClass_IgnoresJavaAndGroovyPackages() {
+    @Test	void testApplyToClass_IgnoresJavaAndGroovyPackages() {
         final SOURCE = """
             class MyClass {
                 java.net.Socket socket
@@ -221,7 +222,7 @@ abstract class AbstractPackageCouplingMetric_ClassTestCase extends AbstractMetri
         assertApplyToClass(SOURCE, [])
     }
 
-    void testApplyToClass_IgnorePackageNames() {
+    @Test	void testApplyToClass_IgnorePackageNames() {
         final SOURCE = """
             class MyClass {
                 com.example.Thing thing
@@ -233,7 +234,7 @@ abstract class AbstractPackageCouplingMetric_ClassTestCase extends AbstractMetri
         assertApplyToClass(SOURCE, ['org.other'])
     }
 
-    void testApplyToClass_Enum() {
+    @Test	void testApplyToClass_Enum() {
         final SOURCE = """
             enum MyEnum { ONE, TWO, THREE }
         """

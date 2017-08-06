@@ -15,11 +15,13 @@
  */
 package org.gmetrics.analyzer
 
-import org.gmetrics.test.AbstractTestCase
+import org.gmetrics.metric.linecount.MethodLineCountMetric
 import org.gmetrics.metricset.ListMetricSet
 import org.gmetrics.result.StubMetricResult
 import org.gmetrics.resultsnode.ResultsNodeTestUtil
-import org.gmetrics.metric.linecount.MethodLineCountMetric
+import org.gmetrics.test.AbstractTestCase
+import org.junit.Before
+import org.junit.Test
 
 /**
  * Abstract superclass for SourceAnalyzer integration tests. These tests access the real filesystem
@@ -43,26 +45,26 @@ abstract class AbstractSourceAnalyzer_IntegrationTest extends AbstractTestCase {
     protected abstract void initializeSourceAnalyzerForDirectoryWithNoMatchingFiles()
     
 
-    void setUp() {
-        super.setUp()
+    @Before
+    void setUp_AbstractSourceAnalyzer_IntegrationTest() {
         analyzer = createSourceAnalyzer()
         metric = new MethodLineCountMetric()
         metricSet = new ListMetricSet([metric])
     }
 
-    void testAnalyze_EmptyDirectory() {
+    @Test	void testAnalyze_EmptyDirectory() {
         initializeSourceAnalyzerForEmptyDirectory()
         def results = new StubMetricResult(metric:metric, count:0, total:0, average:0)
         assertAnalyze_ResultsNodeStructure([metricResults:[results]])
     }
 
-    void testAnalyze_NoMatchingFiles() {
+    @Test	void testAnalyze_NoMatchingFiles() {
         initializeSourceAnalyzerForDirectoryWithNoMatchingFiles()
         def results = new StubMetricResult(metric:metric, count:0, total:0, average:0)
         assertAnalyze_ResultsNodeStructure([metricResults:[results]])
     }
 
-    void testAnalyze_NestedSubdirectories() {
+    @Test	void testAnalyze_NestedSubdirectories() {
         def classA1_method1 = new StubMetricResult(metric:metric, count:1, total:3, average:3)
         def classA1_method2 = new StubMetricResult(metric:metric, count:1, total:5, average:5)
         def classA1 = new StubMetricResult(metric:metric, count:2, total:8, average:4)

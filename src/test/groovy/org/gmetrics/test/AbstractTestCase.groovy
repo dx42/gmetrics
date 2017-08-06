@@ -18,6 +18,9 @@ package org.gmetrics.test
 import org.gmetrics.metric.MetricLevel
 import org.gmetrics.resultsnode.ResultsNode
 import org.gmetrics.resultsnode.StubResultsNode
+import org.junit.Before
+import org.junit.Rule
+import org.junit.rules.TestName
 
 /**
  * Abstract superclass for tests 
@@ -25,17 +28,28 @@ import org.gmetrics.resultsnode.StubResultsNode
  * @author Chris Mair
  * @version $Revision$ - $Date$
  */
-abstract class AbstractTestCase extends GroovyTestCase {
+abstract class AbstractTestCase {
 
 	protected static final String REPORTS_DIR = "testreports"
-	
+
+    @SuppressWarnings('PublicInstanceField')
+    @Rule public TestName testName = new TestName()
+
+    static Throwable shouldFail(Class expectedExceptionClass, Closure code) {
+        return GroovyAssert.shouldFail(expectedExceptionClass, code)
+    }
+
+    static Throwable shouldFail(Closure code) {
+        return GroovyAssert.shouldFail(code)
+    }
+
     /**
      * Assert that the specified closure should throw an exception whose message contains text
      * @param text - the text expected within the message; may be a single String or a List of Strings
      * @param closure - the Closure to execute
      */
     protected void shouldFailWithMessageContaining(text, Closure closure) {
-        def message = shouldFail(closure)
+        def message = shouldFail(closure).message
         log("exception message=[$message]")
         def strings = text instanceof List ? text : [text]
         strings.each { string ->
@@ -58,7 +72,7 @@ abstract class AbstractTestCase extends GroovyTestCase {
      * @param strings - the Strings that must be present within text 
      */
     protected void assertContainsAll(String text, strings) {
-        assert containsAll(text, strings), "text does not contain [$string]"
+        assert containsAll(text, strings), "text does not contain all [$strings]"
     }
 
     /**
@@ -111,19 +125,6 @@ abstract class AbstractTestCase extends GroovyTestCase {
         return out.toString()
     }
     
-//    protected List<LoggingEvent> captureLog4JMessages(Closure closure) {
-//        def inMemoryAppender = new InMemoryAppender()
-//        def logger = Logger.rootLogger
-//        logger.addAppender(inMemoryAppender)
-//        try {
-//            closure()
-//        }
-//        finally {
-//            logger.removeAppender(inMemoryAppender)
-//        }
-//        return inMemoryAppender.getLoggingEvents()
-//    }
-
     protected BigDecimal scale(number, int scale=1) {
         return number.setScale(scale, BigDecimal.ROUND_HALF_UP)
     }
@@ -154,13 +155,17 @@ abstract class AbstractTestCase extends GroovyTestCase {
         return index > -1 ? className.substring(index+1) : className
     }
 
+    protected String getName() {
+        return testName.getMethodName()
+    }
+
     //------------------------------------------------------------------------------------
-    // Test Setup and Tear Down
+    // Test setup
     //------------------------------------------------------------------------------------
 
-    void setUp() {
+    @Before
+    void setUp_AbstractTestCase() {
         println "-------------------------[ ${classNameNoPackage()}.${getName()} ]------------------------"
-        super.setUp()
     }
 
 }

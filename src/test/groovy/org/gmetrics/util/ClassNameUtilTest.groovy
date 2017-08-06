@@ -16,6 +16,7 @@
 package org.gmetrics.util
 
 import org.gmetrics.test.AbstractTestCase
+import org.junit.Test
 
 /**
  * Tests for ClassNameUtil
@@ -24,7 +25,7 @@ import org.gmetrics.test.AbstractTestCase
  */
 class ClassNameUtilTest extends AbstractTestCase {
 
-    void testParentPackageName() {
+    @Test	void testParentPackageName() {
         assert ClassNameUtil.parentPackageName(null) == null
         assert ClassNameUtil.parentPackageName('') == null
         assert ClassNameUtil.parentPackageName('abc') == null
@@ -32,7 +33,7 @@ class ClassNameUtilTest extends AbstractTestCase {
         assert ClassNameUtil.parentPackageName('abc.def.MyClass') == 'abc.def'
     }
 
-    void testIsPackageName() {
+    @Test	void testIsPackageName() {
         assert !ClassNameUtil.isPackageName(null)
         assert !ClassNameUtil.isPackageName('')
         assert ClassNameUtil.isPackageName('abc')
@@ -41,7 +42,7 @@ class ClassNameUtilTest extends AbstractTestCase {
         assert !ClassNameUtil.isPackageName('abc.def.MyClass.CONSTANT')
     }
 
-    void testIsClassName() {
+    @Test	void testIsClassName() {
         assert !ClassNameUtil.isClassName(null)
         assert !ClassNameUtil.isClassName('')
         assert !ClassNameUtil.isClassName('abc')

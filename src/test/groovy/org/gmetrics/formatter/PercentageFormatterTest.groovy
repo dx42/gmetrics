@@ -16,6 +16,7 @@
  package org.gmetrics.formatter
 
 import org.gmetrics.test.AbstractTestCase
+import org.junit.Test
 
 /**
  * Tests for PercentageFormatter
@@ -26,35 +27,35 @@ class PercentageFormatterTest extends AbstractTestCase {
 
     private formatter = new PercentageFormatter()
 
-    void testImplementsFormatter() {
+    @Test	void testImplementsFormatter() {
         assert formatter instanceof Formatter
     }
 
-    void testFormat_NotANumber_ThrowsException() {
+    @Test	void testFormat_NotANumber_ThrowsException() {
         shouldFailWithMessageContaining('Number') { formatter.format('abc') }
     }
 
-    void testFormat_Zero() {
+    @Test	void testFormat_Zero() {
         assert formatter.format(0.0) == '0%'
     }
 
-    void testFormat_ZeroInteger() {
+    @Test	void testFormat_ZeroInteger() {
         assert formatter.format(0) == '0%'
     }
 
-    void testFormat_Decimal() {
+    @Test	void testFormat_Decimal() {
         assert formatter.format(0.67) == '67%'
     }
 
-    void testFormat_SetsDefaultScaleToConvertToIntegerPercentage() {
+    @Test	void testFormat_SetsDefaultScaleToConvertToIntegerPercentage() {
         assert formatter.format(0.671234) == '67%'
     }
 
-    void testFormat_Integer() {
+    @Test	void testFormat_Integer() {
         assert formatter.format(123) == '12300%'
     }
 
-    void testFormat_Null_ReturnsNull() {
+    @Test	void testFormat_Null_ReturnsNull() {
         assert formatter.format(null) == null
     }
 

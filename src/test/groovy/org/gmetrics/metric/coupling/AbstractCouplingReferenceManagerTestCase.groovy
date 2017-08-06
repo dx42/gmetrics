@@ -15,14 +15,16 @@
  */
 package org.gmetrics.metric.coupling
 
+import static org.gmetrics.metric.coupling.AfferentCouplingReferenceManager.REFERENCED_FROM_PACKAGES
+import static org.gmetrics.metric.coupling.EfferentCouplingReferenceManager.REFERENCED_PACKAGES
 import static org.gmetrics.result.FunctionNames.*
-import static EfferentCouplingReferenceManager.REFERENCED_PACKAGES
-import static AfferentCouplingReferenceManager.REFERENCED_FROM_PACKAGES
 
 import org.gmetrics.metric.MetricLevel
 import org.gmetrics.metric.StubMetric
 import org.gmetrics.result.MetricResult
 import org.gmetrics.test.AbstractTestCase
+import org.junit.Before
+import org.junit.Test
 
 /**
  * Abstract superclass for Afferent/EfferentCouplingReferenceManager tests
@@ -45,52 +47,52 @@ abstract class AbstractCouplingReferenceManagerTestCase extends AbstractTestCase
 
     // Tests for addReferencesFromPackage()
 
-    void testAddReferencesFromPackage_StoresReferences() {
+    @Test	void testAddReferencesFromPackage_StoresReferences() {
         manager.addReferencesFromPackage(PACKAGE1, [PACKAGE2, PACKAGE3])
         manager.addReferencesFromPackage(PACKAGE2, [PACKAGE1])
         assert manager.getReferencesFromPackage(PACKAGE1) == [PACKAGE2, PACKAGE3] as Set
         assert manager.getReferencesFromPackage(PACKAGE2) == [PACKAGE1] as Set
     }
 
-    void testAddReferencesFromPackage_AggregatesReferences() {
+    @Test	void testAddReferencesFromPackage_AggregatesReferences() {
         manager.addReferencesFromPackage(PACKAGE1, [PACKAGE2, PACKAGE3])
         manager.addReferencesFromPackage(PACKAGE1, [PACKAGE2, PACKAGE4])
         assert manager.getReferencesFromPackage(PACKAGE1) == [PACKAGE2, PACKAGE3, PACKAGE4] as Set
     }
 
-    void testAddReferencesFromPackage_UpdatesCountForFromPackage() {
+    @Test	void testAddReferencesFromPackage_UpdatesCountForFromPackage() {
         manager.addReferencesFromPackage(PACKAGE1, [PACKAGE2, PACKAGE3])
         assert manager.getPackageMetricResult(PACKAGE1).count == 1
     }
 
-    void testAddReferencesFromPackage_NormalizesPackageNames() {
+    @Test	void testAddReferencesFromPackage_NormalizesPackageNames() {
         manager.addReferencesFromPackage('aa/bb', ['bb/cc', 'cc/dd'])
         assert manager.getReferencesFromPackage('aa.bb') == ['bb.cc', 'cc.dd'] as Set
     }
 
-    void testAddReferencesFromPackage_HandlesNullPackageName() {
+    @Test	void testAddReferencesFromPackage_HandlesNullPackageName() {
         manager.addReferencesFromPackage(null, ['aa'])
         assert manager.getReferencesFromPackage(null) == ['aa'] as Set
     }
 
-    void testAddReferencesFromPackage_UnknownPackage_ReturnsEmptySet() {
+    @Test	void testAddReferencesFromPackage_UnknownPackage_ReturnsEmptySet() {
         assert manager.getReferencesFromPackage('aa.bb') == [] as Set
     }
 
-    void testGetReferencesFromPackage_NormalizesPackageName() {
+    @Test	void testGetReferencesFromPackage_NormalizesPackageName() {
         manager.addReferencesFromPackage('aa.bb', ['bb.cc', 'cc/dd'])
         assert manager.getReferencesFromPackage('aa/bb') == ['bb.cc', 'cc.dd'] as Set
     }
 
     // Tests for getPackageMetricResult()
 
-    void testGetPackageMetricResult_AlwaysReturnsSameInstanceForPackage() {
+    @Test	void testGetPackageMetricResult_AlwaysReturnsSameInstanceForPackage() {
         def metricResult = manager.getPackageMetricResult('aa/bb')
         manager.addReferencesFromPackage(PACKAGE1, ['aa/bb'])
         assert manager.getPackageMetricResult('aa.bb') == metricResult
     }
 
-    void testNormalizePackageName() {
+    @Test	void testNormalizePackageName() {
         assert manager.normalizePackageName(' ') == ' '
         assert manager.normalizePackageName('a.b') == 'a.b'
         assert manager.normalizePackageName('a/b') == 'a.b'
@@ -106,8 +108,8 @@ abstract class AbstractCouplingReferenceManagerTestCase extends AbstractTestCase
 
     protected abstract createManager()
 
-    void setUp() {
-        super.setUp()
+    @Before
+    void setUp_AbstractCouplingReferenceManagerTestCase() {
         manager = createManager()
     }
 

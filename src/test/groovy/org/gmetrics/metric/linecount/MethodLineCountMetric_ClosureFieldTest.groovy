@@ -16,6 +16,7 @@
 package org.gmetrics.metric.linecount
 
 import org.gmetrics.metric.AbstractMetricTestCase
+import org.junit.Test
 
 /**
  * Tests for MethodLinesOfCodeMetric - calculate lines of code for closure fields
@@ -26,7 +27,7 @@ class MethodLineCountMetric_ClosureFieldTest extends AbstractMetricTestCase {
 
     static metricClass = MethodLineCountMetric
 
-    void testApplyToClosure() {
+    @Test	void testApplyToClosure() {
         final SOURCE = """
             class MyClass {
                 def myClosure = { }
@@ -35,7 +36,7 @@ class MethodLineCountMetric_ClosureFieldTest extends AbstractMetricTestCase {
         assert applyToClosureValue(SOURCE) == 1
     }
 
-    void testCalculate_CorrectSizeForSingleLineClosure() {
+    @Test	void testCalculate_CorrectSizeForSingleLineClosure() {
         final SOURCE = """
             class MyClass {
                 def myClosure = { }
@@ -44,7 +45,7 @@ class MethodLineCountMetric_ClosureFieldTest extends AbstractMetricTestCase {
         assert calculateForClosureField(SOURCE) == 1
     }
 
-    void testCalculate_CorrectSizeForMultiLineClosure() {
+    @Test	void testCalculate_CorrectSizeForMultiLineClosure() {
         final SOURCE = """
             class MyClass {
                 def myClosure = {

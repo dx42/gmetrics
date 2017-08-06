@@ -16,6 +16,8 @@
 package org.gmetrics.util.io
 
 import org.gmetrics.test.AbstractTestCase
+import org.junit.Before
+import org.junit.Test
 
 /**
  * Tests for DefaultResourceFactory
@@ -28,24 +30,24 @@ class DefaultResourceFactoryTest extends AbstractTestCase {
     private static final PATH = 'src/test/resources/resource/SampleResource.txt'
     private resourceFactory
 
-    void testConstructor_NullOrEmpty() {
+    @Test	void testConstructor_NullOrEmpty() {
         shouldFailWithMessageContaining('path') { resourceFactory.getResource(null) }
         shouldFailWithMessageContaining('path') { resourceFactory.getResource('') }
     }
 
-    void testGetResource_NoPrefix() {
+    @Test	void testGetResource_NoPrefix() {
         testGetResource(PATH, ClassPathResource)
     }
 
-    void testGetResource_HttpPrefix() {
+    @Test	void testGetResource_HttpPrefix() {
         testGetResource("http://codenarc.org", UrlResource) 
     }
 
-    void testGetResource_FtpPrefix() {
+    @Test	void testGetResource_FtpPrefix() {
         testGetResource("ftp://codenarc.org", UrlResource) 
     }
 
-    void testGetResource_ClassPathPrefix() {
+    @Test	void testGetResource_ClassPathPrefix() {
         testGetResource("classpath:" + PATH, ClassPathResource, PATH)
     }
 
@@ -55,8 +57,8 @@ class DefaultResourceFactoryTest extends AbstractTestCase {
         assert resource.getPath() == expectedResourcePath
     }
 
+    @Before
     void setUp() {
-        super.setUp()
         resourceFactory = new DefaultResourceFactory()
     }
 }

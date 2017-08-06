@@ -17,6 +17,8 @@ package org.gmetrics.metricset
 
 import org.gmetrics.metric.Metric
 import org.gmetrics.test.AbstractTestCase
+import org.junit.Before
+import org.junit.Test
 
 /**
  * Tests for CompositeMetricSet
@@ -30,25 +32,25 @@ class CompositeMetricSetTest extends AbstractTestCase {
 	
     private compositeMetricSet
                                                       
-    void testImplementsMetricSetInterface() {
+	@Test	void testImplementsMetricSetInterface() {
         assert compositeMetricSet instanceof MetricSet
     }
 
-    void testDefaultsToEmptyMetricSet() {
+	@Test	void testDefaultsToEmptyMetricSet() {
         assert compositeMetricSet.getMetrics() == []
     }
 
-    void testAddMetricSet_Null() {
+	@Test	void testAddMetricSet_Null() {
         shouldFailWithMessageContaining('metricSet') { compositeMetricSet.addMetricSet((MetricSet)null) }
     }
 
-    void testAddMetricSet_OneMetricSet() {
+	@Test	void testAddMetricSet_OneMetricSet() {
         def metricSet = new ListMetricSet([METRIC1])
         compositeMetricSet.addMetricSet(metricSet)
         assert compositeMetricSet.getMetrics() == [METRIC1]
     }
 
-    void testAddMetricSet_TwoMetricSets() {
+	@Test	void testAddMetricSet_TwoMetricSets() {
         def metricSet1 = new ListMetricSet([METRIC1])
         def metricSet2 = new ListMetricSet([METRIC2])
         compositeMetricSet.addMetricSet(metricSet1)
@@ -56,23 +58,23 @@ class CompositeMetricSetTest extends AbstractTestCase {
         assert compositeMetricSet.getMetrics() == [METRIC1, METRIC2]
     }
 
-    void testAddMetric_Null() {
+	@Test	void testAddMetric_Null() {
         shouldFailWithMessageContaining('metric') { compositeMetricSet.addMetric((Metric)null) }
     }
 
-    void testAddMetric() {
+	@Test	void testAddMetric() {
         compositeMetricSet.addMetric(METRIC1)
         compositeMetricSet.addMetric(METRIC2)
         assert compositeMetricSet.getMetrics() == [METRIC1, METRIC2]
     }
 
-    void testInternalMetricsListIsImmutable() {
+	@Test	void testInternalMetricsListIsImmutable() {
         def metrics = compositeMetricSet.metrics
         shouldFail(UnsupportedOperationException) { metrics.add(123) }
     }
 
+    @Before
     void setUp() {
-        super.setUp()
         compositeMetricSet = new CompositeMetricSet()
     }
 }

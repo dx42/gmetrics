@@ -15,6 +15,8 @@
  */
 package org.gmetrics.metric
 
+import org.junit.Test
+
 /**
  * Abstract superclass for tests common to all method-level Metric classes.
  *
@@ -33,39 +35,39 @@ abstract class AbstractCommonMethodMetricTestCase extends AbstractCommonMetricTe
 
     static doesMetricTreatClosuresAsMethods = true
 
-    void testImplementsMethodMetricInterface() {
+    @Test	void testImplementsMethodMetricInterface() {
         assert metric instanceof MethodMetric
     }
 
-    void testApplyToMethod_EnabledIsFalse_ReturnsNull() {
+    @Test	void testApplyToMethod_EnabledIsFalse_ReturnsNull() {
         metric.enabled = false
         assert applyToMethod(SOURCE) == null
     }
 
-    void testApplyToClosure_EnabledIsFalse_ReturnsNull() {
+    @Test	void testApplyToClosure_EnabledIsFalse_ReturnsNull() {
         metric.enabled = false
         assert applyToClosure(SOURCE) == null
     }
 
-    void testCalculate_Method_SetsLineNumber() {
+    @Test	void testCalculate_Method_SetsLineNumber() {
         final SOURCE = """
             def myMethod() { }
         """
         def metricResult = metric.calculate(findFirstMethod(SOURCE), sourceCode)
-        assertEquals 2, metricResult.lineNumber
+        assert metricResult.lineNumber == 2
     }
 
-    void testCalculate_ClosureField_SetsLineNumber() {
+    @Test	void testCalculate_ClosureField_SetsLineNumber() {
         def metricResult = metric.calculate(findFirstField(SOURCE).initialExpression, sourceCode)
         if (getProperty('doesMetricTreatClosuresAsMethods')) {
-            assertEquals 3, metricResult.lineNumber
+            assert metricResult.lineNumber == 3
         }
         else {
             assert metricResult == null
         }
     }
 
-    void testApplyToClass_IncludeClosureFieldsIsFalse_ReturnsNull() {
+    @Test	void testApplyToClass_IncludeClosureFieldsIsFalse_ReturnsNull() {
         final SOURCE = """
             class MyClass {
                 def myClosure = { }

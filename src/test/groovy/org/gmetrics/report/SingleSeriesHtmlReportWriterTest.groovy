@@ -15,9 +15,12 @@
  */
 package org.gmetrics.report
 
+import java.text.DateFormat
+
 import org.gmetrics.analyzer.AnalysisContext
 import org.gmetrics.util.io.ClassPathResource
-import java.text.DateFormat
+import org.junit.Before
+import org.junit.Test
 
 /**
  * Tests for SingleSeriesHtmlReportWriter
@@ -44,7 +47,7 @@ class SingleSeriesHtmlReportWriterTest extends AbstractReportWriterTestCase {
     private emptyResultsNode = packageResultsNode(path:'test')
     private localizedMessages
 
-    void testWriteReport_SingleClass() {
+    @Test	void testWriteReport_SingleClass() {
         final CONTENTS = STANDARD_CONTENTS + [
                 CLASS_HEADING, 'M1.average',
                 'Class1', 776,
@@ -59,7 +62,7 @@ class SingleSeriesHtmlReportWriterTest extends AbstractReportWriterTestCase {
         assertReportContents(resultsNode, CONTENTS)
     }
 
-    void testWriteReport_Methods() {
+    @Test	void testWriteReport_Methods() {
         final CONTENTS = STANDARD_CONTENTS + [
                 METHOD_HEADING, 'M1.total',
                 'method1', 123,
@@ -79,7 +82,7 @@ class SingleSeriesHtmlReportWriterTest extends AbstractReportWriterTestCase {
         assertReportContents(resultsNode, CONTENTS)
     }
 
-    void testWriteReport_Packages() {
+    @Test	void testWriteReport_Packages() {
         final CONTENTS = STANDARD_CONTENTS + [
                 PACKAGE_HEADING, 'M1.total',
                 'src/test/groovy', 123,
@@ -98,7 +101,7 @@ class SingleSeriesHtmlReportWriterTest extends AbstractReportWriterTestCase {
         assertReportContents(resultsNode, CONTENTS)
     }
 
-    void testWriteReport_MaxResults() {
+    @Test	void testWriteReport_MaxResults() {
         final CONTENTS = STANDARD_CONTENTS + [
                 PACKAGE_HEADING, 'M1.total',
                 'src/test/groovy', 123,
@@ -117,7 +120,7 @@ class SingleSeriesHtmlReportWriterTest extends AbstractReportWriterTestCase {
         assertReportContents(resultsNode, CONTENTS, NOT_EXPECTED_CONTENTS, true)
     }
 
-    void testWriteReport_GreaterThanAndLessThan() {
+    @Test	void testWriteReport_GreaterThanAndLessThan() {
         final CONTENTS = STANDARD_CONTENTS + [
                 PACKAGE_HEADING, 'M1.total',
                 'src/main/groovy', 789,
@@ -135,7 +138,7 @@ class SingleSeriesHtmlReportWriterTest extends AbstractReportWriterTestCase {
         assertReportContents(resultsNode, CONTENTS, NOT_EXPECTED_CONTENTS, true)
     }
 
-    void testWriteReport_CustomizeTitleAndSubtitle() {
+    @Test	void testWriteReport_CustomizeTitleAndSubtitle() {
         final TITLE = 'A Custom Title'
         final SUBTITLE = 'Custom Subtitle'
         final CONTENTS = [
@@ -151,7 +154,7 @@ class SingleSeriesHtmlReportWriterTest extends AbstractReportWriterTestCase {
         assertReportContents(resultsNode, CONTENTS, NOT_EXPECTED_CONTENTS)
     }
 
-    void testWriteReport_FormatsValuesUsingConfiguredFormatter() {
+    @Test	void testWriteReport_FormatsValuesUsingConfiguredFormatter() {
         final CONTENTS = ['65%']
         def resultsNode = packageResultsNode([:],
         [
@@ -164,7 +167,7 @@ class SingleSeriesHtmlReportWriterTest extends AbstractReportWriterTestCase {
         assertReportContents(resultsNode, CONTENTS)
     }
 
-    void testWriteReport_NullOrEmptyLevel_ThrowsException() {
+    @Test	void testWriteReport_NullOrEmptyLevel_ThrowsException() {
         reportWriter.metric = 'Metric1'
         reportWriter.function = 'average'
         shouldFailWithMessageContaining('level') { reportWriter.writeReport(emptyResultsNode, analysisContext) }
@@ -173,7 +176,7 @@ class SingleSeriesHtmlReportWriterTest extends AbstractReportWriterTestCase {
         shouldFailWithMessageContaining('level') { reportWriter.writeReport(emptyResultsNode, analysisContext) }
     }
 
-    void testWriteReport_NullOrEmptyMetric_ThrowsException() {
+    @Test	void testWriteReport_NullOrEmptyMetric_ThrowsException() {
         reportWriter.function = 'average'
         reportWriter.level = 'package'
         shouldFailWithMessageContaining('metric') { reportWriter.writeReport(emptyResultsNode, analysisContext) }
@@ -182,7 +185,7 @@ class SingleSeriesHtmlReportWriterTest extends AbstractReportWriterTestCase {
         shouldFailWithMessageContaining('metric') { reportWriter.writeReport(emptyResultsNode, analysisContext) }
     }
 
-    void testWriteReport_NullOrEmptyFunction_ThrowsException() {
+    @Test	void testWriteReport_NullOrEmptyFunction_ThrowsException() {
         reportWriter.level = 'package'
         reportWriter.metric = 'ABC'
         shouldFailWithMessageContaining('function') { reportWriter.writeReport(emptyResultsNode, analysisContext) }
@@ -195,8 +198,8 @@ class SingleSeriesHtmlReportWriterTest extends AbstractReportWriterTestCase {
     // Setup and Helper Methods
     //------------------------------------------------------------------------------------
 
+    @Before
     void setUp() {
-        super.setUp()
         analysisContext = new AnalysisContext(metricSet:metricSet1)
 
         localizedMessages = [

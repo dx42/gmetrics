@@ -15,11 +15,12 @@
  */
 package org.gmetrics
 
-import org.gmetrics.test.AbstractTestCase
-import org.gmetrics.metricset.MetricSet
-import org.gmetrics.resultsnode.StubResultsNode
 import org.gmetrics.analyzer.SourceAnalyzer
+import org.gmetrics.metricset.MetricSet
 import org.gmetrics.report.ReportWriter
+import org.gmetrics.resultsnode.StubResultsNode
+import org.gmetrics.test.AbstractTestCase
+import org.junit.Test
 
 /**
  * Tests for GMetricsRunner
@@ -33,23 +34,23 @@ class GMetricsRunnerTest extends AbstractTestCase {
     private static final METRIC_SET = [:] as MetricSet
     private gMetricsRunner = new GMetricsRunner()
 
-    void testExecute_ThrowsExceptionForNullMetricSet() {
+    @Test	void testExecute_ThrowsExceptionForNullMetricSet() {
         shouldFailWithMessageContaining('metricSet') { gMetricsRunner.execute() }
     }
 
-    void testExecute_ThrowExceptionForNullSourceAnalyzer() {
+    @Test	void testExecute_ThrowExceptionForNullSourceAnalyzer() {
         gMetricsRunner.metricSet = METRIC_SET
         shouldFailWithMessageContaining('sourceAnalyzer') { gMetricsRunner.execute() }
     }
 
-    void testExecute_ThrowsExceptionForNullReportWriters() {
+    @Test	void testExecute_ThrowsExceptionForNullReportWriters() {
         gMetricsRunner.metricSet = METRIC_SET
         gMetricsRunner.sourceAnalyzer = [:] as SourceAnalyzer
         gMetricsRunner.reportWriters = null
         shouldFailWithMessageContaining('reportWriters') { gMetricsRunner.execute() }
     }
 
-    void testExecute() {
+    @Test	void testExecute() {
         def analyzedMetricSet
         def sourceAnalyzer = [analyze: { ms -> analyzedMetricSet = ms; return RESULTS_NODE }, getSourceDirectories:{[]}] as SourceAnalyzer
         gMetricsRunner.sourceAnalyzer = sourceAnalyzer

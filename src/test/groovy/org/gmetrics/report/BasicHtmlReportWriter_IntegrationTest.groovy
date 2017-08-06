@@ -15,14 +15,16 @@
  */
 package org.gmetrics.report
 
-import org.gmetrics.test.AbstractTestCase
-import org.gmetrics.metricset.ListMetricSet
-import org.gmetrics.metric.linecount.MethodLineCountMetric
-import org.gmetrics.metric.abc.AbcMetric
-import org.gmetrics.analyzer.AnalysisContext
-import org.gmetrics.ant.AntFileSetSourceAnalyzer
 import org.apache.tools.ant.Project
 import org.apache.tools.ant.types.FileSet
+import org.gmetrics.analyzer.AnalysisContext
+import org.gmetrics.ant.AntFileSetSourceAnalyzer
+import org.gmetrics.metric.abc.AbcMetric
+import org.gmetrics.metric.linecount.MethodLineCountMetric
+import org.gmetrics.metricset.ListMetricSet
+import org.gmetrics.test.AbstractTestCase
+import org.junit.Before
+import org.junit.Test
 
 /**
  * Tests for BasicHtmlReportWriter
@@ -40,14 +42,14 @@ class BasicHtmlReportWriter_IntegrationTest extends AbstractTestCase {
     private metricSet
     private analysisContext
 
-    void test_RunAnalysis_And_GenerateReport() {
+    @Test	void test_RunAnalysis_And_GenerateReport() {
         def resultsNode = sourceAnalyzer.analyze(metricSet)
         log("resultsNode=$resultsNode")
         assertReportContents(resultsNode)
     }
 
+    @Before
     void setUp() {
-        super.setUp()
         def project = new Project(basedir:BASE_DIR)
         def fileSet = new FileSet(project:project, dir:new File(BASE_DIR), includes:GROOVY_FILES)
         sourceAnalyzer = new AntFileSetSourceAnalyzer(project, [fileSet])

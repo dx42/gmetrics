@@ -16,6 +16,7 @@
  package org.gmetrics.formatter
 
 import org.gmetrics.test.AbstractTestCase
+import org.junit.Test
 
 /**
  * Tests for FormatterFactory
@@ -26,19 +27,19 @@ class FormatterFactoryTest extends AbstractTestCase {
 
     private factory = new FormatterFactory()
 
-    void testGetFormatter() {
+    @Test	void testGetFormatter() {
         assert factory.getFormatter('org.gmetrics.formatter.ToStringFormatter') instanceof ToStringFormatter
     }
 
-    void testGetFormatter_Null_ThrowsException() {
+    @Test	void testGetFormatter_Null_ThrowsException() {
         shouldFailWithMessageContaining('formatter') { factory.getFormatter(null) }
     }
 
-    void testGetFormatter_NotAFormatter_ThrowsException() {
+    @Test	void testGetFormatter_NotAFormatter_ThrowsException() {
         shouldFailWithMessageContaining(Formatter.name) { factory.getFormatter('java.lang.Object') }
     }
 
-    void testGetFormatter_NotAClassName_ThrowsClassNotFoundException() {
+    @Test	void testGetFormatter_NotAClassName_ThrowsClassNotFoundException() {
         shouldFail(ClassNotFoundException) { factory.getFormatter('xxx') }
     }
 

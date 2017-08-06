@@ -16,6 +16,7 @@
 package org.gmetrics.util
 
 import org.gmetrics.test.AbstractTestCase
+import org.junit.Test
 
 /**
  * Tests for PathUtil
@@ -25,7 +26,7 @@ import org.gmetrics.test.AbstractTestCase
  */
 class PathUtilTest extends AbstractTestCase {
 
-    void testNormalize() {
+    @Test	void testNormalize() {
         assert PathUtil.normalize(null) == null
         assert PathUtil.normalize('') == ''
         assert PathUtil.normalize('abc') == 'abc'
@@ -35,7 +36,7 @@ class PathUtilTest extends AbstractTestCase {
         assert PathUtil.normalize('/abc\\def/ghi\\') == '/abc/def/ghi/'
     }
 
-    void testGetName() {
+    @Test	void testGetName() {
         assert PathUtil.getName(null) == null
         assert PathUtil.getName('') == ''
         assert PathUtil.getName('abc') == 'abc'
@@ -44,7 +45,7 @@ class PathUtilTest extends AbstractTestCase {
         assert PathUtil.getName('abc\\def\\ghi') == 'ghi'
     }
 
-    void testGetParent() {
+    @Test	void testGetParent() {
         assert PathUtil.getParent(null) == null
         assert PathUtil.getParent('') == null
         assert PathUtil.getParent('abc') == null
@@ -53,7 +54,7 @@ class PathUtilTest extends AbstractTestCase {
         assert PathUtil.getParent('abc\\def\\ghi') == 'abc/def'
     }
 
-    void testToPackageName() {
+    @Test	void testToPackageName() {
         assert PathUtil.toPackageName(null) == null
         assert PathUtil.toPackageName('') == null
         assert PathUtil.toPackageName('abc') == 'abc'

@@ -16,6 +16,7 @@
 package org.gmetrics.metric.linecount
 
 import org.gmetrics.metric.AbstractMetricTestCase
+import org.junit.Test
 
 /**
  * Tests for MethodLinesOfCodeMetric - calculate lines of code for methods
@@ -25,21 +26,21 @@ import org.gmetrics.metric.AbstractMetricTestCase
 class MethodLineCountMetric_MethodTest extends AbstractMetricTestCase {
     static metricClass = MethodLineCountMetric
 
-    void testApplyToMethod() {
+    @Test	void testApplyToMethod() {
         final SOURCE = """
             def myMethod() { }
         """
         assert applyToMethodValue(SOURCE) == 1
     }
 
-    void testCalculate_CorrectSizeForSingleLineMethod() {
+    @Test	void testCalculate_CorrectSizeForSingleLineMethod() {
         final SOURCE = """
             def myMethod() { }
         """
         assert calculateForMethod(SOURCE) == 1
     }
 
-    void testCalculate_CorrectSizeForMultiLineMethod() {
+    @Test	void testCalculate_CorrectSizeForMultiLineMethod() {
         final SOURCE = """
             def myMethod() {
                 println "started"
@@ -51,7 +52,7 @@ class MethodLineCountMetric_MethodTest extends AbstractMetricTestCase {
         assert calculateForMethod(SOURCE) == 6
     }
 
-    void testCalculate_ReturnsNullForAbstractMethodDeclaration() {
+    @Test	void testCalculate_ReturnsNullForAbstractMethodDeclaration() {
         final SOURCE = """
             abstract class MyClass {
                 abstract void doSomething()
@@ -60,7 +61,7 @@ class MethodLineCountMetric_MethodTest extends AbstractMetricTestCase {
         assertCalculateForMethodReturnsNull(SOURCE)
     }
 
-    void testCalculate_ReturnsNullForSyntheticMethod() {
+    @Test	void testCalculate_ReturnsNullForSyntheticMethod() {
         final SOURCE = """
             println 123
         """
@@ -68,7 +69,7 @@ class MethodLineCountMetric_MethodTest extends AbstractMetricTestCase {
         assert metric.calculate(methodNode, sourceCode) == null
     }
 
-    void testCalculate_CountsForConstructor() {
+    @Test	void testCalculate_CountsForConstructor() {
         final SOURCE = """
             class MyClass {
                 MyClass() {
