@@ -15,11 +15,11 @@
  */
 package org.gmetrics
 
-import org.gmetrics.resultsnode.ResultsNode
-import org.gmetrics.analyzer.SourceAnalyzer
-import org.apache.log4j.Logger
-import org.gmetrics.metricset.MetricSet
 import org.gmetrics.analyzer.AnalysisContext
+import org.gmetrics.analyzer.SourceAnalyzer
+import org.gmetrics.metricset.MetricSet
+import org.gmetrics.resultsnode.ResultsNode
+import org.slf4j.LoggerFactory
 
 /**
  * Helper class to run GMetrics.
@@ -37,7 +37,7 @@ import org.gmetrics.analyzer.AnalysisContext
  * @version $Revision$ - $Date$
  */
 class GMetricsRunner {
-    private static final LOG = Logger.getLogger(GMetricsRunner)
+    private static final LOG = LoggerFactory.getLogger(GMetricsRunner)
 
     MetricSet metricSet
     SourceAnalyzer sourceAnalyzer

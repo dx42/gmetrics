@@ -15,9 +15,9 @@
  */
 package org.gmetrics.metricset
 
-import org.gmetrics.util.io.ResourceFactory
 import org.gmetrics.util.io.DefaultResourceFactory
-import org.apache.log4j.Logger
+import org.gmetrics.util.io.ResourceFactory
+import org.slf4j.LoggerFactory
 
 /**
  * A <code>MetricSet</code> implementation that parses a Groovy DSL of Metric definitions.
@@ -28,7 +28,7 @@ import org.apache.log4j.Logger
  * @version $Revision$ - $Date$
  */
 class GroovyDslMetricSet implements MetricSet {
-    private static final LOG = Logger.getLogger(GroovyDslMetricSet)
+    private static final LOG = LoggerFactory.getLogger(GroovyDslMetricSet)
     private ResourceFactory resourceFactory = new DefaultResourceFactory()
     private metrics
 

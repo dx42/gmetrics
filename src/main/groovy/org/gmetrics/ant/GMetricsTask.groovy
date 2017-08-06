@@ -15,15 +15,15 @@
  */
 package org.gmetrics.ant
 
-import org.apache.tools.ant.Task
-import org.apache.log4j.Logger
-import org.gmetrics.metricset.MetricSet
 import org.apache.tools.ant.BuildException
+import org.apache.tools.ant.Task
 import org.apache.tools.ant.types.FileSet
-import org.gmetrics.metricset.DefaultMetricSet
 import org.gmetrics.GMetricsRunner
 import org.gmetrics.analyzer.SourceAnalyzer
+import org.gmetrics.metricset.DefaultMetricSet
 import org.gmetrics.metricset.GroovyDslMetricSet
+import org.gmetrics.metricset.MetricSet
+import org.slf4j.LoggerFactory
 
 /**
  * Ant Task for GMetrics.
@@ -52,7 +52,7 @@ import org.gmetrics.metricset.GroovyDslMetricSet
  * @version $Revision$ - $Date$
  */
 class GMetricsTask extends Task {
-    private static final LOG = Logger.getLogger(GMetricsTask)
+    private static final LOG = LoggerFactory.getLogger(GMetricsTask)
 
     String metricSetFile
 

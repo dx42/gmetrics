@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'org.gmetrics'
-version = '0.9'
+version = '1.0-alpha'
 
 description = 'GMetrics'
 
@@ -16,19 +16,23 @@ tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
 
-
 repositories {
     maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
     maven { url "http://repo.maven.apache.org/maven2" }
 }
 
 dependencies {
-	def groovyVersion = "2.3.3"
+	def groovyVersion = "2.4.12"
+	def slf4jVersion = "1.7.25"
+	
 	compile "org.codehaus.groovy:groovy-all:$groovyVersion"
 	compile "org.codehaus.groovy:groovy-ant:$groovyVersion"
-    compile 'log4j:log4j:1.2.17'
+    compile "org.slf4j:slf4j-api:$slf4jVersion"
 
     testCompile 'junit:junit:4.12'
+    testCompile "org.slf4j:slf4j-simple:$slf4jVersion"
     testCompile group:'org.codenarc', name:'CodeNarc', version:'0.27.0', transitive:false
-    testRuntime 'org.slf4j:slf4j-api:1.7.25'
+	
+	// TODO Remove once CodeNarc removes Log4J dependency
+    // testCompile 'log4j:log4j:1.2.17'
 }

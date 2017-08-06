@@ -15,11 +15,12 @@
  */
 package org.codehaus.groovy.ast.expr;
 
-import org.apache.log4j.Logger;
+import java.lang.reflect.Method;
+
 import org.codehaus.groovy.ast.ClassHelper;
 import org.codehaus.groovy.ast.GroovyCodeVisitor;
-
-import java.lang.reflect.Method;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Represents a regular expression of the form ~<double quoted string> which creates
@@ -30,7 +31,7 @@ import java.lang.reflect.Method;
 @Deprecated
 public class RegexExpression extends Expression {
     
-    private static final Logger LOG = Logger.getLogger(RegexExpression.class);
+    private static final Logger LOG = LoggerFactory.getLogger(RegexExpression.class);
 
     private final Expression string;
     

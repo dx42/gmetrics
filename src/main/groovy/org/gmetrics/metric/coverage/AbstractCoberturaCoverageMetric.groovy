@@ -15,21 +15,22 @@
  */
  package org.gmetrics.metric.coverage
 
-import org.gmetrics.metric.AbstractMetric
-import org.gmetrics.metric.MetricLevel
-import groovy.util.slurpersupport.GPathResult
-import org.apache.log4j.Logger
-import org.codehaus.groovy.ast.MethodNode
-import org.gmetrics.result.SingleNumberMetricResult
-import org.gmetrics.result.MetricResult
 import org.codehaus.groovy.ast.ClassNode
-import org.gmetrics.result.MethodKey
-import org.gmetrics.result.ClassMetricResult
-import org.gmetrics.source.SourceCode
-import org.gmetrics.result.MetricResultBuilder
-import org.gmetrics.util.AstUtil
-import org.gmetrics.metric.MethodMetric
+import org.codehaus.groovy.ast.MethodNode
 import org.codehaus.groovy.ast.expr.ClosureExpression
+import org.gmetrics.metric.AbstractMetric
+import org.gmetrics.metric.MethodMetric
+import org.gmetrics.metric.MetricLevel
+import org.gmetrics.result.ClassMetricResult
+import org.gmetrics.result.MethodKey
+import org.gmetrics.result.MetricResult
+import org.gmetrics.result.MetricResultBuilder
+import org.gmetrics.result.SingleNumberMetricResult
+import org.gmetrics.source.SourceCode
+import org.gmetrics.util.AstUtil
+import org.slf4j.LoggerFactory
+
+import groovy.util.slurpersupport.GPathResult
 
 /**
  * Abstract superclass for metrics that provide test code coverage from a Cobertura XML file.
@@ -41,9 +42,9 @@ abstract class AbstractCoberturaCoverageMetric extends AbstractMetric implements
     protected static final int SCALE = 2
     protected static final int ROUNDING_MODE = BigDecimal.ROUND_HALF_UP
 
-    @SuppressWarnings('LoggerWithWrongModifiers')
-    protected static final LOG = Logger.getLogger(AbstractCoberturaCoverageMetric)
-
+//    @SuppressWarnings('LoggerWithWrongModifiers')
+    protected static final LOG = LoggerFactory.getLogger(AbstractCoberturaCoverageMetric)
+	
     final MetricLevel baseLevel = MetricLevel.METHOD
     String coberturaFile
 

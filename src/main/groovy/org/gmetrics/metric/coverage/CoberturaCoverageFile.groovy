@@ -15,10 +15,11 @@
  */
  package org.gmetrics.metric.coverage
 
-import groovy.util.slurpersupport.GPathResult
-import org.gmetrics.util.io.ResourceFactory
 import org.gmetrics.util.io.DefaultResourceFactory
-import org.apache.log4j.Logger
+import org.gmetrics.util.io.ResourceFactory
+import org.slf4j.LoggerFactory
+
+import groovy.util.slurpersupport.GPathResult
 
 /**
  * Parses and provides access to a Cobertura "coverage.xml"
@@ -27,7 +28,7 @@ import org.apache.log4j.Logger
  */
 class CoberturaCoverageFile {
 
-    private static final LOG = Logger.getLogger(CoberturaCoverageFile)
+    private static final LOG = LoggerFactory.getLogger(CoberturaCoverageFile)
     private static final int SCALE = 2
     private static final int ROUNDING_MODE = BigDecimal.ROUND_HALF_UP
 

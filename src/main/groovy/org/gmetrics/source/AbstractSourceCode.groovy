@@ -16,11 +16,11 @@
 package org.gmetrics.source
 
 import org.codehaus.groovy.ast.ModuleNode
+import org.codehaus.groovy.control.CompilationFailedException
 import org.codehaus.groovy.control.CompilationUnit
 import org.codehaus.groovy.control.Phases
 import org.codehaus.groovy.control.SourceUnit
-import org.codehaus.groovy.control.CompilationFailedException
-import org.apache.log4j.Logger
+import org.slf4j.LoggerFactory
 
 /**
  * Abstract superclass for SourceCode implementations
@@ -29,7 +29,7 @@ import org.apache.log4j.Logger
  * @version $Revision$ - $Date$
  */
 abstract class AbstractSourceCode implements SourceCode {
-    static final LOG = Logger.getLogger(AbstractSourceCode)
+    static final LOG = LoggerFactory.getLogger(AbstractSourceCode)
     static final FILE_SEPARATOR = System.getProperty("file.separator")
     private ModuleNode ast
     private List lines

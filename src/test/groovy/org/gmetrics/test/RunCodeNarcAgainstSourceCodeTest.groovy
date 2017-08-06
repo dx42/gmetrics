@@ -28,7 +28,7 @@ class RunCodeNarcAgainstSourceCodeTest extends org.gmetrics.test.AbstractTestCas
 
     void testNOTHING() { }
 
-    // TODO Re-enable once CodeNarc is upgraded to support Groovy 2.1
+    // TODO Re-enable once CodeNarc is upgraded to remove Log4J dependency
     void IGNORE_testRunCodeNarc() {
         def ant = new AntBuilder()
 

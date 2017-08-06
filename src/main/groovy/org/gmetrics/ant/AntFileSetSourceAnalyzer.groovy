@@ -15,18 +15,18 @@
  */
 package org.gmetrics.ant
 
-import org.gmetrics.analyzer.SourceAnalyzer
-import org.gmetrics.metricset.MetricSet
 import org.apache.tools.ant.Project
-import org.gmetrics.resultsnode.ResultsNode
-import org.gmetrics.resultsnode.PackageResultsNode
-import org.apache.log4j.Logger
-import org.gmetrics.source.SourceFile
-import org.gmetrics.resultsnode.ClassResultsNode
 import org.codehaus.groovy.ast.ClassNode
-import org.gmetrics.source.SourceCode
-import org.gmetrics.util.PathUtil
+import org.gmetrics.analyzer.SourceAnalyzer
 import org.gmetrics.metric.PostProcessingMetric
+import org.gmetrics.metricset.MetricSet
+import org.gmetrics.resultsnode.ClassResultsNode
+import org.gmetrics.resultsnode.PackageResultsNode
+import org.gmetrics.resultsnode.ResultsNode
+import org.gmetrics.source.SourceCode
+import org.gmetrics.source.SourceFile
+import org.gmetrics.util.PathUtil
+import org.slf4j.LoggerFactory
 
 /**
  * SourceAnalyzer implementation that gets source files from one or more Ant FileSets.
@@ -36,7 +36,7 @@ import org.gmetrics.metric.PostProcessingMetric
  */
 class AntFileSetSourceAnalyzer implements SourceAnalyzer {
 
-    private static final LOG = Logger.getLogger(AntFileSetSourceAnalyzer)
+    private static final LOG = LoggerFactory.getLogger(AntFileSetSourceAnalyzer)
 
     private Project project
     protected List fileSets = []

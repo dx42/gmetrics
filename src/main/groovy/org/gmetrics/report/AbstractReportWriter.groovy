@@ -15,13 +15,13 @@
  */
 package org.gmetrics.report
 
-import org.apache.log4j.Logger
-import org.gmetrics.resultsnode.ResultsNode
 import org.gmetrics.analyzer.AnalysisContext
-import org.gmetrics.metric.Metric
-import org.gmetrics.formatter.FormatterFactory
 import org.gmetrics.formatter.Formatter
+import org.gmetrics.formatter.FormatterFactory
+import org.gmetrics.metric.Metric
 import org.gmetrics.metricset.MetricSet
+import org.gmetrics.resultsnode.ResultsNode
+import org.slf4j.LoggerFactory
 
 /**
  * Abstract superclass for ReportWriter implementation classes.
@@ -41,7 +41,7 @@ abstract class AbstractReportWriter implements ReportWriter {
     Object writeToStandardOut
 
     @SuppressWarnings(['LoggerWithWrongModifiers', 'FieldName'])
-    protected final LOG = Logger.getLogger(getClass())
+    protected final LOG = LoggerFactory.getLogger(getClass())
 
     protected customMessagesBundleName = CUSTOM_MESSAGES_BUNDLE
     protected resourceBundle

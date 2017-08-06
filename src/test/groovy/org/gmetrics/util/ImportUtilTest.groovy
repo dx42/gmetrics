@@ -15,7 +15,7 @@
  */
  package org.gmetrics.util
 
-import org.codenarc.source.SourceString
+import org.gmetrics.source.SourceString
 import org.gmetrics.test.AbstractTestCase
 
 /**
