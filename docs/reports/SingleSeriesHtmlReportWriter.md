@@ -6,7 +6,7 @@
 
   The *metric*, *level* and *function* properties are required (must be non-null and non-empty). These three properties uniquely identify a single series of metric values.
 
-  See a {{{./SampleGMetricsSingleSeriesReport.html}Sample Report}}.
+  See a [Sample Report](./SampleGMetricsSingleSeriesReport.html).
 
 ## Option Nested Elements
 
