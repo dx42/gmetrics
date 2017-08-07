@@ -10,7 +10,7 @@
 
 The *option* element is a child of the *report* element and defines a report-specific option for a report.
 
-  `org.gmetrics.report.BasicHtmlReportWriter` supports the following options:
+  `org.gmetrics.report.XmlReportWriter` supports the following options:
 
 | **Attribute**        | **Description**                                                | **Required**           
 |----------------------|----------------------------------------------------------------|------------------------

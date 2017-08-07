@@ -2,7 +2,7 @@
 
 ## Running GMetrics
 
-  You can run **GMetrics** using the supplied [Ant Task](./gmetrics-ant-task.html).
+  You can run **GMetrics** using the supplied [Ant Task](./AntTask).
 
 ## Metrics
 
@@ -21,12 +21,11 @@
 
 ## Reports
   **GMetrics** provides the following reports:
-  * [BasicHtmlReportWriter](./reports/BasicHtmlReportWriter) -- [Sample HTML Report](./reports/SampleGMetricsReport.html)
-  * [SingleSeriesHtmlReportWriter](./reports/SingleSeriesHtmlReportWriter) -- [Sample Single Series HTML Report](./reports/SampleGMetricsSingleSeriesReport.html)
-  * [XmlReportWriter](./reports/XmlReportWriter) -- [Sample XML Report](./reports/SampleGMetricsXmlReport.html)
+  * [BasicHtmlReportWriter](./reports/BasicHtmlReportWriter) ([Sample HTML Report](./reports/SampleGMetricsReport.html))
+  * [SingleSeriesHtmlReportWriter](./reports/SingleSeriesHtmlReportWriter) ([Sample Single Series HTML Report](./reports/SampleGMetricsSingleSeriesReport.html))
+  * [XmlReportWriter](./reports/XmlReportWriter) ([Sample XML Report](./reports/SampleGMetricsXmlReport.html))
   
-### Use XSLT to Generate a Custom HTML Report
-  [MrHaki](http://www.mrhaki.com/) has written a detailed blog post describing [How to Create a GMetrics Report with XSLT](http://mrhaki.blogspot.com/2011/01/groovy-goodness-create-gmetrics-report.html).
+  Or you can use XSLT to generate a custom HTML report. [MrHaki](http://www.mrhaki.com/) has written a detailed blog post describing [How to Create a GMetrics Report with XSLT](http://mrhaki.blogspot.com/2011/01/groovy-goodness-create-gmetrics-report.html).
 
 
 ## Requirements
