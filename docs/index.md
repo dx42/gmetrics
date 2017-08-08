@@ -1,8 +1,10 @@
 # GMetrics
 
-## Running GMetrics
+## Running and Configuring GMetrics
 
   You can run **GMetrics** using the supplied [Ant Task](./AntTask).
+  
+  [Create a MetricSet](./CreatingMetricSet).
 
 ## Metrics
 
