@@ -4,6 +4,14 @@
 
   The **GMetrics** Ant Task is implemented by the `org.gmetrics.ant.GMetricsTask` class.
 
+## The Default MetricSet
+
+  If no *MetricSet* is configured for the **GMetrics Ant Task, then it uses these default *Metrics*:
+  * [Cyclomatic Complexity](./metrics/CyclomaticComplexityMetric)
+  * [Method Line Count](./metrics/MethodLineCountMetric)
+  * [Class Line Count](./metrics/ClassLineCountMetric)
+
+
 ## Attributes
 
 | **Attribute**   | **Description**                                                | **Required**           

@@ -2,9 +2,7 @@
 
 ## Running and Configuring GMetrics
 
-  You can run **GMetrics** using the supplied [Ant Task](./AntTask).
-  
-  [Create a MetricSet](./CreatingMetricSet).
+  You can run **GMetrics** using the supplied [Ant Task](./AntTask). Define the metrics to calculate by [Creating a MetricSet](./CreatingMetricSet).
 
 ## Metrics
 
@@ -15,10 +13,10 @@
   * [CRAP](./metrics/CrapMetric) - (Change Risk Anti-Patterns) score
   * [Afferent Coupling](./metrics/AfferentCouplingMetric)
   * [Efferent Coupling](./metrics/EfferentCouplingMetric)
-  * [Lines per method](./metrics/MethodLineCountMetric)
-  * [Lines per class](./metrics/ClassLineCountMetric)
-  * [Number of classes per package](./metrics/ClassCountMetric)
-  * [Number of field per class](./metrics/FieldCountMetric)
+  * [Method Line Count](./metrics/MethodLineCountMetric) - Lines per method
+  * [Class Line Count](./metrics/ClassLineCountMetric) - Lines per class
+  * [Class Count](./metrics/ClassCountMetric) - Number of classes per package
+  * [Field Count](./metrics/FieldCountMetric) - Number of field per class
 
 
 ## Reports

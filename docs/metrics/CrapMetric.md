@@ -40,7 +40,6 @@
   final COBERTURA_FILE = 'coverage/GMetrics/coverage.xml'
 
   metricset {
-
       def coberturaMetric = CoberturaLineCoverage {
           coberturaFile = COBERTURA_FILE
           functions = ['total']
@@ -57,7 +56,7 @@
 
   The **CRAP** metric is a special *composite* metric -- it uses other metrics to calculate complexity
   and code coverage. In the example above, the **CoberturaLineCoverage** metric is also included within
-  the *MetricSet* being defined. Alternatively, if you define the **CoberturaLineCoverage** metric <within>
+  the *MetricSet* being defined. Alternatively, if you define the **CoberturaLineCoverage** metric *within*
   the **CRAP** metric definition, then the **CoberturaLineCoverage** metric is not included within the
   *MetricSet*, as in the example below.
 
@@ -65,7 +64,6 @@
   final COBERTURA_FILE = 'coverage/GMetrics/coverage.xml'
 
   metricset {
-
       CRAP {
           // CoberturaLineCoverage is not included in the MetricSet
           coverageMetric = CoberturaLineCoverage {
