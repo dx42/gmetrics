@@ -12,25 +12,17 @@
  just like a method.
 
  * Start with a initial (default) value of one (1). Add one (1) for each occurrence of each of the following:
-
    * `if` statement
-
    * `while` statement
-
    * `for` statement
-
    * `case` statement
-
    * `catch` statement
-
    * `&&` and `||` boolean operations
-
    * `?:` ternary operator and `?:` *Elvis* operator.
-
    * `?.` null-check operator
 
 
-## Guidelines for Interpreting Cyclomatic Complexity Values
+## Interpreting Cyclomatic Complexity Values
 
   The value of **10** is often considered as the threshold between *acceptable* (low risk) code
   and *too complex* (higher risk). See **[1]** and **[2]**, for instance. As McCabe ([1]) says,
@@ -39,17 +31,15 @@
 
   Other sources cite **15** as a useful threshold, and/or draw further delineations between
   low/medium/high/unacceptable complexity values. **NDepend** ([4]), for instance, recommends that
-  methods with a score of *"15 are hard to understand and maintain. Methods where CC is higher than
-  30 are extremely complex and should be split."* On the other hand, [5] categorizes cyclomatic
-  complexity scores into the following levels: 
-
+  methods with a score of 
+  > "15 are hard to understand and maintain. Methods where CC is higher than
+  > 30 are extremely complex and should be split."
+  
+  On the other hand, [5] categorizes cyclomatic complexity scores into the following levels: 
   * 1-10 = Low risk program
-
   * 11-20 = Moderate risk
-
   * 21-50 = High risk
-
-  * >50 = Most complex and highly unstable method
+  * \>50 = Most complex and highly unstable method
 
 
 ## Metric Properties
