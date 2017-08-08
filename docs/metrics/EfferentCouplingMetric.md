@@ -15,11 +15,12 @@
 |----------------------|--------------------------------------------------------------------|------------------------|
 | *enabled*            | This `boolean` property controls whether the metric is *enabled*. If set to `false`, then the metric is not included as part of the results or the output reports. | `true`                
 | *functions*          | This `List<String>` property contains the names of the functions to be calculated at the *method*, *class* and *package* levels and (potentially) included within the report(s). Valid values are: "value" - the value for the current package; "total" - the total value for the current package and its descendant packages; "average" - the average value for the current package and its descendant packages; "referencedFromPackages" - the list of packages that reference classes within the current package. | `["value","average"]`  
-| *ignorePackageNames* | The names of packages to ignore when calculating afferent coupling. This pattern string may contain wildcard characters ('*' or '?'); it may also contain more than one pattern, separated by commas. | *null*
+| *ignorePackageNames* | The names of packages to ignore when calculating afferent coupling. 
+						This pattern string may contain wildcard characters ('*' or '?'); it may also contain more than one pattern, 
+						separated by commas. | *null*
 
 
-* References
-~~~~~~~~~~~~
+## References
 
  * **[1]** The [The *Wikipedia* page for *Software package metrics*](http://en.wikipedia.org/wiki/Software_package_metrics).
 

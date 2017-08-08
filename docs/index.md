@@ -4,10 +4,12 @@
 
 ## Running and Configuring GMetrics
 
-  You can run **GMetrics** using the supplied [Ant Task](./AntTask). Define the metrics to calculate by [Creating a MetricSet](./CreatingMetricSet).
+  You can run **GMetrics** using the supplied [Ant Task](./AntTask). 
+  
+  Define the metrics to calculate by [Creating a MetricSet](./CreatingMetricSet).
   
   There is also a [Grails GMetrics Plugin](http://www.grails.org/plugin/gmetrics) and a [Griffon GMetrics Plugin](http://docs.codehaus.org/display/GRIFFON/Gmetrics+Plugin).
-  And the [Sonar Groovy Plugin(http://docs.codehaus.org/display/SONAR/Groovy+Plugin) uses **GMetrics** for its calculation of *Cyclomatic Complexity* for Groovy source code.
+  And the [Sonar Groovy Plugin](http://docs.codehaus.org/display/SONAR/Groovy+Plugin) uses **GMetrics** for its calculation of *Cyclomatic Complexity* for Groovy source code.
   
 
 ## Metrics
