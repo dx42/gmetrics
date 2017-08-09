@@ -7,7 +7,7 @@
 
 ## Metric Properties
 
-  The following properties can be configured for this metric within a *MetricSet*. See [Creating a MetricSet](./gmetrics-creating-metricset.html) for information on the syntax of setting a metric property.
+  The following properties can be configured for this metric within a *MetricSet*. See [Creating a MetricSet](../CreatingMetricSet) for information on the syntax of setting a metric property.
 
 | **Property**      | **Description**                                                    | **Default Value**      |
 |-------------------|--------------------------------------------------------------------|------------------------|

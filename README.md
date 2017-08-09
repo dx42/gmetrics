@@ -1,11 +1,11 @@
 # GMetrics 
 
-The **GMetrics** project provides calculation and reporting of size and complexity metrics for
+The **GMetrics** project provides calculation and reporting of size and complexity metrics for 
 Groovy source code. GMetrics scans Groovy source code, applying a set of metrics, and
 generates an HTML report of the results.
 
 ## Web Site
-<http://gmetrics.sourceforge.net/>
+<https://dx42.github.io/gmetrics/>
 
 ## Code
 

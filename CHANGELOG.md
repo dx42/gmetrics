@@ -10,7 +10,8 @@ FIXES AND ENHANCEMENTS
 
 INFRASTRUCTURE AND TESTS
 - #1: Migrate (import) GMetrics project from Sourceforge.
-- #2: Convert GMetrics project from Maven to Gradle. 
+- #2: Convert GMetrics project from Maven to Gradle.
+- #5: Migrate GMetrics website from Sourceforge to GitHub Pages. 
 
 
 Version 0.7 (Jan 2015)
