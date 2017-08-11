@@ -71,6 +71,16 @@ abstract class AbstractMethodMetric extends AbstractMetric implements MethodMetr
         return new ClassMetricResult(aggregateMetricResults, childMetricResults)
     }
 
+    protected int lineNumberForMethod(MethodNode methodNode) {
+        int lineNumber = methodNode.lineNumber
+        if (methodNode.annotations) {
+            // If the method is annotated, use the line number of the first line of the code block.
+            // This is often, but not necessarily always, correct.
+            lineNumber = methodNode.code.lineNumber
+        }
+        return lineNumber
+    }
+
     private void addClosureFieldsToMetricResults(SourceCode sourceCode, ClassNode classNode, Map childMetricResults) {
         if (!includeClosureFields) {
             return

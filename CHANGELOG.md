@@ -7,6 +7,7 @@ BREAKING CHANGES
 
 FIXES AND ENHANCEMENTS
 - #3: Create missing directories for report output files
+- #6: Fix Method metrics with wrong line number for annotated method. 
 
 INFRASTRUCTURE AND TESTS
 - #1: Migrate (import) GMetrics project from Sourceforge.

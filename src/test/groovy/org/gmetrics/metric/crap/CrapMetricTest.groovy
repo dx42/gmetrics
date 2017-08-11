@@ -120,6 +120,33 @@ class CrapMetricTest extends AbstractMetricTestCase {
         assert calculateForConstructor(SOURCE) == DEFAULT_CRAP
     }
 
+    @Test
+    void testCalculate_CorrectLineNumberForAnnotatedMethod_NextLine() {
+        final SOURCE = """
+            @SomeAnnotation
+            def myMethod() { }
+        """
+        assert metricLineNumber(findFirstMethod(SOURCE)) == 3
+    }
+
+    @Test
+    void testCalculate_CorrectLineNumberForAnnotatedMethod_SameLine() {
+        final SOURCE = """
+            @SomeAnnotation def myMethod() { }
+        """
+        assert metricLineNumber(findFirstMethod(SOURCE)) == 2
+    }
+
+    @Test
+    void testCalculate_CorrectLineNumberForAnnotatedMethod_CommentInBetween() {
+        final SOURCE = """
+            @SomeAnnotation
+            // comment
+            def myMethod() { }
+        """
+        assert metricLineNumber(findFirstMethod(SOURCE)) == 4
+    }
+    
     // Tests for applyToClass()
 
     @Test	void testApplyToClass_OnlyClosureFields_ReturnsNull() {

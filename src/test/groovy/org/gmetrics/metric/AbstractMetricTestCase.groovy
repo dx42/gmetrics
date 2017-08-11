@@ -76,6 +76,12 @@ abstract class AbstractMetricTestCase extends AbstractTestCase {
         return valueFromMetricResult(metricResult)
     }
 
+    protected Integer metricLineNumber(node) {
+        def metricResult = metric.calculate(node, sourceCode)
+        log("metricResult=$metricResult")
+        return metricResult.getLineNumber()
+    }
+
     protected valueFromMetricResult(MetricResult metricResult) {
         return metricResult['total']
     }

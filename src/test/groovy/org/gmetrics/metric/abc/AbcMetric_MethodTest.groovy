@@ -301,6 +301,33 @@ class AbcMetric_MethodTest extends AbstractAbcMetricTest {
         assertCalculateForConstructor(SOURCE, [2, 1, 2])
     }
 
+    @Test
+    void testCalculate_CorrectLineNumberForAnnotatedMethod_NextLine() {
+        final SOURCE = """
+            @SomeAnnotation
+            def myMethod() { }
+        """
+        assert metricLineNumber(findFirstMethod(SOURCE)) == 3
+    }
+
+    @Test
+    void testCalculate_CorrectLineNumberForAnnotatedMethod_SameLine() {
+        final SOURCE = """
+            @SomeAnnotation def myMethod() { }
+        """
+        assert metricLineNumber(findFirstMethod(SOURCE)) == 2
+    }
+
+    @Test
+    void testCalculate_CorrectLineNumberForAnnotatedMethod_CommentInBetween() {
+        final SOURCE = """
+            @SomeAnnotation
+            // comment
+            def myMethod() { }
+        """
+        assert metricLineNumber(findFirstMethod(SOURCE)) == 4
+    }
+
     private void assertCalculateForMethod(String source, List expectedValues) {
         def result = calculateForMethod(source)
         AbcTestUtil.assertEquals(result, expectedValues)

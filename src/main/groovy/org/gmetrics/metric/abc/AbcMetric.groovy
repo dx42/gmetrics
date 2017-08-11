@@ -65,7 +65,7 @@ class AbcMetric extends AbstractMethodMetric {
         visitor.visitMethod(methodNode)
         if (visitor.visited) {
             def abcVector = new AbcVector(visitor.numberOfAssignments, visitor.numberOfBranches, visitor.numberOfConditions)
-            return new AbcMetricResult(this, MetricLevel.METHOD, abcVector, methodNode.lineNumber)
+            return new AbcMetricResult(this, MetricLevel.METHOD, abcVector, lineNumberForMethod(methodNode))
         }
         return null
     }
