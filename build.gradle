@@ -1,11 +1,12 @@
 plugins {
     id 'groovy'
     id 'maven'
+    id 'signing'
     id 'net.saliman.cobertura' version '2.5.0'
 }
 
 group = 'org.gmetrics'
-version = '1.0-alpha'
+version = '1.0'
 
 description = 'GMetrics'
 
@@ -34,3 +35,80 @@ dependencies {
     // TODO Remove once CodeNarc removes Log4J dependency
     testCompile "org.slf4j:log4j-over-slf4j:$slf4jVersion"
 }
+
+
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives javadocJar, sourcesJar
+}
+
+signing {
+    sign configurations.archives
+}
+
+javadoc {
+    if (JavaVersion.current().java8Compatible) {
+        options.addStringOption('Xdoclint:none', '-quiet')
+    }
+}
+
+// Publish to Sonatype (OSSRH) Maven Repository
+// See http://central.sonatype.org/pages/gradle.html
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            pom.project {
+                name 'GMetrics'
+                packaging 'jar'
+                // optionally artifactId can be defined here
+                description 'The GMetrics project provides calculation and reporting of size and complexity metrics for Groovy source code.'
+                url 'http://codenarc.org'
+
+                scm {
+                    connection 'scm:git:git@github.com:dx42/gmetrics.git'
+                    developerConnection 'scm:git:git@github.com:dx42/gmetrics.git'
+                    url 'scm:git:git@github.com:dx42/gmetrics.git'
+                }
+
+                licenses {
+                    license {
+                        name 'The Apache License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'chrismair'
+                        name 'Chris Mair'
+                        email 'chrismair@users.sourceforge.net'
+                    }
+                }
+            }
+        }
+    }
+}
+
+//release {
+//    tagPrefix = project.name
+//    requireBranch = '' // disabled
+//}
