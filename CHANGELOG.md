@@ -1,6 +1,6 @@
 # GMetrics Change Log
 
-TBD: Version 1.0 (Aug 2017)
+Version 1.0 (Aug 2017)
 -------------------------------------------------------------------------------------------
 BREAKING CHANGES
 - #4: Switch from Log4J 1.x to SLF4J.
