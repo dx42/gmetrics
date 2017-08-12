@@ -11,6 +11,15 @@ generates an HTML report of the results.
 
 <https://github.com/dx42/gmetrics>
 
+## Maven Central
+
+ * groupId = org.gmetrics
+ * artifactId = GMetrics
+
+## Downloads
+
+<https://github.com/dx42/gmetrics/releases>
+
 ## Dependencies
 
 **GMetrics** requires:
