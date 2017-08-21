@@ -44,3 +44,6 @@ local.properties
 .classpath
 
 # End of https://www.gitignore.io/api/eclipse
+
+.idea/
+*.iml
