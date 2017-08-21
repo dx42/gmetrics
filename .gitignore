@@ -15,3 +15,32 @@
 /build/
 /.gradle/
 /testreports/
+
+
+# Created by https://www.gitignore.io/api/eclipse
+
+### Eclipse ###
+
+.metadata
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
+.recommenders
+
+# Code Recommenders
+.recommenders/
+
+### Eclipse Patch ###
+# Eclipse Core
+.project
+
+# JDT-specific (Eclipse Java Development Tools)
+.classpath
+
+# End of https://www.gitignore.io/api/eclipse
