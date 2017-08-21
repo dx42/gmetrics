@@ -15,9 +15,10 @@
  */
 package org.gmetrics.metricset
 
-import org.gmetrics.metric.linecount.MethodLineCountMetric
-import org.gmetrics.metric.linecount.ClassLineCountMetric
+import org.gmetrics.metric.Metric
 import org.gmetrics.metric.cyclomatic.CyclomaticComplexityMetric
+import org.gmetrics.metric.linecount.ClassLineCountMetric
+import org.gmetrics.metric.linecount.MethodLineCountMetric
 
 /**
  * A <code>MetricSet</code> implementation that returns the default static List of Metrics.
@@ -29,7 +30,8 @@ class DefaultMetricSet implements MetricSet {
 
     private metricSet = new ListMetricSet([new CyclomaticComplexityMetric(), new ClassLineCountMetric(), new MethodLineCountMetric()])
 
-    List getMetrics() {
+    @Override
+    List<? extends Metric> getMetrics() {
         return metricSet.getMetrics()
     }
 }

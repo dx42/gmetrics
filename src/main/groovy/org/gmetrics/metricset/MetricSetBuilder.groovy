@@ -66,20 +66,20 @@ class TopLevelDelegate {
         allMetricSet.addMetricSet(metricSetConfigurer.metricSet)
     }
 
-    Metric metric(Class metricClass) {
+    Metric metric(Class<? extends Metric> metricClass) {
         assertClassImplementsMetricInterface(metricClass)
         Metric metric = metricClass.newInstance()
         return addMetric(metric)
     }
 
-    Metric metric(Class metricClass, Map properties) {
+    Metric metric(Class<? extends Metric> metricClass, Map properties) {
         assertClassImplementsMetricInterface(metricClass)
         Metric metric = metricClass.newInstance()
         properties.each { key, value -> metric[key] = value }
         return addMetric(metric)
     }
 
-    Metric metric(Class metricClass, Closure closure) {
+    Metric metric(Class<? extends Metric> metricClass, Closure closure) {
         assertClassImplementsMetricInterface(metricClass)
         Metric metric = metricClass.newInstance()
         closure.delegate = metric
