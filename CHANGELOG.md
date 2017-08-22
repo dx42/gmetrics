@@ -1,5 +1,11 @@
 # GMetrics Change Log
 
+TBD: Version 1.1 (???)
+-------------------------------------------------------------------------------------------
+- #9: Add Gradle wrapper & remove IDE specific files.  (Dominik Broj)
+- #10: Refactorings: Remove deprecated org.codehaus.groovy.ast.expr.RegexExpression; remove duplicated defs of groovy's transform.powerassert.Value; add generics to MetricSet.getMetrics(). (Dominik Broj)
+
+
 Version 1.0 (Aug 2017)
 -------------------------------------------------------------------------------------------
 BREAKING CHANGES
