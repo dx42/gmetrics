@@ -68,12 +68,15 @@ uploadArchives {
         mavenDeployer {
             beforeDeployment { deployment -> signing.signPom(deployment) }
 
+            def repoUser = hasProperty("ossrhUsername") ? ossrhUsername : 'NotSet'
+            def repoPassword = hasProperty("ossrhPassword") ? ossrhPassword : 'NotSet'
+            
             repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                authentication(userName: ossrhUsername, password: ossrhPassword)
+                authentication(userName: repoUser, password: repoPassword)
             }
 
             snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-                authentication(userName: ossrhUsername, password: ossrhPassword)
+                authentication(userName: repoUser, password: repoPassword)
             }
 
             pom.project {
