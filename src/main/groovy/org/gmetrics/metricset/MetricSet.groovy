@@ -15,6 +15,8 @@
  */
 package org.gmetrics.metricset
 
+import org.gmetrics.metric.Metric
+
 /**
  * Represents a set of (configured) Metric objects
  *
@@ -23,5 +25,5 @@ package org.gmetrics.metricset
  */
 interface MetricSet {
 
-    List getMetrics()
+    List<? extends Metric> getMetrics()
 }

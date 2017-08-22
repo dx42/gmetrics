@@ -42,7 +42,8 @@ class ListMetricSet implements MetricSet {
     /**
      * @return a List of Metric objects
      */
-    List getMetrics() {
+    @Override
+    List<? extends Metric> getMetrics() {
         metrics
     }
 }

@@ -15,6 +15,7 @@
  */
 package org.gmetrics.metricset
 
+import org.gmetrics.metric.Metric
 import org.gmetrics.util.io.DefaultResourceFactory
 import org.gmetrics.util.io.ResourceFactory
 import org.slf4j.LoggerFactory
@@ -58,7 +59,8 @@ class GroovyDslMetricSet implements MetricSet {
     /**
      * @return a List of Metric objects
      */
-    List getMetrics() {
+    @Override
+    List<? extends Metric> getMetrics() {
         return metrics
     }
 }

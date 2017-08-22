@@ -47,7 +47,8 @@ class CompositeMetricSet implements MetricSet {
     /**
      * @return a List of Metric objects. The returned List is immutable.
      */
-    List getMetrics() {
+    @Override
+    List<? extends Metric> getMetrics() {
         return metrics.asImmutable()
     }
 }
