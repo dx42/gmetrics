@@ -111,7 +111,10 @@ uploadArchives {
     }
 }
 
-//release {
-//    tagPrefix = project.name
-//    requireBranch = '' // disabled
-//}
+// Enhanced test logging for Travis CI
+test {
+    testLogging {
+        events "failed"
+        exceptionFormat "short"
+    }
+}
