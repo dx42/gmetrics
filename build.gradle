@@ -110,11 +110,3 @@ uploadArchives {
         }
     }
 }
-
-// Enhanced test logging for Travis CI
-test {
-    testLogging {
-        events "failed"
-        exceptionFormat "short"
-    }
-}
