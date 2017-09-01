@@ -104,9 +104,12 @@ class MethodLineCountMetric_MethodTest extends AbstractMetricTestCase {
         final SOURCE = """
             @SomeAnnotation
             // comment
-            def myMethod() { }
+
+            def myMethod() {
+                println 123
+            }
         """
-        assert metricLineNumber(findFirstMethod(SOURCE)) == 4
+        assert metricLineNumber(findFirstMethod(SOURCE)) == 5
     }
 
 }

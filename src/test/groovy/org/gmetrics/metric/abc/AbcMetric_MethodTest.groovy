@@ -313,7 +313,9 @@ class AbcMetric_MethodTest extends AbstractAbcMetricTest {
     @Test
     void testCalculate_CorrectLineNumberForAnnotatedMethod_SameLine() {
         final SOURCE = """
-            @SomeAnnotation def myMethod() { }
+            @SomeAnnotation def myMethod() { 
+                println 123
+            }
         """
         assert metricLineNumber(findFirstMethod(SOURCE)) == 2
     }

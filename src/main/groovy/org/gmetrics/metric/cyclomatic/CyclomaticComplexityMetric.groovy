@@ -51,7 +51,7 @@ class CyclomaticComplexityMetric extends AbstractMethodMetric {
         def visitor = new CyclomaticComplexityAstVisitor(sourceCode:sourceCode)
         visitor.visitMethod(methodNode)
         def complexity = visitor.complexity
-        return complexity ? new SingleNumberMetricResult(this, MetricLevel.METHOD, complexity, lineNumberForMethod(methodNode)) : null
+        return complexity ? new SingleNumberMetricResult(this, MetricLevel.METHOD, complexity, lineNumberForMethod(methodNode, sourceCode)) : null
     }
 
     MetricResult calculate(ClosureExpression closureExpression, SourceCode sourceCode) {

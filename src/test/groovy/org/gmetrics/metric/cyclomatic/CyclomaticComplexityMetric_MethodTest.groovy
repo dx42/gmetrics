@@ -259,7 +259,9 @@ class CyclomaticComplexityMetric_MethodTest extends AbstractMetricTestCase {
     void testCalculate_CorrectLineNumberForAnnotatedMethod_NextLine() {
         final SOURCE = """
             @SomeAnnotation
-            def myMethod() { }
+            def myMethod() { 
+                return 99
+            }
         """
         assert metricLineNumber(findFirstMethod(SOURCE)) == 3
     }
@@ -267,7 +269,9 @@ class CyclomaticComplexityMetric_MethodTest extends AbstractMetricTestCase {
     @Test
     void testCalculate_CorrectLineNumberForAnnotatedMethod_SameLine() {
         final SOURCE = """
-            @SomeAnnotation def myMethod() { }
+            @SomeAnnotation def myMethod() { 
+                return 99
+            }
         """
         assert metricLineNumber(findFirstMethod(SOURCE)) == 2
     }
@@ -277,9 +281,12 @@ class CyclomaticComplexityMetric_MethodTest extends AbstractMetricTestCase {
         final SOURCE = """
             @SomeAnnotation
             // comment
-            def myMethod() { }
+            @OtherAnnotation
+            def myMethod() { 
+                return 99
+            }
         """
-        assert metricLineNumber(findFirstMethod(SOURCE)) == 4
+        assert metricLineNumber(findFirstMethod(SOURCE)) == 5
     }
 
 }
