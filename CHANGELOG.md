@@ -5,6 +5,7 @@ TBD: Version 1.1 (???)
 - #8: Fix Method metrics with wrong line number for annotated method.
 - #9: Add Gradle wrapper & remove IDE specific files.  (Dominik Broj)
 - #10: Refactorings: Remove deprecated org.codehaus.groovy.ast.expr.RegexExpression; remove duplicated defs of groovy's transform.powerassert.Value; add generics to MetricSet.getMetrics(). (Dominik Broj)
+- #12: Upgrade to CodeNarc 1.0; remove Log4J (test) dependency.
 
 
 Version 1.0 (Aug 2017)

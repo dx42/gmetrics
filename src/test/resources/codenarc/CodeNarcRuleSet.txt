@@ -49,8 +49,6 @@ ruleset {
         FactoryMethodName(enabled:false)
     }
     ruleset('rulesets/size.xml') {
-        AbcComplexity(enabled:false)
-
         CyclomaticComplexity {
             maxMethodComplexity = 10
         }
@@ -67,6 +65,7 @@ ruleset {
         UnnecessaryObjectReferences(enabled:false)
         UnnecessaryReturnKeyword(enabled:false)
         UnnecessarySemicolon(enabled:false)
+        UnnecessarySetter(enabled:false)
         UnnecessarySubstring(enabled:false)
     }
     ruleset('rulesets/unused.xml')
