@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'org.gmetrics'
-version = '1.0'
+version = '1.1'
 
 description = 'GMetrics'
 
@@ -31,7 +31,7 @@ dependencies {
 
     testCompile 'junit:junit:4.12'
     testCompile "org.slf4j:slf4j-simple:$slf4jVersion"
-    testCompile group:'org.codenarc', name:'CodeNarc', version:'1.0', transitive:false
+    testCompile group:'org.codenarc', name:'CodeNarc', version:'1.5', transitive:false
 }
 
 
