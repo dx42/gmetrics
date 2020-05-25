@@ -35,26 +35,40 @@ abstract class AbstractTestCase {
     @SuppressWarnings('PublicInstanceField')
     @Rule public TestName testName = new TestName()
 
+    @SuppressWarnings('CatchThrowable')
     static Throwable shouldFail(Class expectedExceptionClass, Closure code) {
-        return GroovyAssert.shouldFail(expectedExceptionClass, code)
+        def actualException = null
+        try {
+            code.call()
+        } catch (Throwable thrown) {
+            actualException = thrown
+        }
+        assert actualException, "No exception thrown. Expected [${expectedExceptionClass?.getName()}]"
+        if (expectedExceptionClass) {
+            assert expectedExceptionClass.isAssignableFrom(actualException.class), "Expected [${expectedExceptionClass.getName()}] but was [${actualException.class.name}]"
+        }
+        return actualException
     }
 
     static Throwable shouldFail(Closure code) {
-        return GroovyAssert.shouldFail(code)
+        return shouldFail(null, code)
     }
 
     /**
      * Assert that the specified closure should throw an exception whose message contains text
      * @param text - the text expected within the message; may be a single String or a List of Strings
      * @param closure - the Closure to execute
+     * @return the exception thrown
      */
-    protected void shouldFailWithMessageContaining(text, Closure closure) {
-        def message = shouldFail(closure).message
+    protected Throwable shouldFailWithMessageContaining(text, Closure closure) {
+        def exception = shouldFail(closure)
+        String message = exception.message
         log("exception message=[$message]")
         def strings = text instanceof List ? text : [text]
         strings.each { string ->
             assert message.contains(string), "[$message] does not contain [$string]"
         }
+        return exception
     }
 
     /**

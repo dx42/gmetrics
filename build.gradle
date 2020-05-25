@@ -17,14 +17,15 @@ tasks.withType(JavaCompile) { options.encoding = 'UTF-8' }
 
 repositories {
     maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
-    maven { url "http://repo.maven.apache.org/maven2" }
+    maven { url "https://repo.maven.apache.org/maven2" }
 }
 
 dependencies {
-    def groovyVersion = "2.4.12"
+    def groovyVersion = "2.4.17"
     def slf4jVersion = "1.7.25"
 
-    compile "org.codehaus.groovy:groovy-all:$groovyVersion"
+    compile("org.codehaus.groovy:groovy:$groovyVersion")
+    compile("org.codehaus.groovy:groovy-xml:$groovyVersion")
     compile "org.codehaus.groovy:groovy-ant:$groovyVersion"
     compile "org.slf4j:slf4j-api:$slf4jVersion"
 
