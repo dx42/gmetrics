@@ -5,7 +5,7 @@ TBD: Version 1.1 (May 2020)
 FIXES AND ENHANCEMENTS
  - #8: Fix Method metrics with wrong line number for annotated method.
  - #10: Refactorings: Remove deprecated org.codehaus.groovy.ast.expr.RegexExpression; remove duplicated defs of groovy's transform.powerassert.Value; add generics to MetricSet.getMetrics(). (Dominik Broj)
- - #16: Support Groovy 3.0.
+ - #16: Support Groovy 3.0. Fixed AbcMetric. Added explicit `groovy-templates` dependency.
 
 INFRASTRUCTURE AND TESTS
  - #9: Add Gradle wrapper & remove IDE specific files.  (Dominik Broj)

@@ -27,6 +27,8 @@ dependencies {
     compile("org.codehaus.groovy:groovy:$groovyVersion")
     compile("org.codehaus.groovy:groovy-xml:$groovyVersion")
     compile "org.codehaus.groovy:groovy-ant:$groovyVersion"
+    compile("org.codehaus.groovy:groovy-templates:$groovyVersion")
+
     compile "org.slf4j:slf4j-api:$slf4jVersion"
 
     testCompile 'junit:junit:4.12'
@@ -82,7 +84,7 @@ uploadArchives {
                 packaging 'jar'
                 // optionally artifactId can be defined here
                 description 'The GMetrics project provides calculation and reporting of size and complexity metrics for Groovy source code.'
-                url 'http://codenarc.org'
+                url 'http://gmetrics.org'
 
                 scm {
                     connection 'scm:git:git@github.com:dx42/gmetrics.git'

@@ -82,7 +82,7 @@ class AbcAstVisitor extends AbstractAstVisitor {
     }
 
     void visitIfElse(IfStatement ifElse) {
-        if (isNotEmptyStatement(ifElse.elseBlock)) {
+        if (isFirstVisit(ifElse) && isNotEmptyStatement(ifElse.elseBlock)) {
             numberOfConditions ++
         }
         super.visitIfElse(ifElse)
@@ -170,7 +170,7 @@ class AbcAstVisitor extends AbstractAstVisitor {
     }
 
     private boolean isNotEmptyStatement(Statement statement) {
-        statement.class != EmptyStatement
+        statement.class != EmptyStatement && statement.lineNumber != -1
     }
 
 }
