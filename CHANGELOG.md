@@ -1,6 +1,6 @@
 # GMetrics Change Log
 
-TBD: Version 1.1 (May 2020)
+Version 1.1 (May 2020)
 -------------------------------------------------------------------------------------------
 FIXES AND ENHANCEMENTS
  - #8: Fix Method metrics with wrong line number for annotated method.
