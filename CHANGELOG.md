@@ -12,6 +12,7 @@ INFRASTRUCTURE AND TESTS
  - #14: Switch to individual groovy jar dependencies rather than groovy-all.
  - #12: Upgrade to CodeNarc 1.0; remove Log4J (test) dependency.
  - #15: Upgrade to CodeNarc 1.5.
+ - #17: Fix Travis CI build.
 
 
 Version 1.0 (Aug 2017)
