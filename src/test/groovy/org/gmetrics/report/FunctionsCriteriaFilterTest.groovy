@@ -23,23 +23,24 @@ import org.junit.Test
  * Tests for FunctionsCriteriaFilter
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 
 class FunctionsCriteriaFilterTest extends AbstractTestCase {
 
-    private static final METRIC_ABC = new StubMetric(name:'ABC')
-    private static final METRIC_XXX = new StubMetric(name:'XXX')
-    private static final METRIC_123 = new StubMetric(name:'123')
+    private static final StubMetric METRIC_ABC = new StubMetric(name:'ABC')
+    private static final StubMetric METRIC_XXX = new StubMetric(name:'XXX')
+    private static final StubMetric METRIC_123 = new StubMetric(name:'123')
 
-    private functionsCriteriaFilter = new FunctionsCriteriaFilter()
+    private FunctionsCriteriaFilter functionsCriteriaFilter = new FunctionsCriteriaFilter()
 
-    @Test	void testNoFunctionsDefined_IncludesFunction_ReturnsTrue() {
+    @Test
+	void testNoFunctionsDefined_IncludesFunction_ReturnsTrue() {
         assert functionsCriteriaFilter.includesFunction(METRIC_ABC, 'average')
         assert functionsCriteriaFilter.includesFunction(METRIC_XXX, 'total')
     }
 
-    @Test	void testOneMetric_OneLevelDefined_IncludesFunction_ReturnsTrueForThat_AndFalseForOthers() {
+    @Test
+	void testOneMetric_OneLevelDefined_IncludesFunction_ReturnsTrueForThat_AndFalseForOthers() {
         functionsCriteriaFilter.setFunctions('ABC=average')
         assert functionsCriteriaFilter.includesFunction(METRIC_ABC, 'average')
         assert !functionsCriteriaFilter.includesFunction(METRIC_ABC, 'total')
@@ -48,7 +49,8 @@ class FunctionsCriteriaFilterTest extends AbstractTestCase {
         assert functionsCriteriaFilter.includesFunction(METRIC_XXX, 'average')
     }
 
-    @Test	void testOneMetric_SingleLevelDefined_IncludesFunction_ReturnsTrueForMatching_AndFalseForOthers() {
+    @Test
+	void testOneMetric_SingleLevelDefined_IncludesFunction_ReturnsTrueForMatching_AndFalseForOthers() {
         functionsCriteriaFilter.setFunctions('ABC=total,minimum')
         assert functionsCriteriaFilter.includesFunction(METRIC_ABC, 'total')
         assert functionsCriteriaFilter.includesFunction(METRIC_ABC, 'minimum')
@@ -57,7 +59,8 @@ class FunctionsCriteriaFilterTest extends AbstractTestCase {
         assert functionsCriteriaFilter.includesFunction(METRIC_XXX, 'average')
     }
 
-    @Test	void testMultipleMetrics_MultipleLevelsDefined_IncludesFunction_ReturnsTrueForMatching_AndFalseForOthers() {
+    @Test
+	void testMultipleMetrics_MultipleLevelsDefined_IncludesFunction_ReturnsTrueForMatching_AndFalseForOthers() {
         functionsCriteriaFilter.setFunctions('ABC=minimum,total; XXX=average,maximum; ZZZ=average')
         assert functionsCriteriaFilter.includesFunction(METRIC_ABC, 'minimum')
         assert functionsCriteriaFilter.includesFunction(METRIC_ABC, 'total')
@@ -70,7 +73,8 @@ class FunctionsCriteriaFilterTest extends AbstractTestCase {
         assert functionsCriteriaFilter.includesFunction(METRIC_123, 'average')
     }
 
-    @Test	void testMultipleLevelsDefined_IncludesFunction_IsCaseInsensitive() {
+    @Test
+	void testMultipleLevelsDefined_IncludesFunction_IsCaseInsensitive() {
         functionsCriteriaFilter.setFunctions('ABC=avERAGe,TOTAL;   XXX = Minimum')
         assert functionsCriteriaFilter.includesFunction(METRIC_ABC, 'average')
         assert functionsCriteriaFilter.includesFunction(METRIC_ABC, 'total')
@@ -80,13 +84,15 @@ class FunctionsCriteriaFilterTest extends AbstractTestCase {
         assert !functionsCriteriaFilter.includesFunction(METRIC_XXX, 'total')
     }
 
-    @Test	void testInvalidCriteriaString_ThrowsException() {
+    @Test
+	void testInvalidCriteriaString_ThrowsException() {
         shouldFailWithMessageContaining('criteria') { functionsCriteriaFilter.setFunctions('%#') }
         shouldFailWithMessageContaining('criteria') { functionsCriteriaFilter.setFunctions('ABC') }
         shouldFailWithMessageContaining('criteria') { functionsCriteriaFilter.setFunctions('ABC:123') }
     }
 
-    @Test	void testSetFunctions_NullOrEmptyCriteriaString_ThrowsException() {
+    @Test
+	void testSetFunctions_NullOrEmptyCriteriaString_ThrowsException() {
         shouldFailWithMessageContaining('criteria') { functionsCriteriaFilter.setFunctions(null) }
         shouldFailWithMessageContaining('criteria') { functionsCriteriaFilter.setFunctions('') }
     }

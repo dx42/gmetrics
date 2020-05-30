@@ -24,5 +24,5 @@ import org.gmetrics.metric.AbstractCommonMetricTestCase
  */
 class ClassLineCountMetric_CommonTest extends AbstractCommonMetricTestCase {
 
-    static metricClass = ClassLineCountMetric
+    static Class metricClass = ClassLineCountMetric
 }

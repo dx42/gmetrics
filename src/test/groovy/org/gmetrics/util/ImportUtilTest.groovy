@@ -26,7 +26,8 @@ import org.junit.Test
  */
 class ImportUtilTest extends AbstractTestCase {
 
-    @Test	void testPackageNameForImport() {
+    @Test
+	void testPackageNameForImport() {
         final SOURCE = '''
             import aaa.b.MyClass
             import bbb.c.MyClass as Boo

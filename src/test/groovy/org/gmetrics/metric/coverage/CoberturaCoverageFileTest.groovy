@@ -32,11 +32,12 @@ class CoberturaCoverageFileTest extends AbstractTestCase {
     // Note: The CoberturaCoverageFile class is primarily tested through the
     // CoberturaLineCoverageMetric/CoberturaBranchCoverageMetric tests
 
-    private static final XML_BYTES = '<xml/>'.bytes
-    private static final RESOURCE = [getInputStream:{ return new ByteArrayInputStream(XML_BYTES) }] as Resource
-    private static final COBERTURA_XML_FILE = 'cobertura.xml'
+    private static final byte[] XML_BYTES = '<xml/>'.bytes
+    private static final Resource RESOURCE = [getInputStream:{ return new ByteArrayInputStream(XML_BYTES) }] as Resource
+    private static final String COBERTURA_XML_FILE = 'cobertura.xml'
 
-    @Test	void testGetCoberturaXml_IsReentrant() {
+    @Test
+	void testGetCoberturaXml_IsReentrant() {
         def loadedCount = new AtomicInteger()
         def coberturaCoverageFile = new CoberturaCoverageFile(COBERTURA_XML_FILE, null)
         coberturaCoverageFile.resourceFactory = [

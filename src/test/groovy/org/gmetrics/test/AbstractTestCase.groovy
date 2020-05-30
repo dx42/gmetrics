@@ -23,10 +23,9 @@ import org.junit.Rule
 import org.junit.rules.TestName
 
 /**
- * Abstract superclass for tests 
+ * Abstract superclass for tests
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 abstract class AbstractTestCase {
 

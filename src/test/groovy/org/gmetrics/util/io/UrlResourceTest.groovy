@@ -22,25 +22,27 @@ import org.junit.Test
  * Tests for UrlResource
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class UrlResourceTest extends AbstractTestCase {
 
-    private static final TEXT_FILE = 'src/test/resources/resource/SampleResource.txt'
-    private static final RELATIVE_FILE_URL = 'file:' + TEXT_FILE
-    private static final TEXT_FILE_CONTENTS = 'abcdef12345'
+    private static final String TEXT_FILE = 'src/test/resources/resource/SampleResource.txt'
+    private static final String RELATIVE_FILE_URL = 'file:' + TEXT_FILE
+    private static final String TEXT_FILE_CONTENTS = 'abcdef12345'
 
-    @Test	void testConstructor_NullOrEmpty() {
+    @Test
+	void testConstructor_NullOrEmpty() {
         shouldFailWithMessageContaining('path') { new UrlResource(null) }
         shouldFailWithMessageContaining('path') { new UrlResource('') }
     }
 
-    @Test	void testGetPath() {
+    @Test
+	void testGetPath() {
         def resource = new UrlResource(TEXT_FILE)
         assert resource.getPath() == TEXT_FILE
     }
 
-    @Test	void testGetInputStream_File_AbsolutePath() {
+    @Test
+	void testGetInputStream_File_AbsolutePath() {
         def file = new File(TEXT_FILE)
         def urlName = "file:" + file.absolutePath
         log("urlName=$urlName")
@@ -49,30 +51,35 @@ class UrlResourceTest extends AbstractTestCase {
         assert inputStream.text == TEXT_FILE_CONTENTS
     }
 
-    @Test	void testGetInputStream_File_RelativePath() {
+    @Test
+	void testGetInputStream_File_RelativePath() {
         def resource = new UrlResource(RELATIVE_FILE_URL)
         def inputStream = resource.getInputStream()
         assert inputStream.text == TEXT_FILE_CONTENTS
     }
 
     // Can't assume always-on internet access
-//    @Test//	  void testGetInputStream_Http() {
+//    @Test
+//	  void testGetInputStream_Http() {
 //        def resource = new UrlResource('http://google.com')
 //        def inputStream = resource.getInputStream()
 //        assert inputStream.text.contains('Google')
 //    }
 
-    @Test	void testGetInputStream_MalformedUrlName() {
+    @Test
+	void testGetInputStream_MalformedUrlName() {
         def resource = new UrlResource('DoesNotExist.txt')
         shouldFail(MalformedURLException) { resource.getInputStream() }
     }
 
-    @Test	void testGetInputStream_ResourceDoesNotExist() {
+    @Test
+	void testGetInputStream_ResourceDoesNotExist() {
         def resource = new UrlResource('file:///DoesNotExist.txt')
         shouldFail(IOException) { resource.getInputStream() }
     }
 
-    @Test	void testGetInputStream_TwiceOnTheSameResource() {
+    @Test
+	void testGetInputStream_TwiceOnTheSameResource() {
         def resource = new UrlResource(RELATIVE_FILE_URL)
         def inputStream = resource.getInputStream()
         assert inputStream.text == TEXT_FILE_CONTENTS

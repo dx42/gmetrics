@@ -29,25 +29,26 @@ import org.junit.Test
  */
 class GMetricsTask_AntBuilderTest extends AbstractTestCase {
 
-    private static final HTML_REPORT_WRITER = 'org.gmetrics.report.BasicHtmlReportWriter'
-    private static final HTML_REPORT_FILE = "$REPORTS_DIR/AntBuilderTestReport.html"
-    private static final HTML_TEMP_REPORT_FILE = "$REPORTS_DIR/AntBuilderTestReport_Temp.html"
+    private static final String HTML_REPORT_WRITER = 'org.gmetrics.report.BasicHtmlReportWriter'
+    private static final String HTML_REPORT_FILE = "$REPORTS_DIR/AntBuilderTestReport.html"
+    private static final String HTML_TEMP_REPORT_FILE = "$REPORTS_DIR/AntBuilderTestReport_Temp.html"
 
-    private static final ALL_HTML_REPORT_FILE = "$REPORTS_DIR/AllMetricsAntBuilderTestReport.html"
-    private static final ALL_XML_REPORT_FILE = "$REPORTS_DIR/AllMetricsAntBuilderTestReport.xml"
-    private static final ALL_METRICSET_FILE = "$REPORTS_DIR/AllMetricSet.txt"
+    private static final String ALL_HTML_REPORT_FILE = "$REPORTS_DIR/AllMetricsAntBuilderTestReport.html"
+    private static final String ALL_XML_REPORT_FILE = "$REPORTS_DIR/AllMetricsAntBuilderTestReport.xml"
+    private static final String ALL_METRICSET_FILE = "$REPORTS_DIR/AllMetricSet.txt"
 
-    private static final SERIES_HTML_REPORT_WRITER = 'org.gmetrics.report.SingleSeriesHtmlReportWriter'
-    private static final SERIES_HTML_METHOD_REPORT_FILE = "$REPORTS_DIR/AntBuilderTestSingleSeriesMethodHtmlReport.html"
-    private static final SERIES_HTML_PACKAGE_REPORT_FILE = "$REPORTS_DIR/AntBuilderTestSingleSeriesPackageHtmlReport.html"
-    private static final SERIES_TITLE = 'Methods With Highest Line Count'
+    private static final String SERIES_HTML_REPORT_WRITER = 'org.gmetrics.report.SingleSeriesHtmlReportWriter'
+    private static final String SERIES_HTML_METHOD_REPORT_FILE = "$REPORTS_DIR/AntBuilderTestSingleSeriesMethodHtmlReport.html"
+    private static final String SERIES_HTML_PACKAGE_REPORT_FILE = "$REPORTS_DIR/AntBuilderTestSingleSeriesPackageHtmlReport.html"
+    private static final String SERIES_TITLE = 'Methods With Highest Line Count'
 
-    private static final XML_REPORT_WRITER = 'org.gmetrics.report.XmlReportWriter'
-    private static final XML_REPORT_FILE = "$REPORTS_DIR/AntBuilderTestXmlReport.xml"
-    private static final TITLE = 'Sample'
+    private static final String XML_REPORT_WRITER = 'org.gmetrics.report.XmlReportWriter'
+    private static final String XML_REPORT_FILE = "$REPORTS_DIR/AntBuilderTestXmlReport.xml"
+    private static final String TITLE = 'Sample'
     private ant
 
-    @Test	void testAntTask_Execute_UsingDefaultMetricSet() {
+    @Test
+	void testAntTask_Execute_UsingDefaultMetricSet() {
         ant.gmetrics {
            fileset(dir:'src/main/groovy') {
                include(name:"**/*.groovy")
@@ -94,7 +95,8 @@ class GMetricsTask_AntBuilderTest extends AbstractTestCase {
         verifyReportFile(SERIES_HTML_METHOD_REPORT_FILE, [SERIES_TITLE, 'Method'])
     }
 
-    @Test	void testAntTask_Execute_AllMetrics() {
+    @Test
+	void testAntTask_Execute_AllMetrics() {
         def allMetricSetFile = new File(ALL_METRICSET_FILE)
         generateAllMetricsFile(allMetricSetFile)
 
@@ -115,7 +117,8 @@ class GMetricsTask_AntBuilderTest extends AbstractTestCase {
 //        allMetricSetFile.delete()
     }
 
-    @Test	void testAntTask_Execute_SpecifyMetricSetFile() {
+    @Test
+	void testAntTask_Execute_SpecifyMetricSetFile() {
         ant.gmetrics(metricSetFile: MetricSetTestFiles.METRICSET1) {
            fileset(dir:'src/main/groovy') {
                include(name:"**/GMetricsRunner.groovy")

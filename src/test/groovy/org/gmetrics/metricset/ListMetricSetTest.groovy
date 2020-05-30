@@ -23,18 +23,19 @@ import org.junit.Test
  * Tests for ListMetricSet
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class ListMetricSetTest extends AbstractTestCase {
 
     private static final METRIC = [:] as Metric
 
-    @Test	void testWithMetrics() {
+    @Test
+	void testWithMetrics() {
         def metricSet = new ListMetricSet([METRIC])
         assert metricSet.getMetrics() == [METRIC]
     }
 
-    @Test	void testMetricsListIsImmutable() {
+    @Test
+	void testMetricsListIsImmutable() {
         def list = [METRIC]
         def metricSet = new ListMetricSet(list)
         list.clear()
@@ -43,11 +44,13 @@ class ListMetricSetTest extends AbstractTestCase {
         shouldFail(UnsupportedOperationException) { m.clear() }
     }
 
-    @Test	void testConstructorThrowsExceptionForNull() {
+    @Test
+	void testConstructorThrowsExceptionForNull() {
         shouldFailWithMessageContaining('metrics') { new ListMetricSet(null) }
     }
 
-    @Test	void testConstructorThrowsExceptionIfNotAMetric() {
+    @Test
+	void testConstructorThrowsExceptionIfNotAMetric() {
         shouldFail { new ListMetricSet([METRIC, 23]) }
     }
 }

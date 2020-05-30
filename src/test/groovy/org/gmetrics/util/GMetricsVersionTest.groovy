@@ -25,7 +25,9 @@ import org.junit.Test
  */
 class GMetricsVersionTest extends AbstractTestCase {
 
-    @Test	void testGetVersion() {
+    @Test
+	void testGetVersion() {
         assert GMetricsVersion.getVersion() == new File('src/main/resources/gmetrics-version.txt').text
     }
+
 }

@@ -22,11 +22,11 @@ import org.junit.Test
  * Tests for WildcardPattern
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class WildcardPatternTest extends AbstractTestCase {
 
-    @Test	void testMatches_DefaultMatches_True() {
+    @Test
+	void testMatches_DefaultMatches_True() {
         assert new WildcardPattern(null, true).matches('')
         assert new WildcardPattern(null, true).matches('abc')
         assert new WildcardPattern('', true).matches('')
@@ -36,7 +36,8 @@ class WildcardPatternTest extends AbstractTestCase {
         assert !new WildcardPattern('a', true).matches('b')
     }
 
-    @Test	void testMatches_DefaultMatches_False() {
+    @Test
+	void testMatches_DefaultMatches_False() {
         assert new WildcardPattern('a', false).matches('a')
 
         assert !new WildcardPattern('a', false).matches('b')
@@ -46,7 +47,8 @@ class WildcardPatternTest extends AbstractTestCase {
         assert !new WildcardPattern('', false).matches('abc')
     }
 
-    @Test	void testMatches() {
+    @Test
+	void testMatches() {
         assert new WildcardPattern('').matches('')
         assert new WildcardPattern('').matches('abc')
         assert new WildcardPattern('a').matches('a')
@@ -71,7 +73,8 @@ class WildcardPatternTest extends AbstractTestCase {
         assert !new WildcardPattern('**/c*.groovy').matches('a/b/c/def.groovy')
     }
 
-    @Test	void testMatches_CommaSeparatedListOfPatterns() {
+    @Test
+	void testMatches_CommaSeparatedListOfPatterns() {
         assert new WildcardPattern('a,b').matches('a')
         assert new WildcardPattern('x,a@b.c').matches('a@b.c')
         assert new WildcardPattern('a*def,xx').matches('abcdef')

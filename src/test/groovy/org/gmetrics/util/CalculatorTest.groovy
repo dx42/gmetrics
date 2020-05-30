@@ -25,7 +25,8 @@ import org.junit.Test
  */
 class CalculatorTest extends AbstractTestCase {
 
-    @Test	void testCalculateAverage() {
+    @Test
+	void testCalculateAverage() {
         assert Calculator.calculateAverage(null, 0, 2) == 0.00
         assert Calculator.calculateAverage(0.0, 0, 2) == 0.00
         assert Calculator.calculateAverage(10.0, 0, 2) == 0.00
@@ -36,10 +37,10 @@ class CalculatorTest extends AbstractTestCase {
         assert Calculator.calculateAverage(10, 1000, 2) == 0.01
         assert Calculator.calculateAverage(1, 200, 2) == 0.01       // round half up
         assert Calculator.calculateAverage(1, 250, 2) == 0.00       // round half down
-
     }
 
-    @Test	void testCalculateAverage_Scale() {
+    @Test
+	void testCalculateAverage_Scale() {
         assert Calculator.calculateAverage(0.0, 10, 2).scale == 2
         assert Calculator.calculateAverage(1.0, 4, 4).scale == 4
     }

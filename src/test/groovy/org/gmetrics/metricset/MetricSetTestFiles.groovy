@@ -19,7 +19,6 @@ package org.gmetrics.metricset
  * Constants for MetricSet test files
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class MetricSetTestFiles {
 

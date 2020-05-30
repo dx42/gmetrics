@@ -24,11 +24,11 @@ import org.junit.Test
  */
 class CoberturaLineCoverageMetricTest extends AbstractCoberturaMetricTestCase {
 
-    static metricClass = CoberturaLineCoverageMetric
+    static Class metricClass = CoberturaLineCoverageMetric
 
-    private static final CHANNEL_VALUE = (14 / 16 as BigDecimal).setScale(2, BigDecimal.ROUND_HALF_UP)
-    private static final EMAIL_VALUE = 0.66
-    private static final SERVICE_PACKAGE_VALUE = 0.85
+    private static final BigDecimal CHANNEL_VALUE = (14 / 16 as BigDecimal).setScale(2, BigDecimal.ROUND_HALF_UP)
+    private static final BigDecimal EMAIL_VALUE = 0.66
+    private static final BigDecimal SERVICE_PACKAGE_VALUE = 0.85
 
 	@Override
 	protected BigDecimal getRootPackageValue() {
@@ -44,13 +44,15 @@ class CoberturaLineCoverageMetricTest extends AbstractCoberturaMetricTestCase {
     // Tests
     //------------------------------------------------------------------------------------
 
-    @Test	void testHasProperName() {
+    @Test
+	void testHasProperName() {
         assert metric.name == 'CoberturaLineCoverage'
     }
 
     // Tests for applyToMethod()
 
-    @Test	void testApplyToMethod_EnabledIsFalse_ReturnsNull() {
+    @Test
+	void testApplyToMethod_EnabledIsFalse_ReturnsNull() {
         final SOURCE = """
             package com.example.service
             class Email {
@@ -61,7 +63,8 @@ class CoberturaLineCoverageMetricTest extends AbstractCoberturaMetricTestCase {
         assert applyToMethod(SOURCE) == null
     }
 
-    @Test	void testApplyToMethod() {
+    @Test
+	void testApplyToMethod() {
         final SOURCE = """
             package com.example.service
             class Email {
@@ -73,7 +76,8 @@ class CoberturaLineCoverageMetricTest extends AbstractCoberturaMetricTestCase {
 
     // Tests for calculate()
 
-    @Test	void testCalculate() {
+    @Test
+	void testCalculate() {
         final SOURCE = """
             package com.example.service
             class Email {
@@ -83,7 +87,8 @@ class CoberturaLineCoverageMetricTest extends AbstractCoberturaMetricTestCase {
         assert calculateForMethod(SOURCE) == 0.99
     }
 
-    @Test	void testCalculate_MethodThatHasNoCoverageInformation() {
+    @Test
+	void testCalculate_MethodThatHasNoCoverageInformation() {
         final SOURCE = """
             package com.example.service
             class Email {
@@ -93,7 +98,8 @@ class CoberturaLineCoverageMetricTest extends AbstractCoberturaMetricTestCase {
         assertCalculateForMethodReturnsNull(SOURCE)
     }
 
-    @Test	void testCalculate_ReturnsNullForAbstractMethodDeclaration() {
+    @Test
+	void testCalculate_ReturnsNullForAbstractMethodDeclaration() {
         final SOURCE = """
             package com.example.service
             class Email {
@@ -103,7 +109,8 @@ class CoberturaLineCoverageMetricTest extends AbstractCoberturaMetricTestCase {
         assertCalculateForMethodReturnsNull(SOURCE)
     }
 
-    @Test	void testCalculate_Constructor() {
+    @Test
+	void testCalculate_Constructor() {
         final SOURCE = """
             package com.example.service
             class Context {
@@ -115,7 +122,8 @@ class CoberturaLineCoverageMetricTest extends AbstractCoberturaMetricTestCase {
 
     // Tests for applyToClass()
 
-    @Test	void testApplyToClass_ClassWithNoMethods() {
+    @Test
+	void testApplyToClass_ClassWithNoMethods() {
         final SOURCE = """
             package com.example.service
             class Email { }
@@ -123,7 +131,8 @@ class CoberturaLineCoverageMetricTest extends AbstractCoberturaMetricTestCase {
         assertApplyToClass(SOURCE, EMAIL_VALUE, 0)
     }
 
-    @Test	void testApplyToClass_ClassWithOneMethod() {
+    @Test
+	void testApplyToClass_ClassWithOneMethod() {
         final SOURCE = """
             package com.example.service
             class Email {
@@ -133,7 +142,8 @@ class CoberturaLineCoverageMetricTest extends AbstractCoberturaMetricTestCase {
         assertApplyToClass(SOURCE, EMAIL_VALUE, 0.99, ['String toString()':0.99])
     }
 
-    @Test	void testApplyToClass_ClassWithMethodThatHasNoCoverageInformation() {
+    @Test
+	void testApplyToClass_ClassWithMethodThatHasNoCoverageInformation() {
         final SOURCE = """
             package com.example.service
             class Email {
@@ -143,7 +153,8 @@ class CoberturaLineCoverageMetricTest extends AbstractCoberturaMetricTestCase {
         assertApplyToClass(SOURCE, EMAIL_VALUE, 0)
     }
 
-    @Test	void testApplyToClass_IgnoresAbstractMethods() {
+    @Test
+	void testApplyToClass_IgnoresAbstractMethods() {
         final SOURCE = """
             package com.example.service
             class Email {
@@ -153,7 +164,8 @@ class CoberturaLineCoverageMetricTest extends AbstractCoberturaMetricTestCase {
         assertApplyToClass(SOURCE, EMAIL_VALUE, 0)
     }
 
-    @Test	void testApplyToClass_Constructor() {
+    @Test
+	void testApplyToClass_Constructor() {
         final SOURCE = """
             package com.example.service
             class Context {
@@ -163,7 +175,8 @@ class CoberturaLineCoverageMetricTest extends AbstractCoberturaMetricTestCase {
         assertApplyToClass(SOURCE, 0.11, 0.22, ['void <init>(Collection)':0.22])
     }
 
-    @Test	void testApplyToClass_OverloadedConstructor() {
+    @Test
+	void testApplyToClass_OverloadedConstructor() {
         final SOURCE = """
             package com.example.service
             class MyException {
@@ -181,7 +194,8 @@ class CoberturaLineCoverageMetricTest extends AbstractCoberturaMetricTestCase {
         ])
     }
 
-    @Test	void testApplyToClass_ContainsInnerClasses() {
+    @Test
+	void testApplyToClass_ContainsInnerClasses() {
         final SOURCE = """
             package com.example.model
             class Channel {
@@ -198,19 +212,23 @@ class CoberturaLineCoverageMetricTest extends AbstractCoberturaMetricTestCase {
 
     // Tests for getCoverageRatioForClass
 
-    @Test	void testGetCoverageRatioForClass() {
+    @Test
+	void testGetCoverageRatioForClass() {
         assertRatio(metric.getCoverageRatioForClass('com.example.service.MyException'), 16, 24)
     }
 
-    @Test	void testGetCoverageRatioForClass_ClassContainingClosures() {
+    @Test
+	void testGetCoverageRatioForClass_ClassContainingClosures() {
         assertRatio(metric.getCoverageRatioForClass('com.example.model.Channel'), 14, 16)
     }
 
-    @Test	void testGetCoverageRatioForClass_EmptyClass() {
+    @Test
+	void testGetCoverageRatioForClass_EmptyClass() {
         assertRatio(metric.getCoverageRatioForClass('com.example.service.ClientMappingDao'), 0, 0)
     }
 
-    @Test	void testGetCoverageRatioForClass_NoSuchClass_ReturnsNull() {
+    @Test
+	void testGetCoverageRatioForClass_NoSuchClass_ReturnsNull() {
         assert metric.getCoverageRatioForClass('NoSuchClass') == null
     }
 

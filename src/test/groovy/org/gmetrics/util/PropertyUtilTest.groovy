@@ -23,28 +23,31 @@ import org.junit.Test
  * Tests for PropertyUtil
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class PropertyUtilTest extends AbstractTestCase {
 
     private object
 
-    @Test	void testSetPropertyFromString_String() {
+    @Test
+	void testSetPropertyFromString_String() {
         PropertyUtil.setPropertyFromString(object, 'stringField', 'AbcdefGHI')
         assert object.getStringField() == 'AbcdefGHI'
     }
 
-    @Test	void testSetPropertyFromString_int() {
+    @Test
+	void testSetPropertyFromString_int() {
         PropertyUtil.setPropertyFromString(object, 'intField', '23456')
         assert object.getIntField() == 23456
     }
 
-    @Test	void testSetPropertyFromString_long() {
+    @Test
+	void testSetPropertyFromString_long() {
         PropertyUtil.setPropertyFromString(object, 'longField', '9999999999')
         assert object.getLongField() == 9999999999
     }
 
-    @Test	void testSetPropertyFromString_boolean() {
+    @Test
+	void testSetPropertyFromString_boolean() {
         PropertyUtil.setPropertyFromString(object, 'booleanField', 'true')
         assert object.getBooleanField()
 
@@ -52,12 +55,14 @@ class PropertyUtilTest extends AbstractTestCase {
         assert !object.getBooleanField()
     }
 
-    @Test	void testSetPropertyFromString_intFromSuperclass() {
+    @Test
+	void testSetPropertyFromString_intFromSuperclass() {
         PropertyUtil.setPropertyFromString(object, 'superclassIntField', '23456')
         assert object.getSuperclassIntField() == 23456
     }
 
-    @Test	void testSetPropertyFromString_NoSuchField() {
+    @Test
+	void testSetPropertyFromString_NoSuchField() {
         shouldFail(NoSuchFieldException) { PropertyUtil.setPropertyFromString(object, 'XXX', '23456') }
     }
 

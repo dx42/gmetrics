@@ -24,9 +24,10 @@ import org.junit.Test
  */
 class AbcMetric_MethodTest extends AbstractAbcMetricTest {
 
-    static metricClass = AbcMetric
+    static Class metricClass = AbcMetric
 
-    @Test	void testApplyToMethod() {
+    @Test
+	void testApplyToMethod() {
         final SOURCE = """
             def myMethod() { }
         """
@@ -34,7 +35,8 @@ class AbcMetric_MethodTest extends AbstractAbcMetricTest {
         AbcTestUtil.assertEquals(result, ZERO_VECTOR)
     }
 
-    @Test	void testCalculate_ReturnsNullForAbstractMethodDeclaration() {
+    @Test
+	void testCalculate_ReturnsNullForAbstractMethodDeclaration() {
         final SOURCE = """
             abstract class MyClass {
                 abstract void doSomething()
@@ -43,7 +45,8 @@ class AbcMetric_MethodTest extends AbstractAbcMetricTest {
         assertCalculateForMethodReturnsNull(SOURCE)
     }
 
-    @Test	void testCalculate_ReturnsNullForSyntheticMethod() {
+    @Test
+	void testCalculate_ReturnsNullForSyntheticMethod() {
         final SOURCE = """
             println 123
         """
@@ -51,14 +54,16 @@ class AbcMetric_MethodTest extends AbstractAbcMetricTest {
         assert metric.calculate(methodNode, sourceCode) == null
     }
 
-    @Test	void testCalculate_ZeroResultForEmptyMethod() {
+    @Test
+	void testCalculate_ZeroResultForEmptyMethod() {
         final SOURCE = """
                 def myMethod() { }
         """
         assertCalculateForMethod(SOURCE, ZERO_VECTOR)
     }
 
-    @Test	void testCalculate_CountsAssignmentsForVariableDeclarations() {
+    @Test
+	void testCalculate_CountsAssignmentsForVariableDeclarations() {
         final SOURCE = """
             class MyClass {
                 def myMethod() {
@@ -70,7 +75,8 @@ class AbcMetric_MethodTest extends AbstractAbcMetricTest {
         assertCalculateForMethod(SOURCE, [2, 0, 0])
     }
 
-    @Test	void testCalculate_IgnoresAssignmentsForConstantDeclarations() {
+    @Test
+	void testCalculate_IgnoresAssignmentsForConstantDeclarations() {
         final SOURCE = """
             def myMethod() {
                 final CONST = 'abc'     // A=0
@@ -81,7 +87,8 @@ class AbcMetric_MethodTest extends AbstractAbcMetricTest {
         assertCalculateForMethod(SOURCE, [1, 0, 0])
     }
 
-    @Test	void testCalculate_CountsAssignmentsForIncrementAndDecrement() {
+    @Test
+	void testCalculate_CountsAssignmentsForIncrementAndDecrement() {
         final SOURCE = """
             def myMethod() {
                 x ++                    // A=1
@@ -92,7 +99,8 @@ class AbcMetric_MethodTest extends AbstractAbcMetricTest {
         assertCalculateForMethod(SOURCE, [4, 0, 0])
     }
 
-    @Test	void testCalculate_CountsAssignmentsForArithmeticOperatorAssignment() {
+    @Test
+	void testCalculate_CountsAssignmentsForArithmeticOperatorAssignment() {
         final SOURCE = """
             def myMethod() {
                 y += 23                 // A=1
@@ -103,7 +111,8 @@ class AbcMetric_MethodTest extends AbstractAbcMetricTest {
         assertCalculateForMethod(SOURCE, [5, 0, 0])
     }
 
-    @Test	void testCalculate_CountsAssignmentsForShiftOperatorAssignment() {
+    @Test
+	void testCalculate_CountsAssignmentsForShiftOperatorAssignment() {
         final SOURCE = """
             def myMethod() {
                 y >>= 2; x<<=3;     // A=2
@@ -113,7 +122,8 @@ class AbcMetric_MethodTest extends AbstractAbcMetricTest {
         assertCalculateForMethod(SOURCE, [3, 0, 0])
     }
 
-    @Test	void testCalculate_CountsAssignmentsForBitwiseOperatorAssignment() {
+    @Test
+	void testCalculate_CountsAssignmentsForBitwiseOperatorAssignment() {
         final SOURCE = """
             def myMethod() {
                 x &= 2; y|=4; y^=3      // A=3
@@ -122,7 +132,8 @@ class AbcMetric_MethodTest extends AbstractAbcMetricTest {
         assertCalculateForMethod(SOURCE, [3, 0, 0])
     }
 
-    @Test	void testCalculate_CountsBranchesForMethodCalls() {
+    @Test
+	void testCalculate_CountsBranchesForMethodCalls() {
         final SOURCE = """
             def myMethod() {
                 println 'ok'                    // B=1
@@ -134,7 +145,8 @@ class AbcMetric_MethodTest extends AbstractAbcMetricTest {
         assertCalculateForMethod(SOURCE, [0, 5, 0])
     }
 
-    @Test	void testCalculate_CountsBranchesForConstructorCalls() {
+    @Test
+	void testCalculate_CountsBranchesForConstructorCalls() {
         final SOURCE = """
             def myMethod() {
                 new SomeClass(99)               // B=1
@@ -144,7 +156,8 @@ class AbcMetric_MethodTest extends AbstractAbcMetricTest {
         assertCalculateForMethod(SOURCE, [0, 2, 0])
     }
 
-    @Test	void testCalculate_CountsBranchesForPropertyAccess() {
+    @Test
+	void testCalculate_CountsBranchesForPropertyAccess() {
         final SOURCE = """
             def myMethod() {
                 myObject.value              // B=1
@@ -153,7 +166,8 @@ class AbcMetric_MethodTest extends AbstractAbcMetricTest {
         assertCalculateForMethod(SOURCE, [0, 1, 0])
     }
 
-    @Test	void testCalculate_CountsBranchesForNullSafeDereference() {
+    @Test
+	void testCalculate_CountsBranchesForNullSafeDereference() {
         final SOURCE = """
             def myMethod() {
                 return x?.y                 // B=1                         
@@ -163,7 +177,8 @@ class AbcMetric_MethodTest extends AbstractAbcMetricTest {
         assertCalculateForMethod(SOURCE, [0, 1, 0])
     }
 
-    @Test	void testCalculate_CountsConditionsForComparisonOperators() {
+    @Test
+	void testCalculate_CountsConditionsForComparisonOperators() {
         final SOURCE = """
             def myMethod() {
                 x < 23              // C=1
@@ -180,7 +195,8 @@ class AbcMetric_MethodTest extends AbstractAbcMetricTest {
         assertCalculateForMethod(SOURCE, [0, 0, 9])
     }
 
-    @Test	void testCalculate_CountsConditionsForIfOnly() {
+    @Test
+	void testCalculate_CountsConditionsForIfOnly() {
         final SOURCE = """
             def myMethod() {
                 if (x < 23) {
@@ -190,7 +206,8 @@ class AbcMetric_MethodTest extends AbstractAbcMetricTest {
         assertCalculateForMethod(SOURCE, [0, 0, 1])
     }
 
-    @Test	void testCalculate_CountsConditionsForIfElse() {
+    @Test
+	void testCalculate_CountsConditionsForIfElse() {
         final SOURCE = """
             def myMethod() {
                 if (x < 23) {
@@ -201,7 +218,8 @@ class AbcMetric_MethodTest extends AbstractAbcMetricTest {
         assertCalculateForMethod(SOURCE, [0, 0, 2])
     }
 
-    @Test	void testCalculate_CountsConditionsForSwitchWithDefault() {
+    @Test
+	void testCalculate_CountsConditionsForSwitchWithDefault() {
         final SOURCE = """
             def myMethod() {
                 switch(x) {
@@ -214,7 +232,8 @@ class AbcMetric_MethodTest extends AbstractAbcMetricTest {
         assertCalculateForMethod(SOURCE, [0, 0, 3])
     }
 
-    @Test	void testCalculate_CountsConditionsForSwitchWithNoDefault() {
+    @Test
+	void testCalculate_CountsConditionsForSwitchWithNoDefault() {
         final SOURCE = """
             def myMethod() {
                 switch(x) {
@@ -226,7 +245,8 @@ class AbcMetric_MethodTest extends AbstractAbcMetricTest {
         assertCalculateForMethod(SOURCE, [0, 0, 2])
     }
 
-    @Test	void testCalculate_CountsConditionsForTryWithCatch() {
+    @Test
+	void testCalculate_CountsConditionsForTryWithCatch() {
         final SOURCE = """
             def myMethod() {
                 try {
@@ -238,7 +258,8 @@ class AbcMetric_MethodTest extends AbstractAbcMetricTest {
         assertCalculateForMethod(SOURCE, [0, 0, 3])
     }
 
-    @Test	void testCalculate_CountsConditionsForTryWithoutCatch() {
+    @Test
+	void testCalculate_CountsConditionsForTryWithoutCatch() {
         final SOURCE = """
             def myMethod() {
                 try {
@@ -249,7 +270,8 @@ class AbcMetric_MethodTest extends AbstractAbcMetricTest {
         assertCalculateForMethod(SOURCE, [0, 0, 1])
     }
 
-    @Test	void testCalculate_CountsConditionsForTernaryOperator() {
+    @Test
+	void testCalculate_CountsConditionsForTernaryOperator() {
         final SOURCE = """
             def myMethod() {
                 return !(x < 23) ? 0 : 1
@@ -258,7 +280,8 @@ class AbcMetric_MethodTest extends AbstractAbcMetricTest {
         assertCalculateForMethod(SOURCE, [0, 0, 2])
     }
 
-    @Test	void testCalculate_CountsConditionsForElvisOperator() {
+    @Test
+	void testCalculate_CountsConditionsForElvisOperator() {
         final SOURCE = """
             def myMethod() {
                 return x ?: 1           // C=1 (for unary x) + 1 (for ?)
@@ -267,7 +290,8 @@ class AbcMetric_MethodTest extends AbstractAbcMetricTest {
         assertCalculateForMethod(SOURCE, [0, 0, 2])
     }
 
-    @Test	void testCalculate_CountsConditionsForUnaryConditionals() {
+    @Test
+	void testCalculate_CountsConditionsForUnaryConditionals() {
         final SOURCE = """
             def myMethod(x = 0) {
                 if (x || !y || z) {
@@ -279,7 +303,8 @@ class AbcMetric_MethodTest extends AbstractAbcMetricTest {
         assertCalculateForMethod(SOURCE, [0, 0, 4])
     }
 
-    @Test	void testCalculate_CountsConditionsForMultipleBooleanConditionals() {
+    @Test
+	void testCalculate_CountsConditionsForMultipleBooleanConditionals() {
         final SOURCE = """
             def myMethod(x = 0) {
                 return x && x > 0 && x < 100 && !ready      // C=4
@@ -288,7 +313,8 @@ class AbcMetric_MethodTest extends AbstractAbcMetricTest {
         assertCalculateForMethod(SOURCE, [0, 0, 4])
     }
 
-    @Test	void testCalculate_CountsForConstructor() {
+    @Test
+	void testCalculate_CountsForConstructor() {
         final SOURCE = """
             class MyClass {
                 MyClass() {

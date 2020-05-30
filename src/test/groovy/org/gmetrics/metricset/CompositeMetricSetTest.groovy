@@ -24,33 +24,38 @@ import org.junit.Test
  * Tests for CompositeMetricSet
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class CompositeMetricSetTest extends AbstractTestCase {
+
     private static final METRIC1 = [:] as Metric
     private static final METRIC2 = [:] as Metric
 	
     private compositeMetricSet
                                                       
-	@Test	void testImplementsMetricSetInterface() {
+	@Test
+	void testImplementsMetricSetInterface() {
         assert compositeMetricSet instanceof MetricSet
     }
 
-	@Test	void testDefaultsToEmptyMetricSet() {
+	@Test
+	void testDefaultsToEmptyMetricSet() {
         assert compositeMetricSet.getMetrics() == []
     }
 
-	@Test	void testAddMetricSet_Null() {
+	@Test
+	void testAddMetricSet_Null() {
         shouldFailWithMessageContaining('metricSet') { compositeMetricSet.addMetricSet((MetricSet)null) }
     }
 
-	@Test	void testAddMetricSet_OneMetricSet() {
+	@Test
+	void testAddMetricSet_OneMetricSet() {
         def metricSet = new ListMetricSet([METRIC1])
         compositeMetricSet.addMetricSet(metricSet)
         assert compositeMetricSet.getMetrics() == [METRIC1]
     }
 
-	@Test	void testAddMetricSet_TwoMetricSets() {
+	@Test
+	void testAddMetricSet_TwoMetricSets() {
         def metricSet1 = new ListMetricSet([METRIC1])
         def metricSet2 = new ListMetricSet([METRIC2])
         compositeMetricSet.addMetricSet(metricSet1)
@@ -58,17 +63,20 @@ class CompositeMetricSetTest extends AbstractTestCase {
         assert compositeMetricSet.getMetrics() == [METRIC1, METRIC2]
     }
 
-	@Test	void testAddMetric_Null() {
+	@Test
+	void testAddMetric_Null() {
         shouldFailWithMessageContaining('metric') { compositeMetricSet.addMetric((Metric)null) }
     }
 
-	@Test	void testAddMetric() {
+	@Test
+	void testAddMetric() {
         compositeMetricSet.addMetric(METRIC1)
         compositeMetricSet.addMetric(METRIC2)
         assert compositeMetricSet.getMetrics() == [METRIC1, METRIC2]
     }
 
-	@Test	void testInternalMetricsListIsImmutable() {
+	@Test
+	void testInternalMetricsListIsImmutable() {
         def metrics = compositeMetricSet.metrics
         shouldFail(UnsupportedOperationException) { metrics.add(123) }
     }

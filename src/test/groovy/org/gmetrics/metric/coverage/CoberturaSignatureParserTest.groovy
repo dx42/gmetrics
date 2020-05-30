@@ -25,7 +25,8 @@ import org.junit.Test
  */
 class CoberturaSignatureParserTest extends AbstractTestCase {
 
-    @Test	void testMatchesCoberturaMethod_Match() {
+    @Test
+	void testMatchesCoberturaMethod_Match() {
         assert CoberturaSignatureParser.matchesCoberturaMethod('m', 'void m(String)', 'm', '(Ljava/lang/String;)V')
         assert CoberturaSignatureParser.matchesCoberturaMethod('m', 'void m(String, String)', 'm', '(Ljava/lang/String;Ljava/lang/String;)V')
         assert CoberturaSignatureParser.matchesCoberturaMethod('m', 'String m()', 'm', '()Ljava/lang/String;')
@@ -47,7 +48,8 @@ class CoberturaSignatureParserTest extends AbstractTestCase {
         assert CoberturaSignatureParser.matchesCoberturaMethod('m', 'void m(int, String, long, boolean)', 'm', '(ILjava/lang/String;JZ)V')
     }
 
-    @Test	void testMatchesCoberturaMethod_Arrays() {
+    @Test
+	void testMatchesCoberturaMethod_Arrays() {
         assert CoberturaSignatureParser.matchesCoberturaMethod('m', 'void m(int[])', 'm', '([I)V')
         assert CoberturaSignatureParser.matchesCoberturaMethod('m', 'void m([I)', 'm', '([I)V')
         assert CoberturaSignatureParser.matchesCoberturaMethod('m', 'void m(String[])', 'm', '([Ljava/lang/String;)V')
@@ -56,7 +58,8 @@ class CoberturaSignatureParserTest extends AbstractTestCase {
         assert CoberturaSignatureParser.matchesCoberturaMethod('m', 'int m(int[], String, int)', 'm', '([ILjava/lang/String;I)')
     }
 
-    @Test	void testMatchesCoberturaMethod_NoMatch() {
+    @Test
+	void testMatchesCoberturaMethod_NoMatch() {
         assert !CoberturaSignatureParser.matchesCoberturaMethod('m', 'void m()', 'm', '(Ljava/lang/String;)V')
         assert !CoberturaSignatureParser.matchesCoberturaMethod('m', 'void m()', 'other', '()V')
         assert !CoberturaSignatureParser.matchesCoberturaMethod('m', 'void m(String, String))', 'm', '(Ljava/lang/String;)V')
@@ -65,21 +68,24 @@ class CoberturaSignatureParserTest extends AbstractTestCase {
         assert !CoberturaSignatureParser.matchesCoberturaMethod('m', 'def m(String)', 'm', '(Ljava/lang/Object;)Ljava/lang/Object;')
     }
 
-    @Test	void testParseSignatureParameterTypes() {
+    @Test
+	void testParseSignatureParameterTypes() {
         assert CoberturaSignatureParser.parseSignatureParameterTypes('void m()') == []
         assert CoberturaSignatureParser.parseSignatureParameterTypes('void m(String)') == ['String']
         assert CoberturaSignatureParser.parseSignatureParameterTypes('void m(String, String)') == ['String', 'String']
         assert CoberturaSignatureParser.parseSignatureParameterTypes('def m(java.lang.Object)') == ['Object']
     }
 
-    @Test	void testParseSignatureParameterTypes_Arrays() {
+    @Test
+	void testParseSignatureParameterTypes_Arrays() {
         assert CoberturaSignatureParser.parseSignatureParameterTypes('void m([I)') == ['int[]']
         assert CoberturaSignatureParser.parseSignatureParameterTypes('void m([J)') == ['long[]']
         assert CoberturaSignatureParser.parseSignatureParameterTypes('void m(String[])') == ['String[]']
         assert CoberturaSignatureParser.parseSignatureParameterTypes('def m([I, String[], [J, [Z)') == ['int[]', 'String[]', 'long[]', 'boolean[]']
     }
 
-    @Test	void testParseCoberturaSignatureParameterTypes() {
+    @Test
+	void testParseCoberturaSignatureParameterTypes() {
         assert CoberturaSignatureParser.parseCoberturaSignatureParameterTypes('()Ljava/lang/String;') == []
         assert CoberturaSignatureParser.parseCoberturaSignatureParameterTypes('(IJZ)V') == ['int', 'long', 'boolean']
         assert CoberturaSignatureParser.parseCoberturaSignatureParameterTypes('(BS)V') == ['byte', 'short']
@@ -89,12 +95,14 @@ class CoberturaSignatureParserTest extends AbstractTestCase {
         assert CoberturaSignatureParser.parseCoberturaSignatureParameterTypes('(ILjava/lang/String;JZ)V') == ['int', 'String', 'long', 'boolean']
     }
 
-    @Test	void testParseCoberturaSignatureParameterTypes_Arrays() {
+    @Test
+	void testParseCoberturaSignatureParameterTypes_Arrays() {
         assert CoberturaSignatureParser.parseCoberturaSignatureParameterTypes('([IJ[Z)V') == ['int[]', 'long', 'boolean[]']
         assert CoberturaSignatureParser.parseCoberturaSignatureParameterTypes('([Ljava/lang/String;)V') == ['String[]']
     }
 
-    @Test	void testNumberOfParameters() {
+    @Test
+	void testNumberOfParameters() {
         assert CoberturaSignatureParser.numberOfParameters('()Ljava/lang/String;') == 0
         assert CoberturaSignatureParser.numberOfParameters('(IJZ)V') == 3
         assert CoberturaSignatureParser.numberOfParameters('(BS)V') == 2
@@ -103,6 +111,5 @@ class CoberturaSignatureParserTest extends AbstractTestCase {
         assert CoberturaSignatureParser.numberOfParameters('(Ljava/lang/String;Lgroovy/lang/Closure;)Ljava/util/Map;') == 2
         assert CoberturaSignatureParser.numberOfParameters('(ILjava/lang/String;JZ)V') == 4
     }
-
 
 }

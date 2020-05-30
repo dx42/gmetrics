@@ -33,27 +33,31 @@ abstract class AbstractCommonMetricTestCase extends AbstractMetricTestCase {
         }
     '''
 
-    @Test	void testImplementsMetricInterface() {
+    @Test
+	void testImplementsMetricInterface() {
         assert metric instanceof Metric
     }
 
-    @Test	void testFunctions_DefaultsTo_TotalAndAverage() {
+    @Test
+	void testFunctions_DefaultsTo_TotalAndAverage() {
         assert metric.getFunctions() == ['total', 'average']
     }
 
-    @Test	void testEnabledFalse_ReturnsNullFor_ApplyToPackage() {
+    @Test
+	void testEnabledFalse_ReturnsNullFor_ApplyToPackage() {
         metric.enabled = false
         assert metric.applyToPackage(null, null, []) == null
     }
 
-    @Test	void testEnabledFalse_ReturnsNullFor_ApplyToClass() {
+    @Test
+	void testEnabledFalse_ReturnsNullFor_ApplyToClass() {
         metric.enabled = false
         assert applyToClass(SOURCE) == null
     }
 
-    @Test	void testApplyToClass_SetsLineNumber() {
+    @Test
+	void testApplyToClass_SetsLineNumber() {
         def results = applyToClass(SOURCE)
         assert results.classMetricResult.lineNumber == 2
     }
-
 }

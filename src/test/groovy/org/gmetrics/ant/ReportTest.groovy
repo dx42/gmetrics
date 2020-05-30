@@ -22,12 +22,13 @@ import org.junit.Test
  * Tests for Report
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class ReportTest extends AbstractTestCase {
+
     private report = new Report()
 
-    @Test	void testAddConfiguredOption_AddsToOptions() {
+    @Test
+	void testAddConfiguredOption_AddsToOptions() {
         def option = new ReportOption(name:'a', value:'1')
         report.addConfiguredOption(option)
         assert report.options == [a:'1']

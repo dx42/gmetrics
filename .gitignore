@@ -47,3 +47,4 @@ local.properties
 
 .idea/
 *.iml
+/out/

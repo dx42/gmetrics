@@ -25,6 +25,7 @@ import org.gmetrics.result.MethodKey
  * @author Chris Mair
  */
 class ResultsNodeTestUtil {
+
     static void assertResultsNodeStructure(ResultsNode resultsNode, Map results, String name=null) {
         assertMetricResultList(resultsNode.metricResults, results.metricResults, name)
         assertEqualsOrBothFalse(childNames(resultsNode.children?.keySet()), results.children?.keySet())

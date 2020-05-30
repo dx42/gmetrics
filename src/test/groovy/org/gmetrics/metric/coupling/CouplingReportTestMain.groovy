@@ -22,15 +22,14 @@
  */
 class CouplingReportTestMain {
 
-    private static final TITLE = 'Coupling Report'
+    private static final String TITLE = 'Coupling Report'
 	private static final String REPORTS_DIR = "testreports"
-    private static final HTML_REPORT_FILE = "$REPORTS_DIR/CouplingTestReport.html"
-    private static final HTML_REPORT_WRITER = 'org.gmetrics.report.BasicHtmlReportWriter'
-    private static final XML_REPORT_FILE = "$REPORTS_DIR/CouplingTestReport.xml"
-    private static final XML_REPORT_WRITER = 'org.gmetrics.report.XmlReportWriter'
+    private static final String HTML_REPORT_FILE = "$REPORTS_DIR/CouplingTestReport.html"
+    private static final String HTML_REPORT_WRITER = 'org.gmetrics.report.BasicHtmlReportWriter'
+    private static final String XML_REPORT_FILE = "$REPORTS_DIR/CouplingTestReport.xml"
+    private static final String XML_REPORT_WRITER = 'org.gmetrics.report.XmlReportWriter'
 
     static void main(String[] args) {
-
         def ant = new AntBuilder()
         ant.taskdef(name:'gmetrics', classname:'org.gmetrics.ant.GMetricsTask')
 

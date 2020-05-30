@@ -31,10 +31,10 @@ import org.junit.Test
  */
 abstract class AbstractSourceAnalyzer_IntegrationTest extends AbstractTestCase {
 
-    protected static final BASE_DIR = 'src/test/resources/source'
-    protected static final SCRIPTS_DIR = 'src/test/resources/samplescripts'
-    protected static final NESTED_DIR = 'src/test/resources/nested'
-    protected static final GROOVY_FILES = '**/*.groovy'
+    protected static final String BASE_DIR = 'src/test/resources/source'
+    protected static final String SCRIPTS_DIR = 'src/test/resources/samplescripts'
+    protected static final String NESTED_DIR = 'src/test/resources/nested'
+    protected static final String GROOVY_FILES = '**/*.groovy'
     
     protected analyzer
     protected metric
@@ -52,19 +52,22 @@ abstract class AbstractSourceAnalyzer_IntegrationTest extends AbstractTestCase {
         metricSet = new ListMetricSet([metric])
     }
 
-    @Test	void testAnalyze_EmptyDirectory() {
+    @Test
+	void testAnalyze_EmptyDirectory() {
         initializeSourceAnalyzerForEmptyDirectory()
         def results = new StubMetricResult(metric:metric, count:0, total:0, average:0)
         assertAnalyze_ResultsNodeStructure([metricResults:[results]])
     }
 
-    @Test	void testAnalyze_NoMatchingFiles() {
+    @Test
+	void testAnalyze_NoMatchingFiles() {
         initializeSourceAnalyzerForDirectoryWithNoMatchingFiles()
         def results = new StubMetricResult(metric:metric, count:0, total:0, average:0)
         assertAnalyze_ResultsNodeStructure([metricResults:[results]])
     }
 
-    @Test	void testAnalyze_NestedSubdirectories() {
+    @Test
+	void testAnalyze_NestedSubdirectories() {
         def classA1_method1 = new StubMetricResult(metric:metric, count:1, total:3, average:3)
         def classA1_method2 = new StubMetricResult(metric:metric, count:1, total:5, average:5)
         def classA1 = new StubMetricResult(metric:metric, count:2, total:8, average:4)

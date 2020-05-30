@@ -31,52 +31,62 @@ class MapMetricResultTest extends AbstractTestCase {
     private static final METRIC = [getName:{'TestMetric'}, getFunctions:{ DEFAULT_FUNCTIONS }] as Metric
     private static final MAP = [a:123, b:'xyz']
 
-    @Test	void testPassingNullMetricIntoConstructorThrowsException() {
+    @Test
+	void testPassingNullMetricIntoConstructorThrowsException() {
         shouldFailWithMessageContaining('metric') { new MapMetricResult(null, MetricLevel.METHOD, MAP) }
     }
 
-    @Test	void testPassingNullMetricLevelIntoConstructorThrowsException() {
+    @Test
+	void testPassingNullMetricLevelIntoConstructorThrowsException() {
         shouldFailWithMessageContaining('metricLevel') { new MapMetricResult(METRIC, null, MAP) }
     }
 
-    @Test	void testPassingNullValueIntoConstructorThrowsException() {
+    @Test
+	void testPassingNullValueIntoConstructorThrowsException() {
         shouldFailWithMessageContaining('map') { new MapMetricResult(METRIC, MetricLevel.METHOD, null) }
     }
 
-    @Test	void testGetMetricIsSameMetricValuePassedIntoConstructor() {
+    @Test
+	void testGetMetricIsSameMetricValuePassedIntoConstructor() {
         def result = new MapMetricResult(METRIC, MetricLevel.METHOD, MAP)
         assert result.getMetric() == METRIC
     }
 
-    @Test	void testGetMetricLevelIsSameMetricValuePassedIntoConstructor() {
+    @Test
+	void testGetMetricLevelIsSameMetricValuePassedIntoConstructor() {
         def result = new MapMetricResult(METRIC, MetricLevel.METHOD, MAP)
         assert result.getMetricLevel() == MetricLevel.METHOD
     }
 
-    @Test	void testGetAt_ReturnsValuesPassedIntoConstructor() {
+    @Test
+	void testGetAt_ReturnsValuesPassedIntoConstructor() {
         def result = new MapMetricResult(METRIC, MetricLevel.METHOD, MAP)
         assert result['a'] == 123
         assert result['b'] == 'xyz'
     }
 
-    @Test	void testGetAt_ReturnsNullForUndefinedValue() {
+    @Test
+	void testGetAt_ReturnsNullForUndefinedValue() {
         def result = new MapMetricResult(METRIC, MetricLevel.METHOD, MAP)
         assert result['unknnown'] == null
     }
 
-    @Test	void testChangesToOriginalMapHaveNoEffect() {
+    @Test
+	void testChangesToOriginalMapHaveNoEffect() {
         def map = [a:123]
         def result = new MapMetricResult(METRIC, MetricLevel.METHOD, map)
         map['a'] = 99
         assert result['a'] == 123
     }
 
-    @Test	void testGetCount_DefaultsToOne() {
+    @Test
+	void testGetCount_DefaultsToOne() {
         def result = new MapMetricResult(METRIC, MetricLevel.METHOD, MAP)
         assert result.getCount() == 1
     }
 
-    @Test	void testGetCount_ReturnsValuePassedIn() {
+    @Test
+	void testGetCount_ReturnsValuePassedIn() {
         def result = new MapMetricResult(METRIC, MetricLevel.METHOD, MAP, 7)
         assert result.getCount() == 7
     }

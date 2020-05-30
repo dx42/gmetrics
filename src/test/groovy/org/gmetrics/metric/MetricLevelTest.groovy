@@ -26,29 +26,35 @@ import org.junit.Test
  */
 class MetricLevelTest extends AbstractTestCase {
 
-    @Test	void testParse() {
+    @Test
+	void testParse() {
         assert MetricLevel.parse('PACKAGE') == MetricLevel.PACKAGE
         assert MetricLevel.parse('package') == MetricLevel.PACKAGE
         assert MetricLevel.parse('class') == MetricLevel.CLASS
         assert MetricLevel.parse('method') == MetricLevel.METHOD
     }
 
-    @Test	void testParse_NoSuchName() {
+    @Test
+	void testParse_NoSuchName() {
         shouldFailWithMessageContaining('XXX') { MetricLevel.parse('xxx') }
     }
 
-    @Test	void testParseCommaSeparatedList() {
+    @Test
+	void testParseCommaSeparatedList() {
         assert MetricLevel.parseCommaSeparatedList('PACKAGE') == [MetricLevel.PACKAGE]
         assert MetricLevel.parseCommaSeparatedList('') == []
         assert MetricLevel.parseCommaSeparatedList('package,method') == [MetricLevel.PACKAGE, MetricLevel.METHOD]
         assert MetricLevel.parseCommaSeparatedList(' method, class') == [MetricLevel.METHOD, MetricLevel.CLASS]
     }
 
-    @Test	void testParseCommaSeparatedList_NoSuchName() {
+    @Test
+	void testParseCommaSeparatedList_NoSuchName() {
         shouldFailWithMessageContaining('XXX') { MetricLevel.parseCommaSeparatedList('class,xxx') }
     }
 
-    @Test	void testGetNames() {
+    @Test
+	void testGetNames() {
         assert MetricLevel.getNames() as Set == ['package', 'class', 'method'] as Set
     }
+
 }

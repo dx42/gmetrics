@@ -68,4 +68,5 @@ class StubMetric implements MethodMetric {
     String toString() {
         "StubMetric[name=$name, baseLevel=$baseLevel, otherProperty=$otherProperty]"
     }
+
 }

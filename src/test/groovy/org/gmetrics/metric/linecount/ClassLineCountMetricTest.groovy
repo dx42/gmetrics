@@ -26,17 +26,21 @@ import org.junit.Test
  * @version $Revision$ - $Date$
  */
 class ClassLineCountMetricTest extends AbstractMetricTestCase {
-    static metricClass = ClassLineCountMetric
 
-    @Test	void testBaseLevelIsClass() {
+    static Class metricClass = ClassLineCountMetric
+
+    @Test
+	void testBaseLevelIsClass() {
         assert metric.baseLevel == MetricLevel.CLASS
     }
 
-    @Test	void testHasProperName() {
+    @Test
+	void testHasProperName() {
         assert metric.name == 'ClassLineCount'
     }
 
-    @Test	void testApplyToClass_SmallClass() {
+    @Test
+	void testApplyToClass_SmallClass() {
         final SOURCE = """
             class MyClass {
                 int myValue
@@ -45,7 +49,8 @@ class ClassLineCountMetricTest extends AbstractMetricTestCase {
         assertApplyToClass(SOURCE, 3, 3)
     }
 
-    @Test	void testApplyToClass_LargerClass() {
+    @Test
+	void testApplyToClass_LargerClass() {
         final SOURCE = """
             class MyClass {
                 int myValue
@@ -62,7 +67,8 @@ class ClassLineCountMetricTest extends AbstractMetricTestCase {
         assertApplyToClass(SOURCE, 11, 11)
     }
 
-    @Test	void testApplyToClass_Interface() {
+    @Test
+	void testApplyToClass_Interface() {
         final SOURCE = """
             interface MyInterface {
                 int doSomething(String name)
@@ -72,7 +78,8 @@ class ClassLineCountMetricTest extends AbstractMetricTestCase {
         assertApplyToClass(SOURCE, 4, 4)
     }
 
-    @Test	void testApplyToClass_ReturnsNullForSyntheticClass() {
+    @Test
+	void testApplyToClass_ReturnsNullForSyntheticClass() {
         final SOURCE = """
             println 123
         """
@@ -82,15 +89,18 @@ class ClassLineCountMetricTest extends AbstractMetricTestCase {
         assert results == null
     }
 
-    @Test	void testApplyToPackage_ResultsForNoChildren() {
+    @Test
+	void testApplyToPackage_ResultsForNoChildren() {
         assertApplyToPackage([], 0, 0)
     }
 
-    @Test	void testApplyToPackage_ResultsForOneChild() {
+    @Test
+	void testApplyToPackage_ResultsForOneChild() {
         assertApplyToPackage([metricResult(23)], 23, 23)
     }
 
-    @Test	void testApplyToPackage_ResultsForThreeChildren() {
+    @Test
+	void testApplyToPackage_ResultsForThreeChildren() {
         assertApplyToPackage([metricResult(20), metricResult(6), metricResult(4)], 30, 10)
     }
 

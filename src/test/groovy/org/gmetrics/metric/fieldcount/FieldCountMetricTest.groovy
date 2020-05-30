@@ -26,17 +26,20 @@ import org.junit.Test
  */
 class FieldCountMetricTest extends AbstractMetricTestCase {
 
-    static metricClass = FieldCountMetric
+    static Class metricClass = FieldCountMetric
 
-    @Test	void testBaseLevelIsClass() {
+    @Test
+	void testBaseLevelIsClass() {
         assert metric.baseLevel == MetricLevel.CLASS
     }
 
-    @Test	void testHasProperName() {
+    @Test
+	void testHasProperName() {
         assert metric.name == 'FieldCount'
     }
 
-    @Test	void testApplyToClass_NoFields() {
+    @Test
+	void testApplyToClass_NoFields() {
         final SOURCE = """
             class MyClass {
                 int getValue() { }
@@ -45,7 +48,8 @@ class FieldCountMetricTest extends AbstractMetricTestCase {
         assertApplyToClass(SOURCE, 0, 0)
     }
 
-    @Test	void testApplyToClass_OneField() {
+    @Test
+	void testApplyToClass_OneField() {
         final SOURCE = """
             class MyClass {
                 int myValue
@@ -55,7 +59,8 @@ class FieldCountMetricTest extends AbstractMetricTestCase {
         assertApplyToClass(SOURCE, 1, 1)
     }
 
-    @Test	void testApplyToClass_TwoFields() {
+    @Test
+	void testApplyToClass_TwoFields() {
         final SOURCE = """
             class MyClass {
                 final myValue = 7
@@ -70,7 +75,8 @@ class FieldCountMetricTest extends AbstractMetricTestCase {
         assertApplyToClass(SOURCE, 2, 2)
     }
 
-    @Test	void testApplyToClass_StaticField() {
+    @Test
+	void testApplyToClass_StaticField() {
         final SOURCE = """
             class MyClass {
                 private static final int MAX = 99
@@ -79,7 +85,8 @@ class FieldCountMetricTest extends AbstractMetricTestCase {
         assertApplyToClass(SOURCE, 1, 1)
     }
 
-    @Test	void testApplyToClass_InterfaceWithConstant() {
+    @Test
+	void testApplyToClass_InterfaceWithConstant() {
         final SOURCE = """
             interface MyInterface {
                 static final String NAME = 'abc'
@@ -89,7 +96,8 @@ class FieldCountMetricTest extends AbstractMetricTestCase {
         assertApplyToClass(SOURCE, 1, 1)
     }
 
-    @Test	void testApplyToClass_ReturnsNullForSyntheticClass() {
+    @Test
+	void testApplyToClass_ReturnsNullForSyntheticClass() {
         final SOURCE = """
             int value = 7
         """
@@ -99,15 +107,18 @@ class FieldCountMetricTest extends AbstractMetricTestCase {
         assert results == null
     }
 
-    @Test	void testApplyToPackage_ResultsForNoChildren() {
+    @Test
+	void testApplyToPackage_ResultsForNoChildren() {
         assertApplyToPackage([], 0, 0)
     }
 
-    @Test	void testApplyToPackage_ResultsForOneChild() {
+    @Test
+	void testApplyToPackage_ResultsForOneChild() {
         assertApplyToPackage([metricResult(23)], 23, 23)
     }
 
-    @Test	void testApplyToPackage_ResultsForThreeChildren() {
+    @Test
+	void testApplyToPackage_ResultsForThreeChildren() {
         assertApplyToPackage([metricResult(20), metricResult(6), metricResult(4)], 30, 10)
     }
 

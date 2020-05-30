@@ -26,15 +26,16 @@ import org.junit.Test
  */
 class CoberturaCoverage_AntBuilderTest extends AbstractTestCase {
 
-    private static final HTML_REPORT_WRITER = 'org.gmetrics.report.BasicHtmlReportWriter'
-    private static final HTML_REPORT_FILE = "$REPORTS_DIR/CoberturaCoverage_AntBuilderTest-GMetricsReport.html"
+    private static final String HTML_REPORT_WRITER = 'org.gmetrics.report.BasicHtmlReportWriter'
+    private static final String HTML_REPORT_FILE = "$REPORTS_DIR/CoberturaCoverage_AntBuilderTest-GMetricsReport.html"
 
-    private static final XML_REPORT_WRITER = 'org.gmetrics.report.XmlReportWriter'
-    private static final XML_REPORT_FILE = "$REPORTS_DIR/CoberturaCoverage_AntBuilderTest-GMetricsReport.xml"
+    private static final String XML_REPORT_WRITER = 'org.gmetrics.report.XmlReportWriter'
+    private static final String XML_REPORT_FILE = "$REPORTS_DIR/CoberturaCoverage_AntBuilderTest-GMetricsReport.xml"
 
     private ant
 
-    @Test	void testAntTask_AgainstProjectSourceCode() {
+    @Test
+	void testAntTask_AgainstProjectSourceCode() {
         ant.gmetrics(metricSetFile: 'coverage/CoberturaMetricSet.txt') {
             fileset(dir:'src/main') {
 //            fileset(dir:'src/main/groovy') {

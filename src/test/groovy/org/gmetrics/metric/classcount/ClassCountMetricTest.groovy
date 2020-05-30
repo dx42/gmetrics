@@ -26,31 +26,36 @@ import org.junit.Test
  */
 class ClassCountMetricTest extends AbstractMetricTestCase {
 
-    static metricClass = ClassCountMetric
+    static Class metricClass = ClassCountMetric
 
-    @Test	void testBaseLevelIsClass() {
+    @Test
+	void testBaseLevelIsClass() {
         assert metric.baseLevel == MetricLevel.PACKAGE
     }
 
-    @Test	void testHasProperName() {
+    @Test
+	void testHasProperName() {
         assert metric.name == 'ClassCount'
     }
 
-    @Test	void testApplyToClass_SingleClass() {
+    @Test
+	void testApplyToClass_SingleClass() {
         final SOURCE = """
             class MyClass { int myValue }
         """
         assertApplyToClass(SOURCE, 1)
     }
 
-    @Test	void testApplyToClass_Enum() {
+    @Test
+	void testApplyToClass_Enum() {
         final SOURCE = """
             enum MyEnum { ONE, TWO, THREE }
         """
         assertApplyToClass(SOURCE, 1)
     }
 
-    @Test	void testApplyToClass_Interface() {
+    @Test
+	void testApplyToClass_Interface() {
         final SOURCE = """
             interface MyInterface {
                 int doSomething(String name)
@@ -59,19 +64,23 @@ class ClassCountMetricTest extends AbstractMetricTestCase {
         assertApplyToClass(SOURCE, 1)
     }
 
-   @Test	void testApplyToPackage_ResultsForNoChildren() {
+   @Test
+	void testApplyToPackage_ResultsForNoChildren() {
         assertApplyToPackage([], 0, 0)
     }
 
-    @Test	void testApplyToPackage_ResultsForOneChildClass() {
+    @Test
+	void testApplyToPackage_ResultsForOneChildClass() {
         assertApplyToPackage([metricResultForClass(1)], 1, 1)
     }
 
-    @Test	void testApplyToPackage_ResultsForThreeChildClasses() {
+    @Test
+	void testApplyToPackage_ResultsForThreeChildClasses() {
         assertApplyToPackage([metricResultForClass(1), metricResultForClass(1), metricResultForClass(1)], 3, 3)
     }
 
-    @Test	void testApplyToPackage_ResultsForClassesAndSubPackages_IgnoreSubPackages() {
+    @Test
+	void testApplyToPackage_ResultsForClassesAndSubPackages_IgnoreSubPackages() {
         assertApplyToPackage([
             metricResultForClass(1), metricResultForClass(1), metricResultForPackage(99), metricResultForClass(1)
         ], 3, 3)

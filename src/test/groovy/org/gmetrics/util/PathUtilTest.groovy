@@ -22,11 +22,11 @@ import org.junit.Test
  * Tests for PathUtil
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class PathUtilTest extends AbstractTestCase {
 
-    @Test	void testNormalize() {
+    @Test
+	void testNormalize() {
         assert PathUtil.normalize(null) == null
         assert PathUtil.normalize('') == ''
         assert PathUtil.normalize('abc') == 'abc'
@@ -36,7 +36,8 @@ class PathUtilTest extends AbstractTestCase {
         assert PathUtil.normalize('/abc\\def/ghi\\') == '/abc/def/ghi/'
     }
 
-    @Test	void testGetName() {
+    @Test
+	void testGetName() {
         assert PathUtil.getName(null) == null
         assert PathUtil.getName('') == ''
         assert PathUtil.getName('abc') == 'abc'
@@ -45,7 +46,8 @@ class PathUtilTest extends AbstractTestCase {
         assert PathUtil.getName('abc\\def\\ghi') == 'ghi'
     }
 
-    @Test	void testGetParent() {
+    @Test
+	void testGetParent() {
         assert PathUtil.getParent(null) == null
         assert PathUtil.getParent('') == null
         assert PathUtil.getParent('abc') == null
@@ -54,7 +56,8 @@ class PathUtilTest extends AbstractTestCase {
         assert PathUtil.getParent('abc\\def\\ghi') == 'abc/def'
     }
 
-    @Test	void testToPackageName() {
+    @Test
+	void testToPackageName() {
         assert PathUtil.toPackageName(null) == null
         assert PathUtil.toPackageName('') == null
         assert PathUtil.toPackageName('abc') == 'abc'

@@ -38,14 +38,13 @@ import org.junit.Test
  */
 abstract class AbstractReportWriterTestCase extends AbstractTestCase {
 
-    protected static final VERSION_FILE = 'src/main/resources/gmetrics-version.txt'
-    protected static final VERSION = new File(VERSION_FILE).text
+    protected static final String VERSION_FILE = 'src/main/resources/gmetrics-version.txt'
+    protected static final String VERSION = new File(VERSION_FILE).text
 
-    protected static final SRC_DIR1 = 'c:/MyProject/src/main/groovy'
-    protected static final SRC_DIR2 = 'c:/MyProject/src/test/groovy'
+    protected static final String SRC_DIR1 = 'c:/MyProject/src/main/groovy'
+    protected static final String SRC_DIR2 = 'c:/MyProject/src/test/groovy'
 
-    protected reportWriter
-//    protected writer
+    protected ReportWriter reportWriter
     protected metric1, metric2, metric3
     protected metricSet1, metricSet2, metricSet3
     protected analysisContext
@@ -53,26 +52,31 @@ abstract class AbstractReportWriterTestCase extends AbstractTestCase {
     // Each subclass must implement
     protected abstract ReportWriter createReportWriter()
 
-    @Test	void testImplementsReportWriter() {
+    @Test
+	void testImplementsReportWriter() {
         assert reportWriter instanceof ReportWriter
     }
 
-    @Test	void testWriteReport_NullResultsNode_ThrowsException() {
+    @Test
+	void testWriteReport_NullResultsNode_ThrowsException() {
         shouldFailWithMessageContaining('results') { reportWriter.writeReport(null, analysisContext) }
     }
 
-    @Test	void testWriteReport_NullAnalysisContext_ThrowsException() {
+    @Test
+	void testWriteReport_NullAnalysisContext_ThrowsException() {
         def resultsNode = packageResultsNode(path:'test')
         shouldFailWithMessageContaining('analysisContext') { reportWriter.writeReport(resultsNode, null) }
     }
 
-    @Test	void testWriteReport_NullMetricSet_ThrowsException() {
+    @Test
+	void testWriteReport_NullMetricSet_ThrowsException() {
         def resultsNode = packageResultsNode(path:'test')
         def analysisContext_NoMetricSet = new AnalysisContext()
         shouldFailWithMessageContaining('metricSet') { reportWriter.writeReport(resultsNode, analysisContext_NoMetricSet) }
     }
 
-    @Test	void testWriteReport_NullWriterThrowsException() {
+    @Test
+	void testWriteReport_NullWriterThrowsException() {
         def resultsNode = new StubResultsNode()
         shouldFailWithMessageContaining('writer') { reportWriter.writeReport(null, resultsNode, analysisContext) }
     }

@@ -39,6 +39,7 @@ import org.slf4j.LoggerFactory
  * @author Chris Mair
  */
 class AstUtilTest extends AbstractTestCase {
+
     private static final SOURCE = '''
         class MyClass {
             def otherMethod() {
@@ -62,138 +63,161 @@ class AstUtilTest extends AbstractTestCase {
     '''
     private visitor
 
-    @Test	void testIsFromGeneratedSourceCode() {
+    @Test
+	void testIsFromGeneratedSourceCode() {
         assert !AstUtil.isFromGeneratedSourceCode(methodCallNamed('print'))
     }
 
-    @Test	void testIsEmptyMethod() {
+    @Test
+	void testIsEmptyMethod() {
         assert AstUtil.isEmptyMethod(methodNamed('setUp'))
         assert !AstUtil.isEmptyMethod(methodNamed('otherMethod'))
     }
 
-    @Test	void testGetMethodArguments_ConstructorWithinEnum() {
+    @Test
+	void testGetMethodArguments_ConstructorWithinEnum() {
         def methodCall = methodCallNamed('methodCallWithinEnum')
         def args = AstUtil.getMethodArguments(methodCall)
         assert args.size() == 3
     }
 
-    @Test	void testGetMethodArguments_NoArgument() {
+    @Test
+	void testGetMethodArguments_NoArgument() {
         def methodCall = methodCallNamed('print')
         def args = AstUtil.getMethodArguments(methodCall)
         assert args.size() == 0
     }
 
-    @Test	void testGetMethodArguments_SingleArgument() {
+    @Test
+	void testGetMethodArguments_SingleArgument() {
         def methodCall = methodCallNamed('stringMethodName')
         def args = AstUtil.getMethodArguments(methodCall)
         assert args.size() == 1
         assert args[0].value == 123
     }
 
-    @Test	void testGetMethodArguments_NamedArguments() {
+    @Test
+	void testGetMethodArguments_NamedArguments() {
         def methodCall = methodCallNamed('delete')
         def args = AstUtil.getMethodArguments(methodCall)
         assert args[0].mapEntryExpressions.keyExpression.value == ['dir', 'failonerror']
     }
 
-    @Test	void testIsMethodCall_ExactMatch() {
+    @Test
+	void testIsMethodCall_ExactMatch() {
         def statement = visitor.statements.find { st -> st instanceof ExpressionStatement }
         assert AstUtil.isMethodCall(statement, 'object', 'print', 0)
         assert AstUtil.isMethodCall(statement.expression, 'object', 'print', 0)
         assert AstUtil.isMethodCall(statement.expression, 'object', 'print')
     }
 
-    @Test	void testIsMethodCall_WrongMethodName() {
+    @Test
+	void testIsMethodCall_WrongMethodName() {
         def statement = visitor.statements.find { st -> st instanceof ExpressionStatement }
         assert !AstUtil.isMethodCall(statement, 'object', 'print2', 0)
         assert !AstUtil.isMethodCall(statement.expression, 'object', 'print2', 0)
         assert !AstUtil.isMethodCall(statement.expression, 'object', 'print2')
     }
 
-    @Test	void testIsMethodCall_WrongMethodObjectName() {
+    @Test
+	void testIsMethodCall_WrongMethodObjectName() {
         def statement = visitor.statements.find { st -> st instanceof ExpressionStatement }
         assert !AstUtil.isMethodCall(statement, 'object2', 'print', 0)
         assert !AstUtil.isMethodCall(statement.expression, 'object2', 'print', 0)
         assert !AstUtil.isMethodCall(statement.expression, 'object2', 'print')
     }
 
-    @Test	void testIsMethodCall_WrongNumberOfArguments() {
+    @Test
+	void testIsMethodCall_WrongNumberOfArguments() {
         def statement = visitor.statements.find { st -> st instanceof ExpressionStatement }
         assert !AstUtil.isMethodCall(statement, 'object', 'print', 1)
         assert !AstUtil.isMethodCall(statement.expression, 'object', 'print', 1)
         assert AstUtil.isMethodCall(statement.expression, 'object', 'print')
     }
 
-    @Test	void testIsMethodCall_NamedArgumentList() {
+    @Test
+	void testIsMethodCall_NamedArgumentList() {
         def methodCall = visitor.methodCallExpressions.find { mc -> mc.method.value == 'delete' }
         assert AstUtil.isMethodCall(methodCall, 'ant', 'delete', 1)
         assert !AstUtil.isMethodCall(methodCall, 'ant', 'delete', 2)
         assert AstUtil.isMethodCall(methodCall, 'ant', 'delete')
     }
 
-    @Test	void testIsMethodCall_StringLiteralMethodName() {
+    @Test
+	void testIsMethodCall_StringLiteralMethodName() {
         def methodCall = methodCallNamed('stringMethodName')
         assert AstUtil.isMethodCall(methodCall, 'this', 'stringMethodName', 1)
         assert !AstUtil.isMethodCall(methodCall, 'this', 'stringMethodName', 2)
         assert AstUtil.isMethodCall(methodCall, 'this', 'stringMethodName')
     }
 
-    @Test	void testIsMethodCall_GStringMethodName() {
+    @Test
+	void testIsMethodCall_GStringMethodName() {
         def methodCall = visitor.methodCallExpressions.find { mc -> log(mc.method); mc.method instanceof GStringExpression }
         assert !AstUtil.isMethodCall(methodCall, 'this', 'anotherMethod', 1)
         assert !AstUtil.isMethodCall(methodCall, 'this', 'anotherMethod', 2)
         assert !AstUtil.isMethodCall(methodCall, 'this', 'anotherMethod')
     }
 
-    @Test	void testIsMethodCall_NotAMethodCall() {
+    @Test
+	void testIsMethodCall_NotAMethodCall() {
         def statement = visitor.statements.find { st -> st instanceof BlockStatement }
         assert !AstUtil.isMethodCall(statement, 'object', 'print', 0)
     }
 
-    @Test	void testIsMethodNamed() {
+    @Test
+	void testIsMethodNamed() {
         def methodCall = methodCallNamed('print')
         assert AstUtil.isMethodNamed(methodCall, 'print')
         assert !AstUtil.isMethodNamed(methodCall, 'other')
     }
 
-    @Test	void testIsMethodNamed_GStringMethodName() {
+    @Test
+	void testIsMethodNamed_GStringMethodName() {
         def methodCall = visitor.methodCallExpressions.find { mc -> mc.method instanceof GStringExpression }
         assert !AstUtil.isMethodNamed(methodCall, 'print')
     }
 
-    @Test	void testIsBlock_Block() {
+    @Test
+	void testIsBlock_Block() {
         applyVisitor(SOURCE)
         def statement = visitor.statements.find { st -> st instanceof BlockStatement }
         assert AstUtil.isBlock(statement)
     }
 
-    @Test	void testIsBlock_NotABlock() {
+    @Test
+	void testIsBlock_NotABlock() {
         def statement = visitor.statements.find { st -> st instanceof ExpressionStatement }
         assert !AstUtil.isBlock(statement)
     }
 
-    @Test	void testIsEmptyBlock_NonEmptyBlock() {
+    @Test
+	void testIsEmptyBlock_NonEmptyBlock() {
         def statement = visitor.statements.find { st -> st instanceof BlockStatement }
         assert !AstUtil.isEmptyBlock(statement)
     }
 
-    @Test	void testIsEmptyBlock_EmptyBlock() {
+    @Test
+	void testIsEmptyBlock_EmptyBlock() {
         def statement = visitor.statements.find { st -> st instanceof IfStatement }
         assert AstUtil.isEmptyBlock(statement.ifBlock)
     }
 
-    @Test	void testIsEmptyBlock_NotABlock() {
+    @Test
+	void testIsEmptyBlock_NotABlock() {
         def statement = visitor.statements.find { st -> st instanceof ExpressionStatement }
         assert !AstUtil.isEmptyBlock(statement)
     }
 
-    @Test	void testGetAnnotation() {
+    @Test
+	void testGetAnnotation() {
         assert AstUtil.getAnnotation(visitor.methodNodes['otherMethod'], 'doesNotExist') == null
         assert AstUtil.getAnnotation(visitor.methodNodes['setUp'], 'doesNotExist') == null
         assert AstUtil.getAnnotation(visitor.methodNodes['setUp'], 'Before') instanceof AnnotationNode
     }
 
-    @Test	void testGetVariableExpressions_SingleDeclaration() {
+    @Test
+	void testGetVariableExpressions_SingleDeclaration() {
         log("declarationExpressions=${visitor.declarationExpressions}")
         def variableExpressions = AstUtil.getVariableExpressions(visitor.declarationExpressions[0])
         log("variableExpressions=$variableExpressions")
@@ -201,7 +225,8 @@ class AstUtilTest extends AbstractTestCase {
         assert variableExpressions.name == ['myVariable']
     }
 
-    @Test	void testGetVariableExpressions_MultipleDeclarations() {
+    @Test
+	void testGetVariableExpressions_MultipleDeclarations() {
         final NEW_SOURCE = '''
             class MyClass {
                 def otherMethod() {
@@ -215,7 +240,8 @@ class AstUtilTest extends AbstractTestCase {
         assert variableExpressions.name == ['name1', 'name2']
     }
 
-    @Test	void testIsClosureField() {
+    @Test
+	void testIsClosureField() {
         final NEW_SOURCE = '''
             class MyClass {
                 int count

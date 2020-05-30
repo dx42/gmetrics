@@ -33,11 +33,11 @@ import org.junit.Test
  */
 abstract class AbstractCouplingReferenceManagerTestCase extends AbstractTestCase {
 
-    protected static final METRIC = new StubMetric()
-    protected static final PACKAGE1 = 'a.b.package1'
-    protected static final PACKAGE2 = 'c.d.package2'
-    protected static final PACKAGE3 = 'e.f.package3'
-    protected static final PACKAGE4 = 'g.h.package4'
+    protected static final StubMetric METRIC = new StubMetric()
+    protected static final String PACKAGE1 = 'a.b.package1'
+    protected static final String PACKAGE2 = 'c.d.package2'
+    protected static final String PACKAGE3 = 'e.f.package3'
+    protected static final String PACKAGE4 = 'g.h.package4'
 
     protected manager
 
@@ -47,52 +47,61 @@ abstract class AbstractCouplingReferenceManagerTestCase extends AbstractTestCase
 
     // Tests for addReferencesFromPackage()
 
-    @Test	void testAddReferencesFromPackage_StoresReferences() {
+    @Test
+	void testAddReferencesFromPackage_StoresReferences() {
         manager.addReferencesFromPackage(PACKAGE1, [PACKAGE2, PACKAGE3])
         manager.addReferencesFromPackage(PACKAGE2, [PACKAGE1])
         assert manager.getReferencesFromPackage(PACKAGE1) == [PACKAGE2, PACKAGE3] as Set
         assert manager.getReferencesFromPackage(PACKAGE2) == [PACKAGE1] as Set
     }
 
-    @Test	void testAddReferencesFromPackage_AggregatesReferences() {
+    @Test
+	void testAddReferencesFromPackage_AggregatesReferences() {
         manager.addReferencesFromPackage(PACKAGE1, [PACKAGE2, PACKAGE3])
         manager.addReferencesFromPackage(PACKAGE1, [PACKAGE2, PACKAGE4])
         assert manager.getReferencesFromPackage(PACKAGE1) == [PACKAGE2, PACKAGE3, PACKAGE4] as Set
     }
 
-    @Test	void testAddReferencesFromPackage_UpdatesCountForFromPackage() {
+    @Test
+	void testAddReferencesFromPackage_UpdatesCountForFromPackage() {
         manager.addReferencesFromPackage(PACKAGE1, [PACKAGE2, PACKAGE3])
         assert manager.getPackageMetricResult(PACKAGE1).count == 1
     }
 
-    @Test	void testAddReferencesFromPackage_NormalizesPackageNames() {
+    @Test
+	void testAddReferencesFromPackage_NormalizesPackageNames() {
         manager.addReferencesFromPackage('aa/bb', ['bb/cc', 'cc/dd'])
         assert manager.getReferencesFromPackage('aa.bb') == ['bb.cc', 'cc.dd'] as Set
     }
 
-    @Test	void testAddReferencesFromPackage_HandlesNullPackageName() {
+    @Test
+	void testAddReferencesFromPackage_HandlesNullPackageName() {
         manager.addReferencesFromPackage(null, ['aa'])
         assert manager.getReferencesFromPackage(null) == ['aa'] as Set
     }
 
-    @Test	void testAddReferencesFromPackage_UnknownPackage_ReturnsEmptySet() {
+    @Test
+	void testAddReferencesFromPackage_UnknownPackage_ReturnsEmptySet() {
         assert manager.getReferencesFromPackage('aa.bb') == [] as Set
     }
 
-    @Test	void testGetReferencesFromPackage_NormalizesPackageName() {
+    @Test
+	void testGetReferencesFromPackage_NormalizesPackageName() {
         manager.addReferencesFromPackage('aa.bb', ['bb.cc', 'cc/dd'])
         assert manager.getReferencesFromPackage('aa/bb') == ['bb.cc', 'cc.dd'] as Set
     }
 
     // Tests for getPackageMetricResult()
 
-    @Test	void testGetPackageMetricResult_AlwaysReturnsSameInstanceForPackage() {
+    @Test
+	void testGetPackageMetricResult_AlwaysReturnsSameInstanceForPackage() {
         def metricResult = manager.getPackageMetricResult('aa/bb')
         manager.addReferencesFromPackage(PACKAGE1, ['aa/bb'])
         assert manager.getPackageMetricResult('aa.bb') == metricResult
     }
 
-    @Test	void testNormalizePackageName() {
+    @Test
+	void testNormalizePackageName() {
         assert manager.normalizePackageName(' ') == ' '
         assert manager.normalizePackageName('a.b') == 'a.b'
         assert manager.normalizePackageName('a/b') == 'a.b'

@@ -28,21 +28,24 @@ import org.junit.Test
  */
 class EfferentCouplingMetric_ClassTest extends AbstractPackageCouplingMetric_ClassTestCase {
 
-    static metricClass = EfferentCouplingMetric
+    static Class metricClass = EfferentCouplingMetric
 
     //------------------------------------------------------------------------------------
     // Additional Test (beyond tests from superclass)
     //------------------------------------------------------------------------------------
 
-    @Test	void testMetricName() {
+    @Test
+	void testMetricName() {
         assert metric.name == 'EfferentCoupling'
     }
 
-    @Test	void testFunctions() {
+    @Test
+	void testFunctions() {
         assert metric.functions == [FunctionNames.VALUE, FunctionNames.AVERAGE]
     }
 
-    @Test	void testMetricImplementsPostProcessingMetricInterface() {
+    @Test
+	void testMetricImplementsPostProcessingMetricInterface() {
         assert metric instanceof PostProcessingMetric
     }
 

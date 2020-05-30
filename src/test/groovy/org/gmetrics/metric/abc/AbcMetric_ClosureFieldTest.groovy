@@ -24,9 +24,10 @@ import org.junit.Test
  */
 class AbcMetric_ClosureFieldTest extends AbstractAbcMetricTest {
 
-    static metricClass = AbcMetric
+    static Class metricClass = AbcMetric
 
-    @Test	void testApplyToClosure() {
+    @Test
+	void testApplyToClosure() {
         final SOURCE = """
             class MyClass {
                 def myClosure = { }
@@ -36,7 +37,8 @@ class AbcMetric_ClosureFieldTest extends AbstractAbcMetricTest {
         AbcTestUtil.assertEquals(result, ZERO_VECTOR)
     }
 
-    @Test	void testCalculate_ZeroResultForEmptyClosure() {
+    @Test
+	void testCalculate_ZeroResultForEmptyClosure() {
         final SOURCE = """
             class MyClass {
                 def myClosure = { }
@@ -45,7 +47,8 @@ class AbcMetric_ClosureFieldTest extends AbstractAbcMetricTest {
         assertCalculateForClosureField(SOURCE, ZERO_VECTOR)
     }
 
-    @Test	void testCalculate_CountsForClosureField() {
+    @Test
+	void testCalculate_CountsForClosureField() {
         final SOURCE = """
             class MyClass {
                 def myClosure = {

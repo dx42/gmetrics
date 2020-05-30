@@ -15,9 +15,12 @@
  */
 package org.gmetrics.report
 
+import org.gmetrics.metric.Metric
 import org.gmetrics.metric.StubMetric
 import org.gmetrics.metricset.ListMetricSet
+import org.gmetrics.metricset.MetricSet
 import org.gmetrics.result.StubMetricResult
+import org.gmetrics.resultsnode.ResultsNode
 import org.gmetrics.test.AbstractTestCase
 import org.junit.Before
 import org.junit.Test
@@ -30,48 +33,56 @@ import org.junit.Test
 
 class SingleSeriesCriteriaFilterTest extends AbstractTestCase {
 
-    private filter = new SingleSeriesCriteriaFilter()
-    private resultsNode
-    private metric1, metric2
-    private metricSet
+    private SingleSeriesCriteriaFilter filter = new SingleSeriesCriteriaFilter()
+    private ResultsNode resultsNode
+    private Metric metric1
+    private Metric metric2
+    private MetricSet metricSet
 
-    @Test	void testBuildSeriesData_Method() {
+    @Test
+	void testBuildSeriesData_Method() {
         configureFilter(metric:'Metric1', level:'method', function:'average')
         def seriesData = filter.buildSeriesData(resultsNode, metricSet)
         assertSeriesData(seriesData, ['ClassA1#MethodA1a':1311, 'ClassA1#MethodA1c':1314, 'ClassA3#MethodA3a':1313])
     }
 
-    @Test	void testBuildSeriesData_Class() {
+    @Test
+	void testBuildSeriesData_Class() {
         configureFilter(metric:'Metric1', level:'class', function:'average')
         def seriesData = filter.buildSeriesData(resultsNode, metricSet)
         assertSeriesData(seriesData, [ClassA2:1212, ClassA3:1213])
     }
 
-    @Test	void testBuildSeriesData_Package() {
+    @Test
+	void testBuildSeriesData_Package() {
         configureFilter(metric:'Metric1', level:'package', function:'average')
         def seriesData = filter.buildSeriesData(resultsNode, metricSet)
         assertSeriesData(seriesData, ['org.gmetrics.DirA':1112, 'org.gmetrics.DirB':1113, 'org.gmetrics.DirC':1114])
     }
 
-    @Test	void testBuildSeriesData_Sort_Descending() {
+    @Test
+	void testBuildSeriesData_Sort_Descending() {
         configureFilter(metric:'Metric1', level:'method', function:'average', sort:'descending')
         def seriesData = filter.buildSeriesData(resultsNode, metricSet)
         assertSeriesData(seriesData, ['ClassA1#MethodA1c':1314, 'ClassA3#MethodA3a':1313, 'ClassA1#MethodA1a':1311])
     }
 
-    @Test	void testBuildSeriesData_Sort_Ascending_Integer() {
+    @Test
+	void testBuildSeriesData_Sort_Ascending_Integer() {
         configureFilter(metric:'Metric1', level:'method', function:'average', sort:'ascending')
         def seriesData = filter.buildSeriesData(resultsNode, metricSet)
         assertSeriesData(seriesData, ['ClassA1#MethodA1a':1311, 'ClassA3#MethodA3a':1313, 'ClassA1#MethodA1c':1314])
     }
 
-    @Test	void testBuildSeriesData_Sort_Descending_BigDecimal() {
+    @Test
+	void testBuildSeriesData_Sort_Descending_BigDecimal() {
         configureFilter(metric:'Metric1', level:'class', function:'total', sort:'descending')
         def seriesData = filter.buildSeriesData(resultsNode, metricSet)
         assertSeriesData(seriesData, ['ClassA3':1203.77, 'ClassA1':1201.99])
     }
 
-    @Test	void testBuildSeriesData_Sort_NullOrEmpty() {
+    @Test
+	void testBuildSeriesData_Sort_NullOrEmpty() {
         [null, ''].each { sort ->
             configureFilter(metric:'Metric1', level:'package', function:'average', sort:sort)
             def seriesData = filter.buildSeriesData(resultsNode, metricSet)
@@ -79,24 +90,28 @@ class SingleSeriesCriteriaFilterTest extends AbstractTestCase {
         }
     }
 
-    @Test	void testBuildSeriesData_InvalidSortValue_ThrowsException() {
+    @Test
+	void testBuildSeriesData_InvalidSortValue_ThrowsException() {
         configureFilter(metric:'Metric1', level:'package', function:'average', sort:'xxx')
         shouldFailWithMessageContaining(['sort','xxx']) { filter.buildSeriesData(resultsNode, metricSet) }
     }
 
-    @Test	void testBuildSeriesData_MaxResults_Sort() {
+    @Test
+	void testBuildSeriesData_MaxResults_Sort() {
         configureFilter(metric:'Metric1', level:'method', function:'average', sort:'descending', maxResults:'2')
         def seriesData = filter.buildSeriesData(resultsNode, metricSet)
         assertSeriesData(seriesData, ['ClassA1#MethodA1c':1314, 'ClassA3#MethodA3a':1313])
     }
 
-    @Test	void testBuildSeriesData_MaxResults_MaxResultsLargerThanResultsSize() {
+    @Test
+	void testBuildSeriesData_MaxResults_MaxResultsLargerThanResultsSize() {
         configureFilter(metric:'Metric1', level:'method', function:'average', sort:'descending', maxResults:'99')
         def seriesData = filter.buildSeriesData(resultsNode, metricSet)
         assertSeriesData(seriesData, ['ClassA1#MethodA1c':1314, 'ClassA3#MethodA3a':1313, 'ClassA1#MethodA1a':1311])
     }
 
-    @Test	void testBuildSeriesData_MaxResults_ZeroNullOrEmpty_NoLimit() {
+    @Test
+	void testBuildSeriesData_MaxResults_ZeroNullOrEmpty_NoLimit() {
         ['0', null, ''].each { maxResults ->
             configureFilter(metric:'Metric1', level:'method', function:'average', sort:'descending', maxResults:maxResults)
             def seriesData = filter.buildSeriesData(resultsNode, metricSet)
@@ -104,7 +119,8 @@ class SingleSeriesCriteriaFilterTest extends AbstractTestCase {
         }
     }
 
-    @Test	void testBuildSeriesData_InvalidMaxResults_ThrowsException() {
+    @Test
+	void testBuildSeriesData_InvalidMaxResults_ThrowsException() {
         configureFilter(metric:'Metric1', level:'package', function:'average')
         ['-1', 'xx'].each { maxResults ->
             filter.maxResults = maxResults
@@ -112,31 +128,36 @@ class SingleSeriesCriteriaFilterTest extends AbstractTestCase {
         }
     }
 
-    @Test	void testBuildSeriesData_GreaterThan_Integer() {
+    @Test
+	void testBuildSeriesData_GreaterThan_Integer() {
         configureFilter(metric:'Metric1', level:'method', function:'average', greaterThan:'1311')
         def seriesData = filter.buildSeriesData(resultsNode, metricSet)
         assertSeriesData(seriesData, ['ClassA1#MethodA1c':1314, 'ClassA3#MethodA3a':1313])
     }
 
-    @Test	void testBuildSeriesData_GreaterThan_BigDecimal() {
+    @Test
+	void testBuildSeriesData_GreaterThan_BigDecimal() {
         configureFilter(metric:'Metric1', level:'class', function:'total', greaterThan:'1202.7543')
         def seriesData = filter.buildSeriesData(resultsNode, metricSet)
         assertSeriesData(seriesData, ['ClassA3':1203.77])
     }
 
-    @Test	void testBuildSeriesData_GreaterThan_LargerThanAllValues() {
+    @Test
+	void testBuildSeriesData_GreaterThan_LargerThanAllValues() {
         configureFilter(metric:'Metric1', level:'method', function:'average', sort:'descending', greaterThan:'1315')
         def seriesData = filter.buildSeriesData(resultsNode, metricSet)
         assertSeriesData(seriesData, [:])
     }
 
-    @Test	void testBuildSeriesData_GreaterThan_LessThanThanAllValues() {
+    @Test
+	void testBuildSeriesData_GreaterThan_LessThanThanAllValues() {
         configureFilter(metric:'Metric1', level:'method', function:'average', sort:'descending', greaterThan:'1300')
         def seriesData = filter.buildSeriesData(resultsNode, metricSet)
         assertSeriesData(seriesData, ['ClassA1#MethodA1c':1314, 'ClassA3#MethodA3a':1313, 'ClassA1#MethodA1a':1311])
     }
 
-    @Test	void testBuildSeriesData_GreaterThan_NullOrEmpty() {
+    @Test
+	void testBuildSeriesData_GreaterThan_NullOrEmpty() {
         [null, ''].each { greaterThan ->
             configureFilter(metric:'Metric1', level:'method', function:'average', sort:'descending', greaterThan:greaterThan)
             def seriesData = filter.buildSeriesData(resultsNode, metricSet)
@@ -144,7 +165,8 @@ class SingleSeriesCriteriaFilterTest extends AbstractTestCase {
         }
     }
 
-    @Test	void testBuildSeriesData_InvalidGreaterThan_ThrowsException() {
+    @Test
+	void testBuildSeriesData_InvalidGreaterThan_ThrowsException() {
         configureFilter(metric:'Metric1', level:'package', function:'average')
         ['234.67zzz', 'xx'].each { greaterThan ->
             filter.greaterThan = greaterThan
@@ -152,31 +174,36 @@ class SingleSeriesCriteriaFilterTest extends AbstractTestCase {
         }
     }
 
-    @Test	void testBuildSeriesData_LessThan_Integer() {
+    @Test
+	void testBuildSeriesData_LessThan_Integer() {
         configureFilter(metric:'Metric1', level:'method', function:'average', lessThan:'1314')
         def seriesData = filter.buildSeriesData(resultsNode, metricSet)
         assertSeriesData(seriesData, ['ClassA1#MethodA1a':1311, 'ClassA3#MethodA3a':1313])
     }
 
-    @Test	void testBuildSeriesData_LessThan_BigDecimal() {
+    @Test
+	void testBuildSeriesData_LessThan_BigDecimal() {
         configureFilter(metric:'Metric1', level:'class', function:'total', lessThan:'1202.7543')
         def seriesData = filter.buildSeriesData(resultsNode, metricSet)
         assertSeriesData(seriesData, ['ClassA1':1201.99])
     }
 
-    @Test	void testBuildSeriesData_LessThan_SmallerThanAllValues() {
+    @Test
+	void testBuildSeriesData_LessThan_SmallerThanAllValues() {
         configureFilter(metric:'Metric1', level:'method', function:'average', sort:'descending', lessThan:'1200')
         def seriesData = filter.buildSeriesData(resultsNode, metricSet)
         assertSeriesData(seriesData, [:])
     }
 
-    @Test	void testBuildSeriesData_LessThan_GreaterThanThanAllValues() {
+    @Test
+	void testBuildSeriesData_LessThan_GreaterThanThanAllValues() {
         configureFilter(metric:'Metric1', level:'method', function:'average', sort:'descending', lessThan:'1400')
         def seriesData = filter.buildSeriesData(resultsNode, metricSet)
         assertSeriesData(seriesData, ['ClassA1#MethodA1c':1314, 'ClassA3#MethodA3a':1313, 'ClassA1#MethodA1a':1311])
     }
 
-    @Test	void testBuildSeriesData_LessThan_NullOrEmpty() {
+    @Test
+	void testBuildSeriesData_LessThan_NullOrEmpty() {
         [null, ''].each { lessThan ->
             configureFilter(metric:'Metric1', level:'method', function:'average', sort:'descending', lessThan:lessThan)
             def seriesData = filter.buildSeriesData(resultsNode, metricSet)
@@ -184,7 +211,8 @@ class SingleSeriesCriteriaFilterTest extends AbstractTestCase {
         }
     }
 
-    @Test	void testBuildSeriesData_InvalidLessThan_ThrowsException() {
+    @Test
+	void testBuildSeriesData_InvalidLessThan_ThrowsException() {
         configureFilter(metric:'Metric1', level:'package', function:'average')
         ['234.67zzz', 'xx'].each { lessThan ->
             filter.lessThan = lessThan
@@ -192,28 +220,33 @@ class SingleSeriesCriteriaFilterTest extends AbstractTestCase {
         }
     }
 
-    @Test	void testBuildSeriesData_LessThan_AndGreaterThan() {
+    @Test
+	void testBuildSeriesData_LessThan_AndGreaterThan() {
         configureFilter(metric:'Metric1', level:'method', function:'average', lessThan:'1314', greaterThan:'1312')
         def seriesData = filter.buildSeriesData(resultsNode, metricSet)
         assertSeriesData(seriesData, ['ClassA3#MethodA3a':1313])
     }
 
-    @Test	void testBuildSeriesData_NoSuchMetric_ThrowsException() {
+    @Test
+	void testBuildSeriesData_NoSuchMetric_ThrowsException() {
         configureFilter(metric:'NoSuchMetric', level:'package', function:'average')
         shouldFailWithMessageContaining('NoSuchMetric') { filter.buildSeriesData(resultsNode, metricSet) }
     }
 
-    @Test	void testBuildSeriesData_NoSuchLevel() {
+    @Test
+	void testBuildSeriesData_NoSuchLevel() {
         configureFilter(metric:'Metric1', level:'NoSuchLevel', function:'average')
         shouldFailWithMessageContaining('NoSuchLevel') { filter.buildSeriesData(resultsNode, metricSet) }
     }
 
-    @Test	void testBuildSeriesData_NoSuchFunction() {
+    @Test
+	void testBuildSeriesData_NoSuchFunction() {
         configureFilter(metric:'Metric1', level:'package', function:'NoSuchFunction')
         shouldFailWithMessageContaining('NoSuchFunction') { filter.buildSeriesData(resultsNode, metricSet) }
     }
 
-    @Test	void testBuildSeriesData_NullOrEmptyLevel_ThrowsException() {
+    @Test
+	void testBuildSeriesData_NullOrEmptyLevel_ThrowsException() {
         configureFilter(metric:'Metric1', function:'average')
 
         [null, ''].each { value ->
@@ -222,7 +255,8 @@ class SingleSeriesCriteriaFilterTest extends AbstractTestCase {
         }
     }
 
-    @Test	void testBuildSeriesData_NullOrEmptyMetric_ThrowsException() {
+    @Test
+	void testBuildSeriesData_NullOrEmptyMetric_ThrowsException() {
         configureFilter(level:'package', function:'average')
 
         [null, ''].each { value ->
@@ -231,7 +265,8 @@ class SingleSeriesCriteriaFilterTest extends AbstractTestCase {
         }
     }
 
-    @Test	void testBuildSeriesData_NullOrEmptyFunction_ThrowsException() {
+    @Test
+	void testBuildSeriesData_NullOrEmptyFunction_ThrowsException() {
         configureFilter(metric:'Metric1', level:'package')
 
         [null, ''].each { value ->

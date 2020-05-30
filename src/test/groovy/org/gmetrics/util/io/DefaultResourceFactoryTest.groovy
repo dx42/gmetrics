@@ -23,31 +23,35 @@ import org.junit.Test
  * Tests for DefaultResourceFactory
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class DefaultResourceFactoryTest extends AbstractTestCase {
 
     private static final PATH = 'src/test/resources/resource/SampleResource.txt'
     private resourceFactory
 
-    @Test	void testConstructor_NullOrEmpty() {
+    @Test
+	void testConstructor_NullOrEmpty() {
         shouldFailWithMessageContaining('path') { resourceFactory.getResource(null) }
         shouldFailWithMessageContaining('path') { resourceFactory.getResource('') }
     }
 
-    @Test	void testGetResource_NoPrefix() {
+    @Test
+	void testGetResource_NoPrefix() {
         testGetResource(PATH, ClassPathResource)
     }
 
-    @Test	void testGetResource_HttpPrefix() {
+    @Test
+	void testGetResource_HttpPrefix() {
         testGetResource("http://codenarc.org", UrlResource) 
     }
 
-    @Test	void testGetResource_FtpPrefix() {
+    @Test
+	void testGetResource_FtpPrefix() {
         testGetResource("ftp://codenarc.org", UrlResource) 
     }
 
-    @Test	void testGetResource_ClassPathPrefix() {
+    @Test
+	void testGetResource_ClassPathPrefix() {
         testGetResource("classpath:" + PATH, ClassPathResource, PATH)
     }
 

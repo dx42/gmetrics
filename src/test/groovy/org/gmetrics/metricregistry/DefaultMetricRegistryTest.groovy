@@ -37,13 +37,15 @@ import org.junit.Test
  */
 class DefaultMetricRegistryTest extends AbstractTestCase {
 
-    private registry = new DefaultMetricRegistry()
+    private DefaultMetricRegistry registry = new DefaultMetricRegistry()
 
-    @Test	void testImplementsMetricRegistry() {
+    @Test
+	void testImplementsMetricRegistry() {
         assert registry instanceof MetricRegistry
     }
 
-    @Test	void testRetrieveMetricClassesByName() {
+    @Test
+	void testRetrieveMetricClassesByName() {
         assert registry.getMetricClass('ABC') == AbcMetric
         assert registry.getMetricClass('AfferentCoupling') == AfferentCouplingMetric
         assert registry.getMetricClass('ClassCount') == ClassCountMetric
@@ -58,7 +60,8 @@ class DefaultMetricRegistryTest extends AbstractTestCase {
         assert registry.getMetricClass('MethodLineCount') == MethodLineCountMetric
     }
 
-    @Test	void testGetAllMetricNames() {
+    @Test
+	void testGetAllMetricNames() {
         def allNames = registry.allMetricNames
         assert allNames.containsAll(['ABC', 'ClassCount', 'MethodLineCount'])
     }

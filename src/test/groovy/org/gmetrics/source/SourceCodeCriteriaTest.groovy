@@ -23,7 +23,6 @@ import org.junit.Test
  * Tests for SourceCodeUtil
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class SourceCodeCriteriaTest extends AbstractTestCase {
     private static final NAME = 'MyTest.groovy'
@@ -35,13 +34,15 @@ class SourceCodeCriteriaTest extends AbstractTestCase {
 	
     private sourceCode
 
-    @Test	void testMatches_NullPathAndName() {
+    @Test
+	void testMatches_NullPathAndName() {
         assert new SourceCodeCriteria().matches(sourceCode)
         assert new SourceCodeCriteria(doNotApplyToFilesMatching:ANYTHING).matches(sourceCode)
         assert !new SourceCodeCriteria(applyToFilesMatching:ANYTHING).matches(sourceCode)
     }
 
-    @Test	void testMatches_Path() {
+    @Test
+	void testMatches_Path() {
         sourceCode.path = PATH
         assert new SourceCodeCriteria().matches(sourceCode)
         assert new SourceCodeCriteria(applyToFilesMatching:MATCH).matches(sourceCode)
@@ -51,7 +52,8 @@ class SourceCodeCriteriaTest extends AbstractTestCase {
         assert !new SourceCodeCriteria(applyToFilesMatching:MATCH, doNotApplyToFilesMatching:MATCH).matches(sourceCode)
     }
 
-    @Test	void testMatches_Name() {
+    @Test
+	void testMatches_Name() {
         sourceCode.name = NAME
         assert new SourceCodeCriteria().matches(sourceCode)
         assert new SourceCodeCriteria(applyToFileNames:NAME).matches(sourceCode)
@@ -65,7 +67,8 @@ class SourceCodeCriteriaTest extends AbstractTestCase {
         assert !new SourceCodeCriteria(doNotApplyToFileNames:"$OTHER_NAME,$NAME").matches(sourceCode)
     }
 
-    @Test	void testMatches_Name_Wildcards() {
+    @Test
+	void testMatches_Name_Wildcards() {
         sourceCode.name = NAME
         assert new SourceCodeCriteria(applyToFileNames:'*.groovy').matches(sourceCode)
         assert new SourceCodeCriteria(applyToFileNames:'MyT?st.groovy').matches(sourceCode)
@@ -78,7 +81,8 @@ class SourceCodeCriteriaTest extends AbstractTestCase {
         assert !new SourceCodeCriteria(doNotApplyToFileNames:"$OTHER_NAME,My*.groovy").matches(sourceCode)
     }
 
-    @Test	void testMatches_NameAndPath() {
+    @Test
+	void testMatches_NameAndPath() {
         sourceCode.name = NAME
         sourceCode.path = PATH
         assert new SourceCodeCriteria().matches(sourceCode)

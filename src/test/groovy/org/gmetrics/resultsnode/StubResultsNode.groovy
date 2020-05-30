@@ -50,4 +50,5 @@ class StubResultsNode implements ResultsNode {
         def pathString = path ? "path=$path, ": ""
         "StubResultsNode[${pathString}level=$level, metricResults=$metricResults, children=$children]"
     }
+
 }

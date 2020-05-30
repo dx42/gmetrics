@@ -24,6 +24,6 @@ import org.gmetrics.metric.AbstractCommonMethodMetricTestCase
  */
 class CyclomaticComplexityMetric_CommonTest extends AbstractCommonMethodMetricTestCase {
 
-    static metricClass = CyclomaticComplexityMetric
+    static Class metricClass = CyclomaticComplexityMetric
 
 }

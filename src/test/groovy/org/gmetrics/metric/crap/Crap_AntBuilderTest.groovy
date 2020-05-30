@@ -26,12 +26,13 @@ import org.junit.Test
  */
 class Crap_AntBuilderTest extends AbstractTestCase {
 
-    private static final HTML_REPORT_WRITER = 'org.gmetrics.report.BasicHtmlReportWriter'
-    private static final HTML_REPORT_FILE = "$REPORTS_DIR/CRAP_AntBuilderTest.html"
+    private static final String HTML_REPORT_WRITER = 'org.gmetrics.report.BasicHtmlReportWriter'
+    private static final String HTML_REPORT_FILE = "$REPORTS_DIR/CRAP_AntBuilderTest.html"
 
     private ant
 
-    @Test	void testAntTask_AgainstProjectSourceCode() {
+    @Test
+	void testAntTask_AgainstProjectSourceCode() {
         ant.gmetrics(metricSetFile: 'crap/CrapMetricSet.txt') {
             fileset(dir:'src/main/groovy') {
                 include(name:"**/*.groovy")

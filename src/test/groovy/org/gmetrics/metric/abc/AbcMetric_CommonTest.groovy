@@ -24,5 +24,5 @@ import org.gmetrics.metric.AbstractCommonMethodMetricTestCase
  */
 class AbcMetric_CommonTest extends AbstractCommonMethodMetricTestCase {
 
-    static metricClass = AbcMetric
+    static Class metricClass = AbcMetric
 }

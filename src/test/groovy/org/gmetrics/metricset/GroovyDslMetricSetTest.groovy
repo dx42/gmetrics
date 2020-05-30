@@ -22,28 +22,32 @@ import org.junit.Test
  * Tests for GroovyDslMetricSet
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class GroovyDslMetricSetTest extends AbstractTestCase {
 
-    @Test	void testImplementsMetricSet() {
+    @Test
+	void testImplementsMetricSet() {
         assert new GroovyDslMetricSet(MetricSetTestFiles.METRICSET1) instanceof MetricSet  
     }
 
-    @Test	void testNullPath() {
+    @Test
+	void testNullPath() {
         shouldFailWithMessageContaining('path') { new GroovyDslMetricSet(null) }
     }
 
-    @Test	void testEmptyPath() {
+    @Test
+	void testEmptyPath() {
         shouldFailWithMessageContaining('path') { new GroovyDslMetricSet('') }
     }
 
-    @Test	void testFileDoesNotExist() {
+    @Test
+	void testFileDoesNotExist() {
         Throwable exception = shouldFail { new GroovyDslMetricSet('DoesNotExist.xml') }
         assertContainsAll(exception.message, ['DoesNotExist.xml', 'does not exist'])
     }
 
-    @Test	void testLoadGroovyMetricSet() {
+    @Test
+	void testLoadGroovyMetricSet() {
         [MetricSetTestFiles.METRICSET1, MetricSetTestFiles.METRICSET1_RELATIVE_PATH].each { path ->
             def metrics = loadMetricSetFromFile(path)
             assert metrics*.name == ['Stub', 'XXX']
@@ -51,21 +55,24 @@ class GroovyDslMetricSetTest extends AbstractTestCase {
         }
     }
 
-    @Test	void testLoadNestedGroovyMetricSet() {
+    @Test
+	void testLoadNestedGroovyMetricSet() {
         def metrics = loadMetricSetFromFile(MetricSetTestFiles.METRICSET2)
         assert metrics*.name == ['CustomMetric', 'Stub', 'XXX']
         assert metrics[0].otherProperty == '345'
         assert metrics[1].otherProperty == 'abc'
     }
 
-    @Test	void testLoadNestedGroovyMetricSet_CustomizeContainedMetricUsingClosure() {
+    @Test
+	void testLoadNestedGroovyMetricSet_CustomizeContainedMetricUsingClosure() {
         def metrics = loadMetricSetFromFile(MetricSetTestFiles.METRICSET3)
         assert metrics*.name == ['CustomMetric', 'Stub', 'XXX']
         assert metrics[0].otherProperty == '678'
         assert metrics[1].otherProperty == 'abc'
     }
 
-    @Test	void testLoadGroovyMetricSet_SetNonExistentMetricProperty() {
+    @Test
+	void testLoadGroovyMetricSet_SetNonExistentMetricProperty() {
         shouldFailWithMessageContaining('noSuchProperty') { loadMetricSetFromFile('metricsets/GroovyMetricSet_Bad.txt') }
     }
 

@@ -24,7 +24,6 @@ import org.junit.Test
  * Tests for LevelsCriteriaFilter
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 
 class LevelsCriteriaFilterTest extends AbstractTestCase {
@@ -35,12 +34,14 @@ class LevelsCriteriaFilterTest extends AbstractTestCase {
 
     private levelsCriteriaFilter = new LevelsCriteriaFilter()
 
-    @Test	void testNoLevelsDefined_IncludesLevel_ReturnsTrue() {
+    @Test
+	void testNoLevelsDefined_IncludesLevel_ReturnsTrue() {
         assert levelsCriteriaFilter.includesLevel(METRIC_ABC, MetricLevel.CLASS)
         assert levelsCriteriaFilter.includesLevel(METRIC_XXX, MetricLevel.PACKAGE)
     }
 
-    @Test	void testOneMetric_OneLevelDefined_IncludesLevel_ReturnsTrueForThat_AndFalseForOthers() {
+    @Test
+	void testOneMetric_OneLevelDefined_IncludesLevel_ReturnsTrueForThat_AndFalseForOthers() {
         levelsCriteriaFilter.setLevels('ABC=package')
         assert levelsCriteriaFilter.includesLevel(METRIC_ABC, MetricLevel.PACKAGE)
         assert !levelsCriteriaFilter.includesLevel(METRIC_ABC, MetricLevel.CLASS)
@@ -49,7 +50,8 @@ class LevelsCriteriaFilterTest extends AbstractTestCase {
         assert levelsCriteriaFilter.includesLevel(METRIC_XXX, MetricLevel.CLASS)
     }
 
-    @Test	void testOneMetric_SingleLevelDefined_IncludesLevel_ReturnsTrueForMatching_AndFalseForOthers() {
+    @Test
+	void testOneMetric_SingleLevelDefined_IncludesLevel_ReturnsTrueForMatching_AndFalseForOthers() {
         levelsCriteriaFilter.setLevels('ABC=package,method')
         assert levelsCriteriaFilter.includesLevel(METRIC_ABC, MetricLevel.PACKAGE)
         assert !levelsCriteriaFilter.includesLevel(METRIC_ABC, MetricLevel.CLASS)
@@ -58,7 +60,8 @@ class LevelsCriteriaFilterTest extends AbstractTestCase {
         assert levelsCriteriaFilter.includesLevel(METRIC_XXX, MetricLevel.CLASS)
     }
 
-    @Test	void testMultipleMetrics_MultipleLevelsDefined_IncludesLevel_ReturnsTrueForMatching_AndFalseForOthers() {
+    @Test
+	void testMultipleMetrics_MultipleLevelsDefined_IncludesLevel_ReturnsTrueForMatching_AndFalseForOthers() {
         levelsCriteriaFilter.setLevels('ABC=class,method; XXX=class,package; ZZZ=method')
         assert !levelsCriteriaFilter.includesLevel(METRIC_ABC, MetricLevel.PACKAGE)
         assert levelsCriteriaFilter.includesLevel(METRIC_ABC, MetricLevel.CLASS)
@@ -71,7 +74,8 @@ class LevelsCriteriaFilterTest extends AbstractTestCase {
         assert levelsCriteriaFilter.includesLevel(METRIC_123, MetricLevel.METHOD)
     }
 
-    @Test	void testMultipleLevelsDefined_IncludesLevel_IsCaseInsensitive() {
+    @Test
+	void testMultipleLevelsDefined_IncludesLevel_IsCaseInsensitive() {
         levelsCriteriaFilter.setLevels('ABC=pACKaGe,METHOD;   XXX = Class ')
         assert levelsCriteriaFilter.includesLevel(METRIC_ABC, MetricLevel.PACKAGE)
         assert !levelsCriteriaFilter.includesLevel(METRIC_ABC, MetricLevel.CLASS)
@@ -81,13 +85,15 @@ class LevelsCriteriaFilterTest extends AbstractTestCase {
         assert !levelsCriteriaFilter.includesLevel(METRIC_XXX, MetricLevel.METHOD)
     }
 
-    @Test	void testInvalidCriteriaString_ThrowsException() {
+    @Test
+	void testInvalidCriteriaString_ThrowsException() {
         shouldFailWithMessageContaining('criteria') { levelsCriteriaFilter.setLevels('%#') }
         shouldFailWithMessageContaining('criteria') { levelsCriteriaFilter.setLevels('ABC') }
         shouldFailWithMessageContaining('criteria') { levelsCriteriaFilter.setLevels('ABC:123') }
     }
 
-    @Test	void testSetLevels_NullOrEmptyCriteriaString_ThrowsException() {
+    @Test
+	void testSetLevels_NullOrEmptyCriteriaString_ThrowsException() {
         shouldFailWithMessageContaining('criteria') { levelsCriteriaFilter.setLevels(null) }
         shouldFailWithMessageContaining('criteria') { levelsCriteriaFilter.setLevels('') }
     }

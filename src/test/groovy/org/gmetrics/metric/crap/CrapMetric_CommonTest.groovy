@@ -27,8 +27,8 @@ import org.junit.Before
  */
 class CrapMetric_CommonTest extends AbstractCommonMethodMetricTestCase {
 
-    static metricClass = CrapMetric
-    static doesMetricTreatClosuresAsMethods = false
+    static Class metricClass = CrapMetric
+    static boolean doesMetricTreatClosuresAsMethods = false
 
     @Before
     void setUp() {

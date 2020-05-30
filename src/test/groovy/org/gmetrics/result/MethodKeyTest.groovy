@@ -24,19 +24,20 @@ import org.junit.Test
 
 /**
  * Tests for MethodKey
- *
  * @author Chris Mair
  */
 @SuppressWarnings('ExplicitCallToEqualsMethod')
 class MethodKeyTest extends AbstractTestCase {
 
-    @Test	void testMethodName() {
+    @Test
+	void testMethodName() {
         def methodKey = new MethodKey('abc')
         assert methodKey.methodName == 'abc'
         assert methodKey.signature == null
     }
 
-    @Test	void testMethodNode() {
+    @Test
+	void testMethodNode() {
         def methodNode = buildMethodNodes()[0]
         def methodKey = new MethodKey(methodNode)
         assert methodKey.methodName == 'myMethod'
@@ -44,60 +45,70 @@ class MethodKeyTest extends AbstractTestCase {
     }
 
     @SuppressWarnings('ComparisonWithSelf')
-    @Test	void testEqualsAndHashCode_SameInstance() {
+    @Test
+	void testEqualsAndHashCode_SameInstance() {
         def methodKey = new MethodKey('abc')
         assert methodKey.equals(methodKey)
         assert methodKey.hashCode() == methodKey.hashCode()
     }
 
-    @Test	void testEqualsAndHashCode_SameMethodNameValue() {
+    @Test
+	void testEqualsAndHashCode_SameMethodNameValue() {
         def methodKey1 = new MethodKey('abc')
         def methodKey2 = new MethodKey('abc')
         assert methodKey1.equals(methodKey2)
         assert methodKey1.hashCode() == methodKey2.hashCode()
     }
 
-    @Test	void testEqualsAndHashCode_SameMethodNodeValue() {
+    @Test
+	void testEqualsAndHashCode_SameMethodNodeValue() {
         def methodNode1 = buildMethodNodes()[0]
         def methodNode2 = buildMethodNodes()[0]
         assertEqualMethodKeys(methodNode1, methodNode2)
     }
 
-    @Test	void testEqualsAndHashCode_DifferentMethodNameValue() {
+    @Test
+	void testEqualsAndHashCode_DifferentMethodNameValue() {
         def methodKey1 = new MethodKey('abc')
         def methodKey2 = new MethodKey('xxx')
         assert !methodKey1.equals(methodKey2)
         assert methodKey1.hashCode() != methodKey2.hashCode()
     }
 
-    @Test	void testEqualsAndHashCode_DifferentMethodNodeValues() {
+    @Test
+	void testEqualsAndHashCode_DifferentMethodNodeValues() {
         def methodNode1 = buildMethodNodes()[0]
         def methodNode2 = buildMethodNodes()[1]
         assertUnequalMethodKeys(methodNode1, methodNode2)
     }
 
-    @Test	void testEqualsAndHashCode_OverriddenMethod() {
+    @Test
+	void testEqualsAndHashCode_OverriddenMethod() {
         def methodNode1 = buildMethodNodes()[0]
         def methodNode2 = buildMethodNodes()[2]
         assertUnequalMethodKeys(methodNode1, methodNode2)
     }
 
-    @Test	void testEquals_NotAMethodKey() {
+    @Test
+	void testEquals_NotAMethodKey() {
         def methodKey = new MethodKey('abc')
         assert !methodKey.equals('XXX')
     }
 
-    @Test	void testEquals_Null() {
+    @Test
+	void testEquals_Null() {
         def methodKey = new MethodKey('abc')
         assert !methodKey.equals(null)
     }
 
-    @Test	void testConstructor_String_NullOrEmptyString() {
+    @Test
+	void testConstructor_String_NullOrEmptyString() {
         shouldFailWithMessageContaining('methodName') { new MethodKey((String)null) }
         shouldFailWithMessageContaining('methodName') { new MethodKey('') }
     }
 
-    @Test	void testConstructor_MethodNode_NullMethodNode() {
+    @Test
+	void testConstructor_MethodNode_NullMethodNode() {
         shouldFailWithMessageContaining('methodNode') { new MethodKey((MethodNode)null) }
     }
 

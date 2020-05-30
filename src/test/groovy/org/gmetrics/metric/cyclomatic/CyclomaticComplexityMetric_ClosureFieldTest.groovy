@@ -25,9 +25,10 @@ import org.junit.Test
  */
 class CyclomaticComplexityMetric_ClosureFieldTest extends AbstractMetricTestCase {
 
-    static metricClass = CyclomaticComplexityMetric
+    static Class metricClass = CyclomaticComplexityMetric
 
-    @Test	void testApplyToClosure() {
+    @Test
+	void testApplyToClosure() {
         final SOURCE = """
             class MyClass {
                 def myClosure = { }
@@ -36,7 +37,8 @@ class CyclomaticComplexityMetric_ClosureFieldTest extends AbstractMetricTestCase
         assert applyToClosureValue(SOURCE) == 1
     }
 
-    @Test	void testCalculate_ReturnsOne_ForEmptyClosureField() {
+    @Test
+	void testCalculate_ReturnsOne_ForEmptyClosureField() {
         final SOURCE = """
             class MyClass {
                 def myClosure = { }
@@ -45,7 +47,8 @@ class CyclomaticComplexityMetric_ClosureFieldTest extends AbstractMetricTestCase
         assert calculateForClosureField(SOURCE) == 1
     }
 
-    @Test	void testCalculate_ProperCount_ClosureField() {
+    @Test
+	void testCalculate_ProperCount_ClosureField() {
         final SOURCE = """
             class MyClass {
               def myClosure = {
@@ -77,7 +80,8 @@ class CyclomaticComplexityMetric_ClosureFieldTest extends AbstractMetricTestCase
         assert calculateForClosureField(SOURCE) == 12
     }
 
-    @Test	void testCalculate_ClosureFieldContainingNestedClosure() {
+    @Test
+	void testCalculate_ClosureFieldContainingNestedClosure() {
         final SOURCE = """
             class MyClass {
                 def myClosure = {

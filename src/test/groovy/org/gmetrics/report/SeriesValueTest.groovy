@@ -22,11 +22,11 @@ import org.junit.Test
  * Tests for SeriesValue
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class SeriesValueTest extends AbstractTestCase {
 
-    @Test	void testConstructorInitializesValues() {
+    @Test
+	void testConstructorInitializesValues() {
         def seriesValue = new SeriesValue('sample', 789)
         assert seriesValue.name == 'sample'
         assert seriesValue.value == 789

@@ -29,22 +29,22 @@ import org.junit.Test
  */
 class XmlReportWriterTest extends AbstractReportWriterTestCase {
 
-    private static final TIMESTAMP_DATE = new Date(1262361072497)
-    private static final FORMATTED_TIMESTAMP = DateFormat.getDateTimeInstance().format(TIMESTAMP_DATE)
-    private static final TITLE = 'My Cool Project'
-    private static final XML_DECLARATION = "<?xml version='1.0'?>"
-    private static final GMETRICS_ROOT = """<GMetrics url='http://www.gmetrics.org' version='${getVersion()}'>"""
-    private static final GMETRICS_END_TAG = "</GMetrics>"
-    private static final REPORT_TIMESTAMP = "<Report timestamp='${FORMATTED_TIMESTAMP}'/>"
-	private static final REPORT_FILE = "$REPORTS_DIR/GMetricsXmlReport.xml"
-    private static final METRIC_DESCRIPTIONS_1 = """
+    private static final Date TIMESTAMP_DATE = new Date(1262361072497)
+    private static final String FORMATTED_TIMESTAMP = DateFormat.getDateTimeInstance().format(TIMESTAMP_DATE)
+    private static final String TITLE = 'My Cool Project'
+    private static final String XML_DECLARATION = "<?xml version='1.0'?>"
+    private static final String GMETRICS_ROOT = """<GMetrics url='http://www.gmetrics.org' version='${getVersion()}'>"""
+    private static final String GMETRICS_END_TAG = "</GMetrics>"
+    private static final String REPORT_TIMESTAMP = "<Report timestamp='${FORMATTED_TIMESTAMP}'/>"
+	private static final String REPORT_FILE = "$REPORTS_DIR/GMetricsXmlReport.xml"
+    private static final String METRIC_DESCRIPTIONS_1 = """
         <Metrics>
             <Metric name='Metric1'>
                 <Description><![CDATA[Description for Metric1]]></Description>
             </Metric>
         </Metrics>
     """
-    private static final METRIC_DESCRIPTIONS_2 = """
+    private static final String METRIC_DESCRIPTIONS_2 = """
         <Metrics>
             <Metric name='Metric1'>
                 <Description><![CDATA[Description for Metric1]]></Description>
@@ -55,53 +55,57 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
         </Metrics>
     """
 
-    private static final PACKAGE_SUMMARY_1 = """
+    private static final String PACKAGE_SUMMARY_1 = """
         <PackageSummary>
             <MetricResult name='Metric1' total='10' average='10'/>
         </PackageSummary>
     """
 
-    private static final PACKAGE_SUMMARY_2 = """
+    private static final String PACKAGE_SUMMARY_2 = """
         <PackageSummary>
             <MetricResult name='Metric1' total='10' average='10'/>
             <MetricResult name='Metric2' total='20' average='20'/>
         </PackageSummary>
     """
 
-    private static final PROJECT = """
+    private static final String PROJECT = """
         <Project title='My Cool Project'>
             <SourceDirectory>c:/MyProject/src/main/groovy</SourceDirectory>
             <SourceDirectory>c:/MyProject/src/test/groovy</SourceDirectory>
         </Project>
     """
 
-    static reportFilename = REPORT_FILE
+    static String reportFilename = REPORT_FILE
 	 
-    private localizedMessages
+    private Map localizedMessages
 
     //------------------------------------------------------------------------------------
     // Tests
     //------------------------------------------------------------------------------------
 
-    @Test	void testThatDefaultOutputFile_IsGmetricsReportHtml() {
+    @Test
+	void testThatDefaultOutputFile_IsGmetricsReportHtml() {
         assert reportWriter.defaultOutputFile == 'GMetricsXmlReport.xml'
     }
 
-    @Test	void testWriteReport_SummaryOnly_SingleMetric() {
+    @Test
+	void testWriteReport_SummaryOnly_SingleMetric() {
         final XML = XML_DECLARATION + GMETRICS_ROOT + REPORT_TIMESTAMP + PROJECT + PACKAGE_SUMMARY_1 + METRIC_DESCRIPTIONS_1 + GMETRICS_END_TAG
         analysisContext.metricSet = metricSet1
         def resultsNode = packageResultsNode(metricResults:[metric1Result(10)])
         assertReportXml(resultsNode, XML)
     }
 
-    @Test	void testWriteReport_SummaryOnly_TwoMetrics_ButFilterOutOneOfThem() {
+    @Test
+	void testWriteReport_SummaryOnly_TwoMetrics_ButFilterOutOneOfThem() {
         final XML = XML_DECLARATION + GMETRICS_ROOT + REPORT_TIMESTAMP + PROJECT + PACKAGE_SUMMARY_1 + METRIC_DESCRIPTIONS_1 + GMETRICS_END_TAG
         def resultsNode = packageResultsNode(metricResults:[metric1Result(10), metric2Result(20)])
         reportWriter.setMetrics('Metric1')
         assertReportXml(resultsNode, XML)
     }
 
-    @Test	void testWriteReport_DoNotShowResultsForLevelBelowMetricBaseLevel() {
+    @Test
+	void testWriteReport_DoNotShowResultsForLevelBelowMetricBaseLevel() {
         final PACKAGES = """
             <Package path='src/org' name='org'>
                 <MetricResult name='Metric1' total='11' average='11'/>
@@ -127,7 +131,8 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
         assertReportXml(rootNode, XML)
     }
 
-    @Test	void testWriteReport_Package_TwoMetrics() {
+    @Test
+	void testWriteReport_Package_TwoMetrics() {
         final PACKAGES = """
             <Package path='src/org' name='org'>
                 <MetricResult name='Metric1' total='11' average='11'/>
@@ -142,7 +147,8 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
         assertReportXml(rootNode, XML)
     }
 
-    @Test	void testWriteReport_Package_NoPackageName() {
+    @Test
+	void testWriteReport_Package_NoPackageName() {
         final PACKAGES = """
             <Package path='src/org' name=''>
                 <MetricResult name='Metric1' total='11' average='11'/>
@@ -157,7 +163,8 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
         assertReportXml(rootNode, XML)
     }
 
-    @Test	void testWriteReport_Package_TwoClasses_TwoMetrics() {
+    @Test
+	void testWriteReport_Package_TwoClasses_TwoMetrics() {
         final PACKAGES = """
             <Package path='src/org' name='org'>
                 <MetricResult name='Metric1' total='11' average='11'/>
@@ -182,7 +189,8 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
         assertReportXml(rootNode, XML)
     }
 
-    @Test	void testWriteReport_ShowsListMetricValues() {
+    @Test
+	void testWriteReport_ShowsListMetricValues() {
         final PACKAGES = """
             <PackageSummary>
                 <MetricResult name='Metric1' total='[a, b, c]'/>
@@ -205,7 +213,8 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
         assertReportXml(rootNode, XML)
     }
 
-    @Test	void testWriteReport_OmitsAttributesWithNullValue() {
+    @Test
+	void testWriteReport_OmitsAttributesWithNullValue() {
         final SUMMARY = """
             <PackageSummary>
                 <MetricResult name='Metric1' total='123'/>
@@ -216,7 +225,8 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
         assertReportXml(rootNode, XML)
     }
 
-    @Test	void testWriteReport_IncludeOnlyFunctionsConfiguredForMetric() {
+    @Test
+	void testWriteReport_IncludeOnlyFunctionsConfiguredForMetric() {
         final PACKAGE_SUMMARY = """
             <PackageSummary>
                 <MetricResult name='Metric1' minimum='10' maximum='10'/>
@@ -249,7 +259,8 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
         assertReportXml(rootNode, XML)
     }
 
-    @Test	void testWriteReport_Package_NestedPackageClassesAndMethods() {
+    @Test
+	void testWriteReport_Package_NestedPackageClassesAndMethods() {
         final PACKAGES = """
             <Package path='src/test' name='test'>
                 <MetricResult name='Metric1' total='11' average='11'/>
@@ -297,7 +308,8 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
         assertReportXml(rootNode, XML, true)
     }
 
-    @Test	void testWriteReport_FilterByLevelAndFunction() {
+    @Test
+	void testWriteReport_FilterByLevelAndFunction() {
         final PACKAGES = """
             <Package path='src/org' name='org'>
                 <MetricResult name='Metric1' total='11' average='11'/>

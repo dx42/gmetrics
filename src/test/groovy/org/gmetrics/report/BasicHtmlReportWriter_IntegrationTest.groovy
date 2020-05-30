@@ -33,16 +33,17 @@ import org.junit.Test
  */
 class BasicHtmlReportWriter_IntegrationTest extends AbstractTestCase {
 
-    private static final REPORT_FILE = "$REPORTS_DIR/GMetricsReport.html"
-    private static final BASE_DIR = 'src/main'
-    private static final GROOVY_FILES = '**/*.groovy'
+    private static final String REPORT_FILE = "$REPORTS_DIR/GMetricsReport.html"
+    private static final String BASE_DIR = 'src/main'
+    private static final String GROOVY_FILES = '**/*.groovy'
 
     private sourceAnalyzer
     private reportWriter
     private metricSet
     private analysisContext
 
-    @Test	void test_RunAnalysis_And_GenerateReport() {
+    @Test
+	void test_RunAnalysis_And_GenerateReport() {
         def resultsNode = sourceAnalyzer.analyze(metricSet)
         log("resultsNode=$resultsNode")
         assertReportContents(resultsNode)

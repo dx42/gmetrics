@@ -22,50 +22,57 @@ import org.junit.Test
  * Tests for ClassPathResource
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class ClassPathResourceTest extends AbstractTestCase {
 
     private static final TEXT_FILE = 'resource/SampleResource.txt'
     private static final TEXT_FILE_CONTENTS = 'abcdef12345'
 
-    @Test	void testConstructor_NullOrEmpty() {
+    @Test
+	void testConstructor_NullOrEmpty() {
         shouldFailWithMessageContaining('path') { new ClassPathResource(null) }
         shouldFailWithMessageContaining('path') { new ClassPathResource('') }
     }
 
-    @Test	void testGetPath() {
+    @Test
+	void testGetPath() {
         def resource = new ClassPathResource(TEXT_FILE)
         assert resource.getPath() == TEXT_FILE
     }
 
-    @Test	void testGetInputStream() {
+    @Test
+	void testGetInputStream() {
         def resource = new ClassPathResource(TEXT_FILE)
         def inputStream = resource.getInputStream()
         assert inputStream.text == TEXT_FILE_CONTENTS
     }
 
-    @Test	void testGetInputStream_FileDoesNotExist() {
+    @Test
+	void testGetInputStream_FileDoesNotExist() {
         def resource = new ClassPathResource('DoesNotExist.txt')
         shouldFail(IOException) { resource.getInputStream() }
     }
 
-    @Test	void testGetInputStream_TwiceOnTheSameResource() {
+    @Test
+	void testGetInputStream_TwiceOnTheSameResource() {
         def resource = new ClassPathResource(TEXT_FILE)
         def inputStream = resource.getInputStream()
         assert inputStream.text == TEXT_FILE_CONTENTS
         assert resource.getInputStream().text == TEXT_FILE_CONTENTS
     }
 
-    @Test	void testGetInputStream_Static() {
+    @Test
+	void testGetInputStream_Static() {
         assert ClassPathResource.getInputStream(TEXT_FILE).text == TEXT_FILE_CONTENTS
     }
 
-    @Test	void testGetInputStream_Static_FileDoesNotExist() {
+    @Test
+	void testGetInputStream_Static_FileDoesNotExist() {
         shouldFail(IOException) { ClassPathResource.getInputStream('DoesNotExist.txt') }
     }
 
-    @Test	void testGetInputStream_Static_NullOrEmpty() {
+    @Test
+	void testGetInputStream_Static_NullOrEmpty() {
         shouldFailWithMessageContaining('path') { ClassPathResource.getInputStream(null) }
         shouldFailWithMessageContaining('path') { ClassPathResource.getInputStream('') }
     }

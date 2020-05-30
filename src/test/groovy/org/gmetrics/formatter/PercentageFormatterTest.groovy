@@ -25,37 +25,45 @@ import org.junit.Test
  */
 class PercentageFormatterTest extends AbstractTestCase {
 
-    private formatter = new PercentageFormatter()
+    private PercentageFormatter formatter = new PercentageFormatter()
 
-    @Test	void testImplementsFormatter() {
+    @Test
+	void testImplementsFormatter() {
         assert formatter instanceof Formatter
     }
 
-    @Test	void testFormat_NotANumber_ThrowsException() {
+    @Test
+	void testFormat_NotANumber_ThrowsException() {
         shouldFailWithMessageContaining('Number') { formatter.format('abc') }
     }
 
-    @Test	void testFormat_Zero() {
+    @Test
+	void testFormat_Zero() {
         assert formatter.format(0.0) == '0%'
     }
 
-    @Test	void testFormat_ZeroInteger() {
+    @Test
+	void testFormat_ZeroInteger() {
         assert formatter.format(0) == '0%'
     }
 
-    @Test	void testFormat_Decimal() {
+    @Test
+	void testFormat_Decimal() {
         assert formatter.format(0.67) == '67%'
     }
 
-    @Test	void testFormat_SetsDefaultScaleToConvertToIntegerPercentage() {
+    @Test
+	void testFormat_SetsDefaultScaleToConvertToIntegerPercentage() {
         assert formatter.format(0.671234) == '67%'
     }
 
-    @Test	void testFormat_Integer() {
+    @Test
+	void testFormat_Integer() {
         assert formatter.format(123) == '12300%'
     }
 
-    @Test	void testFormat_Null_ReturnsNull() {
+    @Test
+	void testFormat_Null_ReturnsNull() {
         assert formatter.format(null) == null
     }
 

@@ -33,23 +33,27 @@ abstract class AbstractCommonMethodMetricTestCase extends AbstractCommonMetricTe
         }
     '''
 
-    static doesMetricTreatClosuresAsMethods = true
+    static boolean doesMetricTreatClosuresAsMethods = true
 
-    @Test	void testImplementsMethodMetricInterface() {
+    @Test
+	void testImplementsMethodMetricInterface() {
         assert metric instanceof MethodMetric
     }
 
-    @Test	void testApplyToMethod_EnabledIsFalse_ReturnsNull() {
+    @Test
+	void testApplyToMethod_EnabledIsFalse_ReturnsNull() {
         metric.enabled = false
         assert applyToMethod(SOURCE) == null
     }
 
-    @Test	void testApplyToClosure_EnabledIsFalse_ReturnsNull() {
+    @Test
+	void testApplyToClosure_EnabledIsFalse_ReturnsNull() {
         metric.enabled = false
         assert applyToClosure(SOURCE) == null
     }
 
-    @Test	void testCalculate_Method_SetsLineNumber() {
+    @Test
+	void testCalculate_Method_SetsLineNumber() {
         final SOURCE = """
             def myMethod() { }
         """
@@ -57,7 +61,8 @@ abstract class AbstractCommonMethodMetricTestCase extends AbstractCommonMetricTe
         assert metricResult.lineNumber == 2
     }
 
-    @Test	void testCalculate_ClosureField_SetsLineNumber() {
+    @Test
+	void testCalculate_ClosureField_SetsLineNumber() {
         def metricResult = metric.calculate(findFirstField(SOURCE).initialExpression, sourceCode)
         if (getProperty('doesMetricTreatClosuresAsMethods')) {
             assert metricResult.lineNumber == 3
@@ -67,7 +72,8 @@ abstract class AbstractCommonMethodMetricTestCase extends AbstractCommonMetricTe
         }
     }
 
-    @Test	void testApplyToClass_IncludeClosureFieldsIsFalse_ReturnsNull() {
+    @Test
+	void testApplyToClass_IncludeClosureFieldsIsFalse_ReturnsNull() {
         final SOURCE = """
             class MyClass {
                 def myClosure = { }

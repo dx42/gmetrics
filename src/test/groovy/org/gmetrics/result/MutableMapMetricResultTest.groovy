@@ -27,70 +27,82 @@ import org.junit.Test
  */
 class MutableMapMetricResultTest extends AbstractTestCase {
 
-    private static final DEFAULT_FUNCTIONS = ['total', 'average', 'minimum', 'maximum']
-    private static final METRIC = [getName:{'TestMetric'}, getFunctions:{ DEFAULT_FUNCTIONS }] as Metric
-    private static final MAP = [a:123, b:'xyz']
+    private static final List DEFAULT_FUNCTIONS = ['total', 'average', 'minimum', 'maximum']
+    private static final Metric METRIC = [getName:{'TestMetric'}, getFunctions:{ DEFAULT_FUNCTIONS }] as Metric
+    private static final Map MAP = [a:123, b:'xyz']
 
-    @Test	void testPassingNullMetricIntoConstructorThrowsException() {
+    @Test
+	void testPassingNullMetricIntoConstructorThrowsException() {
         shouldFailWithMessageContaining('metric') { new MutableMapMetricResult(null, MetricLevel.METHOD, MAP) }
     }
 
-    @Test	void testPassingNullMetricLevelIntoConstructorThrowsException() {
+    @Test
+	void testPassingNullMetricLevelIntoConstructorThrowsException() {
         shouldFailWithMessageContaining('metricLevel') { new MutableMapMetricResult(METRIC, null, MAP) }
     }
 
-    @Test	void testPassingNullValueIntoConstructorThrowsException() {
+    @Test
+	void testPassingNullValueIntoConstructorThrowsException() {
         shouldFailWithMessageContaining('map') { new MutableMapMetricResult(METRIC, MetricLevel.METHOD, null) }
     }
 
-    @Test	void testGetMetricIsSameMetricValuePassedIntoConstructor() {
+    @Test
+	void testGetMetricIsSameMetricValuePassedIntoConstructor() {
         def result = new MutableMapMetricResult(METRIC, MetricLevel.METHOD, MAP)
         assert result.getMetric() == METRIC
     }
 
-    @Test	void testGetMetricLevelIsSameMetricValuePassedIntoConstructor() {
+    @Test
+	void testGetMetricLevelIsSameMetricValuePassedIntoConstructor() {
         def result = new MutableMapMetricResult(METRIC, MetricLevel.METHOD, MAP)
         assert result.getMetricLevel() == MetricLevel.METHOD
     }
 
-    @Test	void testGetAt_ReturnsValuesPassedIntoConstructor() {
+    @Test
+	void testGetAt_ReturnsValuesPassedIntoConstructor() {
         def result = new MutableMapMetricResult(METRIC, MetricLevel.METHOD, MAP)
         assert result['a'] == 123
         assert result['b'] == 'xyz'
     }
 
-    @Test	void testGetAt_ReturnsNullForUndefinedValue() {
+    @Test
+	void testGetAt_ReturnsNullForUndefinedValue() {
         def result = new MutableMapMetricResult(METRIC, MetricLevel.METHOD, MAP)
         assert result['unknnown'] == null
     }
 
-    @Test	void testChangesToOriginalMapHaveNoEffect() {
+    @Test
+	void testChangesToOriginalMapHaveNoEffect() {
         def map = [a:123]
         def result = new MutableMapMetricResult(METRIC, MetricLevel.METHOD, map)
         map['a'] = 99
         assert result['a'] == 123
     }
 
-    @Test	void testModifyingMap() {
+    @Test
+	void testModifyingMap() {
         def result = new MutableMapMetricResult(METRIC, MetricLevel.METHOD, [a:123])
         assert result['a'] == 123
         result.map['a'] = 99
         assert result['a'] == 99
     }
 
-    @Test	void testModifyingValuesUsingSubscriptOperator() {
+    @Test
+	void testModifyingValuesUsingSubscriptOperator() {
         def result = new MutableMapMetricResult(METRIC, MetricLevel.METHOD, [a:123])
         assert result['a'] == 123
         result['a'] = 99
         assert result['a'] == 99
     }
 
-    @Test	void testGetCount_DefaultsToZero() {
+    @Test
+	void testGetCount_DefaultsToZero() {
         def result = new MutableMapMetricResult(METRIC, MetricLevel.METHOD, MAP)
         assert result.getCount() == 0
     }
 
-    @Test	void testGetCount() {
+    @Test
+	void testGetCount() {
         def result = new MutableMapMetricResult(METRIC, MetricLevel.METHOD, MAP)
         result.count = 7
         assert result.getCount() == 7

@@ -25,21 +25,25 @@ import org.junit.Test
  */
 class ToStringFormatterTest extends AbstractTestCase {
 
-    private formatter = new ToStringFormatter()
+    private ToStringFormatter formatter = new ToStringFormatter()
 
-    @Test	void testImplementsFormatter() {
+    @Test
+	void testImplementsFormatter() {
         assert formatter instanceof Formatter
     }
 
-    @Test	void testFormat_String() {
+    @Test
+	void testFormat_String() {
         assert formatter.format('abc') == 'abc'
     }
 
-    @Test	void testFormat_NonString_ReturnsToString() {
+    @Test
+	void testFormat_NonString_ReturnsToString() {
         assert formatter.format(123) == '123'
     }
 
-    @Test	void testFormat_Null_ReturnsNull() {
+    @Test
+	void testFormat_Null_ReturnsNull() {
         assert formatter.format(null) == null
     }
 

@@ -23,7 +23,6 @@ import org.junit.Test
  * Tests for MetricsCriteriaFilter
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 
 class MetricsCriteriaFilterTest extends AbstractTestCase {
@@ -34,18 +33,21 @@ class MetricsCriteriaFilterTest extends AbstractTestCase {
 
     private metricsCriteriaFilter = new MetricsCriteriaFilter()
 
-    @Test	void testNoMetricsDefined_IncludesMetric_ReturnsTrue() {
+    @Test
+	void testNoMetricsDefined_IncludesMetric_ReturnsTrue() {
         assert metricsCriteriaFilter.includesMetric(METRIC_ABC)
         assert metricsCriteriaFilter.includesMetric(METRIC_123)
     }
 
-    @Test	void testOneMetricDefined_IncludesMetric_ReturnsTrueForThat_AndFalseForOthers() {
+    @Test
+	void testOneMetricDefined_IncludesMetric_ReturnsTrueForThat_AndFalseForOthers() {
         metricsCriteriaFilter.setMetrics('ABC')
         assert metricsCriteriaFilter.includesMetric(METRIC_ABC)
         assert !metricsCriteriaFilter.includesMetric(METRIC_123)
     }
 
-    @Test	void testMultipleMetricsDefined_IncludesMetric_ReturnsTrueForMatching_AndFalseForOthers() {
+    @Test
+	void testMultipleMetricsDefined_IncludesMetric_ReturnsTrueForMatching_AndFalseForOthers() {
         metricsCriteriaFilter.setMetrics('ABC,777, XXX')
         assert metricsCriteriaFilter.includesMetric(METRIC_ABC)
         assert metricsCriteriaFilter.includesMetric(METRIC_XXX)

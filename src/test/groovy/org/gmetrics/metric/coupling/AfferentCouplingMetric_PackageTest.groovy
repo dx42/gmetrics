@@ -26,19 +26,21 @@ import org.junit.Test
  */
 class AfferentCouplingMetric_PackageTest extends AbstractPackageCouplingMetric_PackageTestCase {
 
-    static metricClass = AfferentCouplingMetric
+    static Class metricClass = AfferentCouplingMetric
 
     private static final String PACKAGE1 = 'com.example'
     private static final String PACKAGE2 = 'com.stuff'
     private static final String PACKAGE3 = 'org.example'
 
-    @Test	void testStatistics_NoChildren() {
+    @Test
+	void testStatistics_NoChildren() {
         def metricResult = metric.applyToPackage('src/com/example', PACKAGE1, [])
         metric.afterAllSourceCodeProcessed()
         assertMetricResult(metricResult, PACKAGE1, [referencedFromPackages:[], value:0, total:0, average:0, count:0])
     }
 
-    @Test	void testStatistics_ChildClassesOnly() {
+    @Test
+	void testStatistics_ChildClassesOnly() {
         def metricResult1 = metric.applyToPackage('src/com/example', PACKAGE1, [classMetricResult([PACKAGE2, PACKAGE3] as Set)])
         def metricResult2 = metric.applyToPackage('src/com/example', PACKAGE2, [classMetricResult([PACKAGE1, PACKAGE3])])
         def metricResult3 = metric.applyToPackage('src/com/example', PACKAGE3, [classMetricResult([PACKAGE1])])
@@ -48,7 +50,8 @@ class AfferentCouplingMetric_PackageTest extends AbstractPackageCouplingMetric_P
         assertMetricResult(metricResult3, PACKAGE1, [referencedFromPackages:[PACKAGE1, PACKAGE2], value:2, total:2, average:2, count:1])
     }
 
-    @Test	void testStatistics_ChildPackagesOnly() {
+    @Test
+	void testStatistics_ChildPackagesOnly() {
         def metricResult1 = metric.applyToPackage('src/com/example', PACKAGE1, [packageMetricResult([PACKAGE2, PACKAGE3] as Set)])
         def metricResult2 = metric.applyToPackage('src/com/example', PACKAGE2, [packageMetricResult([PACKAGE2, PACKAGE3] as Set)])
         metric.afterAllSourceCodeProcessed()
@@ -56,7 +59,8 @@ class AfferentCouplingMetric_PackageTest extends AbstractPackageCouplingMetric_P
         assertMetricResult(metricResult2, PACKAGE2, [referencedFromPackages:[], value:0, total:0, average:0, count:0])
     }
 
-    @Test	void testStatistics_AggregatesTotalsAndAveragesUpThroughParentPackages() {
+    @Test
+	void testStatistics_AggregatesTotalsAndAveragesUpThroughParentPackages() {
         def metricResult1 = metric.applyToPackage('src/com/example', PACKAGE1, [classMetricResult(['aaa.bbb.ccc'] as Set)])
         metric.applyToPackage('src/com/example', 'aaa.bbb.ccc', [classMetricResult([] as Set)])
         metric.afterAllSourceCodeProcessed()
@@ -69,7 +73,8 @@ class AfferentCouplingMetric_PackageTest extends AbstractPackageCouplingMetric_P
         assertMetricResult(metricResultA, 'aaa', [referencedFromPackages:[], value:0, total:1, average:1, count:1])
     }
 
-    @Test	void testStatistics_NormalizesPackageNames() {
+    @Test
+	void testStatistics_NormalizesPackageNames() {
         def package1WithSlashes = PACKAGE1.replace('.', '/')
         def metricResult1 = metric.applyToPackage('src/com/example', package1WithSlashes, [classMetricResult([PACKAGE2, PACKAGE3])])
         metric.applyToPackage('src/com/example', PACKAGE2, [classMetricResult([] as Set)])

@@ -23,9 +23,9 @@ import org.gmetrics.metric.MetricLevel
  * Utility methods for ABC test classes
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 abstract class AbcTestUtil {
+
     protected static final ZERO_VECTOR = [0, 0, 0]
 
     static void assertEquals(AbcVector abcVector, List expectedValues) {

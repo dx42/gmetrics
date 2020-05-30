@@ -25,9 +25,10 @@ import org.junit.Test
  */
 class MethodLineCountMetric_ClosureFieldTest extends AbstractMetricTestCase {
 
-    static metricClass = MethodLineCountMetric
+    static Class metricClass = MethodLineCountMetric
 
-    @Test	void testApplyToClosure() {
+    @Test
+	void testApplyToClosure() {
         final SOURCE = """
             class MyClass {
                 def myClosure = { }
@@ -36,7 +37,8 @@ class MethodLineCountMetric_ClosureFieldTest extends AbstractMetricTestCase {
         assert applyToClosureValue(SOURCE) == 1
     }
 
-    @Test	void testCalculate_CorrectSizeForSingleLineClosure() {
+    @Test
+	void testCalculate_CorrectSizeForSingleLineClosure() {
         final SOURCE = """
             class MyClass {
                 def myClosure = { }
@@ -45,7 +47,8 @@ class MethodLineCountMetric_ClosureFieldTest extends AbstractMetricTestCase {
         assert calculateForClosureField(SOURCE) == 1
     }
 
-    @Test	void testCalculate_CorrectSizeForMultiLineClosure() {
+    @Test
+	void testCalculate_CorrectSizeForMultiLineClosure() {
         final SOURCE = """
             class MyClass {
                 def myClosure = {

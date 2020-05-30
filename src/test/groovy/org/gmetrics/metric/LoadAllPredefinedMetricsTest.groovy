@@ -30,11 +30,11 @@ import org.junit.Test
  */
 class LoadAllPredefinedMetricsTest extends AbstractTestCase {
 
-    private static final BASE_MESSAGES_BUNDLE = 'gmetrics-base-messages'
+    private static final String BASE_MESSAGES_BUNDLE = 'gmetrics-base-messages'
     private messages
 
-    @Test	void testPredefinedMetricsHaveRequiredProperties() {
-
+    @Test
+	void testPredefinedMetricsHaveRequiredProperties() {
         DefaultMetricRegistry.METRIC_CLASSES.each { metricClass ->
             def metric = metricClass.newInstance()
             assert messages.getString(metric.name + '.description')
@@ -45,7 +45,8 @@ class LoadAllPredefinedMetricsTest extends AbstractTestCase {
     }
 
     @SuppressWarnings('CatchThrowable')
-    @Test	void testPredefinedMetricsHaveValidHtmlDescriptions() {
+    @Test
+	void testPredefinedMetricsHaveValidHtmlDescriptions() {
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance()
         factory.validating = false

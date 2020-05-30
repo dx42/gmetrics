@@ -20,13 +20,14 @@ import org.gmetrics.test.AbstractTestCase
 import org.junit.Test
 
 /**
- * Integration test for CrapMetric that loads a MetricSet definition from a MetricSet Groovy DSL file.
+ * Integration test for CrapMetric that loads a MetricSet definition from a MetricSet Groovy DSL file
  *
  * @author Chris Mair
  */
 class CrapMetric_MetricSetTest extends AbstractTestCase {
 
-    @Test	void testLoadMetricSet() {
+    @Test
+	void testLoadMetricSet() {
         def metricSet = new GroovyDslMetricSet('crap/CrapMetricSet.txt')
         log metricSet.metrics
         def crapMetric = metricSet.metrics.find { it instanceof CrapMetric }

@@ -31,56 +31,66 @@ import org.junit.Test
  */
 class ClassResultsNodeTest extends AbstractTestCase {
 
-    private static final NAME = 'name123'
-    private static final FILE_NAME = 'filenameAbc'
-    private static final FILE_PATH = 'abc/def'
-    private static final METRIC = new StubMetric()
+    private static final String NAME = 'name123'
+    private static final String FILE_NAME = 'filenameAbc'
+    private static final String FILE_PATH = 'abc/def'
+    private static final StubMetric METRIC = new StubMetric()
     private classResultsNode
     private classResult1, classResult2, classResult3
 
-    @Test	void testImplementsResultsNode() {
+    @Test
+	void testImplementsResultsNode() {
         assert classResultsNode instanceof ResultsNode
     }
 
-    @Test	void testNameAssignedFromConstructor() {
+    @Test
+	void testNameAssignedFromConstructor() {
         assert classResultsNode.name == NAME
     }
 
-    @Test	void testConstructorAssignsFileNameAndFilePath() {
+    @Test
+	void testConstructorAssignsFileNameAndFilePath() {
         def newClassResultsNode = new ClassResultsNode(NAME, FILE_NAME, FILE_PATH)
         assert newClassResultsNode.fileName == FILE_NAME
         assert newClassResultsNode.filePath == FILE_PATH
     }
 
-    @Test	void testThatMetricLevelIsClassLevel() {
+    @Test
+	void testThatMetricLevelIsClassLevel() {
         assert classResultsNode.level == MetricLevel.CLASS
     }
 
-    @Test	void testThatContainsClassResultsIsTrue() {
+    @Test
+	void testThatContainsClassResultsIsTrue() {
         assert classResultsNode.containsClassResults()
     }
 
-    @Test	void test_InitialMetricValuesIsEmpty() {
+    @Test
+	void test_InitialMetricValuesIsEmpty() {
         assert classResultsNode.getMetricResults() == []
     }
 
-    @Test	void test_InitialChildrenIsEmpty() {
+    @Test
+	void test_InitialChildrenIsEmpty() {
         assert classResultsNode.getChildren() == [:]
     }
 
-    @Test	void test_addClassMetricResult_NullClassMetricResultIsIgnored() {
+    @Test
+	void test_addClassMetricResult_NullClassMetricResultIsIgnored() {
         classResultsNode.addClassMetricResult(null)
         assert classResultsNode.getMetricResults() == []
         assert classResultsNode.getChildren() == [:]
     }
 
-    @Test	void test_AddingASingleClassResultWithNoMethods() {
+    @Test
+	void test_AddingASingleClassResultWithNoMethods() {
         classResultsNode.addClassMetricResult(classResult1)
         assert classResultsNode.metricResults.collect { it['total'] } == [1]
         assert classResultsNode.getChildren() == [:]
     }
 
-    @Test	void test_AddingSeveralClassResult() {
+    @Test
+	void test_AddingSeveralClassResult() {
         classResultsNode.addClassMetricResult(classResult1)
         classResultsNode.addClassMetricResult(classResult2)
         classResultsNode.addClassMetricResult(classResult3)
@@ -95,11 +105,13 @@ class ClassResultsNodeTest extends AbstractTestCase {
         assert children[new MethodKey('c')].metricResults.collect { it['total'] } == [30]
     }
 
-    @Test	void test_getMetricResult_NullMetricThrowsException() {
+    @Test
+	void test_getMetricResult_NullMetricThrowsException() {
         shouldFailWithMessageContaining('metric') { classResultsNode.getMetricResult(null) }
     }
 
-    @Test	void test_getMetricResult_ReturnsCorrectMetricResult() {
+    @Test
+	void test_getMetricResult_ReturnsCorrectMetricResult() {
         final METRIC_RESULT = new SingleNumberMetricResult(METRIC, MetricLevel.METHOD, 11)
         def metric2 = new StubMetric()
         def metric3 = new StubMetric()
@@ -110,7 +122,8 @@ class ClassResultsNodeTest extends AbstractTestCase {
         assert classResultsNode.getMetricResult(METRIC) == METRIC_RESULT
     }
 
-    @Test	void test_getMetricResult_ReturnsNullIfNoMatchingMetricResultIsFound() {
+    @Test
+	void test_getMetricResult_ReturnsNullIfNoMatchingMetricResultIsFound() {
         assert classResultsNode.getMetricResult(METRIC) == null
     }
 

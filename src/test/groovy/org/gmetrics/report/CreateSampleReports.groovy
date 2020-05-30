@@ -31,8 +31,8 @@ import org.gmetrics.metricset.ListMetricSet
 class CreateSampleReports {
 
     private static final String REPORTS_DIR = "docs/reports"
-    private static final BASE_DIR = 'src/main'
-    private static final GROOVY_FILES = '**/*.groovy'
+    private static final String BASE_DIR = 'src/main'
+    private static final String GROOVY_FILES = '**/*.groovy'
 
     private analysisContext
     private resultsNode

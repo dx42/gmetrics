@@ -24,23 +24,27 @@ import org.junit.Test
  * @author Chris Mair
  */
 class MethodLineCountMetric_MethodTest extends AbstractMetricTestCase {
-    static metricClass = MethodLineCountMetric
 
-    @Test	void testApplyToMethod() {
+    static Class metricClass = MethodLineCountMetric
+
+    @Test
+	void testApplyToMethod() {
         final SOURCE = """
             def myMethod() { }
         """
         assert applyToMethodValue(SOURCE) == 1
     }
 
-    @Test	void testCalculate_CorrectSizeForSingleLineMethod() {
+    @Test
+	void testCalculate_CorrectSizeForSingleLineMethod() {
         final SOURCE = """
             def myMethod() { }
         """
         assert calculateForMethod(SOURCE) == 1
     }
 
-    @Test	void testCalculate_CorrectSizeForMultiLineMethod() {
+    @Test
+	void testCalculate_CorrectSizeForMultiLineMethod() {
         final SOURCE = """
             def myMethod() {
                 println "started"
@@ -52,7 +56,8 @@ class MethodLineCountMetric_MethodTest extends AbstractMetricTestCase {
         assert calculateForMethod(SOURCE) == 6
     }
 
-    @Test	void testCalculate_ReturnsNullForAbstractMethodDeclaration() {
+    @Test
+	void testCalculate_ReturnsNullForAbstractMethodDeclaration() {
         final SOURCE = """
             abstract class MyClass {
                 abstract void doSomething()
@@ -61,7 +66,8 @@ class MethodLineCountMetric_MethodTest extends AbstractMetricTestCase {
         assertCalculateForMethodReturnsNull(SOURCE)
     }
 
-    @Test	void testCalculate_ReturnsNullForSyntheticMethod() {
+    @Test
+	void testCalculate_ReturnsNullForSyntheticMethod() {
         final SOURCE = """
             println 123
         """
@@ -69,7 +75,8 @@ class MethodLineCountMetric_MethodTest extends AbstractMetricTestCase {
         assert metric.calculate(methodNode, sourceCode) == null
     }
 
-    @Test	void testCalculate_CountsForConstructor() {
+    @Test
+	void testCalculate_CountsForConstructor() {
         final SOURCE = """
             class MyClass {
                 MyClass() {

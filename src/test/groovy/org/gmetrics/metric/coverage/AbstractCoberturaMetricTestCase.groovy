@@ -29,14 +29,14 @@ import org.junit.Test
  */
 abstract class AbstractCoberturaMetricTestCase extends AbstractMetricTestCase {
 
-    protected static final COBERTURA_XML_FILENAME = 'Cobertura-example-small.xml'
-    protected static final COBERTURA_XML_RELATIVE_PATH = 'src/test/resources/coverage/' + COBERTURA_XML_FILENAME
-    protected static final COBERTURA_XML_RELATIVE_TO_CLASSPATH = 'coverage/' + COBERTURA_XML_FILENAME
-    protected static final COBERTURA_XML_FILE_PREFIX = 'file:' + COBERTURA_XML_RELATIVE_PATH
-    protected static final COBERTURA_XML_CLASSPATH_PREFIX = 'classpath:' + COBERTURA_XML_RELATIVE_TO_CLASSPATH
-    protected static final COBERTURA_XML_BAD_DTD= 'coverage/Cobertura-bad-dtd.xml'
-    protected static final CLASS_METRIC_RESULT = new StubMetricResult(metricLevel:MetricLevel.CLASS)
-    protected static final PACKAGE_METRIC_RESULT = new StubMetricResult(metricLevel:MetricLevel.PACKAGE)
+    protected static final String COBERTURA_XML_FILENAME = 'Cobertura-example-small.xml'
+    protected static final String COBERTURA_XML_RELATIVE_PATH = 'src/test/resources/coverage/' + COBERTURA_XML_FILENAME
+    protected static final String COBERTURA_XML_RELATIVE_TO_CLASSPATH = 'coverage/' + COBERTURA_XML_FILENAME
+    protected static final String COBERTURA_XML_FILE_PREFIX = 'file:' + COBERTURA_XML_RELATIVE_PATH
+    protected static final String COBERTURA_XML_CLASSPATH_PREFIX = 'classpath:' + COBERTURA_XML_RELATIVE_TO_CLASSPATH
+    protected static final String COBERTURA_XML_BAD_DTD= 'coverage/Cobertura-bad-dtd.xml'
+    protected static final StubMetricResult CLASS_METRIC_RESULT = new StubMetricResult(metricLevel:MetricLevel.CLASS)
+    protected static final StubMetricResult PACKAGE_METRIC_RESULT = new StubMetricResult(metricLevel:MetricLevel.PACKAGE)
 
     //------------------------------------------------------------------------------------
     // Abstract Methods
@@ -49,23 +49,27 @@ abstract class AbstractCoberturaMetricTestCase extends AbstractMetricTestCase {
     // Common Tests
     //------------------------------------------------------------------------------------
 
-    @Test	void testBaseLevelIsMethod() {
+    @Test
+	void testBaseLevelIsMethod() {
         assert metric.baseLevel == MetricLevel.METHOD
     }
 
-    @Test	void testImplementsMethodMetricInterface() {
+    @Test
+	void testImplementsMethodMetricInterface() {
         assert metric instanceof MethodMetric
     }
 
 
-    @Test	void testCanLoadCoberturaFileWithDTDSpecifyingUnreachableURI() {
+    @Test
+	void testCanLoadCoberturaFileWithDTDSpecifyingUnreachableURI() {
         metric.coberturaFile = COBERTURA_XML_BAD_DTD
         metric.applyToPackage('whatever', null, null) == null
     }
 
     // Tests for applyToClosure()
 
-    @Test	void testApplyToClosure_ThrowsUnsupportedOperationException() {
+    @Test
+	void testApplyToClosure_ThrowsUnsupportedOperationException() {
         final SOURCE = """
             class MyClass {
                 def myClosure = { }
@@ -77,7 +81,8 @@ abstract class AbstractCoberturaMetricTestCase extends AbstractMetricTestCase {
 
     // Tests for calculate()
 
-//    @Test//	  void testCalculate_NonEmptyMethodThatHasNoCoverageInformation_LogsWarning() {
+//    @Test
+//	  void testCalculate_NonEmptyMethodThatHasNoCoverageInformation_LogsWarning() {
 //        final SOURCE = """
 //            package com.example.service
 //            class Email {
@@ -90,7 +95,8 @@ abstract class AbstractCoberturaMetricTestCase extends AbstractMetricTestCase {
 //        assert log4jMessages.find { logEvent -> logEvent.message.contains('unknown') }
 //    }
 //
-//    @Test//	  void testCalculate_EmptyMethodThatHasNoCoverageInformation_DoesNotLogWarning() {
+//    @Test
+//	  void testCalculate_EmptyMethodThatHasNoCoverageInformation_DoesNotLogWarning() {
 //        final SOURCE = """
 //            package com.example.service
 //            class Email {
@@ -103,7 +109,8 @@ abstract class AbstractCoberturaMetricTestCase extends AbstractMetricTestCase {
 
     // Tests for applyToClass()
 
-    @Test	void testApplyToClass_ReturnNullForInterface() {
+    @Test
+	void testApplyToClass_ReturnNullForInterface() {
         final SOURCE = """
             package com.example.model
             interface Channel { }
@@ -111,7 +118,8 @@ abstract class AbstractCoberturaMetricTestCase extends AbstractMetricTestCase {
         assert applyToClass(SOURCE) == null
     }
 
-    @Test	void testApplyToClass_CoberturaFileNotSet_ThrowsException() {
+    @Test
+	void testApplyToClass_CoberturaFileNotSet_ThrowsException() {
         final SOURCE = 'class Channel { }'
         metric.coberturaFile = null
         shouldFailWithMessageContaining('coberturaFile') {
@@ -119,7 +127,8 @@ abstract class AbstractCoberturaMetricTestCase extends AbstractMetricTestCase {
         }
     }
 
-//    @Test//	  void testApplyToClass_Enum_DoesNotLogWarningForMissingImplicitConstructorCoverageInformation() {
+//    @Test
+//	  void testApplyToClass_Enum_DoesNotLogWarningForMissingImplicitConstructorCoverageInformation() {
 //        final SOURCE = """
 //            package com.example.service
 //            enum Email {
@@ -132,46 +141,55 @@ abstract class AbstractCoberturaMetricTestCase extends AbstractMetricTestCase {
 
     // Tests for applyToPackage()
 
-    @Test	void testApplyToPackage() {
+    @Test
+	void testApplyToPackage() {
         assertApplyToPackage('com.example.service', 'com.example.service', getServicePackageValue())
     }
 
-    @Test	void testApplyToPackage_PackagePath() {
+    @Test
+	void testApplyToPackage_PackagePath() {
         assertApplyToPackage('com/example/service', 'com.example.service', getServicePackageValue())
     }
 
-    @Test	void testApplyToPackage_PackagePath_DifferentFromPackageName() {
+    @Test
+	void testApplyToPackage_PackagePath_DifferentFromPackageName() {
         assertApplyToPackage('src/com/example/service', 'com.example.service', getServicePackageValue())
     }
 
-    @Test	void testApplyToPackage_NullPath_ReturnsOverallValue() {
+    @Test
+	void testApplyToPackage_NullPath_ReturnsOverallValue() {
         assertApplyToPackage(null, getRootPackageValue())
     }
 
-//    @Test//	  void testApplyToPackage_NoCoverageInformation_ForPackageWithNoClasses_DoesNotLogWarning() {
+//    @Test
+//	  void testApplyToPackage_NoCoverageInformation_ForPackageWithNoClasses_DoesNotLogWarning() {
 //        def children = [PACKAGE_METRIC_RESULT]
 //        def log4jMessages = captureLog4JMessages { metric.applyToPackage('com.example', 'com.example', children) }
 //        assert !log4jMessages.find { logEvent -> logEvent.message.contains('com.example') }
 //    }
 //
-//    @Test//	  void testApplyToPackage_NoCoverageInformation_ForPackageWithClasses_LogsWarning() {
+//    @Test
+//	  void testApplyToPackage_NoCoverageInformation_ForPackageWithClasses_LogsWarning() {
 //        def children = [PACKAGE_METRIC_RESULT, CLASS_METRIC_RESULT]
 //        def log4jMessages = captureLog4JMessages { metric.applyToPackage('com.example', 'com.example', children) }
 //        assert log4jMessages.find { logEvent -> logEvent.message.contains('com.example') }
 //    }
 
-    @Test	void testApplyToPackage_NoCoverageInformation() {
+    @Test
+	void testApplyToPackage_NoCoverageInformation() {
         assert metric.applyToPackage('no.such.package', null, null) == null
     }
 
     // Test loading file using resource syntax
 
-    @Test	void testLoadCoberturaFile_ClassPathResource() {
+    @Test
+	void testLoadCoberturaFile_ClassPathResource() {
         metric.coberturaFile = COBERTURA_XML_CLASSPATH_PREFIX
         assertApplyToPackage('com.example.service', 'com.example.service', getServicePackageValue())
     }
 
-    @Test	void testLoadCoberturaFile_FileResource() {
+    @Test
+	void testLoadCoberturaFile_FileResource() {
         metric.coberturaFile = COBERTURA_XML_FILE_PREFIX
         assertApplyToPackage('com.example.service', 'com.example.service', getServicePackageValue())
     }

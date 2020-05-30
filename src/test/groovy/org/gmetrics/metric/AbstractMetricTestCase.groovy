@@ -33,10 +33,10 @@ import org.junit.Before
  */
 abstract class AbstractMetricTestCase extends AbstractTestCase {
 
-    private static final METRIC = [getFunctions:{ ['total', 'average'] }] as Metric
-    protected static final CONSTRUCTOR_NAME = '<init>'
-    protected static final DEFAULT_CONSTRUCTOR = 'void <init>()'
-    protected static final RUN_METHOD = 'java.lang.Object run()'
+    private static final Metric  METRIC = [getFunctions:{ ['total', 'average'] }] as Metric
+    protected static final String CONSTRUCTOR_NAME = '<init>'
+    protected static final String DEFAULT_CONSTRUCTOR = 'void <init>()'
+    protected static final String RUN_METHOD = 'java.lang.Object run()'
 
     protected metric
     protected sourceCode

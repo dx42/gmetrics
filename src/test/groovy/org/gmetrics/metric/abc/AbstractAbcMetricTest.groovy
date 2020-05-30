@@ -22,9 +22,9 @@ import org.gmetrics.result.MetricResult
  * Abstract superclass for AbcMetric tests
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 abstract class AbstractAbcMetricTest extends AbstractMetricTestCase {
+
     protected static final ZERO_VECTOR = [0, 0, 0]
 
     protected valueFromMetricResult(MetricResult metricResult) {

@@ -29,25 +29,26 @@ import org.junit.Test
  */
 class SingleSeriesHtmlReportWriterTest extends AbstractReportWriterTestCase {
 
-    private static final TIMESTAMP_DATE = new Date(1262361072497)
-    private static final FORMATTED_TIMESTAMP = DateFormat.getDateTimeInstance().format(TIMESTAMP_DATE)
-    private static final TIMESTAMP_LABEL = 'Timestamp:'
-    private static final HTML_TAG = 'html'
-    private static final PACKAGE_HEADING = 'Package-heading'
-    private static final CLASS_HEADING = 'Class-heading'
-    private static final METHOD_HEADING = 'Method-heading'
-    private static final BOTTOM_LINK = "<a href='http://www.gmetrics.org'>GMetrics"
-    private static final DEFAULT_TITLE = SingleSeriesHtmlReportWriter.DEFAULT_TITLE
-    private static final CSS_FILE_CONTENTS = getCssFileContents()
-    private static final STANDARD_CONTENTS = [ HTML_TAG, DEFAULT_TITLE, CSS_FILE_CONTENTS, DEFAULT_TITLE, TIMESTAMP_LABEL, FORMATTED_TIMESTAMP]
+    private static final Date TIMESTAMP_DATE = new Date(1262361072497)
+    private static final String FORMATTED_TIMESTAMP = DateFormat.getDateTimeInstance().format(TIMESTAMP_DATE)
+    private static final String TIMESTAMP_LABEL = 'Timestamp:'
+    private static final String HTML_TAG = 'html'
+    private static final String PACKAGE_HEADING = 'Package-heading'
+    private static final String CLASS_HEADING = 'Class-heading'
+    private static final String METHOD_HEADING = 'Method-heading'
+    private static final String BOTTOM_LINK = "<a href='http://www.gmetrics.org'>GMetrics"
+    private static final String DEFAULT_TITLE = SingleSeriesHtmlReportWriter.DEFAULT_TITLE
+    private static final String CSS_FILE_CONTENTS = getCssFileContents()
+    private static final List STANDARD_CONTENTS = [ HTML_TAG, DEFAULT_TITLE, CSS_FILE_CONTENTS, DEFAULT_TITLE, TIMESTAMP_LABEL, FORMATTED_TIMESTAMP]
     private static final String REPORT_FILE = "$REPORTS_DIR/GMetricsSingleSeriesReport.html"
     
-	static reportFilename = REPORT_FILE
+	static String reportFilename = REPORT_FILE
 
     private emptyResultsNode = packageResultsNode(path:'test')
     private localizedMessages
 
-    @Test	void testWriteReport_SingleClass() {
+    @Test
+	void testWriteReport_SingleClass() {
         final CONTENTS = STANDARD_CONTENTS + [
                 CLASS_HEADING, 'M1.average',
                 'Class1', 776,
@@ -62,7 +63,8 @@ class SingleSeriesHtmlReportWriterTest extends AbstractReportWriterTestCase {
         assertReportContents(resultsNode, CONTENTS)
     }
 
-    @Test	void testWriteReport_Methods() {
+    @Test
+	void testWriteReport_Methods() {
         final CONTENTS = STANDARD_CONTENTS + [
                 METHOD_HEADING, 'M1.total',
                 'method1', 123,
@@ -82,7 +84,8 @@ class SingleSeriesHtmlReportWriterTest extends AbstractReportWriterTestCase {
         assertReportContents(resultsNode, CONTENTS)
     }
 
-    @Test	void testWriteReport_Packages() {
+    @Test
+	void testWriteReport_Packages() {
         final CONTENTS = STANDARD_CONTENTS + [
                 PACKAGE_HEADING, 'M1.total',
                 'src/test/groovy', 123,
@@ -101,7 +104,8 @@ class SingleSeriesHtmlReportWriterTest extends AbstractReportWriterTestCase {
         assertReportContents(resultsNode, CONTENTS)
     }
 
-    @Test	void testWriteReport_MaxResults() {
+    @Test
+	void testWriteReport_MaxResults() {
         final CONTENTS = STANDARD_CONTENTS + [
                 PACKAGE_HEADING, 'M1.total',
                 'src/test/groovy', 123,
@@ -120,7 +124,8 @@ class SingleSeriesHtmlReportWriterTest extends AbstractReportWriterTestCase {
         assertReportContents(resultsNode, CONTENTS, NOT_EXPECTED_CONTENTS, true)
     }
 
-    @Test	void testWriteReport_GreaterThanAndLessThan() {
+    @Test
+	void testWriteReport_GreaterThanAndLessThan() {
         final CONTENTS = STANDARD_CONTENTS + [
                 PACKAGE_HEADING, 'M1.total',
                 'src/main/groovy', 789,
@@ -138,7 +143,8 @@ class SingleSeriesHtmlReportWriterTest extends AbstractReportWriterTestCase {
         assertReportContents(resultsNode, CONTENTS, NOT_EXPECTED_CONTENTS, true)
     }
 
-    @Test	void testWriteReport_CustomizeTitleAndSubtitle() {
+    @Test
+	void testWriteReport_CustomizeTitleAndSubtitle() {
         final TITLE = 'A Custom Title'
         final SUBTITLE = 'Custom Subtitle'
         final CONTENTS = [
@@ -154,7 +160,8 @@ class SingleSeriesHtmlReportWriterTest extends AbstractReportWriterTestCase {
         assertReportContents(resultsNode, CONTENTS, NOT_EXPECTED_CONTENTS)
     }
 
-    @Test	void testWriteReport_FormatsValuesUsingConfiguredFormatter() {
+    @Test
+	void testWriteReport_FormatsValuesUsingConfiguredFormatter() {
         final CONTENTS = ['65%']
         def resultsNode = packageResultsNode([:],
         [
@@ -167,7 +174,8 @@ class SingleSeriesHtmlReportWriterTest extends AbstractReportWriterTestCase {
         assertReportContents(resultsNode, CONTENTS)
     }
 
-    @Test	void testWriteReport_NullOrEmptyLevel_ThrowsException() {
+    @Test
+	void testWriteReport_NullOrEmptyLevel_ThrowsException() {
         reportWriter.metric = 'Metric1'
         reportWriter.function = 'average'
         shouldFailWithMessageContaining('level') { reportWriter.writeReport(emptyResultsNode, analysisContext) }
@@ -176,7 +184,8 @@ class SingleSeriesHtmlReportWriterTest extends AbstractReportWriterTestCase {
         shouldFailWithMessageContaining('level') { reportWriter.writeReport(emptyResultsNode, analysisContext) }
     }
 
-    @Test	void testWriteReport_NullOrEmptyMetric_ThrowsException() {
+    @Test
+	void testWriteReport_NullOrEmptyMetric_ThrowsException() {
         reportWriter.function = 'average'
         reportWriter.level = 'package'
         shouldFailWithMessageContaining('metric') { reportWriter.writeReport(emptyResultsNode, analysisContext) }
@@ -185,7 +194,8 @@ class SingleSeriesHtmlReportWriterTest extends AbstractReportWriterTestCase {
         shouldFailWithMessageContaining('metric') { reportWriter.writeReport(emptyResultsNode, analysisContext) }
     }
 
-    @Test	void testWriteReport_NullOrEmptyFunction_ThrowsException() {
+    @Test
+	void testWriteReport_NullOrEmptyFunction_ThrowsException() {
         reportWriter.level = 'package'
         reportWriter.metric = 'ABC'
         shouldFailWithMessageContaining('function') { reportWriter.writeReport(emptyResultsNode, analysisContext) }

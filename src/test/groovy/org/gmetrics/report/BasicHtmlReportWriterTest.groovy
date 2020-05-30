@@ -28,29 +28,31 @@ import org.junit.Test
  */
 class BasicHtmlReportWriterTest extends AbstractReportWriterTestCase {
 
-    private static final HTML_TAG = 'html'
-    private static final TITLE_PREFIX = 'GMetrics Report'
-    private static final BOTTOM_LINK = "<a href='http://www.gmetrics.org'>GMetrics"
-    private static final REPORT_TIMESTAMP = 'Report timestamp:'
-    private static final METRIC_RESULTS = 'Metric Results'
-    private static final METRIC_DESCRIPTIONS = 'Metric Descriptions'
-    private static final NAME_HEADING = 'Package/Class/Method'
-    private static final ALL_PACKAGES = 'All packages'
-    private static final NA = 'N/A'
-    private static final PACKAGE_PREFIX = '[p]'
-    private static final CLASS_PREFIX = '[c]'
-    private static final METHOD_PREFIX = '[m]'
-	private static final REPORT_FILE = "$REPORTS_DIR/GMetricsReport.html"
+    private static final String HTML_TAG = 'html'
+    private static final String TITLE_PREFIX = 'GMetrics Report'
+    private static final String BOTTOM_LINK = "<a href='http://www.gmetrics.org'>GMetrics"
+    private static final String REPORT_TIMESTAMP = 'Report timestamp:'
+    private static final String METRIC_RESULTS = 'Metric Results'
+    private static final String METRIC_DESCRIPTIONS = 'Metric Descriptions'
+    private static final String NAME_HEADING = 'Package/Class/Method'
+    private static final String ALL_PACKAGES = 'All packages'
+    private static final String NA = 'N/A'
+    private static final String PACKAGE_PREFIX = '[p]'
+    private static final String CLASS_PREFIX = '[c]'
+    private static final String METHOD_PREFIX = '[m]'
+	private static final String REPORT_FILE = "$REPORTS_DIR/GMetricsReport.html"
 	
-    static reportFilename = REPORT_FILE
+    static String reportFilename = REPORT_FILE
 	
     private localizedMessages
 
-    @Test	void testThatDefaultOutputFile_IsGMetricsReportHtml() {
+    @Test
+	void testThatDefaultOutputFile_IsGMetricsReportHtml() {
         assert reportWriter.defaultOutputFile == 'GMetricsReport.html'
     }
 
-    @Test	void testWriteReport_SingleResultsNodeWithSingleMetric() {
+    @Test
+	void testWriteReport_SingleResultsNodeWithSingleMetric() {
         final CONTENTS = [
                 HTML_TAG,
                 METRIC_RESULTS,
@@ -63,7 +65,8 @@ class BasicHtmlReportWriterTest extends AbstractReportWriterTestCase {
         assertReportContents(resultsNode, CONTENTS)
     }
 
-    @Test	void testWriteReport_SingleResultsNodeWithTwoMetrics() {
+    @Test
+	void testWriteReport_SingleResultsNodeWithTwoMetrics() {
         final CONTENTS = [
                 HTML_TAG,
                 METRIC_RESULTS,
@@ -76,7 +79,8 @@ class BasicHtmlReportWriterTest extends AbstractReportWriterTestCase {
         assertReportContents(resultsNode, CONTENTS)
     }
 
-    @Test	void testWriteReport_SingleResultsNodeWithThreeMetrics_ButFilterOutOneOfThem() {
+    @Test
+	void testWriteReport_SingleResultsNodeWithThreeMetrics_ButFilterOutOneOfThem() {
         final CONTENTS = [
                 HTML_TAG,
                 METRIC_RESULTS,
@@ -91,13 +95,15 @@ class BasicHtmlReportWriterTest extends AbstractReportWriterTestCase {
         assertReportContents(resultsNode, CONTENTS, ['Metric3', 'M3.total', 'M3.average', metricDescription(metric3)])
     }
 
-    @Test	void testWriteReport_SingleResultsNode_TwoMetrics_OneMetricDisabled() {
+    @Test
+	void testWriteReport_SingleResultsNode_TwoMetrics_OneMetricDisabled() {
         metric2.enabled = false
         def resultsNode = new StubResultsNode(metricResults:[metric1Result(10), metric2Result(20)])
         assertReportDoesNotContain(resultsNode, [metric2.name, metricDescription(metric2)])
     }
 
-    @Test	void testWriteReport_ChildPackageResultsNodesWithTwoMetrics() {
+    @Test
+	void testWriteReport_ChildPackageResultsNodesWithTwoMetrics() {
         final CONTENTS = [
                 HTML_TAG,
                 METRIC_RESULTS,
@@ -114,7 +120,8 @@ class BasicHtmlReportWriterTest extends AbstractReportWriterTestCase {
         assertReportContents(resultsNode, CONTENTS, false)
     }
 
-    @Test	void testWriteReport_IncludeOnlyFunctionsConfiguredForMetric() {
+    @Test
+	void testWriteReport_IncludeOnlyFunctionsConfiguredForMetric() {
         final CONTENTS = [
                 HTML_TAG,
                 METRIC_RESULTS,
@@ -135,7 +142,8 @@ class BasicHtmlReportWriterTest extends AbstractReportWriterTestCase {
         assertReportContents(resultsNode, CONTENTS, NOT_EXPECTED_CONTENTS, true)
     }
 
-    @Test	void testWriteReport_NestedChildPackageResultsNodes() {
+    @Test
+	void testWriteReport_NestedChildPackageResultsNodes() {
         final CONTENTS = [
                 HTML_TAG,
                 TITLE_PREFIX, REPORT_TIMESTAMP,
@@ -170,7 +178,8 @@ class BasicHtmlReportWriterTest extends AbstractReportWriterTestCase {
         assertReportContents(resultsNode, CONTENTS, true)
     }
 
-    @Test	void testWriteReport_FilterByLevelAndFunction() {
+    @Test
+	void testWriteReport_FilterByLevelAndFunction() {
         final CONTENTS = [
                 HTML_TAG,
                 TITLE_PREFIX, REPORT_TIMESTAMP,
@@ -209,7 +218,8 @@ class BasicHtmlReportWriterTest extends AbstractReportWriterTestCase {
         assertReportContents(resultsNode, CONTENTS, NOT_EXPECTED_CONTENTS, true)
     }
 
-    @Test	void testWriteReport_MissingMetricResultsForMetric() {
+    @Test
+	void testWriteReport_MissingMetricResultsForMetric() {
         final CONTENTS = [
                 HTML_TAG,
                 ALL_PACKAGES, 10, 10, NA, NA,
@@ -220,7 +230,8 @@ class BasicHtmlReportWriterTest extends AbstractReportWriterTestCase {
         assertReportContents(resultsNode, CONTENTS)
     }
 
-    @Test	void testWriteReport_NullMetricValue_ShowsNA() {
+    @Test
+	void testWriteReport_NullMetricValue_ShowsNA() {
         final CONTENTS = [
                 HTML_TAG,
                 ALL_PACKAGES, NA, NA, 20, 20,
@@ -230,7 +241,8 @@ class BasicHtmlReportWriterTest extends AbstractReportWriterTestCase {
         assertReportContents(resultsNode, CONTENTS)
     }
 
-    @Test	void testWriteReport_DoNotShowResultsForLevelBelowMetricBaseLevel() {
+    @Test
+	void testWriteReport_DoNotShowResultsForLevelBelowMetricBaseLevel() {
         final CONTENTS = [
                 HTML_TAG,
                 ALL_PACKAGES, NA, NA, 20, 20,
@@ -242,7 +254,8 @@ class BasicHtmlReportWriterTest extends AbstractReportWriterTestCase {
         assertReportContents(resultsNode, CONTENTS)
     }
 
-    @Test	void testWriteReport_ReportLevels_DoNotShowRowsForUnlistedReportLevel() {
+    @Test
+	void testWriteReport_ReportLevels_DoNotShowRowsForUnlistedReportLevel() {
         def resultsNode = packageResultsNode([metricResults:[metric1Result(77)]],
         [
             ClassA1: classResultsNode([name:'ClassA1', metricResults:[metric1Result(888)]],
@@ -265,7 +278,8 @@ class BasicHtmlReportWriterTest extends AbstractReportWriterTestCase {
 
     }
 
-    @Test	void testWriteReport_FormatsValuesUsingConfiguredFormatter() {
+    @Test
+	void testWriteReport_FormatsValuesUsingConfiguredFormatter() {
         final CONTENTS = [
                 HTML_TAG,
                 ALL_PACKAGES, '65%', '65%', 20, 20,
@@ -278,7 +292,8 @@ class BasicHtmlReportWriterTest extends AbstractReportWriterTestCase {
         assertReportContents(resultsNode, CONTENTS)
     }
 
-	@Test	void testWriteReport_ParentDirectoryDoesNotExist() {
+	@Test
+	void testWriteReport_ParentDirectoryDoesNotExist() {
 		final NEW_REPORTS_DIR = "$REPORTS_DIR/DoesNotExist"
 		final NEW_REPORT_FILE = "$NEW_REPORTS_DIR/NewFile.html"
 		reportWriter.outputFile = NEW_REPORT_FILE

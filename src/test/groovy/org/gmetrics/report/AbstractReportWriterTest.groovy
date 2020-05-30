@@ -38,22 +38,25 @@ class AbstractReportWriterTest extends AbstractTestCase {
     private static final ANALYSIS_CONTEXT = new AnalysisContext(metricSet:METRIC_SET)
     private static final DEFAULT_STRING = '?'
     private static final CUSTOM_FILENAME = 'abc.txt'
-    private reportWriter
+    private ReportWriter reportWriter
 
-    @Test	void testWriteReport_WritesToDefaultOutputFile_IfOutputFileIsNull() {
+    @Test
+	void testWriteReport_WritesToDefaultOutputFile_IfOutputFileIsNull() {
         def defaultOutputFile = SampleAbstractReportWriter.defaultOutputFile
         reportWriter.writeReport(RESULTS_NODE, ANALYSIS_CONTEXT)
         assertOutputFile(defaultOutputFile) 
     }
 
-    @Test	void testWriteReport_WritesToOutputFile_IfOutputFileIsDefined() {
+    @Test
+	void testWriteReport_WritesToOutputFile_IfOutputFileIsDefined() {
         final NAME = 'abc.txt'
         reportWriter.outputFile = NAME
         reportWriter.writeReport(RESULTS_NODE, ANALYSIS_CONTEXT)
         assertOutputFile(NAME) 
     }
 
-    @Test	void testWriteReport_WritesToStandardOut_IfWriteToStandardOutIsTrue_String() {
+    @Test
+	void testWriteReport_WritesToStandardOut_IfWriteToStandardOutIsTrue_String() {
         reportWriter.outputFile = CUSTOM_FILENAME
         reportWriter.writeToStandardOut = "true"
         def output = captureSystemOut {
@@ -63,7 +66,8 @@ class AbstractReportWriterTest extends AbstractTestCase {
         assertContents(output)
     }
 
-    @Test	void testWriteReport_WritesToStandardOut_IfWriteToStandardOutIsTrue() {
+    @Test
+	void testWriteReport_WritesToStandardOut_IfWriteToStandardOutIsTrue() {
         reportWriter.outputFile = CUSTOM_FILENAME
         reportWriter.writeToStandardOut = true
         def output = captureSystemOut {
@@ -73,21 +77,24 @@ class AbstractReportWriterTest extends AbstractTestCase {
         assertContents(output)
     }
 
-    @Test	void testWriteReport_WritesToStandardOut_AndResetsSystemOut() {
+    @Test
+	void testWriteReport_WritesToStandardOut_AndResetsSystemOut() {
         def originalSystemOut = System.out
         reportWriter.writeToStandardOut = true
         reportWriter.writeReport(RESULTS_NODE, ANALYSIS_CONTEXT)
         assert System.out == originalSystemOut
     }
 
-    @Test	void testWriteReport_WritesToOutputFile_IfWriteToStandardOutIsNotTrue() {
+    @Test
+	void testWriteReport_WritesToOutputFile_IfWriteToStandardOutIsNotTrue() {
         reportWriter.outputFile = CUSTOM_FILENAME
         reportWriter.writeToStandardOut = "false"
         reportWriter.writeReport(RESULTS_NODE, ANALYSIS_CONTEXT)
         assertOutputFile(CUSTOM_FILENAME)
     }
 
-    @Test	void testWriteReport_InitializesFormatters() {
+    @Test
+	void testWriteReport_InitializesFormatters() {
         def localizedMessages = [ (METRIC_NAME+'.formatter'): 'org.gmetrics.formatter.PercentageFormatter' ]
         reportWriter.initializeResourceBundle = { reportWriter.resourceBundle = [getString:{ key -> localizedMessages[key] }] }
         reportWriter.writeToStandardOut = true
@@ -97,13 +104,15 @@ class AbstractReportWriterTest extends AbstractTestCase {
 
     // Tests for initializeResourceBundle()
 
-    @Test	void testInitializeResourceBundle_CustomMessagesFileExists() {
+    @Test
+	void testInitializeResourceBundle_CustomMessagesFileExists() {
         reportWriter.initializeResourceBundle()
         assert reportWriter.getResourceBundleString('basicHtmlReport.titlePrefix', null)   // in "gmetrics-base-messages.properties"
         assert reportWriter.getResourceBundleString('abc', null)                      // in "gmetrics-messages.properties"
     }
 
-    @Test	void testInitializeResourceBundle_CustomMessagesFileDoesNotExist() {
+    @Test
+	void testInitializeResourceBundle_CustomMessagesFileDoesNotExist() {
         reportWriter.customMessagesBundleName = 'DoesNotExist'
         reportWriter.initializeResourceBundle()
         assert reportWriter.getResourceBundleString('basicHtmlReport.titlePrefix')   // in "gmetrics-base-messages.properties"
@@ -112,35 +121,41 @@ class AbstractReportWriterTest extends AbstractTestCase {
 
     // Tests for getResourceBundleString()
 
-    @Test	void testGetResourceBundleString() {
+    @Test
+	void testGetResourceBundleString() {
         reportWriter.initializeResourceBundle()
         assert reportWriter.getResourceBundleString('abc') == '123'
     }
 
-    @Test	void testGetResourceBundleString_ReturnsDefaultStringIfKeyNotFound() {
+    @Test
+	void testGetResourceBundleString_ReturnsDefaultStringIfKeyNotFound() {
         reportWriter.initializeResourceBundle()
         assert reportWriter.getResourceBundleString('DoesNotExist') == DEFAULT_STRING
     }
 
     // Tests for getResourceBundleStringOrNull()
 
-    @Test	void testGetResourceBundleStringOrNull_ReturnsMatchingEntryFromResourceBundle() {
+    @Test
+	void testGetResourceBundleStringOrNull_ReturnsMatchingEntryFromResourceBundle() {
         reportWriter.initializeResourceBundle()
         assert reportWriter.getResourceBundleStringOrNull('abc') == '123'
     }
 
-    @Test	void testGetResourceBundleStringOrNull_ReturnsNullForNoMatchingEntryFromResourceBundle() {
+    @Test
+	void testGetResourceBundleStringOrNull_ReturnsNullForNoMatchingEntryFromResourceBundle() {
         reportWriter.initializeResourceBundle()
         assert reportWriter.getResourceBundleStringOrNull('DoesNotExist') == null
     }
 
     // Tests for formatMetricResultValue()
 
-    @Test	void testFormatMetricResultValue_NoFormatterConfiguredForMetric_ReturnsValueToString() {
+    @Test
+	void testFormatMetricResultValue_NoFormatterConfiguredForMetric_ReturnsValueToString() {
         assert reportWriter.formatMetricResultValue(METRIC.name, 0.65) == '0.65'
     }
 
-    @Test	void testFormatMetricResultValue_FormatterConfiguredForMetric_FormatsValue() {
+    @Test
+	void testFormatMetricResultValue_FormatterConfiguredForMetric_FormatsValue() {
         def localizedMessages = [ (METRIC_NAME+'.formatter'): 'org.gmetrics.formatter.PercentageFormatter' ]
         reportWriter.resourceBundle = [getString:{key -> localizedMessages[key]}]
         reportWriter.initializeFormatters(METRIC_SET)
@@ -150,7 +165,8 @@ class AbstractReportWriterTest extends AbstractTestCase {
 
     // Tests for getFormattedTimestamp()
 
-    @Test	void testGetFormattedTimestamp() {
+    @Test
+	void testGetFormattedTimestamp() {
         def timestamp = new Date(1262361072497)
         reportWriter.getTimestamp = { timestamp }
         def expected = java.text.DateFormat.getDateTimeInstance().format(timestamp)

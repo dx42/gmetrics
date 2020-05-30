@@ -29,9 +29,8 @@ import org.gmetrics.result.MetricResult
  */
 abstract class AbstractPackageCouplingMetric_PackageTestCase extends AbstractMetricTestCase {
 
-    protected static final REFERENCED_PACKAGES = 'referencedPackages'
-    protected static final REFERENCED_FROM_PACKAGES = 'referencedFromPackages'
-
+    protected static final String REFERENCED_PACKAGES = 'referencedPackages'
+    protected static final String REFERENCED_FROM_PACKAGES = 'referencedFromPackages'
 
     //------------------------------------------------------------------------------------
     // Helper Methods

@@ -25,7 +25,8 @@ import org.junit.Test
  */
 class ClassNameUtilTest extends AbstractTestCase {
 
-    @Test	void testParentPackageName() {
+    @Test
+	void testParentPackageName() {
         assert ClassNameUtil.parentPackageName(null) == null
         assert ClassNameUtil.parentPackageName('') == null
         assert ClassNameUtil.parentPackageName('abc') == null
@@ -33,7 +34,8 @@ class ClassNameUtilTest extends AbstractTestCase {
         assert ClassNameUtil.parentPackageName('abc.def.MyClass') == 'abc.def'
     }
 
-    @Test	void testIsPackageName() {
+    @Test
+	void testIsPackageName() {
         assert !ClassNameUtil.isPackageName(null)
         assert !ClassNameUtil.isPackageName('')
         assert ClassNameUtil.isPackageName('abc')
@@ -42,7 +44,8 @@ class ClassNameUtilTest extends AbstractTestCase {
         assert !ClassNameUtil.isPackageName('abc.def.MyClass.CONSTANT')
     }
 
-    @Test	void testIsClassName() {
+    @Test
+	void testIsClassName() {
         assert !ClassNameUtil.isClassName(null)
         assert !ClassNameUtil.isClassName('')
         assert !ClassNameUtil.isClassName('abc')
@@ -53,6 +56,5 @@ class ClassNameUtilTest extends AbstractTestCase {
         assert !ClassNameUtil.isClassName('abc.def.MyClass.count')
         assert !ClassNameUtil.isClassName('abc.def.MyClass.someValue')
     }
-
 
 }

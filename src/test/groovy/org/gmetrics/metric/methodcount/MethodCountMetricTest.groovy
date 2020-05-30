@@ -26,17 +26,20 @@ import org.junit.Test
  */
 class MethodCountMetricTest extends AbstractMetricTestCase {
 
-    static metricClass = MethodCountMetric
+    static Class metricClass = MethodCountMetric
 
-    @Test	void testBaseLevelIsClass() {
+    @Test
+	void testBaseLevelIsClass() {
         assert metric.baseLevel == MetricLevel.CLASS
     }
 
-    @Test	void testHasProperName() {
+    @Test
+	void testHasProperName() {
         assert metric.name == 'MethodCount'
     }
 
-    @Test	void testApplyToClass_NoMethods() {
+    @Test
+	void testApplyToClass_NoMethods() {
         final SOURCE = """
             class MyClass {
                 int myValue
@@ -45,7 +48,8 @@ class MethodCountMetricTest extends AbstractMetricTestCase {
         assertApplyToClass(SOURCE, 0, 0)
     }
 
-    @Test	void testApplyToClass_OneMethod() {
+    @Test
+	void testApplyToClass_OneMethod() {
         final SOURCE = """
             class MyClass {
                 int myValue
@@ -55,7 +59,8 @@ class MethodCountMetricTest extends AbstractMetricTestCase {
         assertApplyToClass(SOURCE, 1, 1)
     }
 
-    @Test	void testApplyToClass_TwoMethod() {
+    @Test
+	void testApplyToClass_TwoMethod() {
         final SOURCE = """
             class MyClass {
                 int myValue
@@ -72,7 +77,8 @@ class MethodCountMetricTest extends AbstractMetricTestCase {
         assertApplyToClass(SOURCE, 2, 2)
     }
 
-    @Test	void testApplyToClass_Constructor() {
+    @Test
+	void testApplyToClass_Constructor() {
         final SOURCE = """
             class MyClass {
                 int myValue
@@ -83,7 +89,8 @@ class MethodCountMetricTest extends AbstractMetricTestCase {
         assertApplyToClass(SOURCE, 2, 2)
     }
 
-    @Test	void testApplyToClass_ClosureFields() {
+    @Test
+	void testApplyToClass_ClosureFields() {
         final SOURCE = """
             class MyClass {
                 int myValue
@@ -95,7 +102,8 @@ class MethodCountMetricTest extends AbstractMetricTestCase {
         assertApplyToClass(SOURCE, 3, 3)
     }
 
-    @Test	void testApplyToClass_IgnoreNonFieldClosures() {
+    @Test
+	void testApplyToClass_IgnoreNonFieldClosures() {
         final SOURCE = """
             class MyClass {
                 def myMethod() {
@@ -107,7 +115,8 @@ class MethodCountMetricTest extends AbstractMetricTestCase {
         assertApplyToClass(SOURCE, 1, 1)
     }
 
-    @Test	void testApplyToClass_Interface() {
+    @Test
+	void testApplyToClass_Interface() {
         final SOURCE = """
             interface MyInterface {
                 int doSomething(String name)
@@ -117,7 +126,8 @@ class MethodCountMetricTest extends AbstractMetricTestCase {
         assertApplyToClass(SOURCE, 1, 1)
     }
 
-    @Test	void testApplyToClass_ReturnsNullForSyntheticClass() {
+    @Test
+	void testApplyToClass_ReturnsNullForSyntheticClass() {
         final SOURCE = """
             println 123
         """
@@ -127,15 +137,18 @@ class MethodCountMetricTest extends AbstractMetricTestCase {
         assert results == null
     }
 
-    @Test	void testApplyToPackage_ResultsForNoChildren() {
+    @Test
+	void testApplyToPackage_ResultsForNoChildren() {
         assertApplyToPackage([], 0, 0)
     }
 
-    @Test	void testApplyToPackage_ResultsForOneChild() {
+    @Test
+	void testApplyToPackage_ResultsForOneChild() {
         assertApplyToPackage([metricResult(23)], 23, 23)
     }
 
-    @Test	void testApplyToPackage_ResultsForThreeChildren() {
+    @Test
+	void testApplyToPackage_ResultsForThreeChildren() {
         assertApplyToPackage([metricResult(20), metricResult(6), metricResult(4)], 30, 10)
     }
 

@@ -22,11 +22,11 @@ import org.junit.Test
  * Tests for DefaultMetricSet
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class DefaultMetricSetTest extends AbstractTestCase {
 
-    @Test	void testThatDefaultContentsAreCorrect() {
+    @Test
+	void testThatDefaultContentsAreCorrect() {
         def metricSet = new DefaultMetricSet()
         def metrics = metricSet.getMetrics()
         assert metrics.name == ['CyclomaticComplexity', 'ClassLineCount', 'MethodLineCount']
