@@ -28,6 +28,7 @@ import org.gmetrics.result.MetricResultBuilder
 import org.gmetrics.result.SingleNumberMetricResult
 import org.gmetrics.source.SourceCode
 import org.gmetrics.util.AstUtil
+import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 import groovy.util.slurpersupport.GPathResult
@@ -43,7 +44,7 @@ abstract class AbstractCoberturaCoverageMetric extends AbstractMetric implements
     protected static final int ROUNDING_MODE = BigDecimal.ROUND_HALF_UP
 
     @SuppressWarnings('LoggerWithWrongModifiers')
-    protected static final LOG = LoggerFactory.getLogger(AbstractCoberturaCoverageMetric)
+    protected Logger logger = LoggerFactory.getLogger(AbstractCoberturaCoverageMetric)
 	
     final MetricLevel baseLevel = MetricLevel.METHOD
     String coberturaFile
@@ -92,7 +93,7 @@ abstract class AbstractCoberturaCoverageMetric extends AbstractMetric implements
         def className = classNode.name
         def matchingClassElement = getCoberturaCoverageFile().findClassElement(className)
         if (matchingClassElement.isEmpty()) {
-            LOG.warn("No coverage information found for class [$className]")
+            logger.warn("No coverage information found for class [$className]")
             return null
         }
 
@@ -114,7 +115,7 @@ abstract class AbstractCoberturaCoverageMetric extends AbstractMetric implements
         def matchingPackageElement = getCoberturaCoverageFile().findPackageElement(packageName)
         if (matchingPackageElement == null || matchingPackageElement.isEmpty()) {
             if (containsClasses(childMetricResults)) {
-                LOG.warn("No coverage information found for package [$packageName]")
+                logger.warn("No coverage information found for package [$packageName]")
             }
             return null
         }
@@ -184,7 +185,7 @@ abstract class AbstractCoberturaCoverageMetric extends AbstractMetric implements
     private void logMissingMethodCoverageInformation(MethodNode methodNode) {
         if (!AstUtil.isEmptyMethod(methodNode)) {
             def className = methodNode.declaringClass.name
-            LOG.warn("No coverage information found for method [${className}.${methodNode.name}]")
+            logger.warn("No coverage information found for method [${className}.${methodNode.name}]")
         }
     }
 

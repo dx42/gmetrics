@@ -2,12 +2,14 @@
 
 TODO Next Version
 -------------------------------------------------------------------------------------------
+FIXES AND ENHANCEMENTS
+#21: AbstractCoberturaCoverageMetric: Make logger instance field to enable verifying logged warnings.
+
 INFRASTRUCTURE AND TESTS
  - #20: Upgrade CodeNarc to 2.2.0.
- - #20: Upgrade JUnit from 4.12 to 4.13.1. 
+ - #19: Upgrade JUnit from 4.12 to 4.13.1. 
  - #20: Remove Cobertura Gradle plugin.
  - #20: Remove unused `pom.xml` and src/assembly.
-
 
 Version 1.1 (May 2020)
 -------------------------------------------------------------------------------------------

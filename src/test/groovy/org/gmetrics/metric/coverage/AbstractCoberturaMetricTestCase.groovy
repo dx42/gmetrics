@@ -21,6 +21,7 @@ import org.gmetrics.metric.MetricLevel
 import org.gmetrics.result.StubMetricResult
 import org.junit.Before
 import org.junit.Test
+import org.slf4j.Logger
 
 /**
  * Abstract superclass for Cobertura Metric test classes
@@ -37,6 +38,9 @@ abstract class AbstractCoberturaMetricTestCase extends AbstractMetricTestCase {
     protected static final String COBERTURA_XML_BAD_DTD= 'coverage/Cobertura-bad-dtd.xml'
     protected static final StubMetricResult CLASS_METRIC_RESULT = new StubMetricResult(metricLevel:MetricLevel.CLASS)
     protected static final StubMetricResult PACKAGE_METRIC_RESULT = new StubMetricResult(metricLevel:MetricLevel.PACKAGE)
+
+    protected List<String> loggedWarningStrings = []
+    protected Logger logger = [warn:{ str -> loggedWarningStrings << str}] as Logger
 
     //------------------------------------------------------------------------------------
     // Abstract Methods
@@ -81,31 +85,31 @@ abstract class AbstractCoberturaMetricTestCase extends AbstractMetricTestCase {
 
     // Tests for calculate()
 
-//    @Test
-//	  void testCalculate_NonEmptyMethodThatHasNoCoverageInformation_LogsWarning() {
-//        final SOURCE = """
-//            package com.example.service
-//            class Email {
-//                int unknown() {
-//                    println 'email'
-//                }
-//            }
-//        """
-//        def log4jMessages = captureLog4JMessages { metric.calculate(findFirstMethod(SOURCE), sourceCode) }
-//        assert log4jMessages.find { logEvent -> logEvent.message.contains('unknown') }
-//    }
-//
-//    @Test
-//	  void testCalculate_EmptyMethodThatHasNoCoverageInformation_DoesNotLogWarning() {
-//        final SOURCE = """
-//            package com.example.service
-//            class Email {
-//                int unknown() { }
-//            }
-//        """
-//        def log4jMessages = captureLog4JMessages { metric.calculate(findFirstMethod(SOURCE), sourceCode) }
-//        assert !log4jMessages.find { logEvent -> logEvent.message.contains('unknown') }
-//    }
+    @Test
+	  void testCalculate_NonEmptyMethodThatHasNoCoverageInformation_LogsWarning() {
+        final SOURCE = """
+            package com.example.service
+            class Email {
+                int unknown() {
+                    println 'email'
+                }
+            }
+        """
+        metric.calculate(findFirstMethod(SOURCE), sourceCode)
+        assert loggedWarningStrings.find { str -> str.contains('unknown') }
+    }
+
+    @Test
+	  void testCalculate_EmptyMethodThatHasNoCoverageInformation_DoesNotLogWarning() {
+        final SOURCE = """
+            package com.example.service
+            class Email {
+                int unknown() { }
+            }
+        """
+        metric.calculate(findFirstMethod(SOURCE), sourceCode)
+        assert !loggedWarningStrings.find { str -> str.contains('unknown') }
+    }
 
     // Tests for applyToClass()
 
@@ -127,17 +131,17 @@ abstract class AbstractCoberturaMetricTestCase extends AbstractMetricTestCase {
         }
     }
 
-//    @Test
-//	  void testApplyToClass_Enum_DoesNotLogWarningForMissingImplicitConstructorCoverageInformation() {
-//        final SOURCE = """
-//            package com.example.service
-//            enum Email {
-//                ONE, TWO, THREE
-//            }
-//        """
-//        def log4jMessages = captureLog4JMessages { applyToClass(SOURCE) }
-//        assert !log4jMessages.find { logEvent -> logEvent.message.contains('<init>') }
-//    }
+    @Test
+	  void testApplyToClass_Enum_DoesNotLogWarningForMissingImplicitConstructorCoverageInformation() {
+        final SOURCE = """
+            package com.example.service
+            enum Email {
+                ONE, TWO, THREE
+            }
+        """
+        applyToClass(SOURCE)
+        assert loggedWarningStrings.empty
+    }
 
     // Tests for applyToPackage()
 
@@ -161,19 +165,19 @@ abstract class AbstractCoberturaMetricTestCase extends AbstractMetricTestCase {
         assertApplyToPackage(null, getRootPackageValue())
     }
 
-//    @Test
-//	  void testApplyToPackage_NoCoverageInformation_ForPackageWithNoClasses_DoesNotLogWarning() {
-//        def children = [PACKAGE_METRIC_RESULT]
-//        def log4jMessages = captureLog4JMessages { metric.applyToPackage('com.example', 'com.example', children) }
-//        assert !log4jMessages.find { logEvent -> logEvent.message.contains('com.example') }
-//    }
-//
-//    @Test
-//	  void testApplyToPackage_NoCoverageInformation_ForPackageWithClasses_LogsWarning() {
-//        def children = [PACKAGE_METRIC_RESULT, CLASS_METRIC_RESULT]
-//        def log4jMessages = captureLog4JMessages { metric.applyToPackage('com.example', 'com.example', children) }
-//        assert log4jMessages.find { logEvent -> logEvent.message.contains('com.example') }
-//    }
+    @Test
+	  void testApplyToPackage_NoCoverageInformation_ForPackageWithNoClasses_DoesNotLogWarning() {
+        def children = [PACKAGE_METRIC_RESULT]
+        metric.applyToPackage('com.example', 'com.example', children)
+        assert loggedWarningStrings.empty
+    }
+
+    @Test
+	  void testApplyToPackage_NoCoverageInformation_ForPackageWithClasses_LogsWarning() {
+        def children = [PACKAGE_METRIC_RESULT, CLASS_METRIC_RESULT]
+        metric.applyToPackage('com.example', 'com.example', children)
+        assert loggedWarningStrings.find { str -> str.contains('com.example') }
+    }
 
     @Test
 	void testApplyToPackage_NoCoverageInformation() {
@@ -201,6 +205,7 @@ abstract class AbstractCoberturaMetricTestCase extends AbstractMetricTestCase {
     @Before
     void setUp() {
         metric.coberturaFile = COBERTURA_XML_RELATIVE_TO_CLASSPATH
+        metric.logger = logger
     }
 
     protected void assertRatio(Ratio ratio, int numerator, int denominator) {
