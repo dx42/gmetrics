@@ -72,7 +72,7 @@ abstract class AbstractSourceCode implements SourceCode {
                 ast = unit.getAST()
             }
             catch(CompilationFailedException e) {
-                LOG.warn("Compilation failed for [${toString()}]")
+                LOG.warn("Compilation failed for [${this}]")
             }
             astParsed = true
         }

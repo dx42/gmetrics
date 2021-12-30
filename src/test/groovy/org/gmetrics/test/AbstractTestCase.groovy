@@ -122,7 +122,7 @@ abstract class AbstractTestCase {
      * @param message - the message to log; toString() is applied first
      */
     protected void log(message) {
-        println "[${classNameNoPackage()}] ${message.toString()}"
+        println "[${classNameNoPackage()}] ${message}"
     }
 
     protected String captureSystemOut(Closure closure) {

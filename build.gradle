@@ -24,16 +24,16 @@ dependencies {
     def groovyVersion = "2.4.17"
     def slf4jVersion = "1.7.25"
 
-    compile("org.codehaus.groovy:groovy:$groovyVersion")
-    compile("org.codehaus.groovy:groovy-xml:$groovyVersion")
-    compile "org.codehaus.groovy:groovy-ant:$groovyVersion"
-    compile("org.codehaus.groovy:groovy-templates:$groovyVersion")
+    implementation "org.codehaus.groovy:groovy:$groovyVersion"
+    implementation "org.codehaus.groovy:groovy-xml:$groovyVersion"
+    implementation "org.codehaus.groovy:groovy-ant:$groovyVersion"
+    implementation "org.codehaus.groovy:groovy-templates:$groovyVersion"
 
-    compile "org.slf4j:slf4j-api:$slf4jVersion"
+    implementation "org.slf4j:slf4j-api:$slf4jVersion"
 
-    testCompile 'junit:junit:4.13.1'
-    testCompile "org.slf4j:slf4j-simple:$slf4jVersion"
-    testCompile group:'org.codenarc', name:'CodeNarc', version:'1.5', transitive:false
+    testImplementation 'junit:junit:4.13.1'
+    testImplementation "org.slf4j:slf4j-simple:$slf4jVersion"
+    testImplementation group:'org.codenarc', name:'CodeNarc', version:'2.2.0'
 }
 
 

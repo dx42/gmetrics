@@ -22,7 +22,7 @@ import org.junit.Test
  *
  * @author Chris Mair
  */
-class RunCodeNarcAgainstSourceCodeTest extends org.gmetrics.test.AbstractTestCase {
+class RunCodeNarcAgainstSourceCodeTest extends AbstractTestCase {
 
     private static final GROOVY_FILES = '**/*.groovy'
     private static final RULESET_FILES = 'codenarc/CodeNarcRuleSet.txt'
