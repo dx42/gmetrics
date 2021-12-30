@@ -3,9 +3,10 @@
 TODO Next Version
 -------------------------------------------------------------------------------------------
 INFRASTRUCTURE AND TESTS
- - Upgrade JUnit from 4.12 to 4.13.1. 
- - Remove Cobertura Gradle plugin.
- - Remove unused `pom.xml`.
+ - #20: Upgrade CodeNarc to 2.2.0.
+ - #20: Upgrade JUnit from 4.12 to 4.13.1. 
+ - #20: Remove Cobertura Gradle plugin.
+ - #20: Remove unused `pom.xml` and src/assembly.
 
 
 Version 1.1 (May 2020)
