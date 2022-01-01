@@ -3,9 +3,10 @@
 TODO Next Version
 -------------------------------------------------------------------------------------------
 FIXES AND ENHANCEMENTS
-#21: AbstractCoberturaCoverageMetric: Make logger instance field to enable verifying logged warnings.
+ - #21: AbstractCoberturaCoverageMetric: Make logger instance field to enable verifying logged warnings.
 
 INFRASTRUCTURE AND TESTS
+ - #20: Upgrade to Groovy 3.0.9.
  - #20: Upgrade CodeNarc to 2.2.0.
  - #19: Upgrade JUnit from 4.12 to 4.13.1. 
  - #20: Remove Cobertura Gradle plugin.
