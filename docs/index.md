@@ -8,8 +8,7 @@
   
   Define the metrics to calculate by [Creating a MetricSet](./CreatingMetricSet).
   
-  There is also a [Grails GMetrics Plugin](http://www.grails.org/plugin/gmetrics) and a [Griffon GMetrics Plugin](http://docs.codehaus.org/display/GRIFFON/Gmetrics+Plugin).
-  And the [Sonar Groovy Plugin](http://docs.codehaus.org/display/SONAR/Groovy+Plugin) uses **GMetrics** for its calculation of *Cyclomatic Complexity* for Groovy source code.
+  The [Sonar Groovy Plugin](https://github.com/Inform-Software/sonar-groovy) uses **GMetrics** for its calculation of *Cyclomatic Complexity* for Groovy source code.
   
 
 ## Metrics
@@ -42,8 +41,8 @@
 
 **GMetrics** requires:
 
- * Groovy version 2.4 or later
- * Java 1.6 or later
+ * Groovy version 3.0 or later
+ * Java 1.8 or later
  * The SLF4J API jar and an SLF4J binding jar. See [The SLF4J Manual](https://www.slf4j.org/manual.html). 
 
 
