@@ -6,8 +6,10 @@ FIXES AND ENHANCEMENTS
  - #21: AbstractCoberturaCoverageMetric: Make logger instance field to enable verifying logged warnings.
 
 INFRASTRUCTURE AND TESTS
- - #20: Upgrade to Groovy 3.0.9.
+ - #20: Requires Java 8 or later.
+ - #20: Upgrade to Groovy 3.0.9. Groovy 2.x no longer supported.
  - #20: Upgrade CodeNarc to 2.2.0.
+ - #20: Upgrade to SLF4J 1.7.32.
  - #19: Upgrade JUnit from 4.12 to 4.13.1. 
  - #20: Remove Cobertura Gradle plugin.
  - #20: Remove unused `pom.xml` and src/assembly.

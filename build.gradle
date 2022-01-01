@@ -22,7 +22,7 @@ repositories {
 
 dependencies {
     def groovyVersion = "3.0.9"
-    def slf4jVersion = "1.7.25"
+    def slf4jVersion = "1.7.32"
 
     implementation "org.codehaus.groovy:groovy:$groovyVersion"
     implementation "org.codehaus.groovy:groovy-xml:$groovyVersion"
@@ -33,7 +33,7 @@ dependencies {
 
     testImplementation 'junit:junit:4.13.1'
     testImplementation "org.slf4j:slf4j-simple:$slf4jVersion"
-    testImplementation group:'org.codenarc', name:'CodeNarc', version:'2.2.0'
+    testImplementation 'org.codenarc:CodeNarc:2.2.0'
 }
 
 
