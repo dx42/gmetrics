@@ -16,8 +16,8 @@
 package org.gmetrics.util.io
 
 import org.gmetrics.test.AbstractTestCase
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 /**
  * Tests for DefaultResourceFactory
@@ -61,7 +61,7 @@ class DefaultResourceFactoryTest extends AbstractTestCase {
         assert resource.getPath() == expectedResourcePath
     }
 
-    @Before
+    @BeforeEach
     void setUp() {
         resourceFactory = new DefaultResourceFactory()
     }

@@ -21,7 +21,7 @@ import org.gmetrics.metric.abc.AbcMetric
 import org.gmetrics.metric.abc.AbcTestUtil
 import org.gmetrics.metric.abc.AbcVector
 import org.gmetrics.test.AbstractTestCase
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 /**
  * Tests for AbcMetricResult

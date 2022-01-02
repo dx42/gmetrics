@@ -25,8 +25,8 @@ import org.gmetrics.result.SingleNumberMetricResult
 import org.gmetrics.result.StubMetricResult
 import org.gmetrics.resultsnode.StubResultsNode
 import org.gmetrics.test.AbstractTestCase
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 /**
  * Abstract superclass for ReportWriter test classes.
@@ -81,7 +81,7 @@ abstract class AbstractReportWriterTestCase extends AbstractTestCase {
         shouldFailWithMessageContaining('writer') { reportWriter.writeReport(null, resultsNode, analysisContext) }
     }
 
-    @Before
+    @BeforeEach
     void setUp_AbstractReportWriterTestCase() {
         reportWriter = createReportWriter()
         metric1 = new StubMetric(name:'Metric1')

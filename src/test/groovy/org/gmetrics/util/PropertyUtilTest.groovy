@@ -16,8 +16,8 @@
 package org.gmetrics.util
 
 import org.gmetrics.test.AbstractTestCase
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 /**
  * Tests for PropertyUtil
@@ -66,7 +66,7 @@ class PropertyUtilTest extends AbstractTestCase {
         shouldFail(NoSuchFieldException) { PropertyUtil.setPropertyFromString(object, 'XXX', '23456') }
     }
 
-    @Before
+    @BeforeEach
     void setUp() {
         object = new SamplePropertyUtilClass()
     }

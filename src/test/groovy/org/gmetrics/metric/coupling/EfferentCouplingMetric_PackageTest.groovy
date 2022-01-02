@@ -15,7 +15,7 @@
  */
 package org.gmetrics.metric.coupling
 
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 /**
  * Tests for applying the EfferentCouplingMetric at the package level

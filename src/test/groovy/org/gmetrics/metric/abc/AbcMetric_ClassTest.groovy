@@ -17,7 +17,7 @@ package org.gmetrics.metric.abc
 
 import org.gmetrics.metric.MetricLevel
 import org.gmetrics.result.MethodKey
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 /**
  * Tests for AbcMetric calculation of class-level metrics

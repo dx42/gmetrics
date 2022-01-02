@@ -15,12 +15,12 @@
  */
 package org.gmetrics.report
 
-import java.text.DateFormat
-
 import org.gmetrics.metric.MetricLevel
-import org.junit.Assert
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+
+import java.text.DateFormat
 
 /**
  * Tests for XmlReportWriter
@@ -349,7 +349,7 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
     // Setup and Helper Methods
     //------------------------------------------------------------------------------------
 
-    @Before
+    @BeforeEach
     void setUp() {
          localizedMessages = [
             'Metric1.description':metricDescription(metric1),
@@ -375,7 +375,7 @@ class XmlReportWriterTest extends AbstractReportWriterTestCase {
     }
 
     private void assertXml(String actualXml, String expectedXml) {
-        Assert.assertEquals(normalizeXml(expectedXml), normalizeXml(actualXml))
+        Assertions.assertEquals(normalizeXml(expectedXml), normalizeXml(actualXml))
     }
 
     private String normalizeXml(String xml) {

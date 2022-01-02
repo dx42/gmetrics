@@ -21,8 +21,8 @@ import org.gmetrics.result.ClassMetricResult
 import org.gmetrics.result.MethodKey
 import org.gmetrics.result.SingleNumberMetricResult
 import org.gmetrics.test.AbstractTestCase
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 /**
  * Tests for ClassResultsNode
@@ -127,7 +127,7 @@ class ClassResultsNodeTest extends AbstractTestCase {
         assert classResultsNode.getMetricResult(METRIC) == null
     }
 
-    @Before
+    @BeforeEach
     void setUp() {
         classResultsNode = new ClassResultsNode(NAME)
         classResult1 = new ClassMetricResult(m(1), [:])

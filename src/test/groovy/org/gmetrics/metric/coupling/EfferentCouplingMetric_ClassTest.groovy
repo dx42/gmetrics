@@ -17,7 +17,7 @@ package org.gmetrics.metric.coupling
 
 import org.gmetrics.metric.PostProcessingMetric
 import org.gmetrics.result.FunctionNames
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 /**
  * Tests for applying EfferentCouplingMetric at the class level

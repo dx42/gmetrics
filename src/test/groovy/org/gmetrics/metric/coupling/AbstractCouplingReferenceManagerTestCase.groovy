@@ -23,8 +23,8 @@ import org.gmetrics.metric.MetricLevel
 import org.gmetrics.metric.StubMetric
 import org.gmetrics.result.MetricResult
 import org.gmetrics.test.AbstractTestCase
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 /**
  * Abstract superclass for Afferent/EfferentCouplingReferenceManager tests
@@ -117,7 +117,7 @@ abstract class AbstractCouplingReferenceManagerTestCase extends AbstractTestCase
 
     protected abstract createManager()
 
-    @Before
+    @BeforeEach
     void setUp_AbstractCouplingReferenceManagerTestCase() {
         manager = createManager()
     }

@@ -21,8 +21,8 @@ import org.gmetrics.metricset.ListMetricSet
 import org.gmetrics.resultsnode.ResultsNode
 import org.gmetrics.resultsnode.StubResultsNode
 import org.gmetrics.test.AbstractTestCase
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 /**
  * Tests for AbstractReportWriter
@@ -177,7 +177,7 @@ class AbstractReportWriterTest extends AbstractTestCase {
     // Setup and helper methods
     //------------------------------------------------------------------------------------
 
-    @Before
+    @BeforeEach
     void setUp() {
         reportWriter = new SampleAbstractReportWriter()
     }

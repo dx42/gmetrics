@@ -19,8 +19,8 @@ import org.gmetrics.metric.AbstractMetricTestCase
 import org.gmetrics.metric.MethodMetric
 import org.gmetrics.metric.MetricLevel
 import org.gmetrics.result.StubMetricResult
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.slf4j.Logger
 
 /**
@@ -202,7 +202,7 @@ abstract class AbstractCoberturaMetricTestCase extends AbstractMetricTestCase {
     // Set up and helper methods
     //------------------------------------------------------------------------------------
 
-    @Before
+    @BeforeEach
     void setUp() {
         metric.coberturaFile = COBERTURA_XML_RELATIVE_TO_CLASSPATH
         metric.logger = logger

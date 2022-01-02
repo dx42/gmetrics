@@ -15,7 +15,7 @@
  */
 package org.gmetrics.test
 
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 /**
  * Run CodeNarc against the project source code. Fail on configured rule violations

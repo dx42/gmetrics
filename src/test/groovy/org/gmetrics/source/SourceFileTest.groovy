@@ -16,8 +16,8 @@
 package org.gmetrics.source
 
 import org.gmetrics.test.AbstractTestCase
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 /**
  * Tests for SourceFile
@@ -110,7 +110,7 @@ class SourceFileTest extends AbstractTestCase {
         assert new SourceFile(new File(BAD_FILE)).valid == false
     }
 
-    @Before
+    @BeforeEach
     void setUp() {
         file = new File(FILE)
         sourceFile = new SourceFile(file)

@@ -20,7 +20,7 @@ import org.gmetrics.metricset.MetricSet
 import org.gmetrics.report.ReportWriter
 import org.gmetrics.resultsnode.StubResultsNode
 import org.gmetrics.test.AbstractTestCase
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 /**
  * Tests for GMetricsRunner

@@ -16,7 +16,7 @@
 package org.gmetrics.metric.linecount
 
 import org.gmetrics.metric.AbstractMetricTestCase
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 /**
  * Tests for MethodLinesOfCodeMetric - calculate lines of code for closure fields

@@ -16,8 +16,8 @@
 package org.gmetrics.metric.coverage
 
 import org.gmetrics.test.AbstractTestCase
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 /**
  * Tests for Cobertura coverage metrics that use the Groovy AntBuilder.
@@ -52,7 +52,7 @@ class CoberturaCoverage_AntBuilderTest extends AbstractTestCase {
         }
     }
 
-    @Before
+    @BeforeEach
     void setUp() {
         ant = new AntBuilder()
         ant.taskdef(name:'gmetrics', classname:'org.gmetrics.ant.GMetricsTask')

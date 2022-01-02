@@ -22,8 +22,8 @@ import org.gmetrics.metricset.MetricSet
 import org.gmetrics.result.StubMetricResult
 import org.gmetrics.resultsnode.ResultsNode
 import org.gmetrics.test.AbstractTestCase
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 /**
  * Tests for SingleSeriesCriteriaFilter
@@ -275,7 +275,7 @@ class SingleSeriesCriteriaFilterTest extends AbstractTestCase {
         }
     }
 
-    @Before
+    @BeforeEach
     void setUp() {
         metric1 = new StubMetric(name:'Metric1')
         metric2 = new StubMetric(name:'Metric2')

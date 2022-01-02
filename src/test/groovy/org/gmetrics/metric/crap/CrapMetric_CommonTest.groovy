@@ -18,7 +18,7 @@ package org.gmetrics.metric.crap
 import org.gmetrics.metric.AbstractCommonMethodMetricTestCase
 import org.gmetrics.metric.MethodMetric
 import org.gmetrics.result.StubMetricResult
-import org.junit.Before
+import org.junit.jupiter.api.BeforeEach
 
 /**
  * Tests for CrapMetric - common tests
@@ -30,7 +30,7 @@ class CrapMetric_CommonTest extends AbstractCommonMethodMetricTestCase {
     static Class metricClass = CrapMetric
     static boolean doesMetricTreatClosuresAsMethods = false
 
-    @Before
+    @BeforeEach
     void setUp() {
         metric.coverageMetric = [applyToMethod:{ methodNode, sourceCode -> new StubMetricResult(total:0.0) }] as MethodMetric
     }

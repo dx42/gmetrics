@@ -15,7 +15,7 @@
  */
 package org.gmetrics.metric.abc
 
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 /**
  * Tests for AbcMetric - calculate ABC complexity for methods

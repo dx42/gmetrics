@@ -26,16 +26,12 @@ import org.gmetrics.metric.StubMetric
 import org.gmetrics.metric.linecount.ClassLineCountMetric
 import org.gmetrics.metric.linecount.MethodLineCountMetric
 import org.gmetrics.metricset.ListMetricSet
-import org.gmetrics.result.ClassMetricResult
-import org.gmetrics.result.MethodKey
-import org.gmetrics.result.MetricResult
-import org.gmetrics.result.SingleNumberMetricResult
-import org.gmetrics.result.StubMetricResult
+import org.gmetrics.result.*
 import org.gmetrics.resultsnode.PackageResultsNode
 import org.gmetrics.resultsnode.ResultsNodeTestUtil
 import org.gmetrics.resultsnode.StubResultsNode
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 /**
  * Tests for AntFileSetSourceAnalyzer
@@ -66,7 +62,7 @@ class AntFileSetSourceAnalyzerTest extends AbstractSourceAnalyzer_IntegrationTes
         fileSet.dir = new File(BASE_DIR + '/no_matching_files')
     }
 
-    @Before
+    @BeforeEach
     void setUp() {
         metric1 = new StubMetric()
         metricResult1 = new SingleNumberMetricResult(metric1, MetricLevel.METHOD, 11)

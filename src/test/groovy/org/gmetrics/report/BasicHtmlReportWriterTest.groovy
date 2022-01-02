@@ -18,8 +18,8 @@ package org.gmetrics.report
 import org.gmetrics.analyzer.AnalysisContext
 import org.gmetrics.metric.MetricLevel
 import org.gmetrics.resultsnode.StubResultsNode
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 /**
  * Tests for BasicHtmlReportWriter
@@ -307,7 +307,7 @@ class BasicHtmlReportWriterTest extends AbstractReportWriterTestCase {
     // Setup and Helper Methods
     //------------------------------------------------------------------------------------
 
-    @Before
+    @BeforeEach
     void setUp() {
         localizedMessages = [
             'basicHtmlReport.titlePrefix': TITLE_PREFIX,

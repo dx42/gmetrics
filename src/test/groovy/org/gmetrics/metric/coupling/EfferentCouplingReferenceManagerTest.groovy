@@ -17,8 +17,8 @@ package org.gmetrics.metric.coupling
 
 import static org.gmetrics.metric.coupling.EfferentCouplingReferenceManager.REFERENCED_PACKAGES
 
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 /**
  * Tests for EfferentCouplingReferenceManager.
@@ -100,7 +100,7 @@ class EfferentCouplingReferenceManagerTest extends AbstractCouplingReferenceMana
     // Helper Methods
     //------------------------------------------------------------------------------------
 
-    @Before
+    @BeforeEach
     void setUp() {
         manager.addReferencesFromPackage(PACKAGE1, [])
         manager.addReferencesFromPackage(PACKAGE2, [])

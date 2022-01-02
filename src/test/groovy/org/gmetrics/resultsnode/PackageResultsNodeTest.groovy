@@ -22,8 +22,8 @@ import org.gmetrics.metric.linecount.MethodLineCountMetric
 import org.gmetrics.result.MetricResult
 import org.gmetrics.result.SingleNumberMetricResult
 import org.gmetrics.test.AbstractTestCase
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 /**
  * Tests for PackageResultsNode
@@ -225,7 +225,7 @@ class PackageResultsNodeTest extends AbstractTestCase {
         assert packageResultsNode.containsClassResults()
     }
 
-    @Before
+    @BeforeEach
     void setUp() {
         packageResultsNode = new PackageResultsNode(NAME, PACKAGE_NAME, PATH)
         emptyResultsNode = new StubResultsNode()

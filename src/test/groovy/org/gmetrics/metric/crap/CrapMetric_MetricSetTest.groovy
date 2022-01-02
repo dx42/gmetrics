@@ -17,7 +17,7 @@
 
 import org.gmetrics.metricset.GroovyDslMetricSet
 import org.gmetrics.test.AbstractTestCase
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 /**
  * Integration test for CrapMetric that loads a MetricSet definition from a MetricSet Groovy DSL file

@@ -17,8 +17,8 @@ package org.gmetrics.metricset
 
 import org.gmetrics.metric.Metric
 import org.gmetrics.test.AbstractTestCase
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 /**
  * Tests for CompositeMetricSet
@@ -81,7 +81,7 @@ class CompositeMetricSetTest extends AbstractTestCase {
         shouldFail(UnsupportedOperationException) { metrics.add(123) }
     }
 
-    @Before
+    @BeforeEach
     void setUp() {
         compositeMetricSet = new CompositeMetricSet()
     }

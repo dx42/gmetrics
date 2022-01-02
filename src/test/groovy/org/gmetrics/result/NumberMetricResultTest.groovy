@@ -18,7 +18,7 @@ package org.gmetrics.result
 import org.gmetrics.metric.Metric
 import org.gmetrics.metric.MetricLevel
 import org.gmetrics.test.AbstractTestCase
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 /**
  * Tests for NumberMetricResult

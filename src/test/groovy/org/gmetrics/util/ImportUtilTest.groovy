@@ -17,7 +17,7 @@
 
 import org.gmetrics.source.SourceString
 import org.gmetrics.test.AbstractTestCase
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 /**
  * Tests for ImportUtil

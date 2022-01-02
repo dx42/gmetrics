@@ -16,8 +16,8 @@
 package org.gmetrics.source
 
 import org.gmetrics.test.AbstractTestCase
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 /**
  * Tests for SourceCodeUtil
@@ -96,7 +96,7 @@ class SourceCodeCriteriaTest extends AbstractTestCase {
         assert !new SourceCodeCriteria(applyToFileNames:NAME, doNotApplyToFilesMatching:MATCH).matches(sourceCode)
     }
 
-    @Before
+    @BeforeEach
     void setUp() {
         sourceCode = new SourceString("class ABC { }")
     }

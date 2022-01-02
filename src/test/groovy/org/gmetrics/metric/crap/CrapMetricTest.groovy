@@ -19,8 +19,8 @@ import org.gmetrics.metric.AbstractMetricTestCase
 import org.gmetrics.metric.MethodMetric
 import org.gmetrics.metric.cyclomatic.CyclomaticComplexityMetric
 import org.gmetrics.result.StubMetricResult
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 /**
  * Tests for CrapMetric
@@ -39,7 +39,7 @@ class CrapMetricTest extends AbstractMetricTestCase {
     private coverageMetricResult = metricResult(DEFAULT_COVERAGE)
     private complexityMetricResult = metricResult(DEFAULT_COMPLEXITY)
 
-    @Before
+    @BeforeEach
     void setUp() {
         metric.coverageMetric = [applyToMethod:{ methodNode, sourceCode -> coverageMetricResult }] as MethodMetric
         metric.complexityMetric = [applyToMethod:{ methodNode, sourceCode -> complexityMetricResult }] as MethodMetric

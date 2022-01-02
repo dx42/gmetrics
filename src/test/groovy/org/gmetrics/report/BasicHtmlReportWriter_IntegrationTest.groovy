@@ -23,8 +23,8 @@ import org.gmetrics.metric.abc.AbcMetric
 import org.gmetrics.metric.linecount.MethodLineCountMetric
 import org.gmetrics.metricset.ListMetricSet
 import org.gmetrics.test.AbstractTestCase
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 /**
  * Tests for BasicHtmlReportWriter
@@ -49,7 +49,7 @@ class BasicHtmlReportWriter_IntegrationTest extends AbstractTestCase {
         assertReportContents(resultsNode)
     }
 
-    @Before
+    @BeforeEach
     void setUp() {
         def project = new Project(basedir:BASE_DIR)
         def fileSet = new FileSet(project:project, dir:new File(BASE_DIR), includes:GROOVY_FILES)

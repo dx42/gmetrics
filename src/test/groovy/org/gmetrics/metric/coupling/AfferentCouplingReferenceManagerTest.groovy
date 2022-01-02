@@ -17,7 +17,7 @@ package org.gmetrics.metric.coupling
 
 import static org.gmetrics.metric.coupling.AfferentCouplingReferenceManager.REFERENCED_FROM_PACKAGES
 
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 /**
  * Tests for AfferentCouplingReferenceManager.

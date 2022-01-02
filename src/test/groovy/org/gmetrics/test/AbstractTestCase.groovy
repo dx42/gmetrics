@@ -18,9 +18,8 @@ package org.gmetrics.test
 import org.gmetrics.metric.MetricLevel
 import org.gmetrics.resultsnode.ResultsNode
 import org.gmetrics.resultsnode.StubResultsNode
-import org.junit.Before
-import org.junit.Rule
-import org.junit.rules.TestName
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.TestInfo
 
 /**
  * Abstract superclass for tests
@@ -30,9 +29,6 @@ import org.junit.rules.TestName
 abstract class AbstractTestCase {
 
 	protected static final String REPORTS_DIR = "testreports"
-
-    @SuppressWarnings('PublicInstanceField')
-    @Rule public TestName testName = new TestName()
 
     @SuppressWarnings('CatchThrowable')
     static Throwable shouldFail(Class expectedExceptionClass, Closure code) {
@@ -168,17 +164,13 @@ abstract class AbstractTestCase {
         return index > -1 ? className.substring(index+1) : className
     }
 
-    protected String getName() {
-        return testName.getMethodName()
-    }
-
     //------------------------------------------------------------------------------------
     // Test setup
     //------------------------------------------------------------------------------------
 
-    @Before
-    void setUp_AbstractTestCase() {
-        println "-------------------------[ ${classNameNoPackage()}.${getName()} ]------------------------"
+    @BeforeEach
+    void setUp_AbstractTestCase(TestInfo testInfo) {
+        println "-------------------------[ ${classNameNoPackage()}.${testInfo.getDisplayName()} ]------------------------"
     }
 
 }

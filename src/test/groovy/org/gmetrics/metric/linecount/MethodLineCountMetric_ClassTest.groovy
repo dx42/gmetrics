@@ -17,7 +17,7 @@ package org.gmetrics.metric.linecount
 
 import org.gmetrics.metric.AbstractMetricTestCase
 import org.gmetrics.metric.MetricLevel
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 /**
  * Tests for MethodLineCountMetric - calculate aggregate metrics for a class

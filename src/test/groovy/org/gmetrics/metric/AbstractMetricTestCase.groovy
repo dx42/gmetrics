@@ -22,7 +22,7 @@ import org.gmetrics.result.MetricResult
 import org.gmetrics.result.SingleNumberMetricResult
 import org.gmetrics.source.SourceString
 import org.gmetrics.test.AbstractTestCase
-import org.junit.Before
+import org.junit.jupiter.api.BeforeEach
 
 /**
  * Abstract superclass for metric test classes.
@@ -41,7 +41,7 @@ abstract class AbstractMetricTestCase extends AbstractTestCase {
     protected metric
     protected sourceCode
 
-    @Before
+    @BeforeEach
     void setUp_AbstractMetricTestCase() {
         Class mClass = getProperty('metricClass')
         metric = mClass.newInstance()

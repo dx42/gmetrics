@@ -22,8 +22,8 @@ import org.gmetrics.metricset.DefaultMetricSet
 import org.gmetrics.metricset.MetricSetTestFiles
 import org.gmetrics.report.BasicHtmlReportWriter
 import org.gmetrics.test.AbstractTestCase
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 /**
  * Tests for GMetricsTask
@@ -39,7 +39,7 @@ class GMetricsTaskTest extends AbstractTestCase {
     private project
     private called = [:]
 
-    @Before
+    @BeforeEach
     void setUp() {
         project = new Project(basedir:'.')
         fileSet = new FileSet(dir:new File('.'), project:project)

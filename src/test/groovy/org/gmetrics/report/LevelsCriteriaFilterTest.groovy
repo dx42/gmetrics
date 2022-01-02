@@ -18,7 +18,7 @@ package org.gmetrics.report
 import org.gmetrics.metric.MetricLevel
 import org.gmetrics.metric.StubMetric
 import org.gmetrics.test.AbstractTestCase
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 /**
  * Tests for LevelsCriteriaFilter

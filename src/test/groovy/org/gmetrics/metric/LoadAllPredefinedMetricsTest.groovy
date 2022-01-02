@@ -15,13 +15,13 @@
  */
  package org.gmetrics.metric
 
-import javax.xml.parsers.DocumentBuilder
-import javax.xml.parsers.DocumentBuilderFactory
-
 import org.gmetrics.metricregistry.DefaultMetricRegistry
 import org.gmetrics.test.AbstractTestCase
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+
+import javax.xml.parsers.DocumentBuilder
+import javax.xml.parsers.DocumentBuilderFactory
 
 /**
  * Test that loads all predefined Metrics and verifies metric descriptions
@@ -77,7 +77,7 @@ Error: $t.message
         }
     }
 
-    @Before
+    @BeforeEach
     void setUp() {
         messages = ResourceBundle.getBundle(BASE_MESSAGES_BUNDLE)
     }

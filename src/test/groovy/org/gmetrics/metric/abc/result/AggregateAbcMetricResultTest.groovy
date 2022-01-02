@@ -20,7 +20,7 @@ import org.gmetrics.metric.MetricLevel
 import org.gmetrics.metric.abc.AbcTestUtil
 import org.gmetrics.metric.abc.AbcVector
 import org.gmetrics.test.AbstractTestCase
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 /**
  * Tests for AggregateAbcMetricResult

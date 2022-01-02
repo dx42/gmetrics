@@ -29,8 +29,8 @@ import org.codehaus.groovy.ast.stmt.Statement
 import org.codehaus.groovy.control.SourceUnit
 import org.gmetrics.source.SourceString
 import org.gmetrics.test.AbstractTestCase
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.slf4j.LoggerFactory
 
 /**
@@ -52,7 +52,7 @@ class AstUtilTest extends AbstractTestCase {
                 "$gstringMethodName"(234)
                 int myVariable = 99
             }
-            @Before setUp() {  }
+            @BeforeEach setUp() {  }
         }
         enum MyEnum {
             READ, WRITE
@@ -213,7 +213,7 @@ class AstUtilTest extends AbstractTestCase {
 	void testGetAnnotation() {
         assert AstUtil.getAnnotation(visitor.methodNodes['otherMethod'], 'doesNotExist') == null
         assert AstUtil.getAnnotation(visitor.methodNodes['setUp'], 'doesNotExist') == null
-        assert AstUtil.getAnnotation(visitor.methodNodes['setUp'], 'Before') instanceof AnnotationNode
+        assert AstUtil.getAnnotation(visitor.methodNodes['setUp'], 'BeforeEach') instanceof AnnotationNode
     }
 
     @Test
@@ -257,7 +257,7 @@ class AstUtilTest extends AbstractTestCase {
         assert AstUtil.isClosureField(closureField)
     }
 
-    @Before
+    @BeforeEach
     void setUp() {
         visitor = new AstUtilTestVisitor()
         applyVisitor(SOURCE)

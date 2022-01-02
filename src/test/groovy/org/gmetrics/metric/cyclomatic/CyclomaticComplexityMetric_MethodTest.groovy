@@ -16,7 +16,7 @@
 package org.gmetrics.metric.cyclomatic
 
 import org.gmetrics.metric.AbstractMetricTestCase
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 /**
  * Tests for CyclomaticComplexityMetric - for methods

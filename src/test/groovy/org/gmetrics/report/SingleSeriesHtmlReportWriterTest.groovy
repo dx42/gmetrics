@@ -15,12 +15,12 @@
  */
 package org.gmetrics.report
 
-import java.text.DateFormat
-
 import org.gmetrics.analyzer.AnalysisContext
 import org.gmetrics.util.io.ClassPathResource
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+
+import java.text.DateFormat
 
 /**
  * Tests for SingleSeriesHtmlReportWriter
@@ -208,7 +208,7 @@ class SingleSeriesHtmlReportWriterTest extends AbstractReportWriterTestCase {
     // Setup and Helper Methods
     //------------------------------------------------------------------------------------
 
-    @Before
+    @BeforeEach
     void setUp() {
         analysisContext = new AnalysisContext(metricSet:metricSet1)
 

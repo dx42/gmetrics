@@ -16,8 +16,8 @@
 package org.gmetrics.source
 
 import org.gmetrics.test.AbstractTestCase
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 /**
  * Tests for SourceString
@@ -175,7 +175,7 @@ class SourceStringTest extends AbstractTestCase {
         assert sourceString.getLineNumberForCharacterIndex(-1) == -1
     }
 
-    @Before
+    @BeforeEach
     void setUp() {
         sourceString = new SourceString(SOURCE)
     }

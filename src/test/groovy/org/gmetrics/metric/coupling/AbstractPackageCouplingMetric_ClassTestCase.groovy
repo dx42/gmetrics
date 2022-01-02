@@ -17,7 +17,7 @@ package org.gmetrics.metric.coupling
 
 import org.gmetrics.metric.AbstractMetricTestCase
 import org.gmetrics.metric.MetricLevel
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 /**
  * Abstract superclass for class-level tests for package-level coupling metrics.

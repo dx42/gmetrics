@@ -20,7 +20,7 @@ import org.gmetrics.metric.StubMetric
 import org.gmetrics.result.MetricResult
 import org.gmetrics.result.SingleNumberMetricResult
 import org.gmetrics.test.AbstractTestCase
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 /**
  * Tests for MethodResultsNode

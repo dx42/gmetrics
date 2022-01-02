@@ -21,9 +21,9 @@ import org.gmetrics.metric.crap.CrapMetric
 import org.gmetrics.metricregistry.MetricRegistry
 import org.gmetrics.metricregistry.MetricRegistryHolder
 import org.gmetrics.test.AbstractTestCase
-import org.junit.After
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 /**
  * Tests for MetricSetBuilder
@@ -322,7 +322,7 @@ class MetricSetBuilderTest extends AbstractTestCase {
     // Setup and helper methods
     //------------------------------------------------------------------------------------
 
-    @Before
+    @BeforeEach
     void setUp() {
         metricSetBuilder = new MetricSetBuilder()
         final METRICS = [CRAP:CrapMetric, ABC:AbcMetric]
@@ -330,7 +330,7 @@ class MetricSetBuilderTest extends AbstractTestCase {
         MetricRegistryHolder.metricRegistry = [getMetricClass:{ name -> METRICS[name] }] as MetricRegistry
     }
 
-    @After
+    @AfterEach
     void tearDown() {
         MetricRegistryHolder.metricRegistry = originalMetricRegistry
     }

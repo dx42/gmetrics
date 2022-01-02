@@ -15,12 +15,12 @@
  */
  package org.gmetrics.metric.coverage
 
-import java.util.concurrent.atomic.AtomicInteger
-
 import org.gmetrics.test.AbstractTestCase
 import org.gmetrics.util.io.Resource
 import org.gmetrics.util.io.ResourceFactory
-import org.junit.Test
+import org.junit.jupiter.api.Test
+
+import java.util.concurrent.atomic.AtomicInteger
 
 /**
  * Tests for CoberturaCoverageFile

@@ -16,8 +16,8 @@
 package org.gmetrics.metric.abc
 
 import org.gmetrics.test.AbstractTestCase
-import org.junit.Assert
-import org.junit.Test
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Test
 
 /**
  * Tests for AbcVector
@@ -73,7 +73,7 @@ class AbcVectorTest extends AbstractTestCase {
 
     @Test
 	void testVectorWithHugeNumbers() {
-        Assert.assertEquals(46589.5, abcVectorMagnitude(8408, 45703, 3335), 0.01)
+        Assertions.assertEquals(46589.5, abcVectorMagnitude(8408, 45703, 3335), 0.01)
     }
 
 

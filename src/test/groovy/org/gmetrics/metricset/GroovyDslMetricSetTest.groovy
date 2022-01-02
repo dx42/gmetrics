@@ -16,7 +16,7 @@
 package org.gmetrics.metricset
 
 import org.gmetrics.test.AbstractTestCase
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 /**
  * Tests for GroovyDslMetricSet

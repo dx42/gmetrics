@@ -16,8 +16,8 @@
 package org.gmetrics.metric.crap
 
 import org.gmetrics.test.AbstractTestCase
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 /**
  * Tests for CrapMetric that use the Groovy AntBuilder.
@@ -44,7 +44,7 @@ class Crap_AntBuilderTest extends AbstractTestCase {
         }
     }
 
-    @Before
+    @BeforeEach
     void setUp() {
         ant = new AntBuilder()
         ant.taskdef(name:'gmetrics', classname:'org.gmetrics.ant.GMetricsTask')

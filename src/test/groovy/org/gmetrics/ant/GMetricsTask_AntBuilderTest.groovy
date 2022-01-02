@@ -19,8 +19,8 @@ import org.gmetrics.metricregistry.MetricRegistryHolder
 import org.gmetrics.metricset.DefaultMetricSet
 import org.gmetrics.metricset.MetricSetTestFiles
 import org.gmetrics.test.AbstractTestCase
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 /**
  * Tests for GMetricsTask that use the Groovy AntBuilder.
@@ -131,7 +131,7 @@ class GMetricsTask_AntBuilderTest extends AbstractTestCase {
         verifyReportFile(HTML_TEMP_REPORT_FILE, ['Stub','XXX'])
     }
 
-    @Before
+    @BeforeEach
     void setUp() {
         ant = new AntBuilder()
         ant.taskdef(name:'gmetrics', classname:'org.gmetrics.ant.GMetricsTask')

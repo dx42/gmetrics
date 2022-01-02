@@ -20,8 +20,8 @@ import org.gmetrics.metricset.ListMetricSet
 import org.gmetrics.result.StubMetricResult
 import org.gmetrics.resultsnode.ResultsNodeTestUtil
 import org.gmetrics.test.AbstractTestCase
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 /**
  * Abstract superclass for SourceAnalyzer integration tests. These tests access the real filesystem
@@ -45,7 +45,7 @@ abstract class AbstractSourceAnalyzer_IntegrationTest extends AbstractTestCase {
     protected abstract void initializeSourceAnalyzerForDirectoryWithNoMatchingFiles()
     
 
-    @Before
+    @BeforeEach
     void setUp_AbstractSourceAnalyzer_IntegrationTest() {
         analyzer = createSourceAnalyzer()
         metric = new MethodLineCountMetric()

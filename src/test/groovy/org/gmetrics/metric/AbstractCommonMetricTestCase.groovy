@@ -15,7 +15,7 @@
  */
  package org.gmetrics.metric
 
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 /**
  * Abstract superclass for tests common to all Metric classes.

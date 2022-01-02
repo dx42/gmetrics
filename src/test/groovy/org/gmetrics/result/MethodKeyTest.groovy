@@ -20,7 +20,7 @@ import org.codehaus.groovy.ast.MethodNode
 import org.codehaus.groovy.control.SourceUnit
 import org.gmetrics.source.SourceString
 import org.gmetrics.test.AbstractTestCase
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 /**
  * Tests for MethodKey
