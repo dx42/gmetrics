@@ -16,17 +16,12 @@
 package org.gmetrics.metric.cyclomatic
 
 import org.codehaus.groovy.ast.MethodNode
-import org.gmetrics.metric.AbstractAstVisitor
-import org.codehaus.groovy.ast.stmt.IfStatement
-import org.codehaus.groovy.ast.stmt.WhileStatement
-import org.codehaus.groovy.ast.stmt.ForStatement
-import org.codehaus.groovy.ast.stmt.SwitchStatement
-import org.codehaus.groovy.ast.stmt.CatchStatement
 import org.codehaus.groovy.ast.expr.BinaryExpression
-import org.codehaus.groovy.ast.expr.Expression
-import org.codehaus.groovy.ast.expr.TernaryExpression
-import org.codehaus.groovy.ast.expr.PropertyExpression
 import org.codehaus.groovy.ast.expr.MethodCallExpression
+import org.codehaus.groovy.ast.expr.PropertyExpression
+import org.codehaus.groovy.ast.expr.TernaryExpression
+import org.codehaus.groovy.ast.stmt.*
+import org.gmetrics.metric.AbstractAstVisitor
 
 /**
  * AST Visitor for calculating the Cyclomatic Complexity for a method or closure field.
@@ -59,6 +54,12 @@ class CyclomaticComplexityAstVisitor extends AbstractAstVisitor {
         super.visitWhileLoop(loop)
     }
 
+    @Override
+    void visitDoWhileLoop(DoWhileStatement statement) {
+        complexity++
+        super.visitDoWhileLoop(statement)
+    }
+
     void visitForLoop(ForStatement forLoop) {
         complexity++
         super.visitForLoop(forLoop)
@@ -75,7 +76,16 @@ class CyclomaticComplexityAstVisitor extends AbstractAstVisitor {
     }
 
     void visitBinaryExpression(BinaryExpression expression) {
-        handleExpressionContainingOperation(expression)
+        def operationName = expression.operation.text
+        if (operationName in BOOLEAN_LOGIC_OPERATIONS) {
+            complexity++
+        }
+        if (operationName == '?=') {
+            complexity++
+        }
+        if (operationName == '[' && expression.safe) {
+            complexity++
+        }
         super.visitBinaryExpression(expression)
     }
 
@@ -95,10 +105,4 @@ class CyclomaticComplexityAstVisitor extends AbstractAstVisitor {
         super.visitPropertyExpression(expression)
     }
 
-    private void handleExpressionContainingOperation(Expression expression) {
-        def operationName = expression.operation.text
-        if (operationName in BOOLEAN_LOGIC_OPERATIONS) {
-            complexity++
-        }
-    }
 }

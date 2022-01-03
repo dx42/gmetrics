@@ -101,11 +101,24 @@ class CyclomaticComplexityMetric_MethodTest extends AbstractMetricTestCase {
     }
 
     @Test
+	void testCalculate_IncrementsForEach_DoWhile() {
+        final SOURCE = """
+            def myMethod() {
+                do { } while (ready)
+                do {
+                    do  { println '*' } while(true)
+                } while (!done)
+            }
+        """
+        assert calculateForMethod(SOURCE) == 4
+    }
+
+    @Test
 	void testCalculate_IncrementsForEach_ClassicForLoop() {
         final SOURCE = """
             def myMethod() {
                 for (int i=0; i < 99; i++) {
-                    for (int j=0; j < 99; j++) {
+                    for (int j=0, k=0; j < 99; j++) {
                     }
                 }
             }
@@ -203,6 +216,16 @@ class CyclomaticComplexityMetric_MethodTest extends AbstractMetricTestCase {
     }
 
     @Test
+	void testCalculate_IncrementsForEach_ElvisAssignmentOperator() {
+        final SOURCE = """
+            def myMethod() {
+                value ?= null       // +1
+            }
+        """
+        assert calculateForMethod(SOURCE) == 2
+    }
+
+    @Test
 	void testCalculate_IncrementsForEach_NullCheckOperator() {
         final SOURCE = """
             def myMethod() {
@@ -211,6 +234,18 @@ class CyclomaticComplexityMetric_MethodTest extends AbstractMetricTestCase {
             }
         """
         assert calculateForMethod(SOURCE) == 2
+    }
+
+    @Test
+	void testCalculate_IncrementsForEach_NullSafeIndexing() {
+        final SOURCE = """
+            def myMethod() {
+                String[] array = ['a', 'b']
+                def x = array?[1]          // +1
+                def y = array?[1, 2]       // +1
+            }
+        """
+        assert calculateForMethod(SOURCE) == 3
     }
 
     @Test

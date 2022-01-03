@@ -4,6 +4,7 @@ TODO Next Version
 -------------------------------------------------------------------------------------------
 FIXES AND ENHANCEMENTS
  - #21: AbstractCoberturaCoverageMetric: Make logger instance field to enable verifying logged warnings.
+ - #23: CyclomaticComplexityMetric: Support Groovy 3 syntax: do/while loop, elvis assignment (?=), safe index, (e.g. x?[1, 2]).
 
 INFRASTRUCTURE AND TESTS
  - #20: Requires Java 8 or later.

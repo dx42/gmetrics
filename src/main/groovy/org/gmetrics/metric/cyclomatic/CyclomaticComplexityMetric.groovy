@@ -31,7 +31,7 @@ import org.gmetrics.result.SingleNumberMetricResult
  * <pre>
  *   1. Each method starts with a complexity count of one.
  *   2. Add one to the complexity count for each occurrence of:
- *      if  while  for  case  catch  &&  ||  ?: (ternary-operator)  ?: (elvis-operator)  ?. (null-check)
+ *      if  while do (while)  for  case  catch  &&  ||  ?: (ternary-operator)  ?: (elvis-operator)  ?= (elvis assignment), var?[] (safe index)  ?. (null-check)
  * </pre>
  *
  * Additional notes:

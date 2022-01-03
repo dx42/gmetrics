@@ -11,15 +11,17 @@
  field is initialized to a *Closure* (`ClosureExpression`), then that *Closure* is analyzed
  just like a method.
 
- * Start with a initial (default) value of one (1). Add one (1) for each occurrence of each of the following:
+ * Start with an initial (default) value of one (1). Add one (1) for each occurrence of each of the following:
    * `if` statement
-   * `while` statement
+   * `while` and `do-while` statement
    * `for` statement
    * `case` statement
    * `catch` statement
    * `&&` and `||` boolean operations
-   * `?:` ternary operator and `?:` *Elvis* operator.
+   * `?:` ternary operator and `?:` *Elvis* operator
+   * `?=` *Elvis* assignment
    * `?.` null-check operator
+   * `x?[]` safe indexing
 
 
 ## Interpreting Cyclomatic Complexity Values
