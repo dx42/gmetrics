@@ -11,10 +11,10 @@
  The **ABC** Metric calculation rules for Groovy:
 
  * Add one to the assignment count for each occurrence of an assignment operator, excluding constant declarations: 
-   ` = *= /= %= += \<\<= \>\>= &= |= ^= \>\>\>= `
+   `= *= /= %= += \<\<= \>\>= &= |= ^= \>\>\>= ?=`
 
  * Add one to the assignment count for each occurrence of an increment or decrement operator (prefix or postfix): 
-   ` ++ -- `
+   `++ --`
 
  * Add one to the branch count for each function call or class method call.
 
@@ -23,7 +23,7 @@
  * Add one to the branch count for each occurrence of the null-safe dereference (e.g. `x?.y`) or the null-safe indexing (e.g. `x?[1]`).
 
  * Add one to the condition count for each use of a conditional operator:
-   ` == != \<= \>= \< \> \<=\> =~ ==~ `
+   `== != \<= \>= \< \> \<=\> =~ ==~ === !== instanceof !instanceof in !in`
 
  * Add one to the condition count for each use of the following keywords:
    `else case default try catch ?`
