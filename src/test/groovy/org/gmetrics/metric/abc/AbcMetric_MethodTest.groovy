@@ -123,6 +123,16 @@ class AbcMetric_MethodTest extends AbstractAbcMetricTest {
     }
 
     @Test
+	void testCalculate_CountsAssignmentsForElvisAssignment() {
+        final SOURCE = """
+            def myMethod() {
+                y ?= 23     // A=1
+            }
+        """
+        assertCalculateForMethod(SOURCE, [1, 0, 0])
+    }
+
+    @Test
 	void testCalculate_CountsAssignmentsForBitwiseOperatorAssignment() {
         final SOURCE = """
             def myMethod() {
@@ -178,6 +188,18 @@ class AbcMetric_MethodTest extends AbstractAbcMetricTest {
     }
 
     @Test
+	void testCalculate_CountsBranchesForNullSafeIndexing() {
+        final SOURCE = """
+            def myMethod() {
+                x?[1, 3]             // B=1                         
+                return x?[1]         // B=1                         
+            }
+        """
+        // NOTE: Should this be counted as a condition instead of, or in addition to, a branch?
+        assertCalculateForMethod(SOURCE, [0, 2, 0])
+    }
+
+    @Test
 	void testCalculate_CountsConditionsForComparisonOperators() {
         final SOURCE = """
             def myMethod() {
@@ -190,9 +212,15 @@ class AbcMetric_MethodTest extends AbstractAbcMetricTest {
                 x <=> y             // C=1
                 x =~ /abc/          // C=1
                 x ==~ /abc/         // C=1
+                x === 3             // C=1
+                x !== 3             // C=1
+                x in [1, 2]         // C=1
+                x !in [1, 2]        // C=1
+                x instanceof String // C=1
+                x !instanceof String // C=1
             }
         """
-        assertCalculateForMethod(SOURCE, [0, 0, 9])
+        assertCalculateForMethod(SOURCE, [0, 0, 15])
     }
 
     @Test
@@ -262,12 +290,26 @@ class AbcMetric_MethodTest extends AbstractAbcMetricTest {
 	void testCalculate_CountsConditionsForTryWithoutCatch() {
         final SOURCE = """
             def myMethod() {
-                try {
+                try {           // C=1
                 }
-                finally { }
+                finally {
+                    a = 1       // A=1
+                    b = 2       // A=1
+                }
             }
         """
-        assertCalculateForMethod(SOURCE, [0, 0, 1])
+        assertCalculateForMethod(SOURCE, [2, 0, 1])
+    }
+
+    @Test
+	void testCalculate_CountsConditionsForTryWithResources() {
+        final SOURCE = """
+            def myMethod() {
+                try(File f = new File('abc.txt')) {
+                }
+            }
+        """
+        assertCalculateForMethod(SOURCE, [1, 1, 1])
     }
 
     @Test

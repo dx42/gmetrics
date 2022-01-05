@@ -58,6 +58,14 @@ abstract class AbstractAstVisitor extends ClassCodeVisitorSupport implements Ast
         return source
     }
 
+    protected boolean isSynthetic(ASTNode node) {
+        return node.lineNumber == -1
+    }
+
+    protected boolean isNotSynthetic(ASTNode node) {
+        return node.lineNumber != -1
+    }
+
     protected boolean isSyntheticNonRunMethod(MethodNode methodNode) {
         return methodNode.lineNumber < 0 && methodNode.name != 'run'
     }

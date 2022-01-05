@@ -34,8 +34,8 @@ import org.codehaus.groovy.ast.MethodNode
 class AbcAstVisitor extends AbstractAstVisitor {
 
     private static final ASSIGNMENT_OPERATIONS =
-        ['=', '++', '--', '+=', '-=', '/=', '*=', '%=', '<<=', '>>=', '>>>=', '&=', '|=', '^=']
-    private static final COMPARISON_OPERATIONS = ['<', '>', '>=', '<=', '==', '!=', '<=>', '=~', '==~']
+        ['=', '++', '--', '+=', '-=', '/=', '*=', '%=', '<<=', '>>=', '>>>=', '&=', '|=', '^=', '?=']
+    private static final COMPARISON_OPERATIONS = ['<', '>', '>=', '<=', '==', '!=', '<=>', '=~', '==~', '===', '!==', 'in', '!in', 'instanceof', '!instanceof']
     private static final BOOLEAN_LOGIC_OPERATIONS = ['&&', '||']
 
     int numberOfAssignments = 0
@@ -97,9 +97,11 @@ class AbcAstVisitor extends AbstractAstVisitor {
     }
 
     void visitTryCatchFinally(TryCatchStatement statement) {
-        numberOfConditions ++                                   // for the 'try'
-        numberOfConditions += statement.catchStatements.size()  // for each 'catch'
-        super.visitTryCatchFinally(statement)
+        numberOfConditions++                                   // for the 'try'
+        numberOfConditions += statement.catchStatements.count { st -> isNotSynthetic(st) }  // for each 'catch'
+        if (isNotSynthetic(statement)) {
+            super.visitTryCatchFinally(statement)
+        }
     }
 
     void visitTernaryExpression(TernaryExpression expression) {
@@ -126,9 +128,15 @@ class AbcAstVisitor extends AbstractAstVisitor {
     //--------------------------------------------------------------------------
 
     private void handleExpressionContainingOperation(Expression expression) {
+        if (isSynthetic(expression)) {
+            return
+        }
         def operationName = expression.operation.text
         if (operationName in ASSIGNMENT_OPERATIONS && !isFinalVariableDeclaration(expression)) {
             numberOfAssignments ++
+        }
+        if (operationName == '[' && expression.safe) {
+            numberOfBranches ++
         }
         if (operationName in COMPARISON_OPERATIONS) {
             numberOfConditions ++
@@ -170,7 +178,7 @@ class AbcAstVisitor extends AbstractAstVisitor {
     }
 
     private boolean isNotEmptyStatement(Statement statement) {
-        statement.class != EmptyStatement && statement.lineNumber != -1
+        statement.class != EmptyStatement && isNotSynthetic(statement)
     }
 
 }
