@@ -16,6 +16,10 @@ INFRASTRUCTURE AND TESTS
  - #20: Remove Cobertura Gradle plugin.
  - #20: Remove unused `pom.xml` and src/assembly.
 
+DOCUMENTATION
+ - #25: Update project website home page and links. 
+
+
 Version 1.1 (May 2020)
 -------------------------------------------------------------------------------------------
 FIXES AND ENHANCEMENTS

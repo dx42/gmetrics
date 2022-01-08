@@ -1,7 +1,5 @@
 # GMetrics
 
-  [GitHub Project Page](https://github.com/dx42/gmetrics)    |    [Downloads (Releases)](https://github.com/dx42/gmetrics/releases)    |    [Change Log](https://github.com/dx42/gmetrics/blob/master/CHANGELOG.md)
-
 ## Running and Configuring GMetrics
 
   You can run **GMetrics** using the supplied [Ant Task](./AntTask). 
