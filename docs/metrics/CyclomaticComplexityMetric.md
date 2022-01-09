@@ -49,13 +49,11 @@
   The following properties can be configured for this metric within a *MetricSet*. See [Creating a MetricSet](../CreatingMetricSet) for information on the syntax of setting a metric property.
 
 
-| **Property**    | **Description**                                                    | **Default Value**      |
-|-----------------|--------------------------------------------------------------------|------------------------|
-| *enabled*         | This `boolean` property controls whether the metric is *enabled*. If set to `false`, then the metric is not included as part of the results or the output reports. | `true`                 |
-|-----------------|--------------------------------------------------------------------|------------------------|
-| *functions*       | This `List<String>` property contains the names of the functions to be calculated at the *method*, *class* and *package* levels and (potentially) included within the report(s). Valid values are: "total", "average", "minimum", "maximum" | `["total","average"]`  |
-|-----------------|--------------------------------------------------------------------|------------------------|
-| *includeClosureFields* | This `boolean` property controls whether metric values are calculated for *Closure Fields* and treated as *methods*. A *Closure Field* is a field that is initialized to a *Closure Expression*, e.g., `def myField = { println 12 }`. | `true`                 |
+| **Property**           | **Description**                                                                                                                                                                                                                             | **Default Value**     |
+|------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------|
+| *enabled*              | This `boolean` property controls whether the metric is *enabled*. If set to `false`, then the metric is not included as part of the results or the output reports.                                                                          | `true`                |
+| *functions*            | This `List<String>` property contains the names of the functions to be calculated at the *method*, *class* and *package* levels and (potentially) included within the report(s). Valid values are: "total", "average", "minimum", "maximum" | `["total","average"]` |
+| *includeClosureFields* | This `boolean` property controls whether metric values are calculated for *Closure Fields* and treated as *methods*. A *Closure Field* is a field that is initialized to a *Closure Expression*, e.g., `def myField = { println 12 }`.      | `true`                |
 
 
 ## References
@@ -65,12 +63,9 @@
  * **[2]** The [original paper from Thomas J. McCabe](http://www.literateprogramming.com/mccabe.pdf) describing
    *Cyclomatic Complexity* in *IEEE Transactions on Software Engineering* Vol. 2, No. 4, p. 308 (1976).  
 
- * **[3]** An interesting 2006 [*developerWorks* article](http://www.ibm.com/developerworks/java/library/j-cq03316/)
-   discussing *Cyclomatic Complexity*.
+ * **[3]** [Groovy Code Metrics: Cyclomatic Complexity](https://tenpercentnotcrap.wordpress.com/2012/07/08/groovy-code-metrics-cyclomatic-complexity/) - Discusses 
+   using **GMetrics** and **CodeNarc** for measuring and enforcing *Cyclomatic Complexity* on Groovy code.
 
  * **[4]** [NDepend](http://www.ndepend.com/Metrics.aspx) - an impressive source code metrics tool for Java.
-
- * **[5]** [Measuring the Complexity of OO Systems](http://javaboutique.internet.com/tutorials/metrics/) -
-   a 2005 tutorial on *Java Boutique* that includes a discussion of *Cyclomatic Complexity*.
 
 

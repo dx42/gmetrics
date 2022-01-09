@@ -17,7 +17,7 @@ INFRASTRUCTURE AND TESTS
  - #20: Remove unused `pom.xml` and src/assembly.
 
 DOCUMENTATION
- - #25: Update project website home page and links. 
+ - #25: Update project website home page, links and navigation. 
 
 
 Version 1.1 (May 2020)

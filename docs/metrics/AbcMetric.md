@@ -58,13 +58,11 @@
   The following properties can be configured for this metric within a *MetricSet*. See [Creating a MetricSet](../CreatingMetricSet) for information on the syntax of setting a metric property.
 
 
-| **Property**    | **Description**                                                    | **Default Value**      |
-|-----------------|--------------------------------------------------------------------|------------------------|
-| *enabled*         | This `boolean` property controls whether the metric is *enabled*. If set to `false`, then the metric is not included as part of the results or the output reports. | `true`                 |
-|-----------------|--------------------------------------------------------------------|------------------------|
-| *functions*       | This `List<String>` property contains the names of the functions to be calculated at the *method*, *class* and *package* levels and (potentially) included within the report(s). Valid values are: "total", "average", "minimum", "maximum" | `["total","average"]`  |
-|-----------------|--------------------------------------------------------------------|------------------------|
-| *includeClosureFields* | This `boolean` property controls whether metric values are calculated for *Closure Fields* and treated as *methods*. A *Closure Field* is a field that is initialized to a *Closure Expression*, e.g., `def myField = { println 12 }`. | `true`                 |
+| **Property**           | **Description**                                                                                                                                                                                                                             | **Default Value**     |
+|------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------|
+| *enabled*              | This `boolean` property controls whether the metric is *enabled*. If set to `false`, then the metric is not included as part of the results or the output reports.                                                                          | `true`                |
+| *functions*            | This `List<String>` property contains the names of the functions to be calculated at the *method*, *class* and *package* levels and (potentially) included within the report(s). Valid values are: "total", "average", "minimum", "maximum" | `["total","average"]` |
+| *includeClosureFields* | This `boolean` property controls whether metric values are calculated for *Closure Fields* and treated as *methods*. A *Closure Field* is a field that is initialized to a *Closure Expression*, e.g., `def myField = { println 12 }`.      | `true`                |
 
 
 ## References
@@ -73,6 +71,9 @@
 
  * **[2]** The [The C2 Wiki page](http://c2.com/cgi/wiki?AbcMetric) for the ABC Metric.
 
- * **[3]** [Flog](http://ruby.sadi.st/Flog.html) is the popular Ruby tool that uses ABC.
+ * **[3]** [Groovy Code Metrics: ABC](https://tenpercentnotcrap.wordpress.com/2013/01/14/groovy-code-metrics-abc/) - Discusses
+  using **GMetrics** and **CodeNarc** for measuring and enforcing the *ABC* metric on Groovy code.
 
- * **[4]** [This blog post](http://jakescruggs.blogspot.com/2008/08/whats-good-flog-score.html) describes some guidelines for interpreting the ABC score. The post refers to the **Flog** tool, but the **ABC** score is calculated similarly (though adapted somewhat to account for language specifics) and the guidelines should be transferable.
+ * **[4]** [Flog](http://ruby.sadi.st/Flog.html) is the popular Ruby tool that uses ABC.
+
+ * **[5]** [This blog post](http://jakescruggs.blogspot.com/2008/08/whats-good-flog-score.html) describes some guidelines for interpreting the ABC score. The post refers to the **Flog** tool, but the **ABC** score is calculated similarly (though adapted somewhat to account for language specifics) and the guidelines should be transferable.
