@@ -1,7 +1,10 @@
 # GMetrics Change Log
 
-TODO Next Version
+Version 2.0.0 (Jan 2022)
 -------------------------------------------------------------------------------------------
+BREAKING CHANGES
+ - Requires Java 8 and Groovy 3.x.
+
 FIXES AND ENHANCEMENTS
  - #21: AbstractCoberturaCoverageMetric: Make logger instance field to enable verifying logged warnings.
  - #23: CyclomaticComplexityMetric: Support Groovy 3 syntax: do/while loop, elvis assignment (`?=`), safe index, (e.g. `x?[1, 2]`).
