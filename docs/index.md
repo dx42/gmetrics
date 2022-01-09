@@ -1,5 +1,12 @@
 # GMetrics
 
+**GMetrics** provides calculation and reporting of size and complexity metrics for Groovy source code.
+
+**GMetrics** scans Groovy source code and applies a set of metrics. Available metrics include *Cyclomatic Complexity*,
+*ABC*, *Line counts*, *Field/Method/Class counts*, and *Cobertura Code Coverage*. See [Metrics](./Metrics).
+
+The results are reported in HTML or XML. See [Reports](./Reports).
+
 ## Running and Configuring GMetrics
 
   You can run **GMetrics** using the supplied [Ant Task](./AntTask). 
@@ -8,32 +15,6 @@
   
   The [Sonar Groovy Plugin](https://github.com/Inform-Software/sonar-groovy) uses **GMetrics** for its calculation of *Cyclomatic Complexity* for Groovy source code.
   
-
-## Metrics
-
-  Total and average values for the following metrics are provided:
-  * [Cyclomatic Complexity](./metrics/CyclomaticComplexityMetric).
-  * [ABC](./metrics/AbcMetric) - Size/Complexity. Also see the [C2 Wiki page](http://c2.com/cgi/wiki?AbcMetric).
-  * [Cobertura line coverage](./metrics/CoberturaLineCoverageMetric) 
-  * [Cobertura branch coverage](./metrics/CoberturaBranchCoverageMetric)
-  * [CRAP](./metrics/CrapMetric) - (Change Risk Anti-Patterns) score
-  * [Afferent Coupling](./metrics/AfferentCouplingMetric)
-  * [Efferent Coupling](./metrics/EfferentCouplingMetric)
-  * [Method Count](./metrics/MethodCountMetric) - Count of methods and closure fields within each class
-  * [Method Line Count](./metrics/MethodLineCountMetric) - Lines per method
-  * [Class Line Count](./metrics/ClassLineCountMetric) - Lines per class
-  * [Class Count](./metrics/ClassCountMetric) - Number of classes per package
-  * [Field Count](./metrics/FieldCountMetric) - Number of field per class
-
-
-## Reports
-  **GMetrics** provides the following reports:
-  * [BasicHtmlReportWriter](./reports/BasicHtmlReportWriter) ([Sample](./reports/SampleGMetricsReport.html))
-  * [SingleSeriesHtmlReportWriter](./reports/SingleSeriesHtmlReportWriter) ([Sample](./reports/SampleGMetricsSingleSeriesReport.html))
-  * [XmlReportWriter](./reports/XmlReportWriter) ([Sample](./reports/SampleGMetricsXmlReport.xml))
-  
-  Or [Create a GMetrics Report with XSLT](http://mrhaki.blogspot.com/2011/01/groovy-goodness-create-gmetrics-report.html).
-
 
 ## Requirements
 
