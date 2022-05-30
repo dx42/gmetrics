@@ -1,5 +1,10 @@
 # GMetrics Change Log
 
+Version 2.1.0 (May 2022)
+-------------------------------------------------------------------------------------------
+ - #26: Compatibility with Groovy 4.x. Upgrade imports to use groovy.xml.xx and groovy.ant.AntBuilder (for Groovy 4 compatibility).
+ - #26: Upgrade to CodeNarc 3.0.1.
+
 Version 2.0.0 (Jan 2022)
 -------------------------------------------------------------------------------------------
 BREAKING CHANGES
