@@ -30,7 +30,7 @@ class StubMetricResult implements MetricResult {
     Integer lineNumber
 
     Object getAt(String propertyName) {
-        return (propertyName in FUNCTION_NAMES) ? super.getAt(propertyName) : null        
+        return (propertyName in FUNCTION_NAMES) ? this."$propertyName" : null
     }
 
     String toString() {
