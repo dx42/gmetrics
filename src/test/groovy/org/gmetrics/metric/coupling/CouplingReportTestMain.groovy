@@ -13,7 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- package org.gmetrics.metric.coupling
+package org.gmetrics.metric.coupling
+
+import groovy.ant.AntBuilder
 
 /**
  * Java application that generates a report for the coupling metrics against the GMetrics source code

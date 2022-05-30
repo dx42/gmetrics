@@ -15,6 +15,8 @@
  */
  package org.gmetrics.tool
 
+import groovy.ant.AntBuilder
+
 /**
  * Runs GMetrics against the another project's source code.
  *

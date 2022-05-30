@@ -15,6 +15,7 @@
  */
 package org.gmetrics.metric.coverage
 
+import groovy.ant.AntBuilder
 import org.gmetrics.test.AbstractTestCase
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

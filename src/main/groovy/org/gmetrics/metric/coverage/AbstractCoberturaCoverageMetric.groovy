@@ -15,23 +15,18 @@
  */
  package org.gmetrics.metric.coverage
 
+import groovy.xml.slurpersupport.GPathResult
 import org.codehaus.groovy.ast.ClassNode
 import org.codehaus.groovy.ast.MethodNode
 import org.codehaus.groovy.ast.expr.ClosureExpression
 import org.gmetrics.metric.AbstractMetric
 import org.gmetrics.metric.MethodMetric
 import org.gmetrics.metric.MetricLevel
-import org.gmetrics.result.ClassMetricResult
-import org.gmetrics.result.MethodKey
-import org.gmetrics.result.MetricResult
-import org.gmetrics.result.MetricResultBuilder
-import org.gmetrics.result.SingleNumberMetricResult
+import org.gmetrics.result.*
 import org.gmetrics.source.SourceCode
 import org.gmetrics.util.AstUtil
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-
-import groovy.util.slurpersupport.GPathResult
 
 /**
  * Abstract superclass for metrics that provide test code coverage from a Cobertura XML file.

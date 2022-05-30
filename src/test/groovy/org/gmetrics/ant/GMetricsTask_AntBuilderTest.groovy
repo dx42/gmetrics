@@ -15,6 +15,7 @@
  */
 package org.gmetrics.ant
 
+import groovy.ant.AntBuilder
 import org.gmetrics.metricregistry.MetricRegistryHolder
 import org.gmetrics.metricset.DefaultMetricSet
 import org.gmetrics.metricset.MetricSetTestFiles

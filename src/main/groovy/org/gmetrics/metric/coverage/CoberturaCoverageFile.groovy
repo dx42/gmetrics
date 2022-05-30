@@ -15,11 +15,11 @@
  */
  package org.gmetrics.metric.coverage
 
+import groovy.xml.XmlSlurper
+import groovy.xml.slurpersupport.GPathResult
 import org.gmetrics.util.io.DefaultResourceFactory
 import org.gmetrics.util.io.ResourceFactory
 import org.slf4j.LoggerFactory
-
-import groovy.util.slurpersupport.GPathResult
 
 /**
  * Parses and provides access to a Cobertura "coverage.xml"
