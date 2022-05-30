@@ -83,7 +83,7 @@ class CyclomaticComplexityAstVisitor extends AbstractAstVisitor {
         if (operationName == '?=') {
             complexity++
         }
-        if (operationName == '[' && expression.safe) {
+        if (operationName.contains('[') && expression.safe) {
             complexity++
         }
         super.visitBinaryExpression(expression)

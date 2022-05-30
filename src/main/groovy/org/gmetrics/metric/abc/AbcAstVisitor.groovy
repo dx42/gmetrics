@@ -135,7 +135,7 @@ class AbcAstVisitor extends AbstractAstVisitor {
         if (operationName in ASSIGNMENT_OPERATIONS && !isFinalVariableDeclaration(expression)) {
             numberOfAssignments ++
         }
-        if (operationName == '[' && expression.safe) {
+        if (operationName.contains('[') && expression.safe) {
             numberOfBranches ++
         }
         if (operationName in COMPARISON_OPERATIONS) {
