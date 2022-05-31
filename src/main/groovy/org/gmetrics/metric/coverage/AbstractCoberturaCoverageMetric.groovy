@@ -22,7 +22,11 @@ import org.codehaus.groovy.ast.expr.ClosureExpression
 import org.gmetrics.metric.AbstractMetric
 import org.gmetrics.metric.MethodMetric
 import org.gmetrics.metric.MetricLevel
-import org.gmetrics.result.*
+import org.gmetrics.result.ClassMetricResult
+import org.gmetrics.result.MethodKey
+import org.gmetrics.result.MetricResult
+import org.gmetrics.result.MetricResultBuilder
+import org.gmetrics.result.SingleNumberMetricResult
 import org.gmetrics.source.SourceCode
 import org.gmetrics.util.AstUtil
 import org.slf4j.Logger
