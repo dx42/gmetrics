@@ -1,10 +1,13 @@
 # GMetrics Change Log
 
-Version 2.1.0 (May 2022)
+Version 2.1.0 (Jun 2022)
 -------------------------------------------------------------------------------------------
+INFRASTRUCTURE
  - #26: Compatibility with Groovy 4.x. Upgrade imports to use groovy.xml.xx and groovy.ant.AntBuilder (Groovy 4).
  - #26: AbcMetric and CyclomaticComplexity rules: AST operation name for safe indexing is no longer just "[" (Groovy 4).
  - #26: Upgrade to CodeNarc 3.0.1.
+ - #27: Upgrade to use Gradle maven-publishing plugin. 
+ - #27: Build and publish separate GMetrics-Groovy4 jar (Groovy 4.x-compatible).
 
 
 Version 2.0.0 (Jan 2022)

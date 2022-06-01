@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'org.gmetrics'
-archivesBaseName = 'GMetrics'
+archivesBaseName = 'GMetrics-Groovy4'
 version = '2.1.0'
 
 description = 'GMetrics'
@@ -21,22 +21,22 @@ repositories {
 }
 
 dependencies {
-    def groovyVersion = "3.0.9"
+    def groovy4Version = '4.0.1'
     def slf4jVersion = "1.7.32"
     def junitVersion = "5.8.2"
 
-    implementation "org.codehaus.groovy:groovy:$groovyVersion"
-    implementation "org.codehaus.groovy:groovy-xml:$groovyVersion"
-    implementation "org.codehaus.groovy:groovy-ant:$groovyVersion"
-    implementation "org.codehaus.groovy:groovy-templates:$groovyVersion"
+    implementation "org.apache.groovy:groovy:$groovy4Version"
+    implementation "org.apache.groovy:groovy-xml:$groovy4Version"
+    implementation "org.apache.groovy:groovy-ant:$groovy4Version"
+    implementation "org.apache.groovy:groovy-templates:$groovy4Version"
 
     implementation "org.slf4j:slf4j-api:$slf4jVersion"
 
-    testImplementation(platform("org.junit:junit-bom:${junitVersion}"))
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
-
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
     testImplementation "org.slf4j:slf4j-simple:$slf4jVersion"
-    testImplementation 'org.codenarc:CodeNarc:3.0.1'
+    testImplementation('org.codenarc:CodeNarc:3.0.1') {
+        transitive = false
+    }
 }
 
 test {
@@ -58,7 +58,8 @@ artifacts {
 }
 
 signing {
-    sign configurations.archives
+    required { gradle.taskGraph.hasTask(publish) }
+    sign publishing.publications
 }
 
 javadoc {
@@ -74,10 +75,10 @@ publishing {
         maven(MavenPublication) {
             from components.java
 
-            artifactId = 'GMetrics'
+            artifactId = 'GMetrics-Groovy4'
 
             pom {
-                name = 'GMetrics'
+                name = 'GMetrics-Groovy4'
                 description = 'The GMetrics project provides calculation and reporting of size and complexity metrics for Groovy source code.'
                 url = 'http://gmetrics.org'
 
