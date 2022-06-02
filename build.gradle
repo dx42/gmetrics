@@ -53,7 +53,8 @@ artifacts {
 }
 
 signing {
-    sign configurations.archives
+    required { gradle.taskGraph.hasTask(publish) }
+    sign publishing.publications
 }
 
 javadoc {
