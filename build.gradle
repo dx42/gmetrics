@@ -32,14 +32,10 @@ dependencies {
 
     implementation "org.slf4j:slf4j-api:$slf4jVersion"
 
-    // JUnit is only required if you are using the CodeNarc testing framework, e.g. AbstractRuleTestCase
-//    compileOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
-
     testImplementation platform("org.junit:junit-bom:${junitVersion}")
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
-//    testImplementation("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
     testImplementation "org.slf4j:slf4j-simple:$slf4jVersion"
     testImplementation('org.codenarc:CodeNarc:3.7.0') {
         transitive = false
