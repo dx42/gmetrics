@@ -1,5 +1,10 @@
 # GMetrics Change Log
 
+TODO Version 3.0.0 (??? 2026)
+-------------------------------------------------------------------------------------------
+ - #29: Copy build-groovy4.gradle to build.gradle to enable GitHub build. Upgrade groovy to 4.0.24. Upgrade to SLF4J 1.7.35.
+
+
 Version 2.1.0 (Jun 2022)
 -------------------------------------------------------------------------------------------
 INFRASTRUCTURE
