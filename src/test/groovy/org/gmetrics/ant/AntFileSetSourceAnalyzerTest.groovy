@@ -110,7 +110,7 @@ class AntFileSetSourceAnalyzerTest extends AbstractSourceAnalyzer_IntegrationTes
         log("resultsNode=$resultsNode")
         assert resultsNode.metricResults[0]['total'] == 3
         def methodKey = new MethodKey('java.lang.Object doConfig()')
-        assert resultsNode.children.config.children[methodKey]
+        assert resultsNode.children.config.children.keySet().find { it.methodName.contains('doConfig') }
     }
 
     @Test

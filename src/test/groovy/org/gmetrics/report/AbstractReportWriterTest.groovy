@@ -38,7 +38,8 @@ class AbstractReportWriterTest extends AbstractTestCase {
     private static final ANALYSIS_CONTEXT = new AnalysisContext(metricSet:METRIC_SET)
     private static final DEFAULT_STRING = '?'
     private static final CUSTOM_FILENAME = 'abc.txt'
-    private ReportWriter reportWriter
+
+    private SampleAbstractReportWriter reportWriter
 
     @Test
 	void testWriteReport_WritesToDefaultOutputFile_IfOutputFileIsNull() {

@@ -45,6 +45,7 @@ abstract class AbstractReportWriter implements ReportWriter {
 
     protected customMessagesBundleName = CUSTOM_MESSAGES_BUNDLE
     protected resourceBundle
+    private ResourceBundle customMessagesResourceBundle
     protected Map<Metric,Formatter> formatters = [:]
     protected formatterFactory = new FormatterFactory()
 
@@ -88,11 +89,10 @@ abstract class AbstractReportWriter implements ReportWriter {
         def baseBundle = ResourceBundle.getBundle(BASE_MESSAGES_BUNDLE)
         resourceBundle = baseBundle
         try {
-            resourceBundle = ResourceBundle.getBundle(customMessagesBundleName)
+            customMessagesResourceBundle = ResourceBundle.getBundle(customMessagesBundleName)
             LOG.info("Using custom message bundle [$customMessagesBundleName]")
-            resourceBundle.setParent(baseBundle)
         }
-        catch(MissingResourceException) {
+        catch(MissingResourceException ignored) {
             LOG.info("No custom message bundle found for [$customMessagesBundleName]. Using default messages.")
         }
     }
@@ -100,8 +100,8 @@ abstract class AbstractReportWriter implements ReportWriter {
     protected String getResourceBundleString(String resourceKey, String defaultString='?') {
         def string = defaultString
         try {
-            string = resourceBundle.getString(resourceKey)
-        } catch (MissingResourceException e) {
+            string = customMessageFor(resourceKey) ?: resourceBundle.getString(resourceKey)
+        } catch (MissingResourceException ignore) {
             LOG.warn("No string found for resourceKey=[$resourceKey]")
         }
         return string
@@ -110,11 +110,22 @@ abstract class AbstractReportWriter implements ReportWriter {
     @SuppressWarnings('ReturnNullFromCatchBlock')
     protected String getResourceBundleStringOrNull(String resourceKey) {
         try {
-            return resourceBundle.getString(resourceKey)
+            return customMessageFor(resourceKey) ?: resourceBundle.getString(resourceKey)
         }
         catch (MissingResourceException e) {
             return null
         }
+    }
+
+    private String customMessageFor(String resourceKey) {
+        if (customMessagesResourceBundle) {
+            try {
+                return customMessagesResourceBundle.getString(resourceKey)
+            } catch (MissingResourceException ignore) {
+                // Not present in custom messages
+            }
+        }
+        return null
     }
 
     protected void initializeFormatters(MetricSet metricSet) {
