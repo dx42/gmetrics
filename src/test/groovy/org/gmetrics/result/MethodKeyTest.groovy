@@ -20,6 +20,7 @@ import org.codehaus.groovy.ast.MethodNode
 import org.codehaus.groovy.control.SourceUnit
 import org.gmetrics.source.SourceString
 import org.gmetrics.test.AbstractTestCase
+import org.gmetrics.util.GroovyVersion
 import org.junit.jupiter.api.Test
 
 /**
@@ -41,7 +42,7 @@ class MethodKeyTest extends AbstractTestCase {
         def methodNode = buildMethodNodes()[0]
         def methodKey = new MethodKey(methodNode)
         assert methodKey.methodName == 'myMethod'
-        assert methodKey.signature == 'int myMethod(String, long)'
+        assert methodKey.signature == GroovyVersion.isGroovyVersion4() ? 'int myMethod(String, long)' : 'myMethod(String,long):int'
     }
 
     @SuppressWarnings('ComparisonWithSelf')
