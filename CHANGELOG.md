@@ -5,6 +5,7 @@ TODO Version 3.0.0 (??? 2026)
 INFRASTRUCTURE
  - #29: Copy build-groovy4.gradle to build.gradle to enable GitHub build. 
  - #29: Upgrade groovy to 4.0.24. Upgrade to SLF4J 1.7.35. Upgrade to CodeNarc 3.7.0.
+ - #29: Fix failing tests running on Groovy 5.x.
  - #30: Add GitHub action workflow to build GMetrics and run tests.
 
 

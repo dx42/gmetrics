@@ -41,7 +41,7 @@ class CalculatorTest extends AbstractTestCase {
 
     @Test
 	void testCalculateAverage_Scale() {
-        assert Calculator.calculateAverage(0.0, 10, 2).scale == 2
-        assert Calculator.calculateAverage(1.0, 4, 4).scale == 4
+        assert Calculator.calculateAverage(0.0, 10, 2).scale() == 2
+        assert Calculator.calculateAverage(1.0, 4, 4).scale() == 4
     }
 }

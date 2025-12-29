@@ -23,7 +23,6 @@ import org.junit.jupiter.api.Test
  * Tests for MethodLineCountMetric - calculate aggregate metrics for a class
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class MethodLineCountMetric_ClassTest extends AbstractMetricTestCase {
 
@@ -67,7 +66,7 @@ class MethodLineCountMetric_ClassTest extends AbstractMetricTestCase {
                 def x = 1
             }
         """
-        assertApplyToClass(SOURCE, 3, 3, ['java.lang.Object a()':3])
+        assertApplyToClass(SOURCE, 3, 3, [['Object', 'a()']:3])
     }
 
     @Test
@@ -78,7 +77,7 @@ class MethodLineCountMetric_ClassTest extends AbstractMetricTestCase {
                 return count as String
             }
         """
-        assertApplyToClass(SOURCE, 4, 2, ['String a()':1, 'String a(int)':3])
+        assertApplyToClass(SOURCE, 4, 2, [['String', 'a()']:1, ['String', 'a(int)']:3])
     }
 
     @Test
@@ -89,12 +88,12 @@ class MethodLineCountMetric_ClassTest extends AbstractMetricTestCase {
                     def x = 1; y = x
                 }
 
-                def b = {                   // 5
+                def b2 = {                   // 5
                     new SomeClass(99)
                     new SomeClass().run()
                     x++
                 }
-                def c() {                   // 8
+                def c2() {                   // 8
                     switch(x) {
                         case 1: break
                         case 3: break
@@ -102,12 +101,12 @@ class MethodLineCountMetric_ClassTest extends AbstractMetricTestCase {
                     }
                     return x
                 }
-                def d = { }                 // 1
-                def e = {                   // 2
+                def d2 = { }                 // 1
+                def e2 = {                   // 2
                     println 'ok' }
             }
         """
-        assertApplyToClass(SOURCE, 19, scale(19/5), [(DEFAULT_CONSTRUCTOR):3, b:5, 'java.lang.Object c()':8, d:1, e:2])
+        assertApplyToClass(SOURCE, 19, scale(19/5), [(DEFAULT_CONSTRUCTOR):3, b2:5, 'c2()':8, 'd2':1, 'e2':2])
     }
 
     @Test

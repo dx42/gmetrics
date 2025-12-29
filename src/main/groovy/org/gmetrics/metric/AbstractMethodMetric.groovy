@@ -73,9 +73,9 @@ abstract class AbstractMethodMetric extends AbstractMetric implements MethodMetr
 
     protected int lineNumberForMethod(MethodNode methodNode, SourceCode sourceCode) {
         int lineNumber = methodNode.lineNumber
-        if (methodNode.annotations) {
-            int firstLine = methodNode.lineNumber
-            int lastLine = methodNode.code.lineNumber
+        int firstLine = methodNode.lineNumber
+        int lastLine = methodNode.code.lineNumber
+        if (methodNode.annotations && firstLine > -1) {
             def matchingLine = (firstLine..lastLine).find { int line ->
                 String lineString = sourceCode.line(line - 1)
                 lineString.contains(methodNode.name)

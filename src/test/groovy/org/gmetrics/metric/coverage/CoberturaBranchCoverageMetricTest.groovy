@@ -138,7 +138,7 @@ class CoberturaBranchCoverageMetricTest extends AbstractCoberturaMetricTestCase 
                 String toString() { }
             }
         """
-        assertApplyToClass(SOURCE, EMAIL_VALUE, 0.91, ['String toString()':0.91])
+        assertApplyToClass(SOURCE, EMAIL_VALUE, 0.91, [['String', 'toString()']:0.91])
     }
 
     @Test
@@ -171,7 +171,7 @@ class CoberturaBranchCoverageMetricTest extends AbstractCoberturaMetricTestCase 
                 Context(Collection stuff) { }
             }
         """
-        assertApplyToClass(SOURCE, 0.31, 0.32, ['void <init>(Collection)':0.32])
+        assertApplyToClass(SOURCE, 0.31, 0.32, [['<init>(Collection)']:0.32])
     }
 
     @Test
@@ -186,10 +186,10 @@ class CoberturaBranchCoverageMetricTest extends AbstractCoberturaMetricTestCase 
             }
         """
         assertApplyToClass(SOURCE, 0.61, 0.5, [
-            'void <init>(String)':0.35,
-            'void <init>(String, String)':0.45,
-            'void <init>(String, Throwable)':0.55,
-            'void <init>(Throwable)':0.65,
+            ['<init>(String)']:0.35,
+            ['<init>(String,', 'String)']:0.45,
+            ['<init>(String', 'Throwable)']:0.55,
+            ['<init>(Throwable)']:0.65,
         ])
     }
 
@@ -204,9 +204,9 @@ class CoberturaBranchCoverageMetricTest extends AbstractCoberturaMetricTestCase 
             }
         """
         assertApplyToClass(SOURCE, 0.92, 0.6, [
-            'Map buildReverseLookupMap(Map)':0.8,
-            'Map get()':0.5,
-            'Object getAllEnabledClients()':0.5])
+            ['Map', 'buildReverseLookupMap(Map)']:0.8,
+            ['Map', 'get()']:0.5,
+            ['Object', 'getAllEnabledClients()']:0.5])
     }
 
     // Tests for getCoverageRatioForClass

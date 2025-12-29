@@ -25,6 +25,7 @@ import org.junit.jupiter.api.Test
  * @author Chris Mair
  */
 class AbcMetric_ClassTest extends AbstractAbcMetricTest {
+
     static metricClass = AbcMetric
 
     @Test
@@ -57,7 +58,7 @@ class AbcMetric_ClassTest extends AbstractAbcMetricTest {
         final SOURCE = """
             println 123     // this is a script; will generate main() and run() methods
         """
-        assertApplyToClass(SOURCE, [0, 1, 0], [0,1,0], ['java.lang.Object run()':[0, 1, 0]])
+        assertApplyToClass(SOURCE, [0, 1, 0], [0,1,0], [['java.lang.Object', 'run()']:[0, 1, 0]])
     }
 
     @Test
@@ -67,7 +68,7 @@ class AbcMetric_ClassTest extends AbstractAbcMetricTest {
                 def x = 1               // A=1
             }
         """
-        assertApplyToClass(SOURCE, [1, 0, 0], [1,0,0], ['String a()':[1, 0, 0]])
+        assertApplyToClass(SOURCE, [1, 0, 0], [1,0,0], [['String', 'a()']:[1, 0, 0]])
     }
 
     @Test
@@ -91,7 +92,10 @@ class AbcMetric_ClassTest extends AbstractAbcMetricTest {
                 }
             }
         """
-        assertApplyToClass(SOURCE, [3,3,6], [1,1,2], [(DEFAULT_CONSTRUCTOR):[2,0,0], 'String b()':[1,3,0], 'String c()':[0,0,6]])
+        assertApplyToClass(SOURCE, [3,3,6], [1,1,2], [
+                [DEFAULT_CONSTRUCTOR]:[2,0,0],
+                ['String', 'b()']:[1,3,0],
+                ['String', 'c()']:[0,0,6]])
     }
 
     @Test
@@ -101,7 +105,7 @@ class AbcMetric_ClassTest extends AbstractAbcMetricTest {
                 def x = 1
             }
         """
-        assertApplyToClass(SOURCE, [2, 0, 0], [2,0,0], [(RUN_METHOD):[2, 0, 0]])
+        assertApplyToClass(SOURCE, [2, 0, 0], [2,0,0], [['run()']:[2, 0, 0]])
     }
 
     @Test
@@ -115,7 +119,7 @@ class AbcMetric_ClassTest extends AbstractAbcMetricTest {
                 }
             }
         """
-        assertApplyToClass(SOURCE, [2,1,2], [2,1,2], [myClosure:[2,1,2]])
+        assertApplyToClass(SOURCE, [2,1,2], [2,1,2], [['myClosure']:[2,1,2]])
     }
 
     @Test
@@ -151,7 +155,7 @@ class AbcMetric_ClassTest extends AbstractAbcMetricTest {
 
         def methodNames = methodValues?.keySet()
         methodNames.each { methodName ->
-            def methodKey = new MethodKey(methodName)
+            MethodKey methodKey = findMethodKey(methodMetricResults, methodName)
             def methodResult = methodMetricResults[methodKey]
             assert methodResult, "Method named [$methodName] does not exist"
             def methodValue = methodResult.abcVector

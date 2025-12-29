@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test
 class SourceFileTest extends AbstractTestCase {
 
     private static final FILE = 'src/test/resources/SampleFile.groovy'
-    private static final BAD_FILE = 'src/test/resources/log4j.properties'
+    private static final BAD_FILE = 'src/test/resources/gmetrics-messages.properties'
     private static final SCRIPT_FILE = 'src/test/resources/samplescripts/config.groovy'
     private sourceFile
     private file

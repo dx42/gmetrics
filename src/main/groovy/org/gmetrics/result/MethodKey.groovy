@@ -35,6 +35,13 @@ class MethodKey {
         this.comparableString = methodName
     }
 
+    MethodKey(String methodName, String signature) {
+        assert methodName
+        this.methodName = methodName
+        this.signature = signature
+        this.comparableString = signature
+    }
+
     MethodKey(MethodNode methodNode) {
         assert methodNode
         this.methodName = methodNode.name

@@ -139,7 +139,7 @@ class CoberturaLineCoverageMetricTest extends AbstractCoberturaMetricTestCase {
                 String toString() { }
             }
         """
-        assertApplyToClass(SOURCE, EMAIL_VALUE, 0.99, ['String toString()':0.99])
+        assertApplyToClass(SOURCE, EMAIL_VALUE, 0.99, [['String', 'toString()']:0.99])
     }
 
     @Test
@@ -172,7 +172,7 @@ class CoberturaLineCoverageMetricTest extends AbstractCoberturaMetricTestCase {
                 Context(Collection stuff) { }
             }
         """
-        assertApplyToClass(SOURCE, 0.11, 0.22, ['void <init>(Collection)':0.22])
+        assertApplyToClass(SOURCE, 0.11, 0.22, [['<init>(Collection)']:0.22])
     }
 
     @Test
@@ -187,10 +187,10 @@ class CoberturaLineCoverageMetricTest extends AbstractCoberturaMetricTestCase {
             }
         """
         assertApplyToClass(SOURCE, 0.66, 0.45, [
-            'void <init>(String)':0.3,
-            'void <init>(String, String)':0.4,
-            'void <init>(String, Throwable)':0.5,
-            'void <init>(Throwable)':0.6,
+            ['<init>', '(String)']:0.3,
+            ['<init>', '(String,', 'String)']:0.4,
+            ['<init>', '(String,', 'Throwable)']:0.5,
+            ['<init>', '(Throwable)']:0.6,
         ])
     }
 
@@ -205,9 +205,9 @@ class CoberturaLineCoverageMetricTest extends AbstractCoberturaMetricTestCase {
             }
         """
         assertApplyToClass(SOURCE, CHANNEL_VALUE, 0.8, [
-            'void <init>(String, int, String)':0.9,
-            'Channel parse(String)':0.7,
-            'String getId()':0.8])
+            ['<init>', '(String,', 'int,', 'String)']:0.9,
+            ['parse(String)', 'Channel']:0.7,
+            ['String', 'getId()']:0.8])
     }
 
     // Tests for getCoverageRatioForClass

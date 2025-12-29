@@ -34,9 +34,7 @@ import org.junit.jupiter.api.BeforeEach
 abstract class AbstractMetricTestCase extends AbstractTestCase {
 
     private static final Metric  METRIC = [getFunctions:{ ['total', 'average'] }] as Metric
-    protected static final String CONSTRUCTOR_NAME = '<init>'
-    protected static final String DEFAULT_CONSTRUCTOR = 'void <init>()'
-    protected static final String RUN_METHOD = 'java.lang.Object run()'
+    protected static final String DEFAULT_CONSTRUCTOR = '<init>()'
 
     protected metric
     protected sourceCode
@@ -153,15 +151,28 @@ abstract class AbstractMetricTestCase extends AbstractTestCase {
         def methodMetricResults = results.methodMetricResults
         assertBothAreFalseOrElseNeitherIs(methodValues, methodMetricResults) 
 
-        def methodNames = methodValues?.keySet()
-        methodNames.each { methodName ->
-            def methodKey = new MethodKey(methodName)
+        def keys = methodValues?.keySet()
+        keys.each { key ->
+            List<String> strings = key in List ? key : [key]
+            MethodKey methodKey = findMethodKey(methodMetricResults, strings)
+            String methodName = methodKey.methodName
             def metricResults = methodMetricResults[methodKey]
             assert metricResults, "No MetricResults exist for method named [$methodName]"
             assert metricResults.metricLevel == MetricLevel.METHOD
             def methodValue = metricResults['total']
-            assert  methodValues[methodName] == methodValue, "methodName=$methodName"
+            assert  methodValues[key] == methodValue, "methodName=$methodName"
         }
+    }
+
+    protected MethodKey findMethodKey(Map<MethodKey, MetricResult> methodMetricResults, List<String> strings) {
+        MethodKey found = methodMetricResults.keySet().find { MethodKey methodKey ->
+            {
+                String methodString = methodKey.signature ?: methodKey.methodName
+                return containsAll(methodString, strings)
+            }
+        }
+        assert found, "No MethodKey found containing strings: $strings"
+        return found
     }
 
     protected void assertApplyToPackage(Collection childMetricResults, classTotalValue, classAverageValue) {

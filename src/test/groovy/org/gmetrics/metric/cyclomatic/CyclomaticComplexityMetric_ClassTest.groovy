@@ -58,7 +58,7 @@ class CyclomaticComplexityMetric_ClassTest extends AbstractMetricTestCase {
         final SOURCE = """
             println 123     // this is a script; will generate main() and run() methods
         """
-        assertApplyToClass(SOURCE, 1, 1, [(RUN_METHOD):1])
+        assertApplyToClass(SOURCE, 1, 1, [['Object', 'run()']:1])
     }
 
     @Test
@@ -70,7 +70,7 @@ class CyclomaticComplexityMetric_ClassTest extends AbstractMetricTestCase {
                 }
             }
         """
-        assertApplyToClass(SOURCE, 2, 2, ['String a()':2])
+        assertApplyToClass(SOURCE, 2, 2, [['String', 'a()']:2])
     }
 
     @Test
@@ -81,11 +81,11 @@ class CyclomaticComplexityMetric_ClassTest extends AbstractMetricTestCase {
                     done = x && y || y < 0
                 }
 
-                def b = {                   // 3
+                def b2 = {                   // 3
                     if (ready || started) { }
                     else { }
                 }
-                String c() {                   // 5
+                String c2() {                // 5
                     switch(x) {
                         case 1: break
                         case 3: break
@@ -93,8 +93,8 @@ class CyclomaticComplexityMetric_ClassTest extends AbstractMetricTestCase {
                     }
                     return result?.sum
                 }
-                def d = { }                 // 1
-                def e = {                   // 2
+                def d2 = { }                 // 1
+                def e2 = {                   // 2
                     try {  }
                     catch(Exception e) {
 
@@ -103,7 +103,7 @@ class CyclomaticComplexityMetric_ClassTest extends AbstractMetricTestCase {
 
             }
         """
-        assertApplyToClass(SOURCE, 14, scale(14/5), [(DEFAULT_CONSTRUCTOR):3, b:3, 'String c()':5, d:1, e:2])
+        assertApplyToClass(SOURCE, 14, scale(14/5), [(DEFAULT_CONSTRUCTOR):3, b2:3, ['String', 'c2()']:5, d2:1, e2:2])
     }
 
     @Test
@@ -125,7 +125,7 @@ class CyclomaticComplexityMetric_ClassTest extends AbstractMetricTestCase {
                 if (x == 23) return 99 else return 0
             }
         """
-        assertApplyToClass(SOURCE, 2, 2, [(RUN_METHOD):2])
+        assertApplyToClass(SOURCE, 2, 2, [['Object', 'run()']:2])
     }
 
     @Test
