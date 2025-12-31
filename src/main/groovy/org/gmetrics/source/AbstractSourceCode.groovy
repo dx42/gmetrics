@@ -26,7 +26,6 @@ import org.slf4j.LoggerFactory
  * Abstract superclass for SourceCode implementations
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 abstract class AbstractSourceCode implements SourceCode {
     static final LOG = LoggerFactory.getLogger(AbstractSourceCode)

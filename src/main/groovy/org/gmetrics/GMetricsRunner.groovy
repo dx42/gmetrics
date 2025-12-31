@@ -34,7 +34,6 @@ import org.slf4j.LoggerFactory
  * NOTE: This is an internal class. Its API is subject to change.
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class GMetricsRunner {
     private static final LOG = LoggerFactory.getLogger(GMetricsRunner)

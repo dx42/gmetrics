@@ -22,7 +22,6 @@ import org.gmetrics.metric.Metric
  * This class is intended to be used as a Groovy @Mixin for ReportWriter classes.
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 
 class FunctionsCriteriaFilter {

@@ -22,7 +22,6 @@ import org.codehaus.groovy.control.SourceUnit
  * Note that the path is normalized: file separator chars are normalized to standard '/'.
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class SourceString extends AbstractSourceCode {
 

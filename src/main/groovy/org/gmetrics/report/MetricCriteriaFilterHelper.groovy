@@ -22,7 +22,6 @@ import org.gmetrics.metric.Metric
  * to filter the results included within a report based a filter map keyed on the metric name.
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class MetricCriteriaFilterHelper {
 

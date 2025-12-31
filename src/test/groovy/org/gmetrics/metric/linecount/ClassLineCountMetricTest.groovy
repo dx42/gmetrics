@@ -23,7 +23,6 @@ import org.junit.jupiter.api.Test
  * Tests for ClassLineCountMetric
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class ClassLineCountMetricTest extends AbstractMetricTestCase {
 

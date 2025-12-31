@@ -19,7 +19,6 @@ package org.gmetrics.report
  * Holder for a single data item within a series
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class SeriesValue {
 

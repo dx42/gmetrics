@@ -22,7 +22,6 @@ import org.gmetrics.metric.MetricLevel
  * Represents the result from applying a single metric (to a package, class or method)
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 interface MetricResult {
 

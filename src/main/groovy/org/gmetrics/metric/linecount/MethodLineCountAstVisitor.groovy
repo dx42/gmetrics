@@ -23,7 +23,6 @@ import org.gmetrics.metric.AbstractAstVisitor
  * AST Visitor for calculating the lines of code for a method or closure field.
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class MethodLineCountAstVisitor extends AbstractAstVisitor {
     int numberOfLinesInMethod

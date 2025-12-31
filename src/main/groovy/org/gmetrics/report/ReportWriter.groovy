@@ -22,7 +22,6 @@ import org.gmetrics.analyzer.AnalysisContext
  * Common interface for report writer implementations
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 interface ReportWriter {
 

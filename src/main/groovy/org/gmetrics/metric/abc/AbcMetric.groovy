@@ -56,7 +56,6 @@ import org.gmetrics.metric.MetricLevel
  * See http://www.softwarerenovation.com/ABCMetric.pdf
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class AbcMetric extends AbstractMethodMetric {
     final String name = "ABC"

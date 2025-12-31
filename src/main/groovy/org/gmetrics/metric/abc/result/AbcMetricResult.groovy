@@ -24,7 +24,6 @@ import org.gmetrics.metric.MetricLevel
  * A MetricResult specifically for the ABC metric
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class AbcMetricResult implements MetricResult {
 

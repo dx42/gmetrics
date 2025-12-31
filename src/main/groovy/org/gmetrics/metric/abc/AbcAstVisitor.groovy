@@ -29,7 +29,6 @@ import org.codehaus.groovy.ast.MethodNode
  * See http://www.softwarerenovation.com/ABCMetric.pdf
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class AbcAstVisitor extends AbstractAstVisitor {
 

@@ -22,7 +22,6 @@ package org.gmetrics.ant
  * @see GMetricsTask
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class ReportOption {
     String name

@@ -26,7 +26,6 @@ import org.slf4j.LoggerFactory
  * Note that this class attempts to read the file and parse the Groovy from within the constructor.
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class GroovyDslMetricSet implements MetricSet {
     private static final LOG = LoggerFactory.getLogger(GroovyDslMetricSet)

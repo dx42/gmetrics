@@ -49,7 +49,6 @@ import org.slf4j.LoggerFactory
  * @see "http://ant.apache.org/manual/index.html"
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class GMetricsTask extends Task {
     private static final LOG = LoggerFactory.getLogger(GMetricsTask)

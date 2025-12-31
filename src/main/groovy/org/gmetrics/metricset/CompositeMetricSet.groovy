@@ -21,7 +21,6 @@ import org.gmetrics.metric.Metric
  * A <code>MetricSet</code> implementation that aggregates a set of MetricSets and Metrics.
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class CompositeMetricSet implements MetricSet {
     private metrics = []

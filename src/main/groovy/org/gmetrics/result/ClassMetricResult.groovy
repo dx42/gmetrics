@@ -19,7 +19,6 @@ package org.gmetrics.result
  * Represents the results for a single metric for a single class
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class ClassMetricResult {
     MetricResult classMetricResult

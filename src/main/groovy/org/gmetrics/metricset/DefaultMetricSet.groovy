@@ -24,7 +24,6 @@ import org.gmetrics.metric.linecount.MethodLineCountMetric
  * A <code>MetricSet</code> implementation that returns the default static List of Metrics.
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class DefaultMetricSet implements MetricSet {
 

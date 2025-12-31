@@ -21,7 +21,6 @@ import org.gmetrics.metric.Metric
  * Represents a set of (configured) Metric objects
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 interface MetricSet {
 

@@ -21,7 +21,6 @@ package org.gmetrics.ant
  * @see GMetricsTask
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class Report {
     String type

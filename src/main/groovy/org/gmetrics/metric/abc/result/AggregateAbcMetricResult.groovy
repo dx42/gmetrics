@@ -24,7 +24,6 @@ import org.gmetrics.metric.MetricLevel
  * An aggregate MetricResult implementation specifically for the ABC Metric.
  *
  * @author Chris Mair
- * @version $Revision$ - $Date$
  */
 class AggregateAbcMetricResult implements MetricResult {
 
