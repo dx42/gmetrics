@@ -2,9 +2,12 @@
 
 TODO Version 3.0.0 (??? 2026)
 -------------------------------------------------------------------------------------------
+BREAKING CHANGES
+ - GMetrics No longer supports Groovy 3.x. Requires Groovy 4.x or later.
+ - The GMetrics dependency for version 3.x is now just **GMetrics**, e.g. `org.gmetrics:GMetrics:3.0.0`.
 INFRASTRUCTURE
- - #29: Copy build-groovy4.gradle to build.gradle to enable GitHub build. 
- - #29: Upgrade groovy to 4.0.24. Upgrade to SLF4J 1.7.35. Upgrade to CodeNarc 3.7.0.
+ - #29: Add support for Groovy 5. Remove support for Groovy 3.x. Rename `build-groovy4.gradle` to `build.gradle`. 
+ - #29: Upgrade to Groovy 4.0.24. Upgrade to SLF4J 1.7.35. Upgrade to CodeNarc 3.7.0.
  - #29: Fix failing tests running on Groovy 5.x.
  - #30: Add GitHub action workflow to build GMetrics and run tests.
 

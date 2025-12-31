@@ -20,22 +20,16 @@ The results are reported in HTML or XML. See [Reports](./Reports).
 
 **GMetrics** requires:
 
- * Java 1.8 or later
+ * Java 11 or later (Java 8 is required for **GMetrics** versions 2.x.x)
+ * Groovy version 4.0 or later
  * The SLF4J API jar and an SLF4J binding jar. See [The SLF4J Manual](https://www.slf4j.org/manual.html).
  * Either the **GMetrics** or **GMetrics-Groovy4** jar. 
-
-**GMetrics** (Groovy 3)
-* The "main" **GMetrics** artifact requires Groovy version 3.0 or later
-
-**GMetrics-Groovy4** (Groovy 4)
-* The **GMetrics-Groovy4** artifact requires Groovy version 4.0 or later
-
 
 ## Getting GMetrics from the Maven2 Central Repository
 
   For projects built using [Maven](http://maven.apache.org/), **GMetrics** is now available from the *Maven Central Repository*.
 
   * groupId = **org.gmetrics**
-  * artifactId = **GMetrics** or **GMetrics-Groovy4**
+  * artifactId = **GMetrics** (or **GMetrics-Groovy4** for GMetrics versions 2.x.x)
 
 
