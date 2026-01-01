@@ -8,10 +8,12 @@ BREAKING CHANGES
 INFRASTRUCTURE
  - #29: Add support for Groovy 5. Remove support for Groovy 3.x. Rename `build-groovy4.gradle` to `build.gradle`. 
  - #29: Upgrade to Groovy 4.0.24. Upgrade to SLF4J 1.7.35. Upgrade to CodeNarc 3.7.0.
- - #29: Fix failing tests running on Groovy 5.x.
+ - #29: `AbstractMethodMetric`: Fix NullPointerException on Groovy 5.x.
+ - #29: `AbstractReportWriter`: Fix custom ResourceBundle loading on Groovy 5.x.
+ - #29: Fix failing tests running on Groovy 5.x. 
  - #28: Upgrade Gradle wrapper to 8.10.2.
  - #30: Add GitHub action workflow to build GMetrics and run tests.
- - #31: Add GitHub Action for checking for broken links in the online documentation.
+ - #31: Add GitHub Action for checking for broken links in the online documentation and fix broken links.
 
 
 Version 2.1.0 (Jun 2022)
