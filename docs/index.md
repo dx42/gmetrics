@@ -20,7 +20,7 @@ The results are reported in HTML or XML. See [Reports](./Reports).
 
 **GMetrics** requires:
 
- * Java 11 or later (Java 8 is required for **GMetrics** versions 2.x.x)
+ * Java 8 or later
  * Groovy version 4.0 or later
  * The SLF4J API jar and an SLF4J binding jar. See [The SLF4J Manual](https://www.slf4j.org/manual.html).
  * Either the **GMetrics** or **GMetrics-Groovy4** jar. 

@@ -1,17 +1,20 @@
 plugins {
     id 'groovy'
-    id 'maven-publish'
+//    id 'maven-publish'
     id 'signing'
+    id "com.vanniktech.maven.publish" version "0.35.0"
 }
 
 group = 'org.gmetrics'
-archivesBaseName = 'GMetrics-Groovy4'
-version = '2.1.0'
+version = '3.0.0'
 
 description = 'GMetrics'
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(8)
+    }
+}
 
 tasks.withType(JavaCompile) { options.encoding = 'UTF-8' }
 
@@ -21,14 +24,14 @@ repositories {
 }
 
 dependencies {
-    def groovy4Version = '4.0.24'
+    def groovyVersion = '4.0.24'
     def slf4jVersion = "1.7.35"
     def junitVersion = "5.8.2"
 
-    implementation "org.apache.groovy:groovy:$groovy4Version"
-    implementation "org.apache.groovy:groovy-xml:$groovy4Version"
-    implementation "org.apache.groovy:groovy-ant:$groovy4Version"
-    implementation "org.apache.groovy:groovy-templates:$groovy4Version"
+    implementation "org.apache.groovy:groovy:$groovyVersion"
+    implementation "org.apache.groovy:groovy-xml:$groovyVersion"
+    implementation "org.apache.groovy:groovy-ant:$groovyVersion"
+    implementation "org.apache.groovy:groovy-templates:$groovyVersion"
 
     implementation "org.slf4j:slf4j-api:$slf4jVersion"
 
@@ -47,12 +50,7 @@ test {
 }
 
 java {
-    withJavadocJar()
     withSourcesJar()
-}
-
-artifacts {
-    archives javadocJar, sourcesJar
 }
 
 signing {
@@ -66,54 +64,92 @@ javadoc {
     }
 }
 
+// Publish
+mavenPublishing {
+    publishToMavenCentral()
+
+    signAllPublications()
+}
+
+mavenPublishing {
+    coordinates(group, "GMetrics", version)
+
+    pom {
+        name = "GMetrics"
+        description = "The GMetrics project provides calculation and reporting of size and complexity metrics for Groovy source code."
+        inceptionYear = "2009"
+        url = "http://gmetrics.org"
+        licenses {
+            license {
+                name = "The Apache License, Version 2.0"
+                url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
+                distribution = "http://www.apache.org/licenses/LICENSE-2.0.txt"
+            }
+        }
+        developers {
+            developer {
+                id = 'chrismair'
+                name = 'Chris Mair'
+                email = 'chrismair@users.sourceforge.net'
+            }
+        }
+        scm {
+            url = "scm:git:git@github.com:dx42/gmetrics.git"
+            connection = "scm:git:git@github.com:dx42/gmetrics.git"
+            developerConnection = "scm:git:git@github.com:dx42/gmetrics.git"
+        }
+    }
+}
+
+
 // Publish to Sonatype (OSSRH) Maven Repository
 // See http://central.sonatype.org/pages/gradle.html
-publishing {
-    publications {
-        maven(MavenPublication) {
-            from components.java
-
-            artifactId = 'GMetrics-Groovy4'
-
-            pom {
-                name = 'GMetrics-Groovy4'
-                description = 'The GMetrics project provides calculation and reporting of size and complexity metrics for Groovy source code.'
-                url = 'http://gmetrics.org'
-
-                scm {
-                    connection = 'scm:git:git@github.com:dx42/gmetrics.git'
-                    developerConnection = 'scm:git:git@github.com:dx42/gmetrics.git'
-                    url = 'scm:git:git@github.com:dx42/gmetrics.git'
-                }
-
-                licenses {
-                    license {
-                        name = 'The Apache License, Version 2.0'
-                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    }
-                }
-
-                developers {
-                    developer {
-                        id = 'chrismair'
-                        name = 'Chris Mair'
-                        email = 'chrismair@users.sourceforge.net'
-                    }
-                }
-            }
-        }
-    }
-
-    repositories {
-        maven {
-            def releasesUrl = 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
-            def snapshotsUrl = 'https://oss.sonatype.org/content/repositories/snapshots/'
-            url = version.endsWith('SNAPSHOT') ? snapshotsUrl : releasesUrl
-            credentials {
-                username = ossrhUsername
-                password = ossrhPassword
-            }
-        }
-    }
-
-}
+//publishing {
+//    publications {
+//        maven(MavenPublication) {
+//            from components.java
+//
+//            artifactId = 'GMetrics'
+//
+//            pom {
+//                name = 'GMetrics'
+//                description = 'The GMetrics project provides calculation and reporting of size and complexity metrics for Groovy source code.'
+//                url = 'http://gmetrics.org'
+//
+//                scm {
+//                    connection = 'scm:git:git@github.com:dx42/gmetrics.git'
+//                    developerConnection = 'scm:git:git@github.com:dx42/gmetrics.git'
+//                    url = 'scm:git:git@github.com:dx42/gmetrics.git'
+//                }
+//
+//                licenses {
+//                    license {
+//                        name = 'The Apache License, Version 2.0'
+//                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+//                    }
+//                }
+//
+//                developers {
+//                    developer {
+//                        id = 'chrismair'
+//                        name = 'Chris Mair'
+//                        email = 'chrismair@users.sourceforge.net'
+//                    }
+//                }
+//            }
+//        }
+//    }
+//
+//    repositories {
+//        maven {
+//            def releasesUrl = 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
+//            def snapshotsUrl = 'https://oss.sonatype.org/content/repositories/snapshots/'
+//            url = version.endsWith('SNAPSHOT') ? snapshotsUrl : releasesUrl
+//            credentials {
+//                username = ossrhUsername
+//                password = ossrhPassword
+//            }
+//        }
+//    }
+//
+//}

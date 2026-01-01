@@ -1,9 +1,9 @@
 # GMetrics Change Log
 
-TODO Version 3.0.0 (??? 2026)
+Version 3.0.0 (Jan 2026)
 -------------------------------------------------------------------------------------------
 BREAKING CHANGES
- - GMetrics No longer supports Groovy 3.x. Requires Groovy 4.x or later.
+ - GMetrics No longer supports Groovy 3.x. It requires Groovy 4.x or later.
  - The GMetrics dependency artifact name for version 3.x is now just **GMetrics**, e.g. `org.gmetrics:GMetrics:3.0.0`.
 INFRASTRUCTURE
  - #29: Add support for Groovy 5. Remove support for Groovy 3.x. Rename `build-groovy4.gradle` to `build.gradle`. 
@@ -14,6 +14,7 @@ INFRASTRUCTURE
  - #28: Upgrade Gradle wrapper to 8.10.2.
  - #30: Add GitHub action workflow to build GMetrics and run tests.
  - #31: Add GitHub Action for checking for broken links in the online documentation and fix broken links.
+ - #32: Migrate publishing to Central Publisher Portal. Publish using vanniktech / gradle-maven-publish-plugin.
 
 
 Version 2.1.0 (Jun 2022)
