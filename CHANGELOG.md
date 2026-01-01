@@ -11,7 +11,7 @@ INFRASTRUCTURE
  - #29: `AbstractMethodMetric`: Fix NullPointerException on Groovy 5.x.
  - #29: `AbstractReportWriter`: Fix custom ResourceBundle loading on Groovy 5.x.
  - #29: Fix failing tests running on Groovy 5.x. 
- - #28: Upgrade Gradle wrapper to 8.10.2.
+ - #28: Upgrade Gradle wrapper to 9.2.1.
  - #30: Add GitHub action workflow to build GMetrics and run tests.
  - #31: Add GitHub Action for checking for broken links in the online documentation and fix broken links.
  - #32: Migrate publishing to Central Publisher Portal. Publish using vanniktech / gradle-maven-publish-plugin.
