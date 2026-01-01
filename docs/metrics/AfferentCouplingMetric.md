@@ -22,11 +22,7 @@
 
  * **[1]** The [The *Wikipedia* page for *Software package metrics*](http://en.wikipedia.org/wiki/Software_package_metrics).
 
- * **[2]** ["CodeQuality for Software Architects: Use coupling metrics to support your system architecture"](http://www.ibm.com/developerworks/java/library/j-cq04256/) -
-   Andrew Glover, part of the "In pursuit of code quality" series in *developerWorks*.
-   This article includes a discussion of **Afferent Coupling**, among other metrics.
+ * **[2]** [Code Quality: The Open Source Perspective](http://www.spinellis.gr/codequality/) - Diomidis Spinellis. Addison Wesley, 2006.
 
- * **[3]** [Code Quality: The Open Source Perspective](http://www.spinellis.gr/codequality/) - Diomidis Spinellis. Addison Wesley, 2006.
-
- * **[4]** [Agile Software Development, Principles, Patterns, and Practices](http://www.amazon.com/exec/obidos/ASIN/0135974445/objectmentorinc) -
+ * **[3]** [Agile Software Development, Principles, Patterns, and Practices](http://www.amazon.com/exec/obidos/ASIN/0135974445/objectmentorinc) -
     Robert C. Martin. Prentice Hall, 2002.

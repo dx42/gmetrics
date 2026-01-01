@@ -24,8 +24,8 @@
 
 ## References
 
- * [Cobertura](http://cobertura.sourceforge.net/) -- Cobertura is a free Java tool that calculates the percentage of code accessed by tests. It can be used to identify which parts of your Java program are lacking test coverage.
+ * [Cobertura](https://github.com/cobertura/cobertura) -- Cobertura is a free Java tool that calculates the percentage of code accessed by tests. It can be used to identify which parts of your Java program are lacking test coverage.
 
- * [Cobertura Ant Task Reference](http://cobertura.sourceforge.net/anttaskreference.html)
+ * [Cobertura Ant Task Reference](https://github.com/cobertura/cobertura/wiki/Ant-Task-Reference/)
 
- * [Cobertura Maven Plugin](http://mojo.codehaus.org/cobertura-maven-plugin/index.html)
+ * [Cobertura Maven Plugin](https://www.mojohaus.org/cobertura-maven-plugin/)

@@ -67,7 +67,7 @@
 
 ## References
 
- * **[1]** The [ABC Metric specification](http://www.softwarerenovation.com/ABCMetric.pdf).
+ * **[1]** The [ABC Metric specification](https://wstomv.win.tue.nl/edu/2ip30/references/ABCmetric.pdf).
 
  * **[2]** The [The C2 Wiki page](http://c2.com/cgi/wiki?AbcMetric) for the ABC Metric.
 

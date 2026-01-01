@@ -14,9 +14,9 @@
 
 ## Attributes
 
-| **Attribute**   | **Description**                                                | **Required**           
-|-----------------|----------------------------------------------------------------|------------------------
-| *metricSetFile*  | The paths to a Groovy *MetricSet* DSL file. By default, the path specified is relative to the classpath, but it may be optionally prefixed by any of the valid `java.net.URL` prefixes, such as "file:" (to load from a relative or absolute filesystem path), or "http:". If not specified, it uses the set of `Metric`s defined by the [Default MetricSet](./DefaultMetricSet). | No
+| **Attribute**   | **Description**                                                                                                                                                                                                                                                                                                                                                                 | **Required**           
+|-----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------
+| *metricSetFile*  | The paths to a Groovy *MetricSet* DSL file. By default, the path specified is relative to the classpath, but it may be optionally prefixed by any of the valid `java.net.URL` prefixes, such as "file:" (to load from a relative or absolute filesystem path), or "http:". If not specified, it uses the set of `Metric`s defined by the **Default MetricSet** described above. | No
 
 
 ## Report Nested Element

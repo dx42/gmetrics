@@ -66,6 +66,4 @@
  * **[3]** [Groovy Code Metrics: Cyclomatic Complexity](https://tenpercentnotcrap.wordpress.com/2012/07/08/groovy-code-metrics-cyclomatic-complexity/) - Discusses 
    using **GMetrics** and **CodeNarc** for measuring and enforcing *Cyclomatic Complexity* on Groovy code.
 
- * **[4]** [NDepend](http://www.ndepend.com/Metrics.aspx) - an impressive source code metrics tool for Java.
-
 
